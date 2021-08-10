@@ -12,7 +12,9 @@ RSpec.describe Charge, type: :model do
       payment_schedule: Project.payment_schedules[:monthly],
       fixed_budget: 1000,
       starts_on: Date.new(2016, 1, 1),
-      ends_on: Date.new(2016, 2, 1)
+      ends_on: Date.new(2016, 2, 1),
+      role_details: 'role_details',
+      est_budget: 5000
     )
   end
 
@@ -25,7 +27,7 @@ RSpec.describe Charge, type: :model do
       )
 
       Project::Form.find(project.id).post!
-      JobApplication::Accept.(job_application)
+      JobApplication::Accept.call(job_application)
     end
 
     Timecop.freeze(project.starts_on + 1.day) do
@@ -40,7 +42,7 @@ RSpec.describe Charge, type: :model do
         expect(business.charges.length).to eq(1)
         expect(business.charges.first.amount_in_cents).to eq(100_000)
         expect(business.charges.first.business_fee_in_cents).to be_zero # we calculate it in transaction
-        expect(business.charges.first.specialist_fee_in_cents).to eq(10_000)
+        expect(business.charges.first.specialist_fee_in_cents).to be_zero
       end
     end
   end

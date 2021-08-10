@@ -15,7 +15,9 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
           payment_schedule: Project.payment_schedules[:upon_completion],
           fixed_budget: 10_000,
           starts_on: Date.new(2016, 1, 1),
-          ends_on: Date.new(2016, 2, 1)
+          ends_on: Date.new(2016, 2, 1),
+          role_details: 'role_details',
+          est_budget: 5000
         )
 
         @job_application = create(
@@ -25,16 +27,21 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         )
 
         Project::Form.find(@project.id).post!
-        JobApplication::Accept.(@job_application)
+
+        expect(@project.charges.estimated.count).to be_zero
+
+        JobApplication::Accept.call(@job_application)
       end
     end
 
-    it 'creates a single estimated charge at end of project' do
-      expect(@project.charges.estimated.count).to eq(1)
-      charge = @project.charges.estimated.first
-      expect(charge.amount).to eq(10_000)
-      process_after = charge.process_after.in_time_zone(business.tz)
-      expect(process_after.to_i).to eq(business.tz.local(2016, 2, 1).end_of_day.to_i)
+    context 'creates a single estimated charge at end of project' do
+      let(:charge) { @project.charges.estimated.first }
+      let(:process_after) { charge.process_after.in_time_zone(business.tz) }
+
+      it { expect(charge.amount).to eq(10_000) }
+      it { expect(@project.charges.estimated.count).to eq(1) }
+      it { expect(charge.specialist_fee_in_cents).to be_zero }
+      it { expect(process_after.to_i).to eq(business.tz.local(2016, 2, 1).end_of_day.to_i) }
     end
 
     context 'when project is ended early' do
@@ -59,7 +66,7 @@ RSpec.describe PaymentCycle::Fixed::UponCompletion, type: :model do
         before do
           Timecop.freeze(business.tz.local(2016, 2, 1, 0, 15)) do
             ScheduleChargesJob.new.perform(@project.id)
-            request = ProjectExtension::Request.process!(@project, Date.new(2016, 2, 10))
+            request = ProjectExtension::Request.process!(@project, ends_on: Date.new(2016, 2, 10))
             request.confirm!
           end
         end

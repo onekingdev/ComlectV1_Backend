@@ -1,30 +1,27 @@
 <template lang="pug">
-  Get(:project="url"): template(v-slot="{project}")
-    .container
-      .row.p-x-1
-        .col-md-12.p-t-3
-          Breadcrumbs(:items="['Project', project.title, 'Job Post']")
-        .col-md-12.d-flex.justify-content-between.p-b-1.m-t-2
-          div
-            h2
-              span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
-              | {{ project.title }}
-          div
-            button.btn.btn-outline-dark.float-right(v-b-modal="'DeletePostModal'") Delete Post
+  .page
+    Get(:project="url"): template(v-slot="{project}")
+      .page-header
+        .d-flex.flex-column
+          Breadcrumbs.m-b-20(:items="['Project', project.title, 'Job Post']")
+          h2.page-header__title.m-b-20
+            span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
+            | {{ project.title }}
+        .page-header__actions
+          button.btn.btn-default.m-t-auto.mb-0(v-b-modal="'DeletePostModal'") Delete Post
             b-modal#DeletePostModal.fade(title="Delete Post")
               | Do you want to delete project post?
               template(#modal-footer="{hide}")
                 button.btn.btn-link(@click="hide") Cancel
                 Delete(:url="url" @deleted="deleted")
                   button.btn.btn-dark Delete
-    .white-card-body.p-y-1
-      .container
-        .row.p-x-1
+      .card-body.white-card-body.card-body_full-height
+        .row
           .col-sm-6
             .card
               .card-header
+                h3.mb-0 Post Details
                 router-link.btn.btn-outline-dark.float-right(:to='`/business/project_posts/${project.id}/edit`') Edit
-                h3 Post Details
               .card-body
                 dl.row
                   dt.col-sm-3 Title

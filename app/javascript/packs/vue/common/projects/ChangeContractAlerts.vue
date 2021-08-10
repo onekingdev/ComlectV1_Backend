@@ -1,24 +1,24 @@
 <template lang="pug">
   div(v-if="hasChanges || isSuggestionVisible")
-    .alert.alert-success(v-if="hasChanges && isMyChange")
+    .alert.alert-success.m-b-20(v-if="hasChanges && isMyChange")
       h4.alert-heading Project update requested.
-      p Waiting for {{ counterpartyType }} to accept or decline.
-    .alert.alert-warning(v-else-if="hasChanges && project.extension.ends_on_only")
+      p.mb-0 Waiting for {{ counterpartyType }} to accept or decline.
+    .alert.alert-warning.m-b-20(v-else-if="hasChanges && project.extension.ends_on_only")
       h4.alert-heading {{ counterpartyName }} has requested to extend the deadline to {{ project.extension.ends_on | asDate }}
-      p
+      p.mb-0
         Post(:action="`${submitUrl}/1`" method="PUT" :model="{confirm:true}" @saved="saved('Deadline extended')")
           button.btn.btn-default.float-right Accept
         Post(:action="`${submitUrl}/1`" method="PUT" :model="{deny:true}" @saved="saved('Deadline extension denied')")
           button.btn.btn-default.float-right.m-r-1 Deny
         | Would you like to proceed?
-    .alert.alert-warning(v-else-if="hasChanges")
+    .alert.alert-warning.m-b-20(v-else-if="hasChanges")
       h4.alert-heading Contract change requested
-      p
+      p.mb-0
         | Would you like to proceed?
         ApproveContractChangesModal(:project="project" @saved="$emit('saved')")
-    .alert.alert-warning(v-else-if="isSuggestionVisible")
+    .alert.alert-warning.m-b-20(v-else-if="isSuggestionVisible")
       h4.alert-heading The project's due date is tomorrow.
-      p
+      p.mb-0
         button.btn.btn-default.float-right(v-b-modal="'ExtendDeadlineModal'") Extend
         | Do you want to extend the deadline?
         b-modal(id="ExtendDeadlineModal" title="Extend Deadline")

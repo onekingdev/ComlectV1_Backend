@@ -54,6 +54,10 @@ en:
         email: Invalid email address
         url: Invalid entry
       models:
+        user:
+          attributes:
+            email:
+              taken: 'Email is already in use'
         business:
           attributes:
             logo:

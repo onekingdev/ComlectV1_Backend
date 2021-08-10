@@ -77,6 +77,10 @@ $font-size-24: 1.5rem;
   border: solid 1px $gray-1;
 }
 
+@mixin border-radius-4 {
+  border-radius: 4px;
+}
+
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
   margin: 0;
@@ -1447,6 +1451,13 @@ table.table {
     border-top: none;
     border-bottom: 1px solid $gray-1;
 
+    &:first-child {
+      max-width: 375px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .btn.dropdown-toggle {
       padding-top: 0;
       padding-bottom: 0;
@@ -1455,6 +1466,13 @@ table.table {
     @include media-breakpoint-down(lg) {
       //@media (max-width: 1000px) {
       padding: 0.75rem 0.35em;
+
+      &:first-child {
+        max-width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
 
       .link,
@@ -2191,7 +2209,7 @@ table.table {
   right: 1.25rem;
   bottom: 0;
   transform: translateY(-50%);
-  padding: .5rem;
+  padding: 0;
 }
 
 
@@ -3848,6 +3866,41 @@ select.custom-select {
       width: 100%;
       object-fit: cover;
     }
+  }
+}
+
+/* ---------- CARDS ---------- */
+.card {
+  font-size: $font-size-14;
+  color: $black;
+  height: 100%;
+  overflow: visible;
+
+  @include border-gray-1;
+  @include border-radius-4;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9375rem 1.25rem; // 15 20px
+  height: 4.0625rem; //65px
+  vertical-align: middle;
+
+  @include font-regular-20;
+}
+
+.card-body {
+  padding: 1.25rem 1.875rem; //20 30px
+
+  dt {
+    color: $gray-3;
+  }
+
+  dd {
+    margin-bottom: 0.375rem;
+    color: $black;
   }
 }
 

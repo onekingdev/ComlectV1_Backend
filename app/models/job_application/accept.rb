@@ -9,7 +9,7 @@ class JobApplication::Accept < Draper::Decorator
   def self.call(application)
     ActiveRecord::Base.transaction do
       new(application).tap do |decorated|
-        decorated.project.update_attribute :specialist_id, decorated.specialist_id
+        decorated.project.update_attribute(:specialist_id, decorated.specialist_id)
         decorated.project.complete! if decorated.project.full_time?
         decorated.set_start_and_end_dates if decorated.project.asap_duration?
         decorated.copy_proposal_to_project if decorated.rfp?
@@ -18,7 +18,7 @@ class JobApplication::Accept < Draper::Decorator
         decorated.schedule_full_time_fees
         decorated.send_specialist_notification
         decorated.notify_not_selected_applicants
-        decorated.project.touch :hired_at
+        decorated.project.touch(:hired_at)
       end
     end
   end

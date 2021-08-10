@@ -8,13 +8,13 @@ RSpec.describe JobApplication::Form do
       let!(:industry) { create(:industry) }
       let!(:jurisdiction) { create(:jurisdiction) }
 
-      let!(:specialist) {
+      let!(:specialist) do
         create(
           :specialist,
           industry_ids: [industry.id],
           jurisdiction_ids: [jurisdiction.id]
         )
-      }
+      end
 
       # context 'when project is rfp' do
       #   let!(:project) {
@@ -79,15 +79,15 @@ RSpec.describe JobApplication::Form do
   end
 
   describe '.apply!' do
-    let(:specialist) {
+    let(:specialist) do
       create(
         :specialist,
         industry_ids: project.industry_ids,
         jurisdiction_ids: project.jurisdiction_ids
       )
-    }
+    end
 
-    let(:params) { attributes_for(:job_application) }
+    let(:params) { attributes_for(:job_application, role_details: 'role_details') }
     let(:form) { described_class.apply!(specialist, project, params) }
 
     before do

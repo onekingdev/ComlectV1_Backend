@@ -188,7 +188,7 @@ export default {
       this.toast('Success', 'Project End has been requested')
     },
     contractEndErrors(errors) {
-      errors.length && this.toast('Error', 'Cannot request End project')
+      errors.length && this.toast('Error', 'Cannot request End project', true)
     },
     taskSaved() {
       this.toast('Success', 'Task created')

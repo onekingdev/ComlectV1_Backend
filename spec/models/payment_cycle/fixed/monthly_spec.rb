@@ -15,7 +15,9 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
           payment_schedule: Project.payment_schedules[:monthly],
           fixed_budget: 100_000,
           starts_on: Date.new(2016, 1, 1),
-          ends_on: Date.new(2016, 6, 17)
+          ends_on: Date.new(2016, 6, 17),
+          role_details: 'role_details',
+          est_budget: 5000
         )
 
         @job_application = create(
@@ -25,7 +27,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
         )
 
         Project::Form.find(@project.id).post!
-        JobApplication::Accept.(@job_application)
+        JobApplication::Accept.call(@job_application)
       end
     end
 
@@ -70,11 +72,11 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
 
       expect(balances).to eq(
         [
-          [89_822.48, 73_491.12],
-          [70_946.74, 58_047.332727272726],
-          [50_769.22, 41_538.45272727272],
-          [31_242.59, 25_562.119090909087],
-          [11_065.07, 9053.23909090909],
+          [81656.8, 81656.8],
+          [64497.04, 64497.04],
+          [46153.84, 46153.84],
+          [28402.36, 28402.36],
+          [10059.16, 10059.16],
           [0.0, 0.0]
         ]
       )
@@ -153,7 +155,7 @@ RSpec.describe PaymentCycle::Fixed::Monthly, type: :model do
         before do
           Timecop.freeze(business.tz.local(2016, 6, 17, 0, 15)) do
             ScheduleChargesJob.new.perform(@project.id)
-            request = ProjectExtension::Request.process!(@project, Date.new(2016, 6, 22))
+            request = ProjectExtension::Request.process!(@project, ends_on: Date.new(2016, 6, 22))
             request.confirm!
           end
         end

@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    .card-header.d-flex.justify-content-between
-      h3.m-y-0 Project Details
+    .card-header
+      h3.mb-0 Project Details
       LocalProjectModal(@saved="$emit('saved')" :project-id="project.id")
         button.btn.btn-default Edit
     .card-body
@@ -14,7 +14,7 @@
         dt.col-sm-3 Due Date
         dd.col-sm-9 {{ project.ends_on | asDate }}
         dt.col-sm-3 Description
-        dd.col-sm-9 {{ project.description }}
+        dd.col-sm-9.mb-0 {{ project.description }}
         //dt.col-sm-3 Members
         //dd.col-sm-9
 </template>

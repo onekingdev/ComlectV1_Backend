@@ -209,6 +209,9 @@ Style/FormatStringToken:
 Style/Next:
   Enabled: false
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 # === Metrics ===
 
 Metrics/ClassLength:
@@ -238,4 +241,9 @@ Metrics/ModuleLength:
 # === Lint ===
 
 Lint/Debugger:
+  Enabled: false
+
+# === Naming ===
+
+Naming/VariableNumber:
   Enabled: false

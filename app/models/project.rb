@@ -2,11 +2,12 @@
 
 class Project < ApplicationRecord
   self.inheritance_column = '_none'
-  # attr_accessor :color
+
   alias_attribute :remind_at, :starts_on
   alias_attribute :end_date, :ends_on
   alias_attribute :done_at, :completed_at
   alias_attribute :body, :title
+
   belongs_to :business
   belongs_to :specialist, optional: true
   belongs_to :local_project, optional: true
@@ -32,7 +33,6 @@ class Project < ApplicationRecord
   has_many :favorites, as: :favorited, dependent: :destroy, class_name: 'Favorite'
   has_many :favorited_by, through: :favorites, source_type: 'Specialist', source: :owner
   has_many :applicants, class_name: 'Specialist', through: :job_applications, source: :specialist
-  # add favorites or specialists who favorited this project
 
   accepts_nested_attributes_for :extensions
   accepts_nested_attributes_for :timesheets, allow_destroy: true
@@ -365,42 +365,58 @@ class Project < ApplicationRecord
     !full_time? && pricing_type == 'fixed'
   end
 
-  # rubocop:disable all
   def build_from_template(businessid, template, params)
     %i[location_type key_deliverables pricing_type hourly_rate only_regulators annual_salary
        fee_type minimum_experience duration_type estimated_days business_fee_free applicant_selection].each do |attr|
       public_send("#{attr}=", template.public_send(attr.to_s))
     end
+
     solution = template.turnkey_solution
     params_bd = params[:bd].reject(&:empty?) if params.include?(:bd)
+
     self.fixed_budget = template.flavor == 'bd' ? calculate_bd(params_bd)[0] : template.fixed_budget
     self.business_id = businessid
     self.type = template.project_type
     self.status = 'published'
-    self.title = solution.aum_enabled && check_aum(params[:aum]) && !template.title_aum.empty? ? template.title_aum : template.title
+
+    self.title = if solution.aum_enabled && check_aum(params[:aum]) && !template.title_aum.empty?
+      template.title_aum
+    else
+      template.title
+    end
+
     title.gsub!('{state}', params[:state]) if solution.principal_office
     self.location = params[:state] if solution.principal_office
+
     self.description = if solution.aum_enabled && check_aum(params[:aum]) && !template.description_aum.empty?
-                         template.description_aum
-                       else
-                         template.description
-                       end
+      template.description_aum
+    else
+      template.description
+    end
+
     self.description = format_description(description, params)
     self.payment_schedule = payment_schedule_to_name(template.payment_schedule)
-    self.estimated_hours = solution.hours_enabled ? params[:estimated_hours].to_i : template.flavor == 'bd' ? calculate_bd(params_bd)[1] : template.estimated_hours
+
+    self.estimated_hours = if solution.hours_enabled
+      params[:estimated_hours].to_i
+    else
+      template.flavor == 'bd' ? calculate_bd(params_bd)[1] : template.estimated_hours
+    end
+
     self.industries = if solution.industries_enabled
-                        Industry.where(id: params[:industries].reject(&:empty?).map(&:to_i))
-                      else
-                        template.industries
-                      end
+      Industry.where(id: params[:industries].reject(&:empty?).map(&:to_i))
+    else
+      template.industries
+    end
+
     self.jurisdictions = if solution.jurisdictions_enabled
-                           Jurisdiction.where(id: params[:jurisdictions].reject(&:empty?).map(&:to_i))
-                         else
-                           template.jurisdictions
-                         end
+      Jurisdiction.where(id: params[:jurisdictions].reject(&:empty?).map(&:to_i))
+    else
+      template.jurisdictions
+    end
+
     self
   end
-  # rubocop:enable all
 
   def self.all_bds
     [['EMC', 3], ['BIA', 1], ['MFU', 2], ['MSD', 1], ['TAS', 1], ['SSL', 1],\
