@@ -5,81 +5,15 @@
 @import "_vue_utilities.scss";
 @import "_vue_theme.scss";
 @import "_type.scss";
+@import "_variables.scss";
+@import "_mixins.scss";
 // REMOVE LATER
 //@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600;700&family=Varela&display=swap');
 
 
 $minWidthContent: calc(62.5rem - 17.8125rem); // 1000px-285px (width minus sidebar width)
-$font-weight-regular: 400;
-$font-weight-semi-bold: 600;
-$font-weight-bold: 700;
-$font-weight-900: 900;
 
-$font-size-8: 0.5rem;
-$font-size-10: 0.625rem;
-$font-size-12: 0.75rem;
-$font-size-14: 0.875rem;
-$font-size-16: 1rem;
-$font-size-18: 1.125rem;
-$font-size-20: 1.25rem;
-$font-size-22: 1.375rem;
-$font-size-24: 1.5rem;
-
-/* ---------- MIXINS ---------- */
-@mixin font-regular {
-  font-weight: $font-weight-regular;
-}
-
-@mixin font-semi-bold {
-  font-weight: $font-weight-semi-bold;
-}
-
-@mixin font-bold {
-  font-weight: $font-weight-bold;
-}
-
-@mixin font-regular-12 {
-  font-size: $font-size-14;
-  font-weight: $font-weight-regular;
-}
-
-@mixin font-regular-14 {
-  font-size: $font-size-14;
-  font-weight: $font-weight-regular;
-}
-
-@mixin font-regular-20 {
-  font-size: $font-size-20;
-  font-weight: $font-weight-regular;
-}
-
-@mixin font-semi-bold-14 {
-  font-size: $font-size-14;
-  font-weight: $font-weight-semi-bold;
-}
-
-@mixin font-semi-bold-16 {
-  font-size: $font-size-16;
-  font-weight: $font-weight-semi-bold;
-}
-
-@mixin font-bold-14 {
-  font-size: $font-size-14;
-  font-weight: $font-weight-bold;
-}
-
-@mixin border-bottom-gray-1 {
-  border-bottom: solid 1px $gray-1;
-}
-
-@mixin border-gray-1 {
-  border: solid 1px $gray-1;
-}
-
-@mixin border-radius-4 {
-  border-radius: 4px;
-}
 
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
@@ -1442,6 +1376,7 @@ table.table {
 
   td {
     color: $black;
+    vertical-align: middle;
   }
 
   th,
@@ -4091,7 +4026,7 @@ select.custom-select {
 }
 .step {
   position: relative;
-  width: 32%;
+  width: 32.5%;
 
   &::before {
     display: block;

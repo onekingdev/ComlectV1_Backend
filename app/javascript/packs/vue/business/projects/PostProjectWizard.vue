@@ -71,18 +71,19 @@
               InputSelect.form-control_no-icon.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
       .row.no-gutters
-        .col-lg-6.text-right.m-t-1
-          button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
-            b-icon.mr-2(icon="chevron-left")
-            | Previous
-          button.btn.btn-link.m-r-1(@click="back") Exit
-          button.btn.btn-default.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
-          Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
-            button.btn.btn-default.m-r-1 Save as Draft
-          button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
-            b-icon.ml-2(icon="chevron-right")
-          Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
-            button.btn.btn-dark Submit
+        .col-lg-6.m-t-2
+          .d-flex
+            button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
+              b-icon.mr-2(icon="chevron-left")
+              | Previous
+            button.btn.btn-link.m-r-1.ml-auto(@click="back") Exit
+            button.btn.btn-default.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
+            Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
+              button.btn.btn-default.m-r-1 Save as Draft
+            button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
+              b-icon.ml-2(icon="chevron-right")
+            Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
+              button.btn.btn-dark Submit
 </template>
 
 <script>

@@ -1,4 +1,60 @@
-@mixin navbar-vertical-align-by-padding($element-height) {
-  padding-top: (($navbar-height - $element-height) / 2);
-  padding-bottom: (($navbar-height - $element-height) / 2);
+//@mixin navbar-vertical-align-by-padding($element-height) {
+//  padding-top: (($navbar-height - $element-height) / 2);
+//  padding-bottom: (($navbar-height - $element-height) / 2);
+//}
+
+
+/* ---------- MIXINS ---------- */
+@mixin font-regular {
+  font-weight: $font-weight-regular;
+}
+
+@mixin font-semi-bold {
+  font-weight: $font-weight-semi-bold;
+}
+
+@mixin font-bold {
+  font-weight: $font-weight-bold;
+}
+
+@mixin font-regular-12 {
+  font-size: $font-size-14;
+  font-weight: $font-weight-regular;
+}
+
+@mixin font-regular-14 {
+  font-size: $font-size-14;
+  font-weight: $font-weight-regular;
+}
+
+@mixin font-regular-20 {
+  font-size: $font-size-20;
+  font-weight: $font-weight-regular;
+}
+
+@mixin font-semi-bold-14 {
+  font-size: $font-size-14;
+  font-weight: $font-weight-semi-bold;
+}
+
+@mixin font-semi-bold-16 {
+  font-size: $font-size-16;
+  font-weight: $font-weight-semi-bold;
+}
+
+@mixin font-bold-14 {
+  font-size: $font-size-14;
+  font-weight: $font-weight-bold;
+}
+
+@mixin border-bottom-gray-1 {
+  border-bottom: solid 1px $gray-1;
+}
+
+@mixin border-gray-1 {
+  border: solid 1px $gray-1;
+}
+
+@mixin border-radius-4 {
+  border-radius: 4px;
 }
