@@ -14,18 +14,12 @@ class PdfCompliancePolicyWorker
     tgt_compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
     tgt_compliance_policy.update(pdf: nil)
     doc_path = env_path(policy_doc.doc_url.split('?')[0])
-    tmp_fd = Tempfile.new(['pdf-', '.pdf'])
     uploader = PdfUploader.new(:store)
 
-    if MIME::Types.type_for(doc_path).first.to_s == 'application/pdf'
-      file = if Rails.env.production? || Rails.env.staging?
-        URI.parse(doc_path).open
-      else
-        File.open(doc_path)
-      end
+    file = if Rails.env.production? || Rails.env.staging?
+      URI.parse(doc_path).open
     else
-      Libreconv.convert(doc_path, tmp_fd.path)
-      file = File.new(tmp_fd)
+      File.open(doc_path)
     end
     uploaded_file = uploader.upload(file)
     policy_doc.update(pdf_data: uploaded_file.to_json)
