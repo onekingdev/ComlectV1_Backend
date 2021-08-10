@@ -15,9 +15,7 @@ RSpec.describe PaymentCycle::Fixed::Upfront, type: :model do
           payment_schedule: Project.payment_schedules[:upfront],
           fixed_budget: 10_000,
           starts_on: Date.new(2016, 1, 1),
-          ends_on: Date.new(2016, 2, 1),
-          role_details: 'role_details',
-          est_budget: 5000
+          ends_on: Date.new(2016, 2, 1)
         )
 
         @job_application = create(
@@ -27,7 +25,7 @@ RSpec.describe PaymentCycle::Fixed::Upfront, type: :model do
         )
 
         Project::Form.find(@project.id).post!
-        JobApplication::Accept.call(@job_application)
+        JobApplication::Accept.(@job_application)
       end
     end
 
@@ -71,7 +69,7 @@ RSpec.describe PaymentCycle::Fixed::Upfront, type: :model do
       before do
         Timecop.freeze(business.tz.local(2016, 3, 24, 0, 15)) do
           ScheduleChargesJob.new.perform(@project.id)
-          request = ProjectExtension::Request.process!(@project, ends_on: Date.new(2016, 3, 28))
+          request = ProjectExtension::Request.process!(@project, Date.new(2016, 3, 28))
           request.confirm!
         end
       end

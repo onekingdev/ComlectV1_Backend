@@ -16,9 +16,7 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
           business: business,
           payment_schedule: Project.payment_schedules[:upon_completion],
           starts_on: Date.new(2016, 1, 1),
-          ends_on: Date.new(2016, 1, 15),
-          role_details: 'role_details',
-          upper_hourly_rate: 100
+          ends_on: Date.new(2016, 1, 15)
         )
 
         @job_application = create(
@@ -28,7 +26,7 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
         )
 
         Project::Form.find(@project.id).post!
-        JobApplication::Accept.call(@job_application)
+        JobApplication::Accept.(@job_application)
       end
     end
 
@@ -45,7 +43,7 @@ RSpec.describe PaymentCycle::Hourly::UponCompletion, type: :model do
           Timecop.freeze(business.tz.local(2016, 1, 15, 0, 15)) do
             log_timesheet @project, hours: 5
             ScheduleChargesJob.new.perform(@project.id)
-            request = ProjectExtension::Request.process!(@project, ends_on: Date.new(2016, 1, 25))
+            request = ProjectExtension::Request.process!(@project, Date.new(2016, 1, 25))
             request.confirm!
           end
         end

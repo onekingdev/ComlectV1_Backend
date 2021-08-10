@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div.h-100
     .row
       .col-lg-4.col-12
         .position-relative.p-b-20
@@ -9,31 +9,30 @@
             b-icon.icon-clear(icon='x-circle')
       .col-4(v-if="policiesComputed.length !== 0 && searchInput")
         p Found {{ policiesComputed.length }} {{ policiesComputed.length === 1 ? 'result' : 'results' }}
-    .row
-      .col-12
+    .row.h-100
+      .col-12.h-100
         Loading
-        .table.mb-0(v-if="!loading && policiesComputed && policiesComputed.length !== 0")
-          .table__row
-            .table__cell.table__cell_title Name
-            .table__cell.table__cell_title.table__cell_clickable
-              | Status
-              b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title.table__cell_clickable.text-right
-              | Last Modified
-              b-icon.ml-2(icon='chevron-expand')
-            .table__cell.table__cell_title.table__cell_clickable.text-right
-              | Date Created
-              b-icon.ml-2(icon='chevron-expand')
-            //.table__cell.table__cell_title.table__cell_clickable.text-right
-            //  | Risk Level
-            //  b-icon.ml-2(icon='chevron-expand')
-            .table__cell(style="width: 40px")
-        nested-draggable(v-model='policiesComputed', :policiesList="policies")
-        .table(v-if="!loading && policiesComputed.length === 0")
-          .table__row
-            .table__cell.text-center
-              h3 Policies not exist
-    <!--rawdisplayer(:value='policiesComputed' title='List')-->
+        div(v-if="!loading")
+          .table.mb-0(v-if="policiesComputed && policiesComputed.length !== 0")
+            .table__row
+              .table__cell.table__cell_title Name
+              .table__cell.table__cell_title.table__cell_clickable
+                | Status
+                b-icon.ml-2(icon='chevron-expand')
+              .table__cell.table__cell_title.table__cell_clickable.text-right
+                | Last Modified
+                b-icon.ml-2(icon='chevron-expand')
+              .table__cell.table__cell_title.table__cell_clickable.text-right
+                | Date Created
+                b-icon.ml-2(icon='chevron-expand')
+              //.table__cell.table__cell_title.table__cell_clickable.text-right
+              //  | Risk Level
+              //  b-icon.ml-2(icon='chevron-expand')
+              .table__cell(style="width: 40px")
+          nested-draggable(v-model='policiesComputed', :policiesList="policies")
+          .d-flex.flex-grow-1.justify-content-center.align-items-cener.h-100(v-if="!policies.length")
+            EmptyState
+    //rawdisplayer(:value='policiesComputed' title='List')
 </template>
 
 <script>

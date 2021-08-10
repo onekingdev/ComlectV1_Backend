@@ -6,15 +6,7 @@ class Api::PasswordsController < ApiController
 
   def create
     user = User.find_by(email: params[:email])
-
-    unless user
-      respond_with(
-        errors: { not_found: 'Email not found!' },
-        status: :unprocessable_entity
-      ) and return
-    end
-
-    params[:email] = user.business.contact_email if user.business&.contact_email.present?
+    params[:email] = user.business.contact_email if user&.business&.contact_email.present?
     if user.send_reset_password_instructions
       respond_with message: I18n.t('api.passwords.reset_email'), status: :ok
     else

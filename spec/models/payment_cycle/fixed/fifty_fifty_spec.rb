@@ -15,9 +15,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
           payment_schedule: Project.payment_schedules[:fifty_fifty],
           fixed_budget: 10_000,
           starts_on: Date.new(2016, 1, 1),
-          ends_on: Date.new(2016, 3, 24),
-          role_details: 'role_details',
-          est_budget: 5000
+          ends_on: Date.new(2016, 3, 24)
         )
 
         @job_application = create(
@@ -27,7 +25,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
         )
 
         Project::Form.find(@project.id).post!
-        JobApplication::Accept.call(@job_application)
+        JobApplication::Accept.(@job_application)
       end
     end
 
@@ -42,8 +40,8 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
 
       charges = @project.charges.order(date: :asc)
       expect(charges.map { |charge| charge.process_after.in_time_zone(business.tz).to_i }.sort).to eq(dates)
-      expect(charges.map(&:running_balance)).to eq([5000.0, 0.0])
-      expect(charges.map(&:specialist_running_balance)).to eq([5000.0, 0.0])
+      expect(charges.map(&:running_balance)).to eq([5500, 0])
+      expect(charges.map(&:specialist_running_balance)).to eq([4500, 0])
     end
 
     it 'does not duplicate charges' do
@@ -83,7 +81,7 @@ RSpec.describe PaymentCycle::Fixed::FiftyFifty, type: :model do
         before do
           Timecop.freeze(business.tz.local(2016, 3, 24, 0, 15)) do
             ScheduleChargesJob.new.perform(@project.id)
-            request = ProjectExtension::Request.process!(@project, ends_on: Date.new(2016, 3, 28))
+            request = ProjectExtension::Request.process!(@project, Date.new(2016, 3, 28))
             request.confirm!
           end
         end
