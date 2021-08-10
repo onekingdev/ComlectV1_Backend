@@ -69,6 +69,14 @@ $font-size-24: 1.5rem;
   font-weight: $font-weight-bold;
 }
 
+@mixin border-bottom-gray-1 {
+  border-bottom: solid 1px $gray-1;
+}
+
+@mixin border-gray-1 {
+  border: solid 1px $gray-1;
+}
+
 /* ---------- MAIN STYLES ---------- */
 #app, body, html {
   margin: 0;
@@ -247,6 +255,7 @@ input, button, select, optgroup, textarea {
   background-color: white;
 
   //border: solid 1px green;
+  @include border-bottom-gray-1;
 }
 
 .topbar-menu {
@@ -2788,9 +2797,54 @@ label.required:after {
   border: 1px solid #0378fe;
   box-shadow: none !important;
 }
-
 .form-control.is-invalid {
   border-color: #cd1837;
+}
+
+// HIDE DEFAULT SELECT DROPDOWN ICON
+.form-control_location {
+  position: relative;
+
+  &.active,
+  &:focus,
+  &:active {
+
+    &::after {
+      border-top-color: #616161;
+      transform: rotate(180deg);
+    }
+  }
+
+  &::after {
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+
+    content: '';
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-top: 5px solid #ccc;
+  }
+
+  select::-ms-expand {
+    display: none;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+  }
+
+  .form-control {
+    padding-right: 2rem;
+  }
 }
 
 label,
@@ -2890,6 +2944,20 @@ select.custom-select {
 .multiselect__input,
 .multiselect__single {
   font-size: 0.875rem !important;
+}
+
+/* MULTISELECT treeselect */
+.vue-treeselect__multi-value-item {
+  background: $white !important;
+  //padding: 5px 0 !important;
+  border: 1px solid $gray-1 !important;
+  border-radius: 4px !important;
+  color: $black !important;
+  vertical-align: center !important;
+}
+
+.vue-treeselect__value-remove {
+  color: $black !important;
 }
 
 // RECHECK .btn-secondary
