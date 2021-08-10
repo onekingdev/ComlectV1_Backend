@@ -1025,6 +1025,13 @@ input, button, select, optgroup, textarea {
 
 
 /* ---------- BUTTONS ---------- */
+.btn {
+  .b-icon.bi {
+    padding-bottom: 2px;
+    font-size: 100%;
+  }
+}
+
 a.btn,
 .btn:not(.dropdown-toggle) {
   padding: 0.5625rem 0.875rem; // 9 14px
@@ -2802,7 +2809,7 @@ label.required:after {
 }
 
 // HIDE DEFAULT SELECT DROPDOWN ICON
-.form-control_location {
+.form-control_no-icon {
   position: relative;
 
   &.active,
@@ -2818,7 +2825,7 @@ label.required:after {
   &::after {
     display: block;
     position: absolute;
-    bottom: 15px;
+    top: 43px;
     right: 10px;
 
     content: '';
@@ -3988,3 +3995,33 @@ select.custom-select {
 //  font-family: "Roboto";
 //  content: "Roboto" !important;
 //}
+
+/* ---------- PROJECT PAGE ---------- */
+.project-card {
+
+  &.border-dark {
+    .project-card__body {
+      background-color: $gray-hover;
+    }
+  }
+
+  &__body {
+    display: flex;
+    padding: 1.25rem;
+  }
+  &__icon {
+    margin-right: 0.625rem;
+    width: 1rem;
+    height: 1rem;
+  }
+  &__title {
+    margin-bottom: 0.3125rem; //5px;
+    @include font-semi-bold-14;
+    color: $black;
+    border-bottom: none;
+  }
+  &__text {
+    @include font-regular-14;
+    color: $gray-3;
+  }
+}

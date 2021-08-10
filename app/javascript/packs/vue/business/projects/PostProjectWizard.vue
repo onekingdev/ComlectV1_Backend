@@ -19,7 +19,7 @@
           InputTextarea.m-t-1(v-model="project.role_details" :errors="errors.role_details" placeholder="Describe specific specialsit role in the project") Role Details
           //.form-text.text-muted Project post information for the specialist
 
-          InputSelect.m-t-1.form-control_location(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
+          InputSelect.m-t-1.form-control_no-icon(v-model="project.location_type" :errors="errors.location_type" :options="locationTypes") Location Type
 
           div.m-t-1(v-if="isLocationVisible")
             label.form-label Location
@@ -36,7 +36,7 @@
 
       .row.no-gutters
         .col-md-6(v-if="step === steps[1]")
-          InputSelect(v-model="project.minimum_experience" :errors="errors.minimum_experience" :options="experienceOptions") Minimum Experience
+          InputSelect.form-control_no-icon(v-model="project.minimum_experience" :errors="errors.minimum_experience" :options="experienceOptions") Minimum Experience
 
           b-form-checkbox.m-y-1(v-model="project.only_regulators") Only former regulators
           Errors(:errors="errors.only_regulators")
@@ -50,10 +50,13 @@
         .col-md-6(v-if="step === steps[2]")
 
           b-row.no-gutters
-            .card.col-sm.pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
-              .card-body
-                h5.card-title {{type.label}}
-                p.card-text {{type.text}}
+            .card.project-card.col-sm.pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
+              .card-body.project-card__body
+                div
+                  ion-icon.project-card__icon(:name="i === 0 ? 'pricetags-outline' : 'time-outline'")
+                .d-block
+                  h5.card-title.project-card__title {{type.label}}
+                  p.card-text.project-card__text {{type.text}}
 
           .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
             InputText(v-model="project.est_budget" :errors="errors.est_budget") Estimated Budget
@@ -65,16 +68,19 @@
             .m-t-1
               InputText(v-model="project.upper_hourly_rate" :errors="errors.upper_hourly_rate") Upper Hourly Rate
             .m-t-1
-              InputSelect.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
+              InputSelect.form-control_no-icon.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
       .row.no-gutters
         .col-md-6.text-right.m-t-1
-          button.btn.btn-outline-dark.float-left(v-if="prevEnabled" @click="prev") Previous
+          button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
+            b-icon.mr-2(icon="chevron-left")
+            | Previous
           button.btn.btn-link.m-r-1(@click="back") Exit
           button.btn.btn-default.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
           Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
             button.btn.btn-default.m-r-1 Save as Draft
           button.btn.btn-dark(v-if="nextEnabled" @click="next") Next
+            b-icon.ml-2(icon="chevron-right")
           Post(v-else :action="endpointUrl" :model="publishedProject" :method="method" @saved="saved" @errors="errors = $event")
             button.btn.btn-dark Submit
 </template>
