@@ -2093,11 +2093,11 @@ table.table {
 
   &__title {
     margin-bottom: 0.3125rem;
-    font-size: 1rem;
+    @include font-semi-bold-16;
     color: $black;
   }
   &__sub-title {
-    font-size: 0.875rem;
+    @include font-regular-14;
     color: $black;
   }
 
@@ -3831,6 +3831,7 @@ select.custom-select {
 
   dt {
     color: $gray-3;
+    white-space: nowrap;
   }
 
   dd {
@@ -4000,6 +4001,7 @@ select.custom-select {
   &__body {
     display: flex;
     padding: 1.25rem;
+    border-radius: inherit;
   }
   &__icon {
     margin-right: 0.625rem;
@@ -4081,15 +4083,44 @@ select.custom-select {
 .discussion {
 
   &__body {
-    min-width: 20rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    min-height: 20rem;
   }
 
   &__icon {
     width: 56px;
     height: 56px;
+    --ionicon-stroke-width: 16px;
   }
 
   &__text {
+    color: $gray-2;
+  }
+}
 
+
+.applications {
+  color: #565759;
+
+  &__body {
+    //display: flex;
+    //justify-content: center;
+    //align-items: center;
+    //flex-direction: column;
+    min-height: 400px;
+  }
+  &__icon {
+    margin-bottom: 20px;
+    width: 73px;
+    height: 73px;
+    --ionicon-stroke-width: 16px;
+  }
+  &__text {
+    margin-bottom: 0;
+    @include font-semi-bold-14;
   }
 }

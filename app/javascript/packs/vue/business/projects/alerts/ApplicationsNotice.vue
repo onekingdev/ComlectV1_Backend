@@ -72,8 +72,8 @@ export default {
       } else {
         notify = {
           show: 'show',
-          mainText: `Yout project is currently draft`,
-          subText: '',
+          mainText: `Your posting is currently in draft`,
+          subText: 'Finish the posting to send it to our job board',
           variant: 'primary',
           dismissible: true,
           icon: null,
