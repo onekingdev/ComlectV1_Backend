@@ -8,7 +8,7 @@
     .white-card-body.card-body_full-height.h-100
       WizardProgress(v-bind="{step,steps}")
       .row.no-gutters
-        .col-md-6(v-if="step === steps[0]")
+        .col-lg-6(v-if="step === steps[0]")
 
           InputText(v-model="project.title" :errors="errors.title") Name
           .row.m-t-1
@@ -35,7 +35,7 @@
           Errors(:errors="errors.jurisdiction_ids")
 
       .row.no-gutters
-        .col-md-6(v-if="step === steps[1]")
+        .col-lg-6(v-if="step === steps[1]")
           InputSelect.form-control_no-icon(v-model="project.minimum_experience" :errors="errors.minimum_experience" :options="experienceOptions") Minimum Experience
 
           b-form-checkbox.m-y-1(v-model="project.only_regulators") Only former regulators
@@ -47,7 +47,7 @@
           Errors(:errors="errors.skill_names")
 
       .row.no-gutters
-        .col-md-6(v-if="step === steps[2]")
+        .col-lg-6(v-if="step === steps[2]")
 
           b-row.no-gutters
             .card.project-card.col-sm.pointer(v-for="(type, i) in pricingTypes" :class="cardClass(type, i)" :key="i" @click="project.pricing_type = type.id")
@@ -71,7 +71,7 @@
               InputSelect.form-control_no-icon.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
       .row.no-gutters
-        .col-md-6.text-right.m-t-1
+        .col-lg-6.text-right.m-t-1
           button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
             b-icon.mr-2(icon="chevron-left")
             | Previous
