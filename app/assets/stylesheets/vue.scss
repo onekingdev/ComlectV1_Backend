@@ -4076,3 +4076,20 @@ select.custom-select {
     font-size: 1.2rem;
   }
 }
+
+/* ---------- Discussion ---------- */
+.discussion {
+
+  &__body {
+    min-width: 20rem;
+  }
+
+  &__icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  &__text {
+
+  }
+}

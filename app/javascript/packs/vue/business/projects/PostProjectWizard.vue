@@ -76,7 +76,8 @@
             button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
               b-icon.mr-2(icon="chevron-left")
               | Previous
-            button.btn.btn-link.m-r-1.ml-auto(@click="back") Exit
+            ExitLocalProjectModal.m-r-1.ml-auto(@exitConfirmed="back")
+              button.btn.btn-link Exit
             button.btn.btn-default.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
             Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
               button.btn.btn-default.m-r-1 Save as Draft
@@ -98,6 +99,7 @@ import {
   HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   MINIMUM_EXPERIENCE_OPTIONS,
 } from '@/common/ProjectInputOptions'
+import ExitLocalProjectModal from "./modals/ExitLocalProjectModal";
 
 const REQUIRED = 'This field is required'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
@@ -296,6 +298,7 @@ export default {
     }
   },
   components: {
+    ExitLocalProjectModal,
     WizardProgress
   }
 }
