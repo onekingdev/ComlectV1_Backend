@@ -2,7 +2,6 @@
 
 class Api::Business::ProjectsController < ApiController
   before_action :require_business!
-  before_action { authorize_action(Roles::ProjectsPolicy) }
   before_action :build_project, only: %i[create]
   before_action :find_project, only: %i[show update destroy]
 
@@ -44,7 +43,7 @@ class Api::Business::ProjectsController < ApiController
     if @project.specialist_id.nil? && @project.destroy
       respond_with @project, serializer: ProjectSerializer
     else
-      render json: (@project.errors.keys.count.positive? ? @project.errors : { error: 'project_has_specialist' }.to_json),
+      render json: (@project.errors.keys.count.positive? ? @project.errors : { error: I18n.t('api.business.projects.project_has_specialist') }.to_json),
              status: :unprocessable_entity
     end
   end
