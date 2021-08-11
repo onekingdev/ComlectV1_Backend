@@ -2,11 +2,13 @@
 
 class Api::Business::RisksController < ApiController
   before_action :require_business!
+  before_action { authorize_action(Roles::RisksPolicy) }
   before_action :find_risk, only: %i[show update destroy]
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    respond_with current_business.risks,
+    risks = current_business.risks.includes(:compliance_policies)
+    respond_with risks,
                  each_serializer: RiskSerializer
   end
 

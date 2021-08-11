@@ -2,6 +2,7 @@
 
 class Api::Business::FileFoldersController < ApiController
   before_action :require_business!
+  before_action :authorize_action
   before_action :set_folder, only: %i[destroy edit update show download_folder check_zip list_tree]
 
   def index

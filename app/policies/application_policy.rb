@@ -36,6 +36,10 @@ class ApplicationPolicy
     user.is_a?(AdminUser)
   end
 
+  def basic?
+    !user.specialist.specialists_business_roles.find_by(business_id: record).role == 'basic'
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end

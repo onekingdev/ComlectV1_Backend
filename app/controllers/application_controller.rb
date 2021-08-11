@@ -84,14 +84,29 @@ class ApplicationController < ActionController::Base
   end
   helper_method :decorate
 
+  def authorize_action(policy = nil)
+    if current_user.specialist
+      if params[:business_id]
+        authorize params[:business_id], policy_class: policy if policy
+      else
+        respond_with status: :unprocessable_entity
+      end
+    end
+  end
+
   def current_business
     return @_current_business if @_current_business
     return unless user_signed_in?
 
-    business = if session[:employee_business_id].present?
-      ::Business.find_by(id: session[:employee_business_id])
-    else
-      current_user.business
+    if current_user.business
+      business = current_user.business
+    elsif current_user.specialist && params[:business_id]
+      business_role = current_user.specialist.specialists_business_roles.find_by(business_id: params[:business_id])
+      if business_role
+        business = business_role.business
+      else
+        respond_with status: :unprocessable_entity
+      end
     end
     return unless business
 
@@ -142,7 +157,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_business!
-    return if user_signed_in? && current_business
+    return if user_signed_in? && (current_business || current_specialist)
     return authenticate_user! unless user_signed_in?
 
     render 'forbidden', status: :forbidden, locals: { message: 'Only business accounts can access this page' }

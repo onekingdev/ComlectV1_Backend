@@ -2,6 +2,7 @@
 
 class Api::Business::ExamRequestFilesController < ApiController
   before_action :require_business!
+  before_action { authorize_action(Roles::ExamsPolicy) }
   before_action :find_exam_request, only: %i[create destroy]
 
   def create

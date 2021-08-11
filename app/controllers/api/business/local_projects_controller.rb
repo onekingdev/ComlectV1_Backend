@@ -2,6 +2,7 @@
 
 class Api::Business::LocalProjectsController < ApiController
   before_action :require_business!
+  before_action :authorize_action
   before_action :find_project, only: %i[show update destroy complete]
   before_action :ongoing_contracts, only: %i[destroy complete]
   skip_before_action :verify_authenticity_token # TODO: proper authentication

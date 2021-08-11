@@ -5,6 +5,7 @@ class Api::Business::RemindersController < ApiController
   include RemindersFetcher
 
   before_action :require_business!
+  before_action :authorize_action
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 

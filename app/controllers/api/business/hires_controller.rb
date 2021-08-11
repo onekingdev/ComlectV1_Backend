@@ -2,6 +2,7 @@
 
 class Api::Business::HiresController < ApiController
   before_action :require_business!
+  before_action { authorize_action(Roles::HiresPolicy) }
   before_action :find_project
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication

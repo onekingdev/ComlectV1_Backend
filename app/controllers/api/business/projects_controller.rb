@@ -2,6 +2,7 @@
 
 class Api::Business::ProjectsController < ApiController
   before_action :require_business!
+  before_action { authorize_action(Roles::ProjectsPolicy) }
   before_action :build_project, only: %i[create]
   before_action :find_project, only: %i[show update destroy]
 

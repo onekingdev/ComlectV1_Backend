@@ -2,6 +2,7 @@
 
 class Api::Business::TimesheetsController < ApiController
   before_action :require_business!
+  before_action :authorize_action
   before_action :find_project
 
   def index
