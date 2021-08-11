@@ -4,9 +4,9 @@
       h3.mb-0 Discussion
     Get(:messages="messagesUrl" :etag="etag"): template(v-slot="{messages}")
       .card-body.discussion__body(v-if="!messages.length")
-        .d-flex.flex-column.justify-content-between.align-items-center
+        .d-flex.flex-column.justify-content-center.align-items-center
           ion-icon.discussion__icon.m-b-10(name="chatbox-ellipses-outline")
-          p.mb-0 No comments posted
+          p.discussion__text.mb-0 No comments posted
         hr
       .card-body(v-else)
         div(v-for="message in messages" :key="message.id")
@@ -18,6 +18,7 @@
       InputTextarea.m-b-20(v-model="comment.message" placeholder="Make a comment or leave a note..." :errors="commentErrors && commentErrors.message") Comment
       Post(v-bind="postCommentProps" @saved="commentSaved" @errors="commentErrors = $event")
         button.btn.btn-default Add Comment
+
 </template>
 
 <script>

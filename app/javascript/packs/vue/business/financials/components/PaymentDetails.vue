@@ -1,19 +1,21 @@
 <template lang="pug">
   div
     Loading
-    .card.m-b-20
-      .card-title.p-20
-        h2.card-title__name Paymnet Detals
+    .card
+      .card-title.p-x-20
+        h2.card-title__name Payment Details
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Export
+          button.btn.btn.btn-default Download
       .card-body.white-card-body
-        b-tabs(content-class="mt-2")
-          b-tab(title="Upcomming" active)
+        b-tabs.special-navs-financials(content-class="mt-2")
+          b-tab(title="Upcoming" active)
             b-row
-              .col.px-3 Upcomming
+              .col.px-3
+                EmptyState
           b-tab(title="Completed")
             b-row
-              .col.px-3 Completed
+              .col.px-3
+                EmptyState
 </template>
 
 <script>

@@ -13,7 +13,7 @@
         router-link.m-r-1.btn.btn-default(v-if="project.visible_project" :to='viewHref(project.visible_project)') View Post
         router-link.m-r-1.btn.btn-default(v-else :to='postHref(project)') Post Project
         CompleteLocalProjectModal(:project="project" @saved="newEtag")
-      b-tabs.special-navs(content-class="mt-0" v-model="tab")
+      b-tabs.special-navs(content-class="mt-0 h-100" v-model="tab")
         b-tab(title="Overview" active)
           .card-body.white-card-body.card-body_full-height
             .row
@@ -55,9 +55,10 @@
                           td
                             b-dropdown.float-right(text="..." variant="default" right)
                               b-dropdown-item(@click="viewContract(contract)") View Contract
-                    .row.h-100(v-if="!getContracts(project.projects).length")
-                      .col.h-100.text-center
-                        EmptyState
+                    .applications(v-if="!getContracts(project.projects).length")
+                      .applications__body.applications__body_center.applications__body_m-h-200
+                        ion-icon.applications__icon.m-b-10(name="person-circle-outline")
+                        p.applications__text No collaborators
             .m-t-1
               .row
                 .col-md-12
@@ -103,8 +104,8 @@
                           Post(:action="hireUrl + '?job_application_id=' + project.id" :model="{role}" @saved="newEtag()")
                             button.btn.btn-dark Add
                   .card-body
-                    .card
-                      .card-header(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
+                    .card(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
+                      .card-header
                         .d-flex.justify-content-between.align-items-center
                           .d-flex.align-items-center.mb-2
                               div
@@ -120,9 +121,10 @@
                               b-dropdown-item Messages
                               b-dropdown-item Edit Permissions
                             button.btn.btn-default(@click="showingContract = contract") View Contract
-                      .card-header(v-if="!getContracts(project.projects).length")
-                        .d-flex.justify-content-center
-                          h5.text-dark No collaborators
+                    .applications(v-if="!getContracts(project.projects).length")
+                      .applications__body.applications__body_center.applications__body_m-h-200
+                        ion-icon.applications__icon.m-b-10(name="person-circle-outline")
+                        p.applications__text No collaborators
                 div(v-else)
                   .row: .col-sm-12
                     EndContractModal(:project="showingContract" @saved="contractEnded" @errors="contractEndErrors")

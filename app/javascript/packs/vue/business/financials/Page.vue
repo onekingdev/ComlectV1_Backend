@@ -1,11 +1,11 @@
 <template lang="pug">
   div.p-x-40.p-y-20
     .row
-      .col-lg-7.col-12.mb-3
-        CompilanceSpend
-      .col-lg-5.col-12.mb-3
+      .col-xl-7.col-12.m-b-20
+        ComplianceSpend
+      .col-xl-5.col-12.m-b-20
         AnnualBudget
-    .row.mb-3
+    .row
       .col
         Payments
     .row
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import CompilanceSpend from "./components/CompilanceSpend";
+  import ComplianceSpend from "./components/ComplianceSpend";
   import AnnualBudget from "./components/AnnualBudget";
   import Payments from "./components/Payments";
   import PaymentDetails from "./components/PaymentDetails";
@@ -23,7 +23,7 @@
     components: {
       PaymentDetails,
       Payments,
-      CompilanceSpend,
+      ComplianceSpend,
       AnnualBudget,
     },
     data() {

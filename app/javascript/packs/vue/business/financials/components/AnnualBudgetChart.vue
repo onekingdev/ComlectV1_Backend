@@ -1,6 +1,7 @@
 <template lang="pug">
   div.chart-wrapper
-    apexchart(height="220" type="bar" :options="options" :series="series")
+    apexchart(width="100%" height="100%" type="bar" :options="options" :series="series")
+
 </template>
 
 <script>
@@ -14,13 +15,25 @@
       return {
         options: {
           chart: {
-            id: 'vuechart-example'
+            id: 'vuechart-example',
+            toolbar: {
+              show: false,
+            },
           },
           xaxis: {
             categories: [
               "Spent",
               "Annual Budget",
-            ]
+            ],
+            labels: {
+              style: {
+                fontSize: '12px',
+                fontFamily: 'Public Sans, sans-serif',
+                fontWeight: '600',
+                colors: ['#A2A3A9', '#A2A3A9'],
+                cssClass: 'apexcharts-xaxis-label',
+              },
+            }
           },
           yaxis: {
             // title: {
@@ -29,18 +42,25 @@
             labels: {
               formatter: function (y) {
                 return  y.toFixed(0) > 1000 ? "$" + y.toFixed(0).replace(/0*$/,"") + "k": "$" + y.toFixed(0).replace(/0*$/,"")
-              }
+              },
+              style: {
+                fontSize: '12px',
+                fontFamily: 'Public Sans, sans-serif',
+                fontWeight: '600',
+                colors: ['#A2A3A9'],
+                cssClass: 'apexcharts-yaxis-label',
+              },
             }
           },
           plotOptions: {
             bar: {
               horizontal: false,
-              columnWidth: '15%',
+              columnWidth: '40px',
               endingShape: 'rounded'
             },
           },
           dataLabels: {
-            enabled: false
+            enabled: false,
           },
           // title: {
           //   text: 'Monthly Stock Pricing',
@@ -49,7 +69,10 @@
           //     fontSize:  '20px',
           //   },
           // },
-          colors: ['#1ab27f']
+          colors: ['#1AB27F', '#1F7055'],
+          // fill: {
+          //   colors: ['#1AB27F', '#1F7055']
+          // },
         },
         series: [{
           // name: 'series-1',

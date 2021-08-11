@@ -9,7 +9,7 @@
           b-icon.mt-1.ml-3(icon="exclamation-triangle-fill" variant="warning" width="25" height="25")
         .col
           div
-            p.m-b-10 Exiting will remove any unsaved changes made so far.
+            p.m-b-10 Exiting will remove any unsaved changes.
             p.mb-0: strong Do you want to continue?
 
       template(#modal-footer="{ hide }")

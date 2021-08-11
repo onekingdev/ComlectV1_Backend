@@ -16,7 +16,7 @@
             p.payments__name.mb-1 YTD
             h3.payments__coast $500
           .payments__item
-            p.payments__name.mb-1 Total (all Time)
+            p.payments__name.mb-1 Total (All Time)
             h3.payments__coast $12,000
 </template>
 

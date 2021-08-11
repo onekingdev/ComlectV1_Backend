@@ -1,19 +1,24 @@
 <template lang="pug">
-  div
+  div.h-100
     Loading
-    .card.m-b-20
-      .card-title.p-20
+    .card.financial-card.h-100.m-b-20
+      .card-title.financial-card__title.p-x-20
         h2.card-title__name Annual Budget
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Edit
-      .card-body.white-card-body
-        .card-body
-          .chart
-            .d-flex.justify-content-end.mb-3
-              p.mb-0
-                b Left:&nbsp;
-                span $4,000
-            AnnualBudgetChart
+          //button.btn.btn.btn-default Edit
+          b-dropdown#dropdown-form.m-2(ref='dropdown' right)
+            template(#button-content)
+                | Edit
+            b-dropdown-form
+              b-form-input.mb-2#dropdown-form-annual-budget(size='sm' placeholder='Annual Budget value')
+              b-button(variant='primary' size='sm' @click='onClick') Save
+      .card-body.white-card-body.financial-card__body
+        .chart
+          .d-flex.justify-content-end.mb-3
+            p.financial-card__info.mb-0
+              b Left:&nbsp;
+              span.financial-card__sum $4,000
+          AnnualBudgetChart
 </template>
 
 <script>
@@ -31,7 +36,10 @@
       }
     },
     methods: {
-
+      onClick() {
+        // Close the menu and (by passing true) return focus to the toggle button
+        this.$refs.dropdown.hide(true)
+      }
     },
     computed: {
       loading() {
