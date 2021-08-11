@@ -3,24 +3,24 @@
     Loading
     .card.m-b-20
       .card-title.p-20
-        h2.card-title__name Paymnet Detals
-        .card-title__actions
-          button.btn.btn.btn-default.mr-3 Export
+        h2.card-title__name Compilance Spend
       .card-body.white-card-body
-        b-tabs(content-class="mt-2")
-          b-tab(title="Upcomming" active)
-            b-row
-              .col.px-3 Upcomming
-          b-tab(title="Completed")
-            b-row
-              .col.px-3 Completed
+        .card-body
+          .chart
+            .d-flex.justify-content-end.mb-3
+              p.mb-0
+                b Ytd:&nbsp;
+                span $24,560
+            CompilanceSpendChart
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
+  import CompilanceSpendChart from "./CompilanceSpendChart";
 
   export default {
     components: {
+      CompilanceSpendChart,
       Loading,
     },
     data() {

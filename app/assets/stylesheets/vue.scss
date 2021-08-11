@@ -960,11 +960,7 @@ input, button, select, optgroup, textarea {
   height: 100%;
 }
 
-.special-navs-financials {
-  .nav-tabs .nav-item:first-child {
-    margin-left: 0 !important;
-  }
-}
+
 
 /* ---------- BUTTONS ---------- */
 .btn {
@@ -2097,11 +2093,11 @@ table.table {
 
   &__title {
     margin-bottom: 0.3125rem;
-    @include font-semi-bold-16;
+    font-size: 1rem;
     color: $black;
   }
   &__sub-title {
-    @include font-regular-14;
+    font-size: 0.875rem;
     color: $black;
   }
 
@@ -3790,7 +3786,6 @@ select.custom-select {
   align-items: center;
   width: 100%;
   height: 100%;
-  min-height: 250px;
 
   &__title {
     margin-bottom: 1.25rem;
@@ -3800,7 +3795,7 @@ select.custom-select {
   &__image {
     margin: auto;
     width: 5.9375rem;
-    //height: 5.75rem;
+    height: 5.75rem;
 
     img {
       width: 100%;
@@ -3836,7 +3831,6 @@ select.custom-select {
 
   dt {
     color: $gray-3;
-    white-space: nowrap;
   }
 
   dd {
@@ -3845,27 +3839,12 @@ select.custom-select {
   }
 }
 
-.financial-card {
-
-  &__title {}
-  &__info {
-    @include font-semi-bold-12;
-    color: $black;
-  }
-  &__sum {
-    color: $gray-2;
-  }
-  &__neader {}
-  &__body {}
-}
-
 /* ---------- TITLES ---------- */
 .card-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0;
-  min-height: 65px;
   border: 0;
   border-bottom: solid 1px $gray-1;
 
@@ -3886,46 +3865,25 @@ select.custom-select {
   display: flex;
   width: 100%;
 
-  @include media-breakpoint-down(lg) {
-    flex-direction: column;
-  }
-
   &__item {
-    //margin-top: 1rem;
-    //margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     width: 25%;
-
-    @include media-breakpoint-down(lg) {
-      margin-bottom: .65rem;
-      padding-bottom: .65rem;
-      width: 100%;
-    }
   }
   &__item:not(:first-child) {
-    padding: 0 1.25rem;
-
-    @include media-breakpoint-down(lg) {
-      padding-right: 0;
-      padding-left: 0;
-    }
+    padding: .5rem 1.25rem;
   }
   &__item:not(:last-child) {
     border-right: solid 1px #dcdee4;
-
-    @include media-breakpoint-down(lg) {
-      border-right: none;
-      @include border-bottom-gray-1;
-      padding-bottom: .65rem;
-    }
   }
   &__name {
     margin-bottom: 5px;
     font-size: $font-size-12;
-    color: $gray-2;
+    color: $gray-3;
   }
   &__coast {
     margin-bottom: 0;
-    font-size: 1.5rem; // 24px
+    font-size: $font-size-24;
     font-weight: $font-weight-semi-bold;
     color: $black;
   }
@@ -4042,7 +4000,6 @@ select.custom-select {
   &__body {
     display: flex;
     padding: 1.25rem;
-    border-radius: inherit;
   }
   &__icon {
     margin-right: 0.625rem;
@@ -4124,58 +4081,15 @@ select.custom-select {
 .discussion {
 
   &__body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-    min-height: 20rem;
+    min-width: 20rem;
   }
 
   &__icon {
     width: 56px;
     height: 56px;
-    --ionicon-stroke-width: 16px;
   }
 
   &__text {
-    color: $gray-2;
+
   }
-}
-
-.applications {
-  color: #565759;
-
-  &__body {
-    min-height: 400px;
-
-    &_m-h-200 {
-      min-height: 200px;
-    }
-
-    &_center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-  }
-  &__icon {
-    margin-bottom: 20px;
-    width: 73px;
-    height: 73px;
-    --ionicon-stroke-width: 16px;
-  }
-  &__text {
-    margin-bottom: 0;
-    @include font-semi-bold-14;
-  }
-}
-
-
-/* ---------- CHARTS / APEX CHARTS ---------- */
-.apexcharts-yaxis-label,
-.apexcharts-xaxis-label {
-  font-size: $font-size-12;
-  color: $gray-2;
 }
