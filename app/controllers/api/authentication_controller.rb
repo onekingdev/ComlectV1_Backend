@@ -38,11 +38,14 @@ class Api::AuthenticationController < ApiController
     # de-auth all
     session.delete(:employee_business_id)
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-
-    token = request.headers['Authorization']
-    payload = JsonWebToken.decode(token)
-    user = User.find(payload['sub'])
-    user.update(jwt_hash: SecureRandom.hex(10))
+    begin
+      token = request.headers['Authorization']
+      payload = JsonWebToken.decode(token)
+      user = User.find(payload['sub'])
+      user.update(jwt_hash: SecureRandom.hex(10))
+    rescue
+      Rails.logger.info 'fixme: session signout bug'
+    end
     render json: { result: 'signed_out' }
   end
 end
