@@ -264,6 +264,13 @@ Rails.application.routes.draw do
         put :password, to: 'passwords#update'
       end
     end
+
+    resources :payment_settings, only: [] do
+      collection do
+        post :apply_coupon
+      end
+    end
+
     scope 'projects/:project_id' do
       # resources :project_messages, path: 'messages(/:specialist_username)'
       resources :project_ends, path: 'end', only: %i[create update]

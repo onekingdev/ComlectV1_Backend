@@ -145,6 +145,9 @@ Layout/EndAlignment:
 Lint/RequireParentheses:
   Enabled: true
 
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
 # === Style ===
 
 Style/FrozenStringLiteralComment:
@@ -212,6 +215,12 @@ Style/Next:
 Style/IfUnlessModifier:
   Enabled: false
 
+Style/IdenticalConditionalBranches:
+  Enabled: false
+
+Style/MultilineIfModifier:
+  Enabled: false
+
 # === Metrics ===
 
 Metrics/ClassLength:
@@ -246,4 +255,7 @@ Lint/Debugger:
 # === Naming ===
 
 Naming/VariableNumber:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
   Enabled: false

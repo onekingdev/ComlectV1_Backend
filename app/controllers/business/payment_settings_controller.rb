@@ -48,21 +48,6 @@ class Business::PaymentSettingsController < ApplicationController
     end
   end
 
-  def apply_coupon
-    coupon = JSON.parse(request.body.read, symbolize_names: true)[:coupon]
-    if coupon.present?
-      valid_id = found_in_coupons(coupon)
-      valid_id ||= found_in_promotions(coupon)
-      if valid_id
-        render json: { message: 'Coupon code applied successfully.', coupon_id: valid_id, is_valid: true }, status: :ok
-      else
-        render json: { message: 'Entered Coupon code is not valid.', is_valid: false }, status: :unprocessable_entity
-      end
-    else
-      render json: { message: 'Please enter the code first.', is_valid: false }, status: :bad_request
-    end
-  end
-
   def update
     @payment_source = current_business.payment_sources.find(params[:id])
     params.key?(:payment_source_ach) ? handle_ach_update : handle_cc_update
@@ -82,19 +67,6 @@ class Business::PaymentSettingsController < ApplicationController
   end
 
   private
-
-  def found_in_coupons(code)
-    Stripe::Coupon.retrieve(code).id
-  rescue
-    false
-  end
-
-  def found_in_promotions(code)
-    Stripe::PromotionCode.list(limit: 100).auto_paging_each do |promo|
-      return promo.coupon.id if promo.code == code
-    end
-    false
-  end
 
   def handle_ach_update
     @payment_source.validate_microdeposits(stripe_validation_params)

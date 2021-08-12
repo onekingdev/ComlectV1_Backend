@@ -14,7 +14,9 @@ class Api::Specialist::UpgradeController < ApiController
   end
 
   def cancel
-    respond_with(errors: { subscription: I18n.t('api.specialist.upgrade.no_subscription_to_cancel') }) && return unless active_subscription
+    respond_with(
+      errors: { subscription: I18n.t('api.specialist.upgrade.no_subscription_to_cancel') }
+    ) && return unless active_subscription
 
     Stripe::CancelSubscription.call(active_subscription.stripe_subscription_id)
     active_subscription.update(status: Subscription.statuses['canceled'])
@@ -27,10 +29,11 @@ class Api::Specialist::UpgradeController < ApiController
   private
 
   def turnkey_params
-    params.require(:upgrade).permit(:plan, :payment_source_id)
+    params.require(:upgrade).permit(:plan, :payment_source_id, :coupon)
   end
 
   def active_subscription
-    @active_subscription ||= current_specialist.subscriptions.find_by(status: Subscription.statuses['active'])
+    @active_subscription ||=
+      current_specialist.subscriptions.find_by(status: Subscription.statuses['active'])
   end
 end

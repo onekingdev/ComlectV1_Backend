@@ -47,17 +47,22 @@ class Subscription < ActiveRecord::Base
     )
   end
 
-  def self.subscribe(plan, customer_id, options = {}, coupon_id = nil)
+  def self.subscribe(plan, customer_id, options = {})
     plan_id = get_plan_id(plan)
     return unless plan_id
+
     sub_attributes = {
       customer: customer_id,
       items: [
         plan: plan_id,
         quantity: (options[:quantity] || 1)
-      ],
-      coupon: coupon_id
+      ]
     }
+
+    if options[:coupon].present?
+      sub_attributes[:coupon] = options[:coupon]
+    end
+
     if options[:period_ends].present?
       sub_attributes[:cancel_at] = options[:period_ends]
       sub_attributes[:proration_behavior] = :none

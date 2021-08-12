@@ -12,22 +12,25 @@
 #    User charged $400 on Jul 12. Subscription cancelled on Oct 12. No refunds
 
 class StripeSpecialistSubscriptionService < ApplicationService
-  attr_reader :current_specialist, :new_plan, :error, :subscription
+  attr_reader :current_specialist, :new_plan, :error, :subscription, :coupon
 
   def initialize(current_specialist, turnkey_params)
     @current_specialist = current_specialist
     @new_plan = turnkey_params[:plan]
+    @coupon = turnkey_params[:coupon]
     @success = true
   end
 
   def call
     begin
-      return self if plan_name_invalid?
-      return self if free_plan? && subscribe_free_plan
-      return self if payment_source_missing?
+      ActiveRecord::Base.transaction do
+        return self if plan_name_invalid?
+        return self if free_plan? && subscribe_free_plan
+        return self if payment_source_missing?
 
-      return self if active_subscription.blank? && create_new_subscription
-      return self if nothing_to_change?
+        return self if active_subscription.blank? && create_new_subscription
+        return self if nothing_to_change?
+      end
     rescue Stripe::StripeError => e
       handle_stripe_error(e.message)
     end
@@ -112,6 +115,7 @@ class StripeSpecialistSubscriptionService < ApplicationService
     @stripe_subscription = Subscription.subscribe(
       subscription.plan,
       stripe_customer,
+      coupon: coupon,
       cancel_at_period_end: false,
       quantity: subscription.quantity
     )

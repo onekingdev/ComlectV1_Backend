@@ -5,7 +5,7 @@ class BaseBusinessSubscriptionService < ApplicationService
 
   attr_reader \
     :current_business, :payment_source,
-    :turnkey_params, :plan_seat_count, :error, :new_plan
+    :turnkey_params, :plan_seat_count, :error, :new_plan, :coupon
 
   def initialize(current_business, payment_source, turnkey_params)
     @current_business = current_business
@@ -15,6 +15,7 @@ class BaseBusinessSubscriptionService < ApplicationService
     @success = true
     @subscriptions = []
     @new_plan = turnkey_params[:plan]
+    @coupon = turnkey_params[:coupon]
     set_plan_seat_count
   end
 
@@ -146,6 +147,7 @@ class BaseBusinessSubscriptionService < ApplicationService
       stripe_subscription = Subscription.subscribe(
         subscription.plan,
         stripe_customer,
+        coupon: coupon,
         cancel_at_period_end: false,
         quantity: subscription.quantity
       )

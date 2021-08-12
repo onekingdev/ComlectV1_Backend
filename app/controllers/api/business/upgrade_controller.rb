@@ -29,7 +29,7 @@ class Api::Business::UpgradeController < ApiController
   end
 
   def turnkey_params
-    params.require(:upgrade).permit(:plan, :seats_count, :payment_source_id)
+    params.require(:upgrade).permit(:plan, :seats_count, :payment_source_id, :coupon)
   end
 
   def serialize_subs(subs)
