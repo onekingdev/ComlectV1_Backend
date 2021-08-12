@@ -12,7 +12,7 @@ class Users::PasswordsController < Devise::PasswordsController
   end
 
   def edit
-    render html: content_tag('change-password-page', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
   end
 
   def create

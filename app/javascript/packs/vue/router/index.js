@@ -75,7 +75,7 @@ export default new Router({
     { path: '/users/sign_in', name: 'sign-in', component: SignIn },
     { path: '/users/sign_up', name: 'sign-up', component: SignUp },
     { path: '/users/password/new', name: 'password-new', component: ResetPassword },
-    { path: '/users/password/change', name: 'password-change', component: ChangePassword },
+    { path: '/users/password/edit', name: 'password-change', component: ChangePassword },
     { path: '/verification', name: 'verification', component: Verification, props: true },
     { path: '/business/onboarding', name: 'business-onboarding', component: BusinessOnboarding, props: true },
     { path: '/businesses/new', name: 'business-onboarding-new', component: BusinessOnboarding, props: true },
