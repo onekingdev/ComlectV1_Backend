@@ -76,7 +76,7 @@
               DatePicker(v-model="task.end_by")
               Errors(:errors="errors.end_by")
 
-          InputTextarea.m-t-1(v-model="task.description" :rows="8" :errors="errors.description") Description
+          InputTextarea.m-t-1(v-model="task.description" :rows="taskProp ? '8': '3'" :errors="errors.description") Description
           .form-text.text-muted Optional
 
         .col-lg-6.pl-2(v-if="taskProp")
@@ -309,16 +309,22 @@
           console.error('catch error', error)
         }
       },
-
+      updateTaskWithLinkedTo(tempData) {
+        this.task = {
+          ...this.task,
+          ...tempData,
+        }
+      },
       inputChangeLinked(value) {
         let tempTask
         tempTask = checkArray(this.projects, 'LocalProject', value)
+        if (tempTask) this.updateTaskWithLinkedTo(tempTask)
         tempTask = checkArray(this.policies, 'CompliancePolicy', value)
+        if (tempTask) this.updateTaskWithLinkedTo(tempTask)
         tempTask = checkArray(this.reviews, 'AnnualReport', value)
-        this.task = {
-          ...this.task,
-          ...tempTask,
-        }
+        if (tempTask) this.updateTaskWithLinkedTo(tempTask)
+
+        for (let valueInTemp in tempTask) delete tempTask[valueInTemp];
       },
 
       async submitUpdate(e) {
@@ -369,6 +375,7 @@
       },
       async getData () {
         this.task = { ...this.taskProp }
+        // this.task.link_to = this.taskProp.linkable_type
         try {
           if(this.taskProp)
             this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })

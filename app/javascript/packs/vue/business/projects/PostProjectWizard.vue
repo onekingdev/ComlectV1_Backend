@@ -71,7 +71,7 @@
               InputSelect.form-control_no-icon.m-t-1(v-model="project.hourly_payment_schedule" :errors="errors.hourly_payment_schedule" :options="hourlyPaymentScheduleOptions") Method of Payment
 
       .row.no-gutters
-        .col-lg-6.m-t-2
+        .col-lg-6.m-t-2.m-b-40
           .d-flex
             button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
               b-icon.mr-2(icon="chevron-left")

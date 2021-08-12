@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     Loading
-    .card.m-b-20
+    .card
       .card-title.p-20
         h2.card-title__name Payments
       .card-body.white-card-body

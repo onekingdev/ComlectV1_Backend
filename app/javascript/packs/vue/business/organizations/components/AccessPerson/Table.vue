@@ -7,7 +7,9 @@
         th Role
           RoleTypesModalInfo
             b-icon.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
-        th Status
+        th Access Person
+          b-icon.ml-2(icon='chevron-expand')
+        th Start Date
           b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
     tbody

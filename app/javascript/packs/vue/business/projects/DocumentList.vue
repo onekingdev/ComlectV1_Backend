@@ -1,5 +1,5 @@
 <template lang="pug">
-  .card-body.white-card-body
+  .card-body.white-card-body.card-body_full-height
     label
       a.btn.btn-default Upload File
       input(type="file" name="file" @change="onFileChanged" style="display: none")

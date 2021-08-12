@@ -21,7 +21,7 @@
             b-badge.status(:variant="statusVariant") {{ policy.status }}
           td.text-right {{ dateToHuman(policy.updated_at) }}
           td.text-right {{ dateToHuman(policy.created_at) }}
-          td
+          td.text-right
             .actions
               b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                 template(#button-content)

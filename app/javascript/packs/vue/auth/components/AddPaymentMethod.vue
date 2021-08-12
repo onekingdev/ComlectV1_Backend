@@ -1,13 +1,13 @@
 <template lang="pug">
   div
-    .card-header.registration-card-header.borderless.p-y-20.px-0
+    .registration-card-header.borderless.p-y-20.px-0
       .d-flex.justify-content-between.align-items-center
         h4.registration-card-header__title.mb-0 Payment Method
         div(v-show="!cardOptions.length")
           plaid-link(env='sandbox' :publicKey='plaidPK' clientName='Test App' product='auth' v-bind='{ onSuccess }')
             template(slot='button' slot-scope='props')
               a.btn.btn-default(@click="props.onClick") Add Bank Account
-    .card-header.registration-card-header.borderless.p-y-20.px-0(v-if="cardOptions.length")
+    .registration-card-header.borderless.p-y-20.px-0(v-if="cardOptions.length")
       div(v-for="(card, i) in cardOptions")
         .d-flex.justify-content-between.align-items-center
           //input.mr-2.mt-1(:id="'card'+card.id" type='radio' name='card' :value='card.id' v-model="cardSelected" @click="onPaymentMethodChange(card.id)")
@@ -18,7 +18,7 @@
             .paragraph.font-weight-bold
               | {{ card.number }} {{ card.type }}
             a.btn.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
-    .card-header.registration-card-header.borderless.p-t-20.px-0(v-show="!cardOptions.length")
+    .registration-card-header.borderless.p-t-20.px-0(v-show="!cardOptions.length")
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
         .col.text-right

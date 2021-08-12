@@ -9,7 +9,7 @@
           b-dropdown#dropdown-form.m-2(ref='dropdown' right)
             template(#button-content)
                 | Edit
-            b-dropdown-form
+            b-dropdown-form(style="width: 240px;")
               b-form-input.mb-2#dropdown-form-annual-budget(size='sm' placeholder='Annual Budget value')
               b-button(variant='primary' size='sm' @click='onClick') Save
       .card-body.white-card-body.financial-card__body

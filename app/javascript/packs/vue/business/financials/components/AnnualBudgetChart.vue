@@ -75,7 +75,7 @@
           // },
         },
         series: [{
-          // name: 'series-1',
+          name: '',
           data: [5, 10]
         }],
       }

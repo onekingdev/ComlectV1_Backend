@@ -2,14 +2,14 @@
   div.policy-history
     h3.policy-history__title Version History
     .policy-history__body(v-if="policy.versions && policy.versions.length !== 0", v-for="data in policy.versions", :class="[policy.versions.length > 1 ? 'mb-2' : '' ]")
-      <!--.policy-history__version v{{ data.id }}-->
+      //.policy-history__version v{{ data.id }}
       .policy-history__version v
       .policy-history__version-info {{ policy.id - 1 === data.id ? 'Current Version' : 'Previous Version' }}
       .policy-history__author Published by ***
       .policy-history__date Last updated {{ dateToHuman(data.updated_at) }}
       b-button.btn.policy-history__btn-download(@click="download(policy.id)") Download
-    .policy-history__body.text-center.pl-0(v-if="policy.versions && policy.versions.length === 0")
-      h4 Version History is empty
+    .policy-history__body.borderless(v-if="policy.versions && policy.versions.length === 0")
+      EmptyState
 </template>
 
 <script>

@@ -44,9 +44,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       submit(e) {
         e.preventDefault();
         this.errors = [];
@@ -67,18 +64,18 @@
         //     response.json().then(errors => {
         //       this.errors = errors
         //       Object.keys(this.errors)
-        //         .map(prop => this.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+        //         .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
         //     })
         //   } else if (response.status === 201 || response.status === 200) {
         //     this.$emit('saved')
-        //     this.makeToast('Success', 'The project has been removed')
+        //     this.toast('Success', 'The project has been removed')
         //     this.$bvModal.hide(this.modalId)
         //
         //
         //     // window.location.href = `${window.location.href}/create`;
 
         //   } else {
-        //     this.makeToast('Error', 'Couldn\'t submit form')
+        //     this.toast('Error', 'Couldn\'t submit form')
         //   }
         // })
       },

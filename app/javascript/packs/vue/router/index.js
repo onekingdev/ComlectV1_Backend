@@ -95,7 +95,7 @@ export default new Router({
     // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
     { path: '/business/compliance_policies', name: 'policies', component: Policies, },
     { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire },
-    { path: '/business/compliance_policies/:policyId(\\d+)', name: 'policy-current', props: route => ({ policyId: +route.params.policyId }), component: PolicyCurrentNoSections },
+    { path: '/business/compliance_policies/:policyId(\\d+)', name: 'policy-current', props: route => ({ policyId: +route.params.policyId, toggleVueEditor: route.params.toggleVueEditor }), component: PolicyCurrentNoSections },
     { path: '/business/annual_reviews', name: 'annual-reviews', component: AnnualReviews },
     { path: '/business/annual_reviews/:annualId', name: 'annual-reviews-general', props: route => ({ annualId: +route.params.annualId }), component: AnnualReviewsCurrentGeneral, },
     { path: '/business/annual_reviews/:annualId/:revcatId(\\d+)', name: 'annual-reviews-review-category', props: route => ({ annualId: +route.params.annualId }, {revcatId: +route.params.revcatId}), component: AnnualReviewsCurrentReviewCategory },

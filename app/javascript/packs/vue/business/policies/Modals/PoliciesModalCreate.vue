@@ -72,15 +72,12 @@
                 .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             }
             if(!response.errors) {
-              this.toast('Success', `Policy successfully created! You will be redirect...`)
+              this.toast('Success', `Policy successfully created.`)
               this.$emit('savedConfirmed')
               this.$bvModal.hide(this.modalId)
               this.policy.name = ''
-
-              setTimeout(() => {
-                // window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
-                this.$router.push(`/business/compliance_policies/${response.id}`)
-              }, 1000)
+              //this.$router.push(`/business/compliance_policies/${response.id}`)
+              this.$router.push({ name: 'policy-current', params: { policyId: response.id, toggleVueEditor: true }})
             }
           })
           .catch((error) => {

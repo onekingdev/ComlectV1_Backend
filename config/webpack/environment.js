@@ -1,7 +1,7 @@
 const { environment } = require('@rails/webpacker')
 const { EnvironmentPlugin } = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader')
-// const CleanWebpackPlugin = require("clean-webpack-plugin")
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path')
 
 const dotenv = require('dotenv')
@@ -12,13 +12,14 @@ environment.plugins.prepend(
     new VueLoaderPlugin()
 )
 
-// environment.plugins.append(
-//   "CleanWebpackPlugin",
-//   new CleanWebpackPlugin(["packs"], {
-//     root: path.resolve(__dirname, "../../public"),
-//     verbose: true
-//   })
-// )
+environment.plugins.prepend(
+  "CleanWebpackPlugin",
+  // new CleanWebpackPlugin(["packs"], {
+  //   root: path.resolve(__dirname, "../../public"),
+  //   verbose: true
+  // })
+  new CleanWebpackPlugin()
+)
 
 environment.loaders.prepend('vue', {
     test: /\.vue$/,

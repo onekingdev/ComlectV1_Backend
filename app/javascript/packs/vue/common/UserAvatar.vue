@@ -39,29 +39,29 @@ export default {
   border-radius: 1.5em;
   height: 3em;
   width: 3em;
-  background: #303132;
-  line-height: 3em;
-  color: white;
+  background: #E2E8F0;
+  line-height: 2.5;
+  color: #303132;
   text-align: center;
+  font-weight: 600;
+  letter-spacing: -2px;
 }
 .avatar-placeholder.bgLight {
   background: #E2E8F0;
   color: #303132;
-  font-size: 16px;
-  line-height: 2.5;
-  font-weight: 600;
-  letter-spacing: -2px;
 }
 .avatar-placeholder.size40{
   height: 2.5rem;
   width: 2.5rem;
 }
 .sm {
-  height: 1.5625rem; /* 25px */
-  width: 1.5625rem;
+  height: 45px;
+  width: 45px;
   max-height: 1.5625rem;
   max-width: 1.5625rem;
-  line-height: 2.5em;
-  font-size: .7rem;
+  line-height: 2em;
+  font-size: 12px;
+  letter-spacing: -1px;
+  /*font-weight: 600;*/
 }
 </style>

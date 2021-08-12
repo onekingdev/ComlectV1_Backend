@@ -99,7 +99,6 @@ export default {
             response.updated_at
           );
           commit("createPolicy", newPolicy);
-          console.log('newPolicy', newPolicy)
           return response
         }).catch (error => {
           throw error;

@@ -13,7 +13,8 @@
       tbody
         .table__row
           .table__cell.table__cell_name.table__cell_first
-            router-link.link(:to='`/business/compliance_policies/${el.id}`') {{ el.title }}
+            //router-link.link(:to="{ name: 'policy-current', params: { policyId: el.id, toggleVueEditor: false  }}") {{ el.title }}
+            router-link.link(:to='`/business/compliance_policies/${el.id}`', ) {{ el.title }}
           //.table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length !== 0")
           //  .d-flex.align-items-center
           //    .dropdown-toggle.link(
@@ -41,8 +42,9 @@
                   b-icon(icon="three-dots")
                 b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
                 b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
-                PoliciesModalArchive(@saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
-                  b-dropdown-item {{ !el.archived ? 'Archive' : 'Unarchive' }}
+                PoliciesModalArchive(v-if="!el.archived" @saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
+                  b-dropdown-item Archive
+                b-dropdown-item(v-if="el.archived" @click="archivePolicy(el.id, !el.archived)") Unarchive
                 PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
                   b-dropdown-item.delete Delete
         //.table__row(v-show="el.children && el.children.length === 0 &&  !el.id")
@@ -134,7 +136,7 @@
         this.$store
           .dispatch("getPolicies")
           .then((response) => {
-            console.log(response);
+            //console.log(response);
           })
           .catch((error) => {
             console.error(error);
@@ -151,7 +153,7 @@
             position: policy.position - 0.01
           })
           .then((response) => {
-            console.log('response in nested', response)
+            //console.log('response in nested', response)
             this.toast('Success', 'Policy succesfully moved.')
           })
           .catch((error) => {
@@ -160,12 +162,12 @@
           });
       },
       checkMove: function(evt){
-        // console.log('relatedContext', evt.relatedContext)
-        // console.log('draggedContext:', evt.draggedContext)
+        // //console.log('relatedContext', evt.relatedContext)
+        // //console.log('draggedContext:', evt.draggedContext)
 
         // 1) Detect the draggable element
         const currentElement = evt.draggedContext.element.id ? 'Policy' : 'Section'
-        console.log('currentElement', currentElement)
+        //console.log('currentElement', currentElement)
 
         this.draggedContext = evt.draggedContext
         this.relatedContext = evt.relatedContext
@@ -180,7 +182,7 @@
 
         // 0. MOVE ON THE SAME PLACE
         // if(!evt.draggedContext.element && !evt.relatedContext.element) {
-        //   console.log('0')
+        //   //console.log('0')
         //   return false;
         // }
 
@@ -217,18 +219,18 @@
         // if(evt.relatedContext.element.id && evt.draggedContext) return false;
       },
       onEnd(evt){
-        console.log('event', evt.target)
+        //console.log('event', evt.target)
 
-        console.log('relatedContext', this.relatedContext)
-        console.log('draggedContext:', this.draggedContext)
-        console.log('policiesList:', this.policiesList)
-        console.log('realValue:', this.realValue)
-        console.log('this.policy:', this.policy)
-        console.log('this.policyId:', this.policyId)
-        console.log('this.policyTitle:', this.policyTitle)
-        console.log('this.parentSection:', this.parentSection)
-        console.log('this.parentSection:', this.parentSection?.parentSection)
-        console.log('defaultPoliciesList', this.defaultPoliciesList)
+        //console.log('relatedContext', this.relatedContext)
+        //console.log('draggedContext:', this.draggedContext)
+        //console.log('policiesList:', this.policiesList)
+        //console.log('realValue:', this.realValue)
+        //console.log('this.policy:', this.policy)
+        //console.log('this.policyId:', this.policyId)
+        //console.log('this.policyTitle:', this.policyTitle)
+        //console.log('this.parentSection:', this.parentSection)
+        //console.log('this.parentSection:', this.parentSection?.parentSection)
+        //console.log('defaultPoliciesList', this.defaultPoliciesList)
 
         if (!this.policyTitle) {
           this.movePolicy()
@@ -250,7 +252,7 @@
         // }
 
         const targetTitle = this.relatedContext.element.title;
-        console.log('targetTitle', targetTitle)
+        //console.log('targetTitle', targetTitle)
         let targetPolicy = null
         let targetPolicyDetele = null
 
@@ -310,8 +312,8 @@
           })
         }
 
-        console.log('targetPolicy', targetPolicy)
-        console.log('targetPolicyDetele', targetPolicyDetele)
+        //console.log('targetPolicy', targetPolicy)
+        //console.log('targetPolicyDetele', targetPolicyDetele)
 
         if(targetPolicy) {
           this.$store.dispatch("updatePolicy", {
@@ -319,7 +321,7 @@
             sections: targetPolicy.children
           })
             .then((response) => {
-              console.log('response updating', response)
+              //console.log('response updating', response)
               this.toast('Success', 'Changes succesfully saved.')
             })
         }
@@ -329,7 +331,7 @@
             sections: newSection
           })
             .then((response) => {
-              console.log('response deleting', response)
+              //console.log('response deleting', response)
               this.toast('Success', 'Changes succesfully saved.')
             })
         }
@@ -353,7 +355,7 @@
             position: newPos
           })
           .then((response) => {
-            console.log('response', response)
+            //console.log('response', response)
             this.toast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
@@ -365,7 +367,7 @@
         this.$store
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
-            console.log('response', response)
+            //console.log('response', response)
             this.toast('Success', `Policy successfully deleted!`)
           })
           .catch(error => {
@@ -377,7 +379,7 @@
         this.$store
           .dispatch('archivePolicyById', { policyId, archived: archiveStatus })
           .then(response => {
-            console.log('response', response)
+            //console.log('response', response)
             this.toast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
@@ -386,12 +388,12 @@
           })
       },
       emitter(value) {
-        console.log('emit value', value)
+        //console.log('emit value', value)
         this.$emit("input", value);
       },
       toogleSections(value) {
-        console.log(value)
-        // console.log(document.getElementById(`#section-${value}`))
+        //console.log(value)
+        // //console.log(document.getElementById(`#section-${value}`))
         document.getElementById(`#section-${value}`).classList.toggle('active');
         document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
       },
@@ -413,7 +415,7 @@
     },
     watch: {
       // realValue (value) {
-      //   console.log('watch realValue', value)
+      //   //console.log('watch realValue', value)
       // },
     },
     mounted() {

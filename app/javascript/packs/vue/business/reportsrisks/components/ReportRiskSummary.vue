@@ -16,28 +16,25 @@
           tr
             td.text-danger
               b-icon.mr-2(icon="exclamation-triangle-fill" variant="danger")
-              | Hight
-            td.text-right {{ riskSummary.hight.count }}
-            td.text-right {{ riskSummary.hight.percent ? riskSummary.hight.percent : 0 }}%
-
+              | High
+            td.text-right {{ riskSummary.high.count }}
+            td.text-right {{ riskSummary.high.percent ? riskSummary.high.percent : 0 | roundNum  }}
           tr
             td.text-warning
               b-icon.mr-2(icon="exclamation-triangle-fill" variant="warning")
               | Medium
             td.text-right {{ riskSummary.medium.count }}
-            td.text-right {{ riskSummary.medium.percent ? riskSummary.medium.percent : 0 }}%
-
+            td.text-right {{ riskSummary.medium.percent ? riskSummary.medium.percent : 0 | roundNum }}
           tr
             td.text-success
               b-icon.mr-2(icon="exclamation-triangle-fill" variant="success")
               | Low
             td.text-right {{ riskSummary.low.count }}
-            td.text-right {{ riskSummary.low.percent ? riskSummary.low.percent : 0 }}%
-          tr
-            td
-              b Total
+            td.text-right {{ riskSummary.low.percent ? riskSummary.low.percent : 0 | roundNum }}
+          tr.total
+            td Total
             td.text-right {{ riskSummary.total.count }}
-            td.text-right {{ riskSummary.total.percent }}%
+            td.text-right {{ riskSummary.total.percent | roundNum }}
 </template>
 
 <script>
@@ -62,7 +59,7 @@
             if(record.risk_level === 2) counterHigh++
           })
           return {
-            hight: {
+            high: {
               count: counterHigh,
               percent: totalPercent / totalLength * counterHigh
             },
@@ -81,6 +78,11 @@
           }
         },
       },
+      filters: {
+        roundNum(value) {
+          return `${Math.round(value * 10) / 10}%`
+        }
+      }
     }
 </script>
 

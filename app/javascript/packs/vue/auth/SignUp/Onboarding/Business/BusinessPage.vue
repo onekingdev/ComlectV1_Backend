@@ -306,7 +306,7 @@
       },
       checkCDRinfo(stepNum) {
         // CLEAR ERRORS
-        for (var value in this.errors) delete this.errors[value];
+        for (let value in this.errors) delete this.errors[value];
 
         if (!this.formStep1.crd_number.length) {
           this.errors = { crd_number: `Required field` }
@@ -340,7 +340,7 @@
       },
       nextStep(stepNum) {
         // CLEAR ERRORS
-        for (var value in this.errors) delete this.errors[value];
+        for (let value in this.errors) delete this.errors[value];
 
         if (stepNum === 2) {
           if (this.formStep1.crd_numberSelected === 'yes') {

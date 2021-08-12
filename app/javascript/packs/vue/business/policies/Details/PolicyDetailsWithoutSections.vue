@@ -3,74 +3,62 @@
     .container-fluid
       .row
         .col-12.col-lg-3.px-0(v-if="leftMenu")
-          .card-body.white-card-body.left-tree
+          .card-body.white-card-body.p-20.left-tree
             PoliciesModalCreate(@saved="updateList")
               button.btn.btn-dark.mb-3.mr-3 New Policy
-            .row
-              .col-12
-                .table
-                  nested-draggable(v-model='policiesComputed', :policiesList="policiesListNested" :shortTable="true")
-        .col(v-if="policy")
-          .row
-            .col-md-12.px-0
-              .card-body.white-card-body.p-3.px-4
-                .d-flex.justify-content-between
-                  .d-flex.align-items-center
-                    button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
-                      b-icon(icon='list')
-                    b-badge.mr-3(variant="light") {{ policy.status }}
-                    h3.policy__main-title.m-y-0 {{ policy.title }}
-                  .d-flex.justify-content-end.align-items-center
-                    a.link.btn.mr-3(@click="saveDraft") Save Draft
-                    button.btn.btn-default.mr-3(@click="download") Download
-                    PoliciesModalPublish(@publishConfirmed="publishPolicy")
-                      button.btn.btn-dark.mr-3 Publish
-                    button.btn.btn__close.mr-3(@click="closeAndExit")
-                      b-icon(icon='x')
-          .row
-            .col-12.px-0
-              b-tabs(content-class="mt-0 p-x-40 p-y-20")
-                template(#tabs-end)
-                  b-dropdown.ml-auto.my-auto.mr-5.actions(text='Actions', variant="default", right)
-                    template(#button-content)
-                      | Actions
-                      b-icon.m-l-1(icon="chevron-down" font-scale="1")
-                    PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
-                      b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
-                    PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
-                      b-dropdown-item.delete Delete Policy
+            .table
+              nested-draggable(v-model='policiesComputed', :policiesList="policiesListNested" :shortTable="true")
+        .col.px-0(v-if="policy")
+          .policy-topbar
+            .d-flex.align-items-center
+              button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
+                b-icon(icon='list')
+              b-badge.mr-3(variant="light") {{ policy.status }}
+              h3.policy__main-title.m-y-0 {{ policy.title }}
+            .d-flex.justify-content-end.align-items-center
+              a.link.btn.mr-3(@click="saveDraft") Save Draft
+              button.btn.btn-default.mr-3(@click="download") Download
+              PoliciesModalPublish(@publishConfirmed="publishPolicy")
+                button.btn.btn-dark.mr-3 Publish
+              button.btn.btn__close.mr-3(@click="closeAndExit")
+                b-icon(icon='x')
+          b-tabs.policy-tabs(content-class="mt-0")
+            template(#tabs-end)
+              b-dropdown.ml-auto.my-auto.mr-5.actions(text='Actions', variant="default", right)
+                template(#button-content)
+                  | Actions
+                  b-icon.m-l-1(icon="chevron-down" font-scale="1")
+                PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
+                  b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
+                PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
+                  b-dropdown-item.delete Delete Policy
 
-                b-tab.h-80(title="Details" active)
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    .policy-details(v-if="loading", :loading="loading")
-                      .policy-details__body
-                        .d-flex.flex-column.justify-content-center.align-items-center.mb-2
-                          b-icon(icon="three-dots", animation="cylon", font-scale="4")
-                          h5 Loading....
-                    .policy-details.d-flex.flex-column.h-100
-                      h3.policy-details__title Policy Details
-                      .policy-details__body.mb-0.flex-grow-1
-                        .policy-details-section
-                          .policy-details__name Name
-                          .d-flex
-                            input.policy-details__input(v-model="policy.title")
-                          .policy-details__name Description
-                          .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
-                          vue-editor.policy-details__text-editor(v-if="toggleVueEditor" :editorOptions="editorSettings" :editor-toolbar="fullToolbar " v-model="policy.description")
-                b-tab(title="Risks" lazy)
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    PolicyRisks(:policyId="policyId")
-                b-tab(title="Tasks" lazy)
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    .policy-details
-                      h3.policy-details__title Tasks
-                      .policy-details__body Tasks
-                b-tab(title="History")
-                  .card-body.white-card-body.position-relative.p-0.h-100
-                    HistoryPolicy(:policy="policy")
+            b-tab(title="Details" active)
+              .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
+                Loading
+                .policy-details(v-if="!loading")
+                  h3.policy-details__title Policy Details
+                  .policy-details__body.mb-0.flex-grow-1
+                    .policy-details-section
+                      .policy-details__name Name
+                      .d-flex
+                        input.policy-details__input(v-model="policy.title" placeholder="Enter policy name")
+                      .policy-details__name Description
+                      .policy-details__text(v-html="policy.description ? policy.description : description" v-if="!toggleVueEditorComputed" @click="toggleVueEditorHandler")
+                      vue-editor.policy-details__text-editor(v-if="toggleVueEditorComputed" :editorOptions="editorSettings" :editor-toolbar="fullToolbar " v-model="policy.description")
+            b-tab(title="Risks" lazy)
+              .card-body.white-card-body.card-body_full-height.p-0
+                PolicyRisks(:policyId="policyId")
+            b-tab(title="Tasks" lazy)
+              .card-body.white-card-body.card-body_full-height.p-0
+                EmptyState
+            b-tab(title="History")
+              .card-body.white-card-body.card-body_full-height.p-0
+                HistoryPolicy(:policy="policy")
 </template>
 
 <script>
+  import Loading from '@/common/Loading/Loading'
   import nestedDraggable from "../infra/nestedMain";
   import rawdisplayer from "../infra/raw-displayer";
   import { VueEditor } from "vue2-editor";
@@ -89,8 +77,14 @@
         type: Number,
         required: true
       },
+      toggleVueEditor: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
     },
     components: {
+      Loading,
       nestedDraggable,
       rawdisplayer,
       VueEditor,
@@ -109,9 +103,8 @@
     data() {
       return {
         leftMenu: true,
-        description: "",
+        description: 'Enter policy details',
         title: "Section Name",
-        toggleVueEditor: false,
         sections: [],
         count: 0,
         editorSettings: {
@@ -144,6 +137,7 @@
           // [{ direction: "rtl" }],
           ["clean"]
         ],
+        toggleVueEditorOpened: false
       }
     },
     methods: {
@@ -155,11 +149,11 @@
         this.$store
           .dispatch("downloadPolicy", { policyId: this.policyId })
           .then((myBlob) => {
-            // console.log('response', myBlob)
+            //console.log('response', myBlob)
             this.toast('Success', 'Policy succesfully downloaded.')
           })
           .catch((err) => {
-            // console.log(err)
+            //console.log(err)
             this.toast('Error', err.message, true)
           });
       },
@@ -167,18 +161,42 @@
         this.$store
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
-            console.log(response)
+            //console.log(response)
             this.toast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
             setTimeout(() => {
-              window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+              //window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+              this.$router.push(`${window.location.origin}/business/compliance_policies/${response.id}`)
             }, 2000)
           })
           .catch((err) => {
             this.toast('Error', err.message, true)
           });
       },
+      updatePolicy() {
+        const dataToSend = {
+          id: this.policy.id,
+          name: this.policy.title,
+          description: this.policy.description,
+          sections: this.policy.sections,
+        };
+        //console.log('updatePolicy dataToSend', dataToSend);
+
+        // UPDATE STORE
+        this.$store
+          .dispatch("updatePolicy", dataToSend)
+          .then((response) => {
+            // this.$router.push("/list");
+            //console.log("Policy successfull saved!");
+            this.toast('Success', `Policy successfully updated!`)
+            //console.log('response updatePolicy', response)
+          })
+          .catch((error) => {
+            //console.log(error)
+            this.toast('Error', error, true)
+          });
+      },
       deletePolicy(policyId) {
-        console.log(`delete ${policyId}`)
+        //console.log(`delete ${policyId}`)
         this.$store
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
@@ -189,13 +207,14 @@
           })
       },
       closeAndExit () {
-        window.location.href = `${window.location.origin}/business/compliance_policies`
+        //window.location.href = `${window.location.origin}/business/compliance_policies`
+        this.$router.push(`/business/compliance_policies`)
       },
       archivePolicy(policyId, archiveStatus) {
         this.$store
           .dispatch('archivePolicyById', { policyId: this.policyId, archived: archiveStatus })
           .then(response => {
-            console.log('response', response)
+            //console.log('response', response)
             this.toast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
@@ -204,7 +223,7 @@
           })
       },
       deleteAllSections(){
-        console.log(`delete all`)
+        //console.log(`delete all`)
         this.policy.sections = []
 
         // this.policiesComputed = {
@@ -214,31 +233,6 @@
 
         this.updatePolicy()
       },
-
-      updatePolicy() {
-        const dataToSend = {
-          id: this.policy.id,
-          name: this.policy.title,
-          description: this.policy.description,
-          sections: this.policy.sections,
-        };
-        console.log('updatePolicy dataToSend', dataToSend);
-
-        // UPDATE STORE
-        this.$store
-          .dispatch("updatePolicy", dataToSend)
-          .then((response) => {
-            // this.$router.push("/list");
-            // console.log("Policy successfull saved!");
-            this.toast('Success', `Policy successfully updated!`)
-            console.log('response updatePolicy', response)
-          })
-          .catch((error) => {
-            console.log(error)
-            this.toast('Error', error, true)
-          });
-      },
-
       addSection(event) {
         if(event) event.target.closest('.policy-details__btn').style.display = 'none';
         const id = Math.floor(Math.random() * 100)
@@ -255,40 +249,27 @@
           description: this.description,
           children: [],
         }
-        console.log('this.policy.sections', this.policy.sections)
+        //console.log('this.policy.sections', this.policy.sections)
       },
       deleteSection(index) {
         this.policy.sections.splice(index, 1)
         if (this.policy.sections.length === 0) document.querySelector('.policy-details__btn').style.display = 'block';
       },
       toggleVueEditorHandler() {
-        this.toggleVueEditor = !this.toggleVueEditor;
-      },
-      handleBlur() {
-        this.toggleVueEditorHandler()
+        this.toggleVueEditorComputed = !this.toggleVueEditorComputed;
       },
       updateList() {
         this.$store.dispatch("getPolicies")
           .then((response) => {
-            // console.log('response 1', response);
+            //console.log('response 1', response);
             this.policies = response
             // this.policy = response.find(el => el.id === this.policyId)
-            // console.log('this.policy in create page', this.policy)
+            //console.log('this.policy in create page', this.policy)
           })
           .catch((err) => {
             // console.error(err);
             this.toast('Error', err.message, true)
           });
-      },
-      deletePolicy(policyId) {
-        this.$store
-          .dispatch('deletePolicyById', { policyId })
-          .then(response => {
-            this.toast('Success', `Policy successfully deleted!`)
-          })
-          .catch(error => {
-            this.toast('Error', `Couldn't submit form! ${error}`, true)
-          })
       },
       movePolicy(event) {
         const curPos = this.policies[event.oldIndex].position
@@ -311,7 +292,7 @@
         this.$store
           .dispatch("moveUpPolicy", arrToChange)
           .then((response) => {
-            console.log('response', response)
+            //console.log('response', response)
             this.toast('Success', 'Policy succesfully moved.')
           })
           .catch((err) => {
@@ -343,7 +324,7 @@
           return newPoliciesList;
         },
         set(value) {
-          console.log(value)
+          //console.log(value)
           this.$store.dispatch("updatePolicySectionsById", {
             id: this.policy.id,
             sections: value
@@ -356,28 +337,25 @@
       },
       policiesListNested () {
         return this.$store.getters.policiesListNested
+      },
+      toggleVueEditorComputed: {
+        // getter
+        get: function () {
+          return this.toggleVueEditor ? this.toggleVueEditor : this.toggleVueEditorOpened
+        },
+        // setter
+        set: function (newValue) {
+          this.toggleVueEditorOpened = newValue
+        }
       }
     },
     mounted() {
       this.updateList()
     },
+    // filters: {
+    //   strippedContent: function(string) {
+    //     return string.replace(/<\/?[^>]+>/ig, " ");
+    //   }
+    // }
   };
 </script>
-
-<style scoped>
-  .h-80 {
-    min-height: calc(100vh - 225px);
-  }
-
-  .policy .tab-pane.h-80{
-    min-height: calc(100vh - 225px);
-  }
-
-  .policy-details {
-    min-height: calc(100vh - 225px);
-  }
-
-  .policy-details__text-editor {
-    border: solid 1px #e9ebee;
-  }
-</style>

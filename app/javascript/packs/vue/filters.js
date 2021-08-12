@@ -4,7 +4,7 @@ const filters = {
     return parts ? `${parts[1]}/${parts[2]}/${parts[0]}` : ''
   },
   usdWhole: int => Number.isInteger(parseInt(int))
-    ? `$ ${parseInt(int).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    ? `$${parseInt(int).toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     : '',
   names: arr => arr.map(({ name }) => name).join(', '),
   plural: (name, items) => {

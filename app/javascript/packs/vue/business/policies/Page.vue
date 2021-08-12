@@ -6,17 +6,17 @@
         button.btn.btn.btn-default.mr-3 Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New Policy
-    .special-navs.d-flex.flex-column.h-100
-      b-tabs(content-class="mt-0")
-        b-tab(title="Compliance" active)
-          .card-body.white-card-body.card-body_full-height
-            PoliciesTable(:policies="filteredUnArchivedList", @searching="searching")
-        b-tab(title="Archive")
-          .card-body.white-card-body.card-body_full-height
-            PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
-        b-tab(title="Setup" lazy)
-          .card-body.white-card-body.card-body_full-height
-            PoliciesSetup
+    b-tabs.special-navs(content-class="mt-0")
+      b-tab(title="Compliance" active)
+        .card-body.white-card-body.card-body_full-height
+          PoliciesTable.m-b-20(:policies="filteredUnArchivedListLimited", @searching="searching")
+          b-pagination(v-if="filteredUnArchivedList.length" v-model='currentPage' :total-rows='filteredUnArchivedList.length' :per-page='perPage' aria-controls='PoliciesTable')
+      b-tab(title="Archive")
+        .card-body.white-card-body.card-body_full-height
+          PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
+      b-tab(title="Setup" lazy)
+        .card-body.white-card-body.card-body_full-height
+          PoliciesSetup
 </template>
 
 <script>
@@ -25,6 +25,10 @@
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import PoliciesModalCreate from "./Modals/PoliciesModalCreate"
   // import { mapGetters } from 'vuex'
+
+  function paginate(array, page_size, page_number) {
+    return array.slice((page_number - 1) * page_size, page_number * page_size);
+  }
 
   export default {
     mixins: [EtaggerMixin()],
@@ -41,6 +45,8 @@
         policies: [],
         id: 1,
         policy: {},
+        perPage: 10,
+        currentPage: 1,
       };
     },
     methods: {
@@ -86,8 +92,11 @@
       policiesListComputed () {
         return this.$store.getters.policiesListNested
       },
-      policyById () {
-        // return this.$store.dispach('getPolicyById', this.id)
+      // policyById () {
+      //     return this.$store.dispach('getPolicyById', this.id)
+      // },
+      filteredUnArchivedListLimited () {
+        return paginate(this.filteredUnArchivedList, this.perPage, this.currentPage)
       },
     },
     // beforeCreate() { // or mounted?
@@ -108,21 +117,3 @@
 <style scoped>
   @import "./styles.css";
 </style>
-
-<!--<style>-->
-  <!--@import "./styles.scss";-->
-<!--</style>-->
-
-<!--<style lang="scss">-->
-  <!--.test-block {-->
-    <!--border: solid 1px black;-->
-
-    <!--&__element {-->
-      <!--font-size: 1.5rem;-->
-
-      <!--&_modificator {-->
-        <!--background-color: lightblue;-->
-      <!--}-->
-    <!--}-->
-  <!--}-->
-<!--</style>-->

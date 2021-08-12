@@ -31,7 +31,7 @@
                 .card
                   ProjectDetails(:project="project" @saved="newEtag")
               .col-md-4.col-sm-12.pl-0.h-100
-                .card.h-100
+                .card.card-body_full-height.h-100
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
                     a.link.btn(@click="viewContract()") View All
@@ -82,9 +82,9 @@
               | Completed Tasks
             b-collapse.m-t-1(v-if="completedTasks.length" v-model="completedTasksOpen")
               TaskTable(:tasks="completedTasks")
-        b-tab(title="Documents")
+        b-tab.h-100(title="Documents")
           DocumentList(:project="project")
-        b-tab(title="Collaborators")
+        b-tab.h-100(title="Collaborators")
           .card-body.white-card-body.card-body_full-height
             .row
               .col-sm-12

@@ -85,8 +85,8 @@ export default {
   },
   methods: {
     loadrisk(risk) {
-      console.log('risk', risk)
-      console.log('this.risk', this.risk)
+      //console.log('risk', risk)
+      //console.log('this.risk', this.risk)
       this.risk = Object.assign({}, this.risk, risk)
       this.onRiskChange()
 
@@ -97,11 +97,13 @@ export default {
       e.preventDefault()
       this.errors = [];
       if (!this.risk.name) {
-        this.errors.push([
-          'Field is required.'
-        ]);
-        this.toast('Error', 'Field is required.', true)
-        return;
+        this.errors.push({
+          name: [
+            'Required field.'
+          ]
+        })
+        this.toast('Error', 'Required field.', true)
+        return
       }
 
       this.risk.compliance_policy_ids = this.risk.compliance_policies.map(policy => policy.id)
@@ -117,7 +119,7 @@ export default {
       this.$store
         .dispatch(method, {...this.risk})
         .then(response => {
-          console.log('response', response)
+          //console.log('response', response)
           if (response.errors) {
 
           } else {

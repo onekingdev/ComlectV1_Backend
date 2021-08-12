@@ -10,8 +10,8 @@
         hr
       .card-body(v-else)
         div(v-for="message in messages" :key="message.id")
-          p
-            span.float-right {{ message.created_at | asDate }}
+          p.discussion__text.mb-0
+            span.discussion__date.float-right {{ message.created_at | asDate }}
             | {{ message.message }}
           hr
     .card-body

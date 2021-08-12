@@ -129,10 +129,7 @@
 
         this.countingSelected()
 
-        console.log('this.form.checked', this.form.checked)
-      },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+        // console.log('this.form.checked', this.form.checked)
       },
       submit(e) {
         e.preventDefault()
@@ -143,18 +140,18 @@
         this.$store
           .dispatch('updateRisk', {...this.risk})
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
             if (response.errors) {
 
             } else {
-              this.makeToast('Success', 'The risk has been saved')
+              this.toast('Success', 'The risk has been saved')
               this.$bvModal.hide(this.modalId)
               this.newEtag()
             }
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Couldn't submit form! ${error}`)
+            this.toast('Error', `Couldn't submit form! ${error}`, true)
           })
 
       },

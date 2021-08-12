@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .card-header.registration-card-header.p-b-20.px-0
+    .registration-card-header.p-b-20.px-0
       .row
         .col
           h4.registration-card__main-title Plan
@@ -17,7 +17,7 @@
             buttons
             @change="onBiliingChange"
             )
-    .card-header.registration-card-header.p-y-20.px-0
+    .registration-card-header.p-y-20.px-0
       .row
         .col
           h4.registration-card-header__title {{ planComputed.name }}
@@ -25,7 +25,7 @@
         .col.text-right
           h4.registration-card-header__title {{ billingTypeSelected === 'annually' ?  planComputed.coastAnnuallyFormatted : planComputed.coastMonthlyFormatted }}
           p.registration-card-header__subtitle(v-if="planComputed.id !== 1") {{ billingTypeSelected === 'annually' ?  planComputed.usersCount + ' free users plus $' + planComputed.additionalUserAnnually + '/year per person' : planComputed.usersCount + ' free users plus $' + planComputed.additionalUserMonthly + '/mo per person' }}
-    .card-header.registration-card-header.p-y-20.px-0(v-if="planComputed.id !== 1")
+    .registration-card-header.p-y-20.px-0(v-if="planComputed.id !== 1")
       .d-flex.justify-content-between
         div
           h4.registration-card-header__title Users

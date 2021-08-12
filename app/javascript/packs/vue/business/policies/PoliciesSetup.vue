@@ -1,8 +1,8 @@
 <template lang="pug">
-  div.row
+  .row
     .col-12
       Loading
-    .col-12.col-lg-8
+    .col-12.col-lg-8(v-if="!loading")
       b-form(@submit='onSubmit' @reset='onReset' v-if='!loading && show')
         b-form-group#input-group-1
           h4.heading-secondary.text-bold Logo
@@ -21,7 +21,7 @@
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
               @change="onFileChange")
-              button.btn.link.m-t-10(@click='onRemove') Remove
+              button.btn.link.m-t-10(@click.prevent='onRemove') Remove
         //b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')
         //  b-form-input#inputAddress(v-model='form.address'  required)
         //b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')

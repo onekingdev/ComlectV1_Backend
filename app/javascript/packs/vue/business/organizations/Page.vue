@@ -1,11 +1,11 @@
 <template lang="pug">
-  div.p-x-40.p-y-20
+  .page.p-x-40.p-y-20
     .card.m-b-20
-      .card-title.p-20
+      .card-title.p-x-20
         h2.card-title__name Access Persons
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Export
-          button.btn.link View all
+          button.btn.btn.btn-default.mr-3 Download
+          router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
         Loading
         AccessPersonTable(v-if="!loading && accessPersons.length" :users="accessPersons")
@@ -14,11 +14,11 @@
             EmptyState
 
     .card.m-b-20
-      .card-title.p-20
+      .card-title.p-x-20
         h2.card-title__name Terminated Employees
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Export
-          button.btn.link View all
+          button.btn.btn.btn-default.mr-3 Download
+          router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
         Loading
         TerminatedEmployees(v-if="!loading && terminatedEmployees.length" :users="terminatedEmployees")
@@ -27,11 +27,11 @@
             EmptyState
 
     .card
-      .card-title.p-20
+      .card-title.p-x-20
         h2.card-title__name Resignations
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Export
-          button.btn.link View all
+          button.btn.btn.btn-default.mr-3 Download
+          router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
         Loading
         Resignations(v-if="!loading && resignations.length" :users="resignations")
@@ -93,8 +93,8 @@ export default {
           role: 'admin',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: true,
           state: 'Arizona, USA'
         },
@@ -106,8 +106,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: true,
           state: 'California, USA'
         },
@@ -119,8 +119,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: false,
           state: 'New York, USA'
         }
@@ -134,8 +134,8 @@ export default {
           role: 'admin',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: true,
           state: 'Arizona, USA'
         },
@@ -147,8 +147,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: true,
           state: 'California, USA'
         },
@@ -160,8 +160,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: false,
           state: 'New York, USA'
         },
@@ -173,8 +173,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: false,
           state: 'New York, USA'
         },
@@ -186,8 +186,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '25.06.2021',
-          endDate: '29.06.2021',
+          startDate: '2/06/2021',
+          endDate: '2/06/2021',
           status: false,
           state: 'New York, USA'
         }

@@ -85,9 +85,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       deleteRisk() {
         console.log('delete risk', this.riskId)
       },
@@ -110,11 +107,11 @@
           .dispatch('updateRisk', {...this.riskComputed})
           .then(response => {
             console.log('response', response)
-            this.makeToast('Success', 'The risk has been updated!')
+            this.toast('Success', 'The risk has been updated!')
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Couldn't submit form! ${error}`)
+            this.toast('Error', `Couldn't submit form! ${error}`)
           })
       }
     },
@@ -141,7 +138,7 @@
         })
         .catch((err) => {
           console.error(err);
-          this.makeToast('Error', err.message)
+          this.toast('Error', err.message)
         })
         .finally(() => {
           // AFTER PREV REQUEST SEND NEW
@@ -152,7 +149,7 @@
             })
             .catch((err) => {
               console.error(err);
-              this.makeToast('Error', err.message)
+              this.toast('Error', err.message)
             });
         })
     },

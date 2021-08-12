@@ -3,19 +3,19 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="archiveStatus ? 'Archive Policy' : 'Unarchive Policy'")
+    b-modal.fade(:id="modalId" title="Delete Post")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-1.ml-3(icon="exclamation-triangle-fill" width="25" height="25" variant="warning")
+          img.mt-1.ml-3(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p.m-b-10 Archiving the policy will remove it from the published compliance manual, but maintain a record of the policy and all of its linked risks and tasks.
-          p.mb-0
-            b Do you want to continue?
+          div
+            p You are deleting this posting from our job board.
+            p.mb-0: strong Do you want to continue?
 
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
-        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link.mr-2(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Confirm
 </template>
 
@@ -27,10 +27,6 @@
         type: Boolean,
         default: true
       },
-      archiveStatus: {
-        type: Boolean,
-        default: true
-      },
     },
     data() {
       return {
@@ -39,13 +35,16 @@
       }
     },
     methods: {
+      makeToast(title, str) {
+        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      },
       submit(e) {
         e.preventDefault();
         this.errors = [];
-        this.$emit('archiveConfirmed')
+
+        this.$emit('deleteConfirmed')
         this.$bvModal.hide(this.modalId)
       },
     },
-
   }
 </script>

@@ -69,7 +69,7 @@
         event.preventDefault()
         // CLEAR ERRORS
         this.error = ''
-        for (var value in this.errors) delete this.errors[value];
+        for (let value in this.errors) delete this.errors[value];
 
         // if (!this.form.email) Object.assign(this.errors, { email: 'Field empty' })
         // if (!this.form.password) Object.assign(this.errors, { password: 'Field empty' })

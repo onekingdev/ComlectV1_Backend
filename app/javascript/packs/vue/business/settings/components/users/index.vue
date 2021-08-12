@@ -23,7 +23,7 @@
                         .col-md-4
                           .d-flex.justify-content-end
                             button.btn.btn-default.mr-2 Export
-                            UserModalAdd
+                            UserModalAddEdit
                               button.btn.btn-dark Add User
                     .row
                       .col-12
@@ -45,7 +45,7 @@
                         .col-md-4
                           .d-flex.justify-content-end
                             button.btn.btn-default.mr-2 Export
-                            UserModalAdd
+                            UserModalAddEdit
                               button.btn.btn-dark Add User
                     .row
                       .col-12
@@ -64,11 +64,11 @@
   import Loading from '@/common/Loading/Loading'
   import UsersTable from "./components/UsersTable";
   import SearchItem from "./components/SearchItem";
-  import UserModalAdd from "./modals/UserModalAdd";
+  import UserModalAddEdit from "./modals/UserModalAddEdit";
 
   export default {
     components: {
-      UserModalAdd,
+      UserModalAddEdit,
       Loading,
       UsersTable,
       SearchItem,

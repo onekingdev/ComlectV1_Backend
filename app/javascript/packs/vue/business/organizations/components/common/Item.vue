@@ -1,34 +1,42 @@
 <template lang="pug">
   tr
     td
-      p.mb-1 {{ item.first_name + ' ' +  item.last_name }}
-      p.mb-0 {{ item.email }}
+      p.name {{ item.first_name + ' ' +  item.last_name }}
+      p.email {{ item.email }}
     td
-      .d-flex.align-items-center
-        ion-icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
-        b-icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
-        ion-icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
+      .role-info
+        ion-icon.role-info__icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
+        b-icon.role-info__icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
+        ion-icon.role-info__icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
         span.ml-3 {{ item.role | capitalize }}
     td
       a.link(href="#") {{ item.reason }}
-    td {{ item.accessPerson }}
-    td {{ item.startDate | dateToHuman }}
-    td {{ item.endDate | dateToHuman }}
+    td
+      b-icon.m-r-1(font-scale="1" :icon="item.status ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.status }")
+      | {{ item.accessPerson }}
+    td {{ item.startDate }}
+    td {{ item.endDate }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
-        b-dropdown-item Message
-        b-dropdown-item Edit Role
-        b-dropdown-item View contract
-        b-dropdown-item.delete Delete
+        UserModalAddEdit
+          b-dropdown-item Edit
+        UserModalArchive(v-if="!item.status" :archiveStatus="item.status" :inline="false")
+          b-dropdown-item Archive
+        UserModalDelete(v-if="item.status" :archiveStatus="item.status" :inline="false")
+          b-dropdown-item Delete
 </template>
 
 <script>
-  import { DateTime } from 'luxon'
+  // import { DateTime } from 'luxon'
+  import UserModalArchive from "../../../../business/settings/components/users/modals/UserModalArchive";
+  import UserModalDelete from "../../../../business/settings/components/users/modals/UserModalDelete";
+  import UserModalAddEdit from "../../../../business/settings/components/users/modals/UserModalAddEdit";
 
   export default {
     name: "roleItem",
+    components: {UserModalAddEdit, UserModalDelete, UserModalArchive},
     props: ['item'],
     computed: {
 
@@ -45,15 +53,6 @@
         if (!value) return ''
         value = value.toString()
         return value.charAt(0).toUpperCase() + value.slice(1)
-      },
-      dateToHuman(value) {
-        const date = DateTime.fromJSDate(new Date(value))
-        if (!date.invalid) {
-          return date.toFormat('MM/dd/yyyy')
-        }
-        if (date.invalid) {
-          return value
-        }
       },
     }
   }

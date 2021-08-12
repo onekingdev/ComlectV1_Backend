@@ -51,7 +51,7 @@
               td.text-right {{ dateToHuman(risk.created_at) }}
               td.text-right
                 .actions
-                  b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
+                  b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
                     template(#button-content)
                       b-icon(icon="three-dots")
                     RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
@@ -110,10 +110,10 @@
         this.$store
           .dispatch('deleteRisk', { id: riskId })
           .then(response => {
-            this.makeToast('Success', `Risk successfully deleted!`)
+            this.toast('Success', `Risk successfully deleted!`)
           })
           .catch(error => {
-            this.makeToast('Error', `Couldn't delete risk! ${error}`)
+            this.toast('Error', `Couldn't delete risk! ${error}`)
           })
       },
       searching () {
@@ -124,9 +124,6 @@
         this.searchInput = ''
         this.isActive = false
         this.$emit('searching', this.searchInput)
-      },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       },
       toogleSections(value) {
         console.log(value)
@@ -153,11 +150,11 @@
         .dispatch('getRisks')
         .then(response => {
           console.log('response', response)
-          // this.makeToast('Success', `Policy successfully deleted!`)
+          // this.toast('Success', `Policy successfully deleted!`)
         })
         .catch(error => {
           console.error(error)
-          // this.makeToast('Error', `Couldn't submit form! ${error}`)
+          // this.toast('Error', `Couldn't submit form! ${error}`)
         })
     }
   }

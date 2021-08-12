@@ -1,7 +1,7 @@
 <template lang="pug">
   .select-plan(v-if="isSidebarOpen")
     .card.registration-card
-      .card-header.borderless.m-b-40.px-0.pt-0
+      .borderless.m-b-40.px-0.pt-0
         .d-flex.justify-content-between.m-b-40
           b-button(variant="default" @click="$emit('sidebarToggle', false)")
             b-icon.mr-2(icon="chevron-left" variant="dark")

@@ -75,3 +75,125 @@
 .td-n { text-decoration: none; }
 .tt-u { text-transform: uppercase; }
 .tt-n { text-transform: none; }
+
+
+/* ---------- UTILITIES ---------- */
+.p-20 {
+  padding: 1.25rem !important; // 20px
+}
+
+.p-40 {
+  padding: 2.5rem; // 40px
+}
+
+.p-x-20 {
+  padding-left: 1.25rem !important; // 20px
+  padding-right: 1.25rem !important; // 20px
+}
+
+.p-x-40 {
+  padding-left: 2.5rem !important; // 40px
+  padding-right: 2.5rem !important; // 40px
+}
+
+.p-y-10 {
+  padding-top: 0.625rem !important; // 10px
+  padding-bottom: 0.625rem !important; // 10px
+}
+
+.p-y-20 {
+  padding-top: 1.25rem !important; // 20px
+  padding-bottom: 1.25rem !important; // 20px
+}
+
+.p-y-30 {
+  padding-top: 1.875rem !important; // 30px
+  padding-bottom: 1.875rem !important; // 30px
+}
+
+.p-y-40 {
+  padding-top: 2.5rem !important; // 40px
+  padding-bottom: 2.5rem !important; // 40px
+}
+
+.p-t-10 {
+  padding-top: 0.625rem !important; // 10px
+}
+
+.p-t-20 {
+  padding-top: 1.25rem !important; // 20px
+}
+
+.p-t-30 {
+  padding-top: 1.875rem !important; // 30px
+}
+
+.p-t-40 {
+  padding-top: 2.5rem !important; // 40px
+}
+
+.p-b-20 {
+  padding-bottom: 1.25rem !important; // 20px
+}
+
+.p-b-40 {
+  padding-bottom: 2.5rem !important; // 40px
+}
+
+.m-20 {
+  margin: 1.25rem !important; // 20px
+}
+
+.m-x-20 {
+  margin-right: 1.25rem !important; //20px
+  margin-left: 1.25rem !important; //20px
+}
+
+.m-y-20 {
+  margin-top: 1.25rem !important; //20px
+  margin-bottom: 1.25rem !important; //20px
+}
+
+.m-t-10 {
+  margin-top: 0.625rem !important; // 10px
+}
+
+.m-t-20 {
+  margin-top: 1.25rem !important; // 30px
+}
+
+.m-t-30 {
+  margin-top: 1.875rem !important; // 30px
+}
+
+.m-t-40 {
+  margin-top: 2.5rem !important; // 40px
+}
+
+.m-t-60 {
+  margin-top: 3.75rem !important; // 60px
+}
+
+.m-b-10 {
+  margin-bottom: 0.625rem !important; // 10px
+}
+
+.m-b-20 {
+  margin-bottom: 1.25rem !important; // 20px
+}
+
+.m-b-30 {
+  margin-bottom: 1.875rem !important; // 30px
+}
+
+.m-b-40 {
+  margin-bottom: 2.5rem !important;
+}
+
+.m-b-60 {
+  margin-bottom: 3.75rem !important; // 60px
+}
+
+.m-b-80 {
+  margin-bottom: 5rem !important;
+}

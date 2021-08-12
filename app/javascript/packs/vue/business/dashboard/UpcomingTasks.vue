@@ -30,7 +30,8 @@ const overdueEndpointUrl = '/api/business/overdue_reminders'
 
 import TaskTable from '@/common/TaskTable'
 import ProjectTable from './ProjectTable'
-import TaskFormModal from '@/common/TaskFormModal'
+// import TaskFormModal from '@/common/TaskFormModal'
+import TaskFormModal from '@/business/tasks/modals/TaskModalCreateEdit'
 import { DateTime } from 'luxon'
 
 export default {

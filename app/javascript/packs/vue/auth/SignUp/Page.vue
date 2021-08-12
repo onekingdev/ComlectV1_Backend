@@ -119,7 +119,7 @@
         event.preventDefault()
         // CLEAR ERRORS
         this.error = ''
-        for (var value in this.errors) delete this.errors[value];
+        for (let value in this.errors) delete this.errors[value];
 
         // if (!this.form.firstName) Object.assign(this.errors, { firstName: 'Field empty' })
         // if (!this.form.lastName) Object.assign(this.errors, { lastName: 'Field empty' })

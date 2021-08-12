@@ -11,23 +11,23 @@
       .row
         .col-12.m-b-1
           label.form-label Email
-          input.form-control(v-model="user.email" type="text" placeholder="Enter email" ref="input")
+          input.form-control(v-model="form.email" type="text" placeholder="Enter email" ref="input")
           Errors(:errors="errors.email")
       .row
         .col-12.m-b-1
           label.form-label Role
             RoleTypesModalInfo
               b-icon.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
-          ComboBox(v-model="user.role" :options="roleOptions" placeholder="Select a role")
+          ComboBox(v-model="form.role" :options="roleOptions" placeholder="Select a role")
           Errors(:errors="errors.role")
       .row
         .col-12.m-b-1
           label.form-label Start Date
-          DatePicker(v-model="user.start_date" :options="datepickerOptions")
+          DatePicker(v-model="form.start_date" :options="datepickerOptions")
           Errors(:errors="errors.start_date")
       .row
         .col-12.p-x-2
-          b-form-checkbox(v-model="user.access") Access Person
+          b-form-checkbox(v-model="form.access") Access Person
           Errors(:errors="errors.access")
 
       template(slot="modal-footer")
@@ -41,6 +41,13 @@
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   const toOption = id => ({ id, label: id })
 
+  const initialForm = () => ({
+    email: '',
+    role: '',
+    start_date: '',
+    access: ''
+  })
+
   export default {
     components: {Notifications, RoleTypesModalInfo},
     props: {
@@ -48,16 +55,19 @@
         type: Boolean,
         default: true
       },
+      user: {
+        type: Object,
+        required: false,
+        default: () => {}
+      }
+    },
+    created() {
+      if (this.user) this.user = Object.assign({}, this.user, this.user)
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        user: {
-          email: '',
-          role: '',
-          start_date: '',
-          access: ''
-        },
+        form: initialForm(),
         errors: {},
         notify: {
           show: 'show',

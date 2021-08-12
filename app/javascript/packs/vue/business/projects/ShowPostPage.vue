@@ -8,55 +8,50 @@
             //span.badge.badge-default.m-r-1(v-if="'draft' === project.status") Draft
             | {{ project.title }}
         .page-header__actions
-          button.btn.btn-default.m-t-auto.mb-0(v-b-modal="'DeletePostModal'") Delete Post
-            b-modal#DeletePostModal.fade(title="Delete Post")
-              | Do you want to delete project post?
-              template(#modal-footer="{hide}")
-                button.btn.btn-link(@click="hide") Cancel
-                Delete(:url="url" @deleted="deleted")
-                  button.btn.btn-dark Delete
+          PostProjectModalDelete.m-t-auto.mb-0
+            button.btn.btn-default Delete Post
       .card-body.white-card-body.card-body_full-height
         .row
-          .col-lg-7
+          .col-lg-7.pr-lg-1
             .card
               .card-header
                 h3.mb-0 Post Details
                 router-link.btn.btn-default.float-right(:to='`/business/project_posts/${project.id}/edit`') Edit
               .card-body
                 dl.row
-                  dt.col-sm-3 Title
-                  dd.col-sm-9 {{ project.title }}
-                  dt.col-sm-3 Start Date
-                  dd.col-sm-9 {{ project.starts_on | asDate }}
-                  dt.col-sm-3 Due Date
-                  dd.col-sm-9 {{ project.ends_on | asDate }}
-                  dt.col-sm-3 Description
-                  dd.col-sm-9 {{ project.description }}
-                  dt.col-sm-3 Role Details
-                  dd.col-sm-9 {{ project.role_details }}
-                  dt.col-sm-3 Industry
-                  dd.col-sm-9 {{ project.industries | names }}
-                  dt.col-sm-3 Jurisdiction
-                  dd.col-sm-9 {{ project.jurisdictions | names }}
-                  dt.col-sm-3 Key Deliverables
-                  dd.col-sm-9 {{ project.key_deliverables }}
-                  dt.col-sm-3 Minimum Experience
-                  dd.col-sm-9 {{ project.experience | capital }}
-                  dt.col-sm-3 Former Regulator?
-                  dd.col-sm-9 {{ project.regulators_only | yesNo }}
-                  dt.col-sm-3 Skills
-                  dd.col-sm-9 {{ project.skills | names }}
-                  dt.col-sm-3 Estimated Budget
-                  dd.col-sm-9 {{ (project.est_budget || project.fixed_budget) | usdWhole }}
-                  dt.col-sm-3 Payment Schedule
-                  dd.col-sm-9 {{ paymentScheduleReadable(project) }}
-          .col-lg-5
+                  dt.col-sm-4 Title
+                  dd.col-sm-8 {{ project.title }}
+                  dt.col-sm-4 Start Date
+                  dd.col-sm-8 {{ project.starts_on | asDate }}
+                  dt.col-sm-4 Due Date
+                  dd.col-sm-8 {{ project.ends_on | asDate }}
+                  dt.col-sm-4 Description
+                  dd.col-sm-8 {{ project.description }}
+                  dt.col-sm-4 Role Details
+                  dd.col-sm-8 {{ project.role_details }}
+                  dt.col-sm-4 Industry
+                  dd.col-sm-8 {{ project.industries | names }}
+                  dt.col-sm-4 Jurisdiction
+                  dd.col-sm-8 {{ project.jurisdictions | names }}
+                  dt.col-sm-4 Key Deliverables
+                  dd.col-sm-8 {{ project.key_deliverables }}
+                  dt.col-sm-4 Minimum Experience
+                  dd.col-sm-8 {{ project.experience | capital }}
+                  dt.col-sm-4 Former Regulator?
+                  dd.col-sm-8 {{ project.regulators_only | yesNo }}
+                  dt.col-sm-4 Skills
+                  dd.col-sm-8 {{ project.skills | names }}
+                  dt.col-sm-4 Estimated Budget
+                  dd.col-sm-8 {{ (project.est_budget || project.fixed_budget) | usdWhole }}
+                  dt.col-sm-4 Payment Schedule
+                  dd.col-sm-8 {{ paymentScheduleReadable(project) }}
+          .col-lg-5.pl-lg-1
             .card.applications
               .card-header: h3.mb-0 Applicants
-              .card-body.applications__body: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
-                .d-flex.flex-column.justify-content-center.align-items-center(v-if="!applications.length")
+              .card-body.applications__body.h-100: Get(:applications="applicationsUrl"): template(v-slot="{applications}")
+                .d-flex.flex-column.justify-content-center.align-items-center.m-t-60(v-if="!applications.length")
                   ion-icon.applications__icon.m-b-10(name="person-circle-outline")
-                  p.applications__text No Applicants to Display
+                  p.applications__text No Applicants
                 table.table(v-else)
                   thead
                     tr
@@ -84,6 +79,7 @@ import AcceptDenyProposalModal from './AcceptDenyProposalModal'
 import ProposalModal from './ProposalModal'
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
+import PostProjectModalDelete from "./modals/PostProjectModalDelete";
 
 const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
 
@@ -139,6 +135,7 @@ export default {
     }
   },
   components: {
+    PostProjectModalDelete,
     AcceptDenyProposalModal,
     ProposalModal
   }

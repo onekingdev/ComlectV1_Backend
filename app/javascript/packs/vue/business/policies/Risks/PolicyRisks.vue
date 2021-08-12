@@ -7,15 +7,20 @@
         button.btn.btn-dark Add Risk
     .policy-details__body
       Loading
-      table.table(v-if="!loading")
+      table.table(v-if="!loading && policyById.risks && policyById.risks.length")
         thead
           tr
             th(width="55%") Risk Name
+              b-icon.ml-2(icon='chevron-expand')
             th Impact
+              b-icon.ml-2(icon='chevron-expand')
             th Likelihood
+              b-icon.ml-2(icon='chevron-expand')
             th Risk level
+              b-icon.ml-2(icon='chevron-expand')
             th.text-right Date created
-            th(width="10%")
+              b-icon.ml-2(icon='chevron-expand')
+            th(width="35px")
         tbody.text-dark
           tr(v-for="risk in policyById.risks" :key="risk.id")
             td {{ risk.name }}
@@ -34,9 +39,7 @@
                   PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
-          tr(v-if="policyById.risks && !policyById.risks.length")
-            td.text-center(colspan=5)
-              h4.py-2 No risks
+      EmptyState(v-if="!loading && policyById.risks && !policyById.risks.length")
 </template>
 
 <script>
@@ -142,9 +145,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .policy-details .policy-actions {
-    top: 1.5rem;
-  }
-</style>
