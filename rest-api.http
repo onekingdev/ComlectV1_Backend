@@ -1,0 +1,810 @@
+### First you need to sign in and copy paste that key into Authorization: xxx for the request you want to make. For me it shows "Send request" button on top of each definition, use vscode rest client plugin for convinience https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+### Use // to turn otp_secret into a comment for 1st request (1st sign in request goes without otp, 2nd is the same but with otp_secret included once you receive mail / catch it in rails server log)
+
+POST http://localhost:3000/api/users/sign_in
+Content-Type: application/json
+
+{
+  "user": {
+      "email": "email@example.com",
+      "password": "fasdfdasdf"
+  },
+  "otp_secret": 317420
+}
+
+#########
+GET http://localhost:3000/api/users/resend_email
+Content-Type: application/json
+
+{
+  "email": "email@example.com"
+}
+
+#########
+PUT http://localhost:3000/api/users/confirm_email
+Content-Type: application/json
+
+{
+  "email": "email@example.com",
+  "otp_secret": "657908"
+}
+
+#########################################
+GET http://localhost:3000/api/specialist/payment_settings
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjksImV4cCI6MTYyMDY0Njg5OH0.B3wEYMauZhIaKMf6bnINjw8RbUtWUe3OsawK09-jjXw
+
+################################################################
+GET http://localhost:3000/api/business/local_projects
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyNTUxNzQ1MX0.xXQrtQfPvL_4zm9LN6kTdjv4pnKQ9-plrkwD-Klv6Xw
+
+################################################################
+DELETE http://localhost:3000/api/business/projects/75
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+################################################################
+GET http://localhost:3000/api/business/local_projects/48/complete
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+
+################################################################
+DELETE http://localhost:3000/api/business/local_projects/49
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+
+################################################################
+POST http://localhost:3000/api/business/local_projects
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+
+{
+  "local_project": {
+    "title": "api test",
+    "description": "desc", 
+    "starts_on": "2021-05-05",
+    "ends_on": "2021-06-06",
+    "hide_on_calendar": true
+  }
+}
+################################################################
+PUT http://localhost:3000/api/business/local_projects/49
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+
+{
+  "local_project": {
+    "hide_on_calendar": true
+  }
+}
+################################################################
+
+GET http://localhost:3000/api/business/reminders/38
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+################################################################
+POST http://localhost:3000/api/business/reminders/38
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+{
+  "linkable_id": 50,
+  "linkable_type": "LocalProject"
+}
+################################################################
+
+GET http://localhost:3000/api/business/compliance_policies
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODQzNzU5OX0.IC4XvsvLyFcI6xSiP9OqTmixpdiZ7CvA3o1lL2ZwYck
+################################################################
+PATCH http://localhost:3000/api/business/compliance_policies/28
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODQzNzU5OX0.IC4XvsvLyFcI6xSiP9OqTmixpdiZ7CvA3o1lL2ZwYck
+
+{
+  "archived": false
+}
+###
+GET http://localhost:3000/api/business/compliance_policies/30/publish
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTEwODExM30.whG0wc_9ghHz3l5rcRSq045DLx5KTx_dM5oP4-a1aGk
+###
+GET http://localhost:3000/api/business/compliance_policies/31/download.pdf
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTEwODExM30.whG0wc_9ghHz3l5rcRSq045DLx5KTx_dM5oP4-a1aGk
+
+###
+POST http://localhost:3000/api/business/compliance_policies
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTEwODExM30.whG0wc_9ghHz3l5rcRSq045DLx5KTx_dM5oP4-a1aGk
+
+{
+    "name": "Policy Teeest345",
+    "description": "Hola"
+}
+
+#################################################################
+
+POST http://localhost:3000/api/business/compliance_policies
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTEwODExM30.whG0wc_9ghHz3l5rcRSq045DLx5KTx_dM5oP4-a1aGk
+
+{
+    "name": "Policy With 1 section on create",
+    "description": "oi m8"
+}
+
+###########3
+
+POST http://localhost:3000/api/specialist/projects/44/timesheets
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjksImV4cCI6MTYxNTgxNTI3Mn0.WVF0_6ap0iZdg0C2ujT2ukbuWpaUvKHFwJM_rqE5I0g
+
+{
+    "timesheet": {
+        "time_logs_attributes": [
+            {
+                "description": "late",
+                "hours": 1,
+                "minutes": 0,
+                "date": "10/01/2021"
+            }
+        ]
+    }
+}
+
+
+### create annual report with name
+# update it with category
+# clone
+# destroy both
+
+POST http://localhost:3000/api/business/annual_reports
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+
+{   
+  "annual_report": {
+    "name": "Test Report 1",
+    "year": 2029,
+    "review_start": "01/01/2021",
+    "review_end": "02/02/2021",
+    "regulatory_changes_attributes": [
+      { "change": "Change for the good" },
+      { "change": "CHANGE 2" }
+    ],
+    "annual_review_employees_attributes": [
+      { "name": "fasdf1", "title": "fasdfdasdf", "department": "main" },
+      { "name": "fasdf2", "title": "fasdf", "department": "main" }
+    ]
+  }
+}
+
+###
+GET http://localhost:3000/api/business/annual_reports
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDk4ODA0M30.81NUO7EKu63ReqzTqZUg_z5xQzpqWukCiZthBWqStgY
+
+
+##################################
+GET http://localhost:3000/api/business/annual_reports/16/review_categories
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDk4ODA0M30.81NUO7EKu63ReqzTqZUg_z5xQzpqWukCiZthBWqStgY
+
+
+###
+
+POST http://localhost:3000/api/business/annual_reports/16/review_categories
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDk4ODA0M30.81NUO7EKu63ReqzTqZUg_z5xQzpqWukCiZthBWqStgY
+
+{
+  "review_category": {
+    "complete": false,
+    "name": "test category",
+    "review_topics": [
+      {
+        "name": "Designation of a CCO",
+        "items": [
+          {
+            "body": "Check for CCO",
+            "checked": true,
+            "findings": ["found CCO", "fasdf"]
+          },
+          {
+            "body": "BOJlK",
+            "checked": true,
+            "findings": ["No circus", "Sad"]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+###
+PATCH http://localhost:3000/api/business/annual_reports/16/review_categories/7
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDk4ODA0M30.81NUO7EKu63ReqzTqZUg_z5xQzpqWukCiZthBWqStgY
+
+{
+  "review_category": {
+    "complete": false,
+    "name": "reviewcategory2",
+    "review_topics": [
+      {
+        "name": "Designation of a CCO",
+        "items": [
+          {
+            "body": "Check that CCO123",
+            "checked": true,
+            "findings": ["CCO123", "1111"]
+          },
+          {
+            "body": "BOJlK",
+            "checked": true,
+            "findings": ["No circus", "Sad"]
+          }
+        ]
+      },
+      {
+        "name": "Designation of a CCO2",
+        "items": [
+          {
+            "body": "CCO vibe check",
+            "checked": true,
+            "findings": ["good", "yes"]
+          },
+          {
+            "body": "BOJlK",
+            "checked": true,
+            "findings": ["No circus1", "Sad"]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+###
+GET http://localhost:3000/api/business/annual_reports/6/clone
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTgzMTI1Nn0.YDYW2rghBNY56KwHaDwHXaPaDqN5d1sCCidYphv_B88
+
+###
+GET http://localhost:3000/api/business/ratings
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTgzMTI1Nn0.YDYW2rghBNY56KwHaDwHXaPaDqN5d1sCCidYphv_B88
+
+################################################################
+GET http://localhost:3000/api/business/risks
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+################################################################
+GET http://localhost:3000/api/business/risks/6
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+################################################################
+POST http://localhost:3000/api/business/risks
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+{
+  "name": "fatal error23223",
+  "impact": 3,
+  "likelihood": 3,
+  "compliance_policy_ids": [35, 36]
+}
+################################################################
+PATCH  http://localhost:3000/api/business/risks/6
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+{
+  "name": "fatal error23223",
+  "impact": 3,
+  "likelihood": 3,
+  "compliance_policy_ids": [35, 34]
+}
+####
+GET http://localhost:3000/api/projects
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjYsImV4cCI6MTYxOTM5MTk5N30.CxvUXIOmOcZgfkXWa9odPeAyyld9i8h4YPcv5IQSmVM
+############
+POST http://localhost:3000/api/projects/73/issues
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+{
+    "issue": "ajskjda"
+}
+
+###
+GET http://localhost:3000/api/business/annual_reports
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+###
+GET http://localhost:3000/api/business/compliance_policy_configuration
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+###
+PATCH http://localhost:3000/api/business/compliance_policy_configuration
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+{
+  "body": "Fasdfsd"
+}
+###
+GET http://localhost:3000/api/projects/46/documents
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxODUwNzE2OX0.hAz6YbFyVAxB_JPQjT-tagvffiiXjoBeqyzsz82SR38
+
+###
+
+POST http://localhost:3000/api/local_projects/46/messages
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjksImV4cCI6MTYxOTEzMjEzNX0.iR_4yn48M4RdBP-j6GaqAwr0LEJnus7bZIzxHu9SvCA
+Content-Type: application/json
+
+{
+    "message": {
+        "message": null
+    }
+}
+
+###
+POST http://localhost:3000/api/projects/74/rating
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxOTQ4NDgxN30.VkTY0kF57nmJHNUnaTVpRWxsd2d7mZFC8ccFslLEugU
+Content-Type: application/json
+
+{
+    "value": 5,
+    "review": "krasava"
+}
+###
+GET http://localhost:3000/api/project_ratings
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxOTQ4NDgxN30.VkTY0kF57nmJHNUnaTVpRWxsd2d7mZFC8ccFslLEugU
+Content-Type: application/json
+###
+POST http://localhost:3000/api/projects/74/rating
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjksImV4cCI6MTYxOTQ4NjIwNn0.PCKEyyEIsUxHKEqT7mBKB1T8MTKcykh0LcNtrLdoDU4
+Content-Type: application/json
+
+{
+    "value": 5,
+    "review": "krasava1111"
+}
+###
+GET http://localhost:3000/api/business/specialists
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+Content-Type: application/json
+###
+GET http://localhost:3000/api/business/favorites
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+Content-Type: application/json
+###
+PATCH http://localhost:3000/api/business/favorites
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+Content-Type: application/json
+
+{
+  "favorite": {
+    "favorited_type": "Specialist",
+    "favorited_id": 1
+  }
+}
+###
+POST http://localhost:3000/api/businesses
+Content-Type: application/json
+
+{
+  "business": {
+    "contact_first_name": "Keker",
+    "contact_last_name": "Shpeker",
+    "user_attributes": {
+      "email": "kekershpeker14@example.com",
+      "password": "xxxx"
+    }
+  }
+}
+
+###
+POST http://localhost:3000/api/specialists
+Content-Type: application/json
+
+{
+  "specialist": {
+    "first_name": "Keker",
+    "last_name": "Shpeker",
+    "user_attributes": {
+      "email": "kekershpeker224@example.com",
+      "password": "xxxxxxx"
+    }
+  }
+}
+
+###
+
+PUT http://localhost:3000/api/users/35/confirm_email
+Content-Type: application/json
+
+{
+  "otp_secret": "431278"
+}
+
+###
+
+PATCH http://localhost:3000/api/business
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEyLCJleHAiOjE2MTk4NDI1NzF9.CMrQ2y3H6FCb1KMgrJmksB1OLfROgAmgbk9RQ13gizo
+Content-Type: application/json
+
+{
+  "business_name": "HELP",
+  "industry_ids": [2],
+  "city": "Los Angeles",
+  "state": "Idle"
+}
+
+###
+PATCH http://localhost:3000/api/specialist
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjM1LCJleHAiOjE2MjA5MDM1NzB9.b7uu0myptZMpNN-JnLKS_9oSsWMuGbMQhiscFbybp9k
+Content-Type: application/json
+
+{
+  "specialist": {
+    "first_name": "HELP DELIVERY",
+    "industry_ids": [2]
+  },
+  "skill_names": ["mining2", "crafting3"]
+}
+#####
+GET http://localhost:3000/api/business/payment_settings
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMDIwMzkwMX0.4HjH2gvnt7K0mB132ALj2GsMs0_g3q0GmC9H4AXzlG4
+
+###########
+POST http://localhost:3000/api/users/password
+Content-Type: application/json
+
+{
+  "email": "postgreshater@example.com"
+}
+
+############
+PUT http://localhost:3000/api/users/password
+Content-Type: application/json
+
+{
+  "user": {
+    "reset_password_token": "o2u6xjzNrE_B72WRXMsh",
+    "password": "newpassword",
+    "password_confirmation": "newpassword"
+  }
+}
+
+########
+GET http://localhost:3000/api/specialist/payment_settings
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjksImV4cCI6MTYyMTAyMTc3NX0.pNjh1xBhuv6ALOZcL70XDlJh6IFjDp0NsZ3oCyH7bzk
+
+#########
+GET http://localhost:3000/api/business/file_folders
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+#########
+GET http://localhost:3000/api/business/file_folders/26/list_tree
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+#########
+POST http://localhost:3000/api/business/file_folders
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+{
+  "file_folder": {
+    "name": "funny pictures 3"
+  }
+}
+
+#########
+POST http://localhost:3000/api/business/file_folders
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+{
+  "file_folder": {
+    "name": "funny pictures 3",
+    "parent_id": 28
+  }
+}
+
+#########
+GET http://localhost:3000/api/business/file_folders/28/download_folder
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+#########
+GET http://localhost:3000/api/business/file_folders/28/check_zip
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+##########
+POST http://localhost:3000/api/business/projects/83/applications/30/hide
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMTQ0MTI3NH0.tBg-01y-2jD3FIxND5ksvE3UMgtVSyKqwsoqykgMFeo
+
+###########
+GET http://localhost:3000/api/specialist/projects/75/calendar_show
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjksImV4cCI6MTYyMTkxMDIzN30.svOb1EdkXETybCZ3563mdFxQM0lpcd43rkO7hnDZuYk
+
+####
+GET http://localhost:3000/api/specialist/projects
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImV4cCI6MTYyNDA2ODcxNH0.ica-eo0PiA_wIJrpuVqqOQGMonjF7yF166KVte5fbjI
+
+####
+GET http://localhost:3000/api/specialist/favorites
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImV4cCI6MTYyNDA2ODcxNH0.ica-eo0PiA_wIJrpuVqqOQGMonjF7yF166KVte5fbjI
+####
+PATCH http://localhost:3000/api/specialist/favorites
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImV4cCI6MTYyNDA2ODcxNH0.ica-eo0PiA_wIJrpuVqqOQGMonjF7yF166KVte5fbjI
+
+{
+  "favorite": {
+    "favorited_type": "Project",
+    "favorited_id": 92
+  }
+}
+##########
+GET http://localhost:3000/api/business/exams
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+#######
+PATCH http://localhost:3000/api/business/exams/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+{
+  "exam": {
+    "id": 2,
+    "name": "Exam test name33323 3",
+    "starts_on": "2021-05-05",
+    "ends_on": "2021-06-06",
+    "share_uuid": null,
+    "created_at": "2021-05-16T09:59:50.992Z",
+    "updated_at": "2021-05-18T15:53:52.431Z",
+    "exam_requests_attributes": [
+      {
+        "id": 3,
+        "name": "dsa23s111",
+        "details": "asddasdsdas",
+        "text_items": ["a", "Fsa"],
+        "complete": true,
+        "shared": false,
+        "exam_request_files": []
+      },
+      {
+        "id": 1,
+        "name": "33123l2sfadA",
+        "details": "ffdfsa44444444444",
+        "text_items": null,
+        "complete": true,
+        "shared": false,
+        "exam_request_files": []
+      }
+    ],
+    "complete": true
+  }
+}
+
+######
+DELETE http://localhost:3000/api/business/exams/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+########
+GET http://localhost:3000/api/business/exams/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+########
+POST http://localhost:3000/api/business/exams/2/requests
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+{
+  "name": "2222",
+  "details": "ffdfsa44444444444",
+  "complete": true,
+  "shared": false
+}
+
+########
+DELETE http://localhost:3000/api/business/exams/2/requests/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+########
+PATCH http://localhost:3000/api/business/exams/2/requests/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+{
+  "name": "33123l2",
+  "details": "ffdfsa44444444444",
+  "complete": true,
+  "shared": false
+}
+
+#####
+
+POST http://localhost:3000/api/business/exams/2/requests/1/documents
+
+{
+  "file": <...>
+}
+
+######
+GET http://localhost:3000/api/skills?q=fasdf
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMjM2ODIxMX0.fpK78tGy0U0tkdHpqDUCsmjVtyr2TAV--eRssE0s9eE
+
+#####
+POST http://localhost:3000/api/business/upgrade/subscribe
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY5LCJleHAiOjE2MjMyMjYwNTl9.CAS8recsG9v9Y3WIk2QylE5i8Pg-LmeIBkKftui_zFI
+
+{
+  "plan": "team_tier_monthly"
+}
+
+#######
+POST http://localhost:3000/api/specialist/upgrade/subscribe
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcwLCJleHAiOjE2MjMyMjY0NTV9.7RXmfy6zWONYbR2XGdwCVJiAURcRigEUhlVws6mCeZQ
+
+{
+  "plan": "free"
+}
+
+#######
+POST http://localhost:3000/api/business/exams/7/invite
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzM3NjU5MX0.79W9CZBAT6qrmiUMAH5mO-Kdfo3Fc6AIWKh86p2und0
+
+{
+  "email": "wooah@example.com"
+}
+
+#####
+POST http://localhost:3000/api/business/exams/7/uninvite
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzM3NjU5MX0.79W9CZBAT6qrmiUMAH5mO-Kdfo3Fc6AIWKh86p2und0
+
+{
+  "email": "wooah@example.com"
+}
+
+#######
+GET http://localhost:3000/api/business/exams/7
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzM3NjU5MX0.79W9CZBAT6qrmiUMAH5mO-Kdfo3Fc6AIWKh86p2und0
+
+########
+
+POST http://localhost:3000/api/exams/ef1ad5bc-47f4-431d-8511-b44f5f3a99f1
+Content-Type: application/json
+
+{
+  "email": "wooah@example.com"
+}
+########
+
+PATCH http://localhost:3000/api/exams/ef1ad5bc-47f4-431d-8511-b44f5f3a99f1
+Content-Type: application/json
+
+{
+  "email": "wooah@example.com",
+  "otp": "332586"
+}
+
+#########
+POST http://localhost:3000/api/otp_secrets
+Content-Type: application/json
+
+{
+  "user": {
+    "email": "postgreshater@example.com"
+  }
+}
+
+##########
+GET http://localhost:3000/api/settings/business
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+
+##########
+PATCH http://localhost:3000/api/settings/general
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+
+{
+  "country": "RU",
+  "city": "Postgresville",
+  "state": "AY",
+  "time_zone": "Moscow",
+  "contact_phone": "777789779831"
+}
+
+######
+POST http://localhost:3000/api/specialist/share_project
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImV4cCI6MTYyNDA2ODcxNH0.ica-eo0PiA_wIJrpuVqqOQGMonjF7yF166KVte5fbjI
+
+{
+  "share_project": {
+    "email": "stan@loona.exe"
+  },
+  "project_id": 92
+}
+
+#####
+GET http://localhost:3000/api/business/reminders/38/messages
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+
+#####
+POST http://localhost:3000/api/business/reminders/38/messages
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyMzk5MjgzOX0.ClNutlLfft73c-GCGv0pqxjW6Ha7Xn29Lv3nf3pqasE
+
+{
+    "message": {
+        "message": "lmao"
+    }
+}
+
+######
+POST http://localhost:3000/api/business/seats
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYyNTg2NjA0MX0.A_sbSIiNkOU2Rmt3QBE6s8ht5uj2YcgVy_Jy24kXiYs
+
+{
+  "invitation": {
+    "first_name": "John",
+    "last_name": "Keker",
+    "email": "123347337333@example.com",
+    "start_date": "01/01/2020"
+  },
+  "role": "basic"
+}
+
+######
+POST http://localhost:3000/api/messages/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImp3dF9oYXNoIjoiNDIzMzZhMDAzNGY1MjcwMmZlZTUiLCJleHAiOjE2Mjc2NDQzNjJ9.Y_OmRQF83oBzPkHqtFngkmVF0F_iXPfdz8xyTd6DylI
+
+{
+  "message": {
+    "message": "hows the weather"
+  }
+}
+
+######
+GET http://localhost:3000/api/messages/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImp3dF9oYXNoIjoiNDIzMzZhMDAzNGY1MjcwMmZlZTUiLCJleHAiOjE2Mjc2NDQzNjJ9.Y_OmRQF83oBzPkHqtFngkmVF0F_iXPfdz8xyTd6DylI
+
+#####
+GET http://localhost:3000/api/static_collection
+Content-Type: application/json
