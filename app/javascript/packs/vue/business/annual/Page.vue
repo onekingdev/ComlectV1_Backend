@@ -5,14 +5,10 @@
       .page-header__actions
         AnnualModalCreate(:reviews="reviews")
           button.btn.btn-dark.float-end New Review
-    .card-body.white-card-body.card-body_full-height
-      b-alert.mb-2(show variant="primary" dismissible)
-        .d-flex.justify-content-between.align-items-center
-          .d-block
-            h4 Key Regulatory Developments 2021
-            p.mb-0 New regulatory changes can have an impact on your policies and procedures.
-          b-button.ml-auto(type="button" variant="light") View
-      p Rule 206(4)-7 under the Adviser Act and Rule 38a-1 under the Company Act require that you conduct an annual review of your compliance program no less than annually. Your last completed Annual Review was submitted on&nbsp;
+    .card-body.white-card-body.card-body_full-height.p-x-40
+      Notifications.m-b-20(:notify="notify")
+        a.btn.btn-default(href='https://www.sec.gov/exams', target="_blank") View
+      p Rule 206(4)-7 under the Adviser Act that you conducta review of your compliance program no less than annually. Your last completed internal review was complited on&nbsp;
         a.link(href="#") 7/24/2020
       Loading
       ReviewTable(v-if="!loading && reviews.length" :reviews="reviews")
@@ -22,6 +18,7 @@
 </template>
 
 <script>
+import Notifications from "@/common/Notifications/Notifications";
 import { mapGetters } from "vuex"
 import Loading from '@/common/Loading/Loading'
 import EmptyState from '@/common/EmptyState'
@@ -30,10 +27,28 @@ import ReviewTable from "./components/ReviewTable"
 
 export default {
   components: {
+    Notifications,
     Loading,
     EmptyState,
     ReviewTable,
     AnnualModalCreate
+  },
+  data() {
+    return {
+      notify: {
+        show: 'show',
+        mainText: 'Key Regulatory Developments 2021',
+        subText: 'New regulatory changes can have an impact on your policies and procedures.',
+        variant: 'primary',
+        dismissible: false,
+        icon: null,
+        scale: 2,
+        animation: ""
+      }
+    }
+  },
+  methods: {
+
   },
   computed: {
     loading() {
@@ -50,8 +65,6 @@ export default {
       this.toast('Error', error.message, true)
     }
   },
-  methods: {
-  }
 }
 </script>
 

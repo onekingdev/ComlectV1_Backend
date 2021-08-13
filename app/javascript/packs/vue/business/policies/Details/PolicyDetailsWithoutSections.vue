@@ -47,13 +47,13 @@
                       .policy-details__text(v-html="policy.description ? policy.description : description" v-if="!toggleVueEditorComputed" @click="toggleVueEditorHandler")
                       vue-editor.policy-details__text-editor(v-if="toggleVueEditorComputed" :editorOptions="editorSettings" :editor-toolbar="fullToolbar " v-model="policy.description")
             b-tab(title="Risks" lazy)
-              .card-body.white-card-body.card-body_full-height.p-0
-                PolicyRisks(:policyId="policyId")
+              .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
+                PolicyRisks(:policy="policy" :policyId="policyId")
             b-tab(title="Tasks" lazy)
-              .card-body.white-card-body.card-body_full-height.p-0
-                EmptyState
+              .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
+                PolicyTasks(:policy="policy")
             b-tab(title="History")
-              .card-body.white-card-body.card-body_full-height.p-0
+              .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
                 HistoryPolicy(:policy="policy")
 </template>
 
@@ -65,6 +65,7 @@
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
   import PolicyRisks from "../Risks/PolicyRisks";
+  import PolicyTasks from "../Tasks/PolicyTasks";
   import PoliciesModalCreate from "../Modals/PoliciesModalCreate";
   import PoliciesModalDelete from "../Modals/PoliciesModalDelete";
   import PoliciesModalArchive from "../Modals/PoliciesModalArchive";
@@ -91,6 +92,7 @@
       SubsectionPolicy,
       HistoryPolicy,
       PolicyRisks,
+      PolicyTasks,
       PoliciesModalCreate,
       PoliciesModalDelete,
       PoliciesModalArchive,
@@ -165,7 +167,7 @@
             this.toast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
             setTimeout(() => {
               //window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
-              this.$router.push(`${window.location.origin}/business/compliance_policies/${response.id}`)
+              this.$router.push(`/business/compliance_policies/${response.id}`)
             }, 2000)
           })
           .catch((err) => {

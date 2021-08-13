@@ -6,10 +6,10 @@
     b-modal.fade(:id="modalId" title="Publish Policy")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="info")
+          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" width="25" height="25" variant="info")
         .col
-          p The policy will be added to your compilance manual and employees will be able to view the new policy.
-            br
+          p.m-b-10 The policy will be added to your compilance manual and employees will be able to view the new policy.
+          p.mb-0
             b Do you want to continue?
       Errors(:errors="errors.title")
 
@@ -30,11 +30,6 @@
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        policy: {
-          name: '',
-          description: 'N/A',
-          sections: [],
-        },
         errors: []
       }
     },
@@ -42,23 +37,9 @@
       submit(e) {
         e.preventDefault();
         this.errors = [];
-
         this.$emit('publishConfirmed')
         this.$bvModal.hide(this.modalId)
-
-        // if (window.location.href === `${window.location.origin}/business/compliance_policies/${this.policyId}`) {
-        //   window.location.href = `${window.location.origin}/business/compliance_policies/`
-        // }
       },
     },
-    computed: {
-
-    },
-    watch: {
-
-    },
-    components: {
-
-    }
   }
 </script>

@@ -11,7 +11,8 @@
           b-tab(title="Upcoming" active)
             b-row
               .col.px-3
-                EmptyState
+                InvoicesTable(:invoices="invoices")
+                //EmptyState
           b-tab(title="Completed")
             b-row
               .col.px-3
@@ -20,9 +21,11 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
+  import InvoicesTable from "../../../specialist/settings/components/billings/components/InvoicesTable";
 
   export default {
     components: {
+      InvoicesTable,
       Loading,
     },
     data() {
@@ -36,6 +39,22 @@
     computed: {
       loading() {
         return this.$store.getters.loading;
+      },
+      invoices() {
+        return [
+          {
+            date: '27/11/2020',
+            name: 'Plan - Compilance Command Center Subscription',
+            type: 'Plan',
+            price: '$50'
+          },
+          {
+            date: '28/12/2020',
+            name: 'Plan - Compilance Command Center Subscription',
+            type: 'Plan',
+            price: '$50'
+          }
+        ]
       },
     },
   }

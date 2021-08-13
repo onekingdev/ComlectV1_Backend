@@ -8,9 +8,9 @@
         ComplianceSpend
       .col-xl-5.col-12.m-b-20
         AnnualBudget
-    //.row
-    //  .col
-    //    PaymentDetails
+    .row
+      .col
+        PaymentDetails
 
 </template>
 
@@ -18,11 +18,11 @@
   import ComplianceSpend from "./components/ComplianceSpend";
   import AnnualBudget from "./components/AnnualBudget";
   import Payments from "./components/Payments";
-  // import PaymentDetails from "./components/PaymentDetails";
+  import PaymentDetails from "./components/PaymentDetails";
 
   export default {
     components: {
-      // PaymentDetails,
+      PaymentDetails,
       Payments,
       ComplianceSpend,
       AnnualBudget,

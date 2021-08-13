@@ -16,8 +16,13 @@
         th(@click="sortSelect('created_at', 'date')").text-right
           | Date Create
           b-icon.ml-2(icon='chevron-expand')
+        th(@click="sortSelect('created_at', 'date')").text-right
+          | Date Completed
+          b-icon.ml-2(icon='chevron-expand')
+        th(width="35px")
     tbody
       ReviewItem(v-for="item in sortedReview" :key="item.id" :item="item")
+
 </template>
 
 <script>

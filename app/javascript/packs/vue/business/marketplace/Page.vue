@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.marketplace
+  .marketplace
     .container-fluid
       .row
         .col-12.px-0.mb-4
@@ -14,24 +14,16 @@
           .card
             .card-header
               .col-md-12
-                h3 Browse Specialist
-            .card-header
+                h3.mb-0 Browse Specialist
+            .card-body
               MarketPlaceSearchInput(@searchComplited="filterByInput")
-
-            .card-header(v-if="loading")
-              .row.py-2.px-4
-                .col
-                  Loading
-            SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
-            .card-body(v-if="filteredSpecialists.length && !loading")
-              .row
-                .col
-                  b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table' align="center" pills size="sm")
-            .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
-            .card-header(v-if="!filteredSpecialists.length && !loading")
-              .row.py-2.px-4
-                .col.text-center
-                  h3 No specialists found
+            .card-body
+              SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
+              Loading
+              b-pagination(v-if="filteredSpecialists.length && !loading" v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table' align="center" pills size="sm")
+            //.card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
+            .card-body(v-if="!filteredSpecialists.length && !loading")
+              EmptyState
 
       b-sidebar#ProjectSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop right width="60%")
         .card

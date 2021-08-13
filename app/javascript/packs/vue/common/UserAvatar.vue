@@ -55,8 +55,8 @@ export default {
   width: 2.5rem;
 }
 .sm {
-  height: 45px;
-  width: 45px;
+  height: 65px;
+  width: 65px;
   max-height: 1.5625rem;
   max-width: 1.5625rem;
   line-height: 2em;

@@ -11,9 +11,8 @@
         p Found {{ policiesComputed.length }} {{ policiesComputed.length === 1 ? 'result' : 'results' }}
     .row
       .col-12.h-100
-        Loading
         div(v-if="!loading")
-          .table.mb-0(v-if="policiesComputed && policiesComputed.length !== 0")
+          .table.mb-0
             .table__row
               .table__cell.table__cell_title Name
               .table__cell.table__cell_title
@@ -29,7 +28,8 @@
               //  | Risk Level
               //  b-icon.ml-2(icon='chevron-expand')
               .table__cell(style="width: 40px")
-          nested-draggable(v-model='policiesComputed', :policiesList="policies")
+          nested-draggable(v-if="policiesComputed && policiesComputed.length !== 0" v-model='policiesComputed', :policiesList="policies")
+        Loading
         EmptyState(v-if="!loading && !policies.length")
     //rawdisplayer(:value='policiesComputed' title='List')
 </template>

@@ -12,8 +12,8 @@
     td
       a.link(href="#") {{ item.reason }}
     td
-      b-icon.m-r-1(font-scale="1" :icon="item.status ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.status }")
-      | {{ item.accessPerson }}
+      b-icon.status__icon.m-r-1(font-scale="1" :icon="item.status ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.status }")
+      //| {{ item.accessPerson }}
     td {{ item.startDate }}
     td {{ item.endDate }}
     td.text-right

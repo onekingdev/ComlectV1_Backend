@@ -5,20 +5,20 @@
 
     b-modal.fade(:id="modalId" title="New Review")
       .row(v-if="reviewsOptions && reviewsOptions.length")
-        .col-12.m-b-2
+        .col-12.mb-1
           label.form-label Template
           b-form-select(v-model="reviewSelected" :options="reviewsOptions")
       .row
-        .col-12.m-b-2
+        .col-12.mb-1
           label.form-label Name
           input.form-control(v-model="annual_review.name" type="text" placeholder="Enter the name of your review" ref="input")
-      .row.m-b-2
-        .col-6
+      .row
+        .col-6.mb-1
           label.form-label Start Date
-          DatePicker(v-model="annual_review.review_start")
-        .col-6
+          DatePicker(v-model="annual_review.review_start" :options="datepickerOptions")
+        .col-6.mb-1
           label.form-label Due Date
-          DatePicker(v-model="annual_review.review_end")
+          DatePicker(v-model="annual_review.review_end" :options="datepickerOptions")
 
       template(slot="modal-footer")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
@@ -122,7 +122,22 @@
           return { value: review.id, text: review.name }
         })
         return revOpt ? revOpt : []
-      }
+      },
+      datepickerOptions() {
+        return {
+          min: new Date
+        }
+      },
     },
+    watch: {
+      'annual_review.review_start': {
+        handler: function(value, oldVal) {
+          const start = DateTime.fromSQL(value), end = DateTime.fromSQL(this.annual_review.review_end)
+          if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
+            this.annual_review.review_end = value
+          }
+        }
+      }
+    }
   }
 </script>

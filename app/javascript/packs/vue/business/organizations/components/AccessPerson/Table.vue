@@ -6,7 +6,7 @@
           b-icon.ml-2(icon='chevron-expand' font-scale="1")
         th Role
           RoleTypesModalInfo
-            b-icon.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
+            b-icon.tooltip__icon(icon="exclamation-circle-fill" v-b-tooltip.hover title="Toooooooltip")
         th Access Person
           b-icon.ml-2(icon='chevron-expand')
         th Start Date

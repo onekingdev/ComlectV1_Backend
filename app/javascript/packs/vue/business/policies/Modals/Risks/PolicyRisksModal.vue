@@ -123,7 +123,7 @@ export default {
 
           } else {
             this.$emit('saved', response)
-            this.toast('Success', 'The risk has been saved')
+            // this.toast('Success', 'The risk has been saved')
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }

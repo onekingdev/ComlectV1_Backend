@@ -19,9 +19,9 @@
         | Add Category
       .review__category-add__form(v-else)
         input.form-control(v-model="category.name" type="text" ref="input" @blur="addCategory")
-        <!--button.btn.btn-default(@click="addCategory")-->
-          <!--b-icon.mr-2(icon='plus-circle-fill')-->
-          <!--| Add Category-->
+        //button.btn.btn-default(@click="addCategory")
+        //  b-icon.mr-2(icon='plus-circle-fill')
+        //  | Add Category
 </template>
 
 <script>
@@ -54,7 +54,7 @@ export default {
       }
       const reviewCategory = this.category
       const data = {
-        annualId: +this.annualId,
+        annualId: this.annualId,
         name: reviewCategory.name,
         complete: false
       }
@@ -63,9 +63,10 @@ export default {
         const response = await this.createReviewCategory(data)
         if (response) {
           this.toast('Success', "New category added")
-          await this.getCurrentReviewReview(+this.annualId)
+          await this.getCurrentReviewReview(this.annualId)
           this.category.name = ""
-          window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
+          //window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
+          this.$router.push(`/business/compliance_policies/${response.annual_report_id}/${response.id}`)
         }
       } catch (error) {
         this.toast('Error', error.message, true)

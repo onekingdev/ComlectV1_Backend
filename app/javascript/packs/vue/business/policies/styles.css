@@ -193,7 +193,7 @@
 /*}*/
 
 .policy__main-title {
-  max-width: 600px;
+  max-width: 200px;
   font-size: 1.5rem;
   color: #303132;
   white-space: nowrap;
@@ -203,8 +203,8 @@
 
 .policy .tab-pane {
   margin: 1.25rem 3rem 2.5rem 2.5rem;
-  border: solid 1px #dee2e6;
-  border-radius: 3px;
+  /*border: solid 1px #dee2e6;*/
+  /*border-radius: 3px;*/
 }
 
 
@@ -213,6 +213,11 @@
   position: absolute;
   top: 1rem;
   right: 1.25rem;
+}
+
+.policy-details-card {
+  border-radius: 4px;
+  border: solid 1px #DCDEE4;
 }
 
 /*.policy-details-card {*/
@@ -241,7 +246,7 @@
   flex-direction: column;
   flex-grow: 1;
 
-  margin-bottom: 1.25rem;
+  /*margin-bottom: 1.25rem;*/
   padding: 1.25rem;
   /*border-bottom: solid 1px #e9ebee;*/
 }
@@ -337,9 +342,12 @@
   position: relative;
   width: 100%;
   padding: 1.25rem;
-  padding-left: 5.25rem;
-  border: solid 1px #DCDEE4;
-  border-radius: 4px;
+  /*padding-left: 5.25rem;*/
+  padding-left: 1.25rem;
+  /*border: solid 1px #DCDEE4;*/
+  /*border-radius: 4px;*/
+  border: none;
+  border-bottom: solid 1px #DCDEE4;;
 }
 
 .policy-history__version {

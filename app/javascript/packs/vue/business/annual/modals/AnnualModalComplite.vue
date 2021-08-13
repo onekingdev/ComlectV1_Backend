@@ -3,14 +3,14 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplie Section' : 'Complie Section'")
+    b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplie Section' : 'Complete Section'")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(v-if="!completedStatus" icon="check-circle-fill" scale="2" variant="success")
-          b-icon.mt-2.ml-3(v-if="completedStatus" icon="exclamation-circle-fill" scale="2" variant="danger")
+          b-icon.mt-1.ml-3(v-if="!completedStatus" icon="check-circle-fill" width="25" height="25" variant="success")
+          b-icon.mt-1.ml-3(v-if="completedStatus" icon="exclamation-circle-fill" width="25" height="25" variant="danger")
         .col
-          p Confirm will make "{{ name }}" section as complite.
-            br
+          p.m-b-10 This will mark the category as complete and your progress will be updated.
+          p.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")

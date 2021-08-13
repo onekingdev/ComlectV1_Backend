@@ -3,13 +3,13 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Delete Annual Review Category")
+    b-modal.fade(:id="modalId" title="Delete Category")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          b-icon.mt-1.ml-3(icon="exclamation-circle-fill" width="25" height="25" variant="danger")
         .col
-          p Removing this category will delete any progress and tasks associated with the annual review.
-            br
+          p.m-b-10 This will remove the category from this internal review and all of its associated content.
+          p.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")

@@ -31,7 +31,7 @@
                 | Policies and Procedures
             li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
               router-link.sidebar-menu__link(:to='`/${userType}/annual_reviews`' active-class="active")
-                | Annual Review
+                | Internal Review
             li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
               router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
                 | Risk Register

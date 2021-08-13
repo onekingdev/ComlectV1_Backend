@@ -929,6 +929,12 @@ input, button, select, optgroup, textarea {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+
+        .policy-details {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
       }
     }
   }
@@ -952,7 +958,7 @@ input, button, select, optgroup, textarea {
   //padding-top: 0;
   //padding-bottom: 1.125rem; //18px
   //padding-bottom: 0.625rem; //10px
-  padding: 1.125rem 0;
+  padding:  1rem 0 .6rem;
   font-weight: $font-weight-regular;
 
   &:hover,
@@ -1598,11 +1604,11 @@ table.table {
 
 .b-icon.bi.status__icon {
   color: $gray-1;
-  font-size: 125%;
+  font-size: 150%;
 }
 .b-icon.bi.done_task{
   color: #1AB27F;
-  font-size: 125%;
+  //font-size: 125%;
 }
 //.b-icon.bi.role-icon {
 //  font-size: 77%;
@@ -1618,6 +1624,12 @@ table.table {
   .role-info__icon {
     font-size: 77%;
   }
+}
+
+.tooltip__icon {
+  margin-left: 0.625rem;
+  font-size: 1.2rem;
+  color: #565759 !important;
 }
 
 .project-table {
@@ -1803,10 +1815,12 @@ table.table {
 /* ---------- BADGE Risks page ---------- */
 .badge-risk {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding-left: 8px;
   font-size: $font-size-12;
-  width: 75px;
+  //width: 75px;
+  width: 83px;
   height: 24px;
 
   &.badge-warning {

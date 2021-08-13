@@ -10,7 +10,7 @@
       b-tab(title="Compliance" active)
         .card-body.white-card-body.card-body_full-height
           PoliciesTable.m-b-20(:policies="filteredUnArchivedListLimited", @searching="searching")
-          b-pagination(v-if="filteredUnArchivedList.length" v-model='currentPage' :total-rows='filteredUnArchivedList.length' :per-page='perPage' aria-controls='PoliciesTable')
+          b-pagination(v-if="!loading && filteredUnArchivedList.length" v-model='currentPage' :total-rows='filteredUnArchivedList.length' :per-page='perPage' aria-controls='PoliciesTable')
       b-tab(title="Archive")
         .card-body.white-card-body.card-body_full-height
           PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
@@ -73,6 +73,9 @@
       //   archivedList: 'policies/policiesListArchived',
       //   unArchivedList: 'policies/policiesListUnArchived',
       // }),
+      loading() {
+        return this.$store.getters.loading;
+      },
       filteredUnArchivedList () {
         return this.unArchivedList.filter(policy => {
             return policy.name?.toLowerCase().includes(this.searchInput.toLowerCase())

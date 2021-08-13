@@ -76,12 +76,12 @@
               DatePicker(v-model="task.end_by")
               Errors(:errors="errors.end_by")
 
-          InputTextarea.m-t-1(v-model="task.description" :rows="taskProp ? '8': '3'" :errors="errors.description") Description
+          InputTextarea.m-t-1(v-model="task.description" :rows="taskProp ? 8 : 3" :errors="errors.description") Description
           .form-text.text-muted Optional
 
         .col-lg-6.pl-2(v-if="taskProp")
           .card-body.white-card-body.messages-border.h-100.p-0
-            b-tabs.special-navs-messages(content-class="m-20" class="p-t-20")
+            b-tabs.special-navs-messages(content-class="m-20" class="p-0")
               b-tab(title="Comments" active)
                 b-row
                   .col.text-center
@@ -226,7 +226,15 @@
       },
       taskId: Number,
       occurenceId: Number,
-      remindAt: String
+      remindAt: String,
+      linkableId: {
+        type: Number,
+        required: false,
+      },
+      linkableType: {
+        type: String,
+        required: false,
+      },
     },
     components: {
       VueEditor,
@@ -375,6 +383,10 @@
       },
       async getData () {
         this.task = { ...this.taskProp }
+        if(this.linkableId || this.linkableType) {
+          this.task.linkable_type = this.linkableType
+          this.task.linkable_id = this.linkableId
+        }
         // this.task.link_to = this.taskProp.linkable_type
         try {
           if(this.taskProp)

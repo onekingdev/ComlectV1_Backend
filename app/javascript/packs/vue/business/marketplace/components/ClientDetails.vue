@@ -1,9 +1,10 @@
 <template lang="pug">
   .card.m-t-1
     .card-header
-      | {{ business.business_name }}
-      br
-      | {{ [business.country, business.city, business.state] | commas }}
+      .d-block
+        | {{ business.business_name }}
+        br
+        | {{ [business.country, business.city, business.state] | commas }}
     .card-body
       dl.row
         dt.col-sm-3 Industry

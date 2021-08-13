@@ -2,26 +2,25 @@
   .policy-details.position-relative
     h3.policy-details__title Risks
     .policy-actions
-      button.btn.btn.btn-default.mr-3 Download
+      //button.btn.btn.btn-default.mr-3 Download
       PolicyRisksModal(:risks="risksComputed" :policyId="policyId" @saved="savedConfirmed")
         button.btn.btn-dark Add Risk
     .policy-details__body
-      Loading
-      table.table(v-if="!loading && policyById.risks && policyById.risks.length")
+      table.table
         thead
           tr
-            th(width="55%") Risk Name
+            th(width="45%") Risk Name
               b-icon.ml-2(icon='chevron-expand')
             th Impact
               b-icon.ml-2(icon='chevron-expand')
             th Likelihood
               b-icon.ml-2(icon='chevron-expand')
-            th Risk level
+            th Risk Level
               b-icon.ml-2(icon='chevron-expand')
-            th.text-right Date created
+            th.text-right Date Created
               b-icon.ml-2(icon='chevron-expand')
             th(width="35px")
-        tbody.text-dark
+        tbody.text-dark(v-if="!loading && policyById.risks && policyById.risks.length")
           tr(v-for="risk in policyById.risks" :key="risk.id")
             td {{ risk.name }}
             td {{ showLevel(risk.impact) }}
@@ -39,10 +38,13 @@
                   PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
                     b-dropdown-item-button Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
+      Loading
       EmptyState(v-if="!loading && policyById.risks && !policyById.risks.length")
 </template>
 
 <script>
+  // @TODO REVIEW STRUCTURE AND REBUILD
+
   import Loading from '@/common/Loading/Loading'
   import PolicyRisksModal from '../Modals/Risks/PolicyRisksModal'
   import EtaggerMixin from '@/mixins/EtaggerMixin'
@@ -111,6 +113,7 @@
           })
       },
       savedConfirmed(value){
+        this.toast('Success', 'The risk has been saved')
         console.log('savedConfirmed value', value)
         //HOOK
         // const index = this.policyById.risks.findIndex(record => record.id === value.id);

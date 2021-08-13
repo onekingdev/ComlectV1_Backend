@@ -140,7 +140,7 @@ export default {
   },
   async mounted () {
     try {
-      await this.getCurrentReviewReview(+this.annualId)
+      await this.getCurrentReviewReview(this.annualId)
     } catch (error) {
       this.toast('Error', error.message, true)
     }
@@ -153,13 +153,13 @@ export default {
     async saveCategory () {
       const reviewCategory = this.currentCategory
       const data = {
-        annualId: +this.annualId,
+        annualId: this.annualId,
         ...reviewCategory
       }
       try {
         await this.updateReviewCategory(data)
         this.toast('Success', "Saved changes to annual review.")
-        await this.getCurrentReviewReview(+this.annualId)
+        await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.toast('Error', error.message, true)
       }
@@ -167,14 +167,14 @@ export default {
     async markComplete () {
       const reviewCategory = this.currentCategory
       const data = {
-        annualId: +this.annualId,
+        annualId: this.annualId,
         ...reviewCategory,
         complete: !reviewCategory.complete,
       }
       try {
         await this.updateReviewCategory(data)
         this.toast('Success', "Saved changes to annual review.")
-        await this.getCurrentReviewReview(+this.annualId)
+        await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.toast('Error', error.message, true)
       }

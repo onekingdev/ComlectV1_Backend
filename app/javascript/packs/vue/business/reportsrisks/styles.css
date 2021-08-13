@@ -3,7 +3,8 @@
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2.25rem;
+  padding-left: 2rem;
   width: 100%;
   height: 100%;
 }
@@ -19,7 +20,7 @@
 .risks-heatmap__likelihood {
   display: block;
   position: absolute;
-  bottom: -1.8rem;
+  bottom: -2.5rem;
   right: 0;
   left: 25%;
   margin: 0 auto;
@@ -39,7 +40,8 @@
   align-items: center;
   font-size: 1.3rem;
   font-weight: bold;
-  width: 10rem; /*160px*/
+  /*width: 10rem; !*160px*!*/
+  width: 25%;
   height: 5rem; /*160px*/
   color: white;
   background-color: lightgray;
@@ -54,7 +56,8 @@
   justify-content: flex-end;
   align-items: center;
   margin-right: .5rem;
-  width: 15%;
+  /*width: 145px;*/
+  width: 16%;
   font-size: 1rem;
 }
 .risks-heatmap__box_level-high {
