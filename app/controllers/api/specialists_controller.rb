@@ -27,6 +27,10 @@ class Api::SpecialistsController < ApiController
     end
   end
 
+  def current
+    respond_with current_specialist, serializer: ::SpecialistSerializer
+  end
+
   private
 
   def convert_sub_industries(ids)

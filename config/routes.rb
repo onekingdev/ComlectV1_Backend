@@ -388,6 +388,7 @@ Rails.application.routes.draw do
     put 'users/confirm_email', to: 'email_confirmation#update'
     get 'users/resend_email', to: 'email_confirmation#resend'
     resources :specialists, only: :create
+    get '/specialists/current' => 'specialists#current'
     resource :specialist, only: %i[update] do
       patch '/' => 'specialists#update', as: :update
     end
