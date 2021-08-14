@@ -1,6 +1,6 @@
 <template lang="pug">
   .card.m-t-1
-    .card-header
+    .card-body
       div.d-flex.align-items-center
         UserAvatar.mr-2(:business="business")
         span.mr-auto

@@ -24,7 +24,7 @@
 <script>
 
 import UserItem from "./UserItem"
-import RoleTypesModalInfo from "../modals/RoleTypesModalInfo";
+import RoleTypesModalInfo from "@/common/Users/modals/RoleTypesModalInfo";
 export default {
   components: {
     RoleTypesModalInfo,

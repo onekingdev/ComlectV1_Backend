@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .card-header
+    .card-body
       h5 {{ project.title }}
       dl.row.m-t-2
         dt.col-sm-3 Location
@@ -17,11 +17,11 @@
         dd.col-sm-9 {{ project.description }}
       p {{ project.role_details }}
       ProjectFigures(:project="project")
-    .card-header
+    .card-body
       h4.m-t-1 Skills
       p
         .badge.badge-default.m-r-1(v-for="skill in project.skills") {{ skill.name }}
-    .card-header
+    .card-body
       h4.m-t-1 Client Details
       ClientDetails(:business="project.business")
 </template>

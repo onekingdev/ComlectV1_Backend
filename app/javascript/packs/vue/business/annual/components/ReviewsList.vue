@@ -47,6 +47,12 @@ export default {
       createReviewCategory: 'annual/createReviewCategory',
       getCurrentReviewReview: 'annual/getCurrentReview'
     }),
+    onCategoryNameChange(e) {
+      if (e.keyCode === 13) {
+        // ENTER KEY CODE
+        this.addCategory ()
+      }
+    },
     async addCategory () {
       if (this.category.name.length === 0) {
         this.category.visible = false
@@ -62,12 +68,15 @@ export default {
         this.category.visible = false
         const response = await this.createReviewCategory(data)
         if (response) {
+          console.log('response1', response)
           this.toast('Success', "New category added")
           await this.getCurrentReviewReview(this.annualId)
           this.category.name = ""
           //window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
-          this.$router.push(`/business/compliance_policies/${response.annual_report_id}/${response.id}`)
+          this.$router.push(`/business/annual_reviews/${response.annual_report_id}/${response.id}`)
         }
+        const data = response.json()
+        console.log('response2 data', data)
       } catch (error) {
         this.toast('Error', error.message, true)
       }

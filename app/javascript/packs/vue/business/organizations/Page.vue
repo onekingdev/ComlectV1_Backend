@@ -63,7 +63,8 @@ export default {
           email: 'email@example.com',
           role: 'admin',
           status: true,
-          state: 'Arizona, USA'
+          state: 'Arizona, USA',
+          start_date: '2021-07-28T15:51:05.892Z',
         },
         {
           id: 2,
@@ -72,16 +73,18 @@ export default {
           email: 'email@example.com',
           role: 'trusted',
           status: true,
-          state: 'California, USA'
+          state: 'California, USA',
+          start_date: '2021-07-28T15:51:05.892Z',
         },
         {
           id: 3,
           first_name: 'Richard',
           last_name: 'Brenson',
           email: 'email@example.com',
-          role: 'trusted',
+          role: 'basic',
           status: false,
-          state: 'New York, USA'
+          state: 'New York, USA',
+          start_date: '2021-07-28T15:51:05.892Z',
         }
       ] ,
       terminatedEmployees: [
@@ -93,8 +96,8 @@ export default {
           role: 'admin',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: true,
           state: 'Arizona, USA'
         },
@@ -106,8 +109,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: true,
           state: 'California, USA'
         },
@@ -119,8 +122,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: false,
           state: 'New York, USA'
         }
@@ -134,8 +137,8 @@ export default {
           role: 'admin',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: true,
           state: 'Arizona, USA'
         },
@@ -147,8 +150,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: true,
           state: 'California, USA'
         },
@@ -160,8 +163,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: false,
           state: 'New York, USA'
         },
@@ -173,8 +176,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: false,
           state: 'New York, USA'
         },
@@ -186,8 +189,8 @@ export default {
           role: 'trusted',
           reason: 'Termination',
           accessPerson: '-',
-          startDate: '2/06/2021',
-          endDate: '2/06/2021',
+          start_date: '2021-07-28T15:51:05.892Z',
+          end_date: '2021-09-28T15:51:05.892Z',
           status: false,
           state: 'New York, USA'
         }

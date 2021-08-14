@@ -67,7 +67,7 @@
                         p ℹ️ Ending this contract will remove you as a collaborator to the project, revoke any permissions granted due to the project, and payout the full contract price.
                         p: b Do you want to continue?
                         .card
-                          .card-header
+                          .card-body
                             .row
                               .col-sm
                                 img.m-r-1.userpic_small(v-if="showingContract.specialist.photo" :src="showingContract.specialist.photo")
@@ -75,7 +75,7 @@
                                 p Specialist
                               .col-sm
                                 span.float-right Outstanding Due <br> {{ 500 | usdWhole }}
-                          .card-header
+                          .card-body
                             p
                               b Project name
                               span.float-right {{ showingContract.title }}
@@ -88,7 +88,7 @@
                             p
                               b Payment Method
                               span.float-right Transfer to Visa
-                          .card-header
+                          .card-body
                             p.text-right.text-muted *Transactional fees lorem ipsum dolor.
                         template(slot="modal-footer")
                           button.btn(@click="$bvModal.hide('EndContractModal')") Cancel

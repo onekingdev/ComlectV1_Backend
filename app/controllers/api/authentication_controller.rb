@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Api::AuthenticationController < ApiController
-  skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :authenticate_user!, only: :create
   skip_before_action :verify_authenticity_token
+  skip_before_action :lock_specialist, only: :destroy
 
   def create
     user = User.find_first_by_auth_conditions(email: params[:user][:email])

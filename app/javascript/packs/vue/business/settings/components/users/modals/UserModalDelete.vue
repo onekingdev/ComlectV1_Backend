@@ -6,17 +6,17 @@
     b-modal.fade(:id="modalId" title="Delete User")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          img.mt-1.ml-3(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p Removing the user will permanently delete them from the system.
-            br
+          p.m-b-10 Removing the user will permanently delete them and their associated records from the system.
+          p.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-danger(@click="submit") Confirm
+        button.btn.btn-dark(@click="submit") Confirm
 </template>
 
 <script>
@@ -41,7 +41,6 @@
       submit(e) {
         e.preventDefault();
         this.errors = [];
-
         this.$emit('deleteConfirmed')
         this.$bvModal.hide(this.modalId)
       },

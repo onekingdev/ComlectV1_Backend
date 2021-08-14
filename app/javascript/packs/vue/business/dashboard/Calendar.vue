@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .card-header.d-flex.justify-content-between.align-items-center.p-t-0
+    .card-header
       div(style="vertical-align: middle")
         h3.calendar__title.m-y-0
           TaskFormModal(id="CalendarTaskFormModal" v-bind="nowEditingTask" @saved="$emit('saved')")

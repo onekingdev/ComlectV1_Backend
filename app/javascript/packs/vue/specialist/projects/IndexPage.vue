@@ -3,7 +3,7 @@
     .row
       .col-md-2.px-0.m-t-2
         .card#sidebarMenu_alt
-          .card-header(style='border-bottom: 0px;')
+          .card-body(style='border-bottom: 0px;')
             b Filters
           .card-body
             h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_pricing_type)
@@ -32,10 +32,10 @@
 
       .col-md-10.m-t-2
         .card
-          .card-header
+          .card-body
             .col-md-12
               h3 Browse Projects
-          .card-header
+          .card-body
             .col-md-12
               .row.py-2
                 .col-sm-10
@@ -44,7 +44,7 @@
                 .col-sm-2
                   b-form-group(label="Sort By" label-for="sort-input")
                     b-form-select#sort-input(v-model="filter.sort_by" :options="sortByOptions")
-          .card-header(v-for="project in projects" :key="project.uid")
+          .card-body(v-for="project in projects" :key="project.uid")
             .col-md-12
               h3.m-b-1
                 a(@click="openDetails(project.id)") {{project.title}}

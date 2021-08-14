@@ -1,29 +1,24 @@
 <template lang="pug">
   tr
     td
-      .d-flex
-        UserAvatar(:user="item")
-        .d-block.m-l-2
-          p.mb-1: b {{ item.first_name + ' ' +  item.last_name }}
-          p.mb-0 {{ item.email }}
-    td
       .d-flex.align-items-center
-        ion-icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
-        b-icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
-        ion-icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
-        span.ml-3 {{ item.role | capitalize }}
+        UserAvatar.avatar.m-r-1(:user="item")
+        .d-block
+          p.name {{ item.first_name + ' ' +  item.last_name }}
+          p.email {{ item.email }}
+    td
+      RoleIcon(:role="item.role")
     td(v-if="disabled") {{ item.reason }}
     td
-      .d-flex.align-items-center
-        b-icon(v-if="item.access" icon="check-circle-fill" scale="2" variant="success")
-        div(v-if="!item.access") -
-    td.text-right {{ item.created_at | dateToHuman }}
-    td.text-right(v-if="disabled") {{ item.disabled_at | dateToHuman }}
+      b-icon.status__icon.m-r-1(font-scale="1" :icon="item.status ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.status }")
+    td.text-right {{ item.created_at | asDate }}
+    td.text-right(v-if="disabled") {{ item.disabled_at | asDate }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
-        b-dropdown-item Edit
+        UserModalAddEdit(:user="item",  :inline="false")
+          b-dropdown-item Edit
         UserModalArchive(:archiveStatus="item.status" :inline="false")
           b-dropdown-item {{ item.status ? 'Archive' : 'Unarchive' }}
         UserModalDelete(v-if="!item.status" :inline="false")
@@ -32,9 +27,10 @@
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
-  import { DateTime } from 'luxon'
   import UserModalArchive from "../modals/UserModalArchive";
   import UserModalDelete from "../modals/UserModalDelete";
+  import UserModalAddEdit from "../modals/UserModalAddEdit";
+  import RoleIcon from "@/common/Users/components/RoleIcon";
 
   export default {
     name: "userItem",
@@ -50,6 +46,8 @@
       }
     },
     components: {
+      RoleIcon,
+      UserModalAddEdit,
       UserModalDelete,
       UserModalArchive,
       UserAvatar,
@@ -58,7 +56,6 @@
 
     },
     methods: {
-
       deleteUser(userId){
         this.$store.dispatch('users/deleteUser', { id: userId })
           .then(response => this.toast('Success', `The user has been deleted! ${response.id}`))
@@ -66,16 +63,6 @@
       }
     },
     filters: {
-      dateToHuman(value) {
-        if (!value) return ''
-        const date = DateTime.fromJSDate(new Date(value))
-        if (!date.invalid) {
-          return date.toFormat('MM/dd/yyyy')
-        }
-        if (date.invalid) {
-          return value
-        }
-      },
       capitalize: function (value) {
         if (!value) return ''
         value = value.toString()

@@ -40,7 +40,7 @@ export default {
   height: 3em;
   width: 3em;
   background: #E2E8F0;
-  line-height: 2.5;
+  line-height: 3;
   color: #303132;
   text-align: center;
   font-weight: 600;

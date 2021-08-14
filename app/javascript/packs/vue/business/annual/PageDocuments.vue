@@ -2,22 +2,15 @@
   .container
     .row.p-x-1
       .col
-        .card-body.white-card-body.reviews__card.px-5
+        .card-body.white-card-body.reviews__card
           .reviews__topiclist
-            .reviews__card--internal.p-y-1
-              .row.m-b-2
-                .col-md-12.d-flex.justify-content-between
-                  h2 Documents
-                  div
-                    a.btn.btn-default Download
-                    a.btn.m-l-1.btn-dark Create Documents
-              .row
-                .col
-                  table.table.task_table
-                    tbody
-                      tr
-                        td.text-center
-                          h3 No documents
+            .reviews__card--header.p-b-20
+              h2 Documents
+              div
+                a.btn.btn-default Download
+                a.btn.m-l-1.btn-dark Create Documents
+            .reviews__card--internal.borderless
+              EmptyState
 
 </template>
 

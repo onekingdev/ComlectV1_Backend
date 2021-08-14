@@ -167,7 +167,8 @@
             console.log(response)
             this.toast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
             setTimeout(() => {
-              window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+              //window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
+              this.$router.push(`/business/compliance_policies/${response.id}`)
             }, 2000)
           })
           .catch((err) => {
@@ -186,7 +187,8 @@
           })
       },
       closeAndExit () {
-        window.location.href = `${window.location.origin}/business/compliance_policies`
+        //window.location.href = `${window.location.origin}/business/compliance_policies`
+        this.$router.push(`/business/compliance_policies`)
       },
       archivePolicy(policyId, archiveStatus) {
         this.$store

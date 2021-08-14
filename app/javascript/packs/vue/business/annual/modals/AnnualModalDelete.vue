@@ -18,6 +18,7 @@
       template(slot="modal-footer")
         button.btn.btn-link.mr-2(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-dark(@click="submit") Confirm
+
 </template>
 
 <script>

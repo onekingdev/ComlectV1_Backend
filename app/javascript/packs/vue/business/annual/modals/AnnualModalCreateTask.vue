@@ -257,12 +257,12 @@
     },
     mounted() {
       this.$store.dispatch("getPolicies")
-        .then((response) => console.log('response mounted', response))
-        .catch((err) => console.error(err));
+        // .then((response) => console.log('response mounted', response))
+        // .catch((err) => console.error(err));
 
       this.$store.dispatch('annual/getReviews')
-        .then((response) => console.log('response mounted', response))
-        .catch((err) => console.error(err));
+        // .then((response) => console.log('response mounted', response))
+        // .catch((err) => console.error(err));
 
       fetch('/api/business/local_projects/', {
         method: 'GET',
@@ -270,7 +270,7 @@
         // body: JSON.stringify(this.task)
       }).then(response => response.json())
         .then((response) => {
-          console.log('response mounted', response)
+          // console.log('response mounted', response)
           this.projects = response
         })
         .catch((err) => console.error(err));

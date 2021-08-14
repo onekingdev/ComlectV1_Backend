@@ -2,9 +2,9 @@
   .page
     .page-header
       h2.page-header__title {{ pageTitle }}
-    .card-body.white-card-body.card-body_full-height
+    .card-body.white-card-body.card-body_full-height.p-x-40
       .row
-        .col-lg-7.col-sm-12.pl-0.mb-3.mb-lg-0
+        .col-lg-7.col-sm-12.mb-3.mb-lg-0
           .card.h-100
             RegulatoryExamsTable(:exams="exams")
         .col-lg-5.col-sm-12.pl-0

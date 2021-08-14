@@ -1,3 +1,4 @@
+// @TODO PREPARE LATER FOR INCLUDING
 // Font weights:
 
 $hairline-weight: 0;
@@ -12,24 +13,27 @@ $black-weight: 800;
 $heavy-weight: 900;
 
 @font-face {
-  font-family: 'Canela';
-  src: url('/fonts/Canela-Bold.otf') format('opentype');
+  font-family: 'PublicSans';
+  src: url('/fonts/PublicSans-Bold.otf') format('opentype');
   font-weight: $bold-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Canela';
-  src: url('/fonts/Canela-Medium.otf') format('opentype');
+  font-family: 'PublicSans';
+  src: url('/fonts/PublicSans-Medium.otf') format('opentype');
   font-weight: $medium-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Canela';
-  src: url('/fonts/Canela-MediumItalic.otf') format('opentype');
+  font-family: 'PublicSans';
+  src: url('/fonts/PublicSans-MediumItalic.otf') format('opentype');
   font-weight: $medium-weight;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -37,6 +41,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-Bold.ttf') format('truetype');
   font-weight: $bold-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -44,6 +49,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-BoldItalic.ttf') format('truetype');
   font-weight: $bold-weight;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -51,6 +57,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-ExtraBold.ttf') format('truetype');
   font-weight: $extrabold-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -58,6 +65,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-ExtraBoldItalic.ttf') format('truetype');
   font-weight: $extrabold-weight;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -65,6 +73,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-Light.ttf') format('truetype');
   font-weight: $light-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -72,6 +81,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-LightItalic.ttf') format('truetype');
   font-weight: $light-weight;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -79,6 +89,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-Regular.ttf') format('truetype');
   font-weight: $regular-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -86,6 +97,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-RegularItalic.ttf') format('truetype');
   font-weight: $regular-weight;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -93,6 +105,7 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-SemiBold.ttf') format('truetype');
   font-weight: $medium-weight;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -100,4 +113,5 @@ $heavy-weight: 900;
   src: url('/fonts/OpenSans-SemiBoldItalic.ttf') format('truetype');
   font-weight: $medium-weight;
   font-style: italic;
+  font-display: swap;
 }

@@ -4,7 +4,7 @@
       .card-header
         .col-md-12
           h3 Create Proposal
-      .card-header
+      .card-body
         Get(:project='`/api/specialist/projects/${projectId}`' :callback="projectLoaded"): template(v-slot="{project}"): div.row.pl-3
           .col-md-6
             h3 Terms

@@ -104,7 +104,7 @@
         this.$store
           .dispatch('updateRisk', {...dataToSend})
           .then(response => {
-            console.log('response', response)
+            // console.log('response', response)
             this.toast('Success', 'Changes saved')
           })
           .catch(error => {
@@ -138,7 +138,7 @@
       this.$store
         .dispatch('getRisks')
         .then(response => {
-          console.log('response', response)
+          // console.log('response', response)
           // this.toast('Success', `Policy successfully deleted!`)
         })
         .catch(error => {

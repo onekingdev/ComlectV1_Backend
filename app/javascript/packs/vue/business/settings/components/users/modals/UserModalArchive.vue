@@ -6,25 +6,26 @@
     b-modal.fade(:id="modalId" :title="archiveStatus ? 'Disable User' : 'Undisable User'")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-triangle-fill" scale="2" variant="warning")
+          b-icon.mt-2.ml-3(icon="exclamation-triangle-fill" width="25" height="25" variant="warning")
         .col
-          p Archiving the user will remove any permissions and access granted to them.
-          p Please select a reason for disabling the user.
-            br
+          p.m-b-10 Archiving the user will remove any permissions and access granted to them.
+          p.m-b-10 Please select a reason for disabling the user.
+          p.mb-0
             b Do you want to continue?
 
-      .row
-        .col-12.m-b-1
+      .row.m-t-1
+        .col-12
           label.form-label Reason
           ComboBox(v-model="user.reason" :options="reasonOptions" placeholder="Select a reason" @input="reasonChange")
           .invalid-feedback.d-block(v-if="errors.reason") {{ errors.reason }}
-          //Errors(:errors="errors.reason")
-      .row(v-if="showTextArea")
-        .col-12.m-b-1
-          label.m-t-1.form-label Additional Information
+          Errors(:errors="errors.reason")
+      .row.m-t-1(v-if="showTextArea")
+        .col-12
+          label.form-label Additional Information
           textarea.form-control(v-model="user.description" rows=3)
           .invalid-feedback.d-block(v-if="errors.description") {{ errors.description }}
           .form-text.text-muted Optional
+          Errors(:errors="errors.description")
 
       template(slot="modal-footer")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel

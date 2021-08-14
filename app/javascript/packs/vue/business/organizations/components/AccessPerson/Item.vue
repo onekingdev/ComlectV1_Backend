@@ -2,38 +2,38 @@
   tr
     td
       .d-flex.align-items-center
-        UserAvatar.avatar(:user="item" :sm="true" :bgLight="true")
+        UserAvatar.avatar.m-r-1(:user="item")
         .d-block
           p.name {{ item.first_name + ' ' +  item.last_name }}
           p.email {{ item.email }}
     td
-      .role-info
-        ion-icon.role-info__icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
-        b-icon.role-info__icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
-        ion-icon.role-info__icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
-        span.ml-3 {{ item.role | capitalize }}
+      RoleIcon(:role="item.role")
     td
       b-icon.status__icon.m-r-1(font-scale="1" :icon="item.status ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.status }")
-      //b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status ? 'Active' : 'Inactive' }}
-    td 1/20/2017
-    td.text-right
+    td {{ item.start_date | asDate }}
+    td
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
-        EditRoleModal(:specialist="item",  :inline="false")
+        UserModalAddEdit(:user="item",  :inline="false")
           b-dropdown-item Edit
-        b-dropdown-item Archive
+        UserModalArchive(:user="item",  :inline="false")
+          b-dropdown-item Archive
 </template>
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
-  import EditRoleModal from "./modals/RolesModalEdit";
+  import UserModalAddEdit from "../../../settings/components/users/modals/UserModalAddEdit";
+  import UserModalArchive from "../../../../specialist/settings/components/users/modals/UserModalArchive";
+  import RoleIcon from "@/common/Users/components/RoleIcon";
 
   export default {
     name: "roleItem",
     props: ['item'],
     components: {
-      EditRoleModal,
+      RoleIcon,
+      UserModalArchive,
+      UserModalAddEdit,
       UserAvatar,
     },
     computed: {
@@ -46,13 +46,6 @@
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
       }
     },
-    filters: {
-      capitalize: function (value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.charAt(0).toUpperCase() + value.slice(1)
-      }
-    }
   }
 </script>
 

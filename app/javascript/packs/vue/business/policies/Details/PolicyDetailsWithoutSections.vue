@@ -20,11 +20,11 @@
               button.btn.btn-default.mr-3(@click="download") Download
               PoliciesModalPublish(@publishConfirmed="publishPolicy")
                 button.btn.btn-dark.mr-3 Publish
-              button.btn.btn__close.mr-3(@click="closeAndExit")
+              button.btn.btn__close(@click="closeAndExit")
                 b-icon(icon='x')
           b-tabs.policy-tabs(content-class="mt-0")
             template(#tabs-end)
-              b-dropdown.ml-auto.my-auto.mr-5.actions(text='Actions', variant="default", right)
+              b-dropdown.actions(text='Actions', variant="default", right)
                 template(#button-content)
                   | Actions
                   b-icon.m-l-1(icon="chevron-down" font-scale="1")

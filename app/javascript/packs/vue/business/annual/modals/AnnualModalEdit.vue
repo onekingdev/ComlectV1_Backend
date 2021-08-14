@@ -3,14 +3,14 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Annual Review")
-      b-row.m-b-2
+    b-modal.fade(:id="modalId" title="Edit Internal Review")
+      b-row
         .col
           label.form-label New review name
           input.form-control(v-model="review.name" type="text" placeholder="Enter the name of your review" @keyup.enter="submit" ref="input")
           Errors(:errors="errors.name")
 
-      b-row.m-b-2
+      b-row.m-t-1
         .col-6
           label.form-label Start Date
           DatePicker(v-model="review.review_start")
@@ -104,6 +104,16 @@
         }
       },
     },
+    watch: {
+      'annual_review.review_start': {
+        handler: function(value, oldVal) {
+          const start = DateTime.fromSQL(value), end = DateTime.fromSQL(this.annual_review.review_end)
+          if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
+            this.annual_review.review_end = value
+          }
+        }
+      }
+    }
 
   }
 </script>

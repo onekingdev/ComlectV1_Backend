@@ -22,7 +22,7 @@
                     .row.mb-2(v-for="(option, i) in notificationsTasksOptions" :key="'tasks-'+i")
                       .col-12
                         .d-flex.justify-content-between
-                          .custom-checkbox.b-custom-control-lg.pl-0
+                          .custom-checkbox.pl-0
                             label {{option.label}}
                           .d-flex.ml-auto
                             b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")
@@ -34,7 +34,7 @@
                     .row.mb-2(v-for="(option, i) in notificationsProjectsOptions" :key="'projects-'+i")
                       .col-12
                         .d-flex.justify-content-between
-                          .custom-checkbox.b-custom-control-lg.pl-0
+                          .custom-checkbox.pl-0
                             label {{option.label}}
                           .d-flex.ml-auto
                             b-form-checkbox.mr-5(type="checkbox" v-model="checkedApps" :value="option.value" @change="onChange('in_app_notifications', option.value)")

@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import RoleTypesModalInfo from "./RoleTypesModalInfo";
+  import RoleTypesModalInfo from "@/common/Users/modals/RoleTypesModalInfo";
   import Notifications from "@/common/Notifications/Notifications";
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   const toOption = id => ({ id, label: id })

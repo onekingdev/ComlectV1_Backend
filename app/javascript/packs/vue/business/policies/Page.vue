@@ -107,7 +107,7 @@
       this.$store
         .dispatch("getPolicies")
         .then((response) => {
-          console.log('response mounted', response);
+          // console.log('response mounted', response);
         })
         .catch((err) => {
           console.error(err);

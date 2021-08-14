@@ -18,7 +18,7 @@
 <script>
 
 import RoleItem from "./RoleItem"
-import RoleTypesModalInfo from "../../users/modals/RoleTypesModalInfo";
+import RoleTypesModalInfo from "@/common/Users/modals/RoleTypesModalInfo";
 export default {
   components: {
     RoleTypesModalInfo,

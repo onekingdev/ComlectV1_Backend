@@ -5,18 +5,18 @@
 
     b-modal.fade(:id="modalId" title="New Review")
       .row(v-if="reviewsOptions && reviewsOptions.length")
-        .col-12.mb-1
+        .col-12
           label.form-label Template
           b-form-select(v-model="reviewSelected" :options="reviewsOptions")
-      .row
+      .row.m-t-1
         .col-12.mb-1
           label.form-label Name
           input.form-control(v-model="annual_review.name" type="text" placeholder="Enter the name of your review" ref="input")
-      .row
-        .col-6.mb-1
+      .row.m-t-1
+        .col-6
           label.form-label Start Date
           DatePicker(v-model="annual_review.review_start" :options="datepickerOptions")
-        .col-6.mb-1
+        .col-6
           label.form-label Due Date
           DatePicker(v-model="annual_review.review_end" :options="datepickerOptions")
 

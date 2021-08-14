@@ -6,10 +6,10 @@
         .d-block.m-l-2
           p.mt-2.mb-0: b {{ item.first_name + ' ' +  item.last_name }}
     td
-      .d-flex.align-items-center
-        ion-icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
-        b-icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
-        ion-icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
+      .role-info
+        ion-icon.role-info__icon.black(v-if="item.role === 'admin'" name="people-outline" size="small")
+        b-icon.role-info__icon(v-if="item.role === 'trusted'" icon="check-square-fill" scale="2" variant="success")
+        ion-icon.role-info__icon.grey(v-if="item.role === 'basic'" name="person-circle-outline" size="small")
         span.ml-3 {{ item.role | capitalize }}
     td
       b-badge.status(:variant="item.status ? 'success' : 'light'") {{ item.status ? 'Active' : 'Inactive' }}
