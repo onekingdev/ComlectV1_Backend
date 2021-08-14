@@ -1,0 +1,8 @@
+<%=
+response.content_type = 'application/octet-stream'
+CSV.generate(:col_sep => ";") do |csv|
+  @csv_a.each do |csv_line|
+    csv << csv_line
+  end
+end .html_safe
+%>
