@@ -57,7 +57,11 @@ class ApplicationController < ActionController::Base
     return if params['controller'] == 'api/static_collection'
     return if params['controller'] == 'specialists'
 
-    redirect_to new_specialist_path
+    if request.method == 'DELETE'
+      redirect_to sign_out_api_users_path
+    else
+      redirect_to new_specialist_path
+    end
   end
 
   def storable_location?
