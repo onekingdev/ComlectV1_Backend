@@ -24,16 +24,27 @@
 .exams__text-body {
   width: calc(100% - 3rem);
   border: 1px solid #dee2e6;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 .exams__card--internal {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border: solid 1px #dcdee4;
-  border-radius: 5px;
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+  border: solid 1px #DCDEE4;
+  border-radius: 4px;
 }
 
 .completed {
   background-color: #f3f6f9;
+}
+
+.exams__topic-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }

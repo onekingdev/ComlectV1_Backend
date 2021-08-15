@@ -854,6 +854,10 @@ input, button, select, optgroup, textarea {
   align-items: center;
   padding: 2.5rem 2.5rem 1.25rem 2.5rem; // 40 40 20 40
 
+  //@include media-breakpoint-down(lg) {
+  //  flex-direction: column;
+  //}
+
   .separator {
     //color: #ffc107;
     color: $yellow;
@@ -876,12 +880,29 @@ input, button, select, optgroup, textarea {
     font-size: $font-size-16;
   }
 
+  &__title,
+  &__title h2,
+  &__subtitle,
+  &__breadcrumbs {
+
+    width: 100%;
+    max-width: 450px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     //margin-right: 2.5rem; // 40px
     min-width: 410px;
     text-align: right;
 
     @include media-breakpoint-down(lg) {
+      //justify-content: center;
+      //margin-top: 1.25rem;
       min-width: 250px;
     }
   }
@@ -1004,11 +1025,20 @@ input, button, select, optgroup, textarea {
 
 /* ---------- BUTTONS ---------- */
 .btn {
+  @include font-bold-14;
   text-transform: capitalize;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
 }
 
-a.btn,
-.btn:not(.dropdown-toggle) {
+//.btn:not(.dropdown-toggle) {
+a.btn {
   padding: 0.5625rem 0.875rem; // 9 14px
   //height: 2.1875rem; //35px
   font-size: 0.875rem; //14px
@@ -1065,6 +1095,22 @@ a.btn,
     background-color: $gray-hover !important;
   }
 }
+
+// RECHECK .btn-secondary
+//.btn-secondary:not(:disabled):not(.disabled):active,
+//.btn-secondary.active:not(:disabled):not(.disabled), .show > .btn-secondary.dropdown-toggle,
+//.input-group > .input-group-append > .btn-group > .btn,
+//.input-group > .input-group-prepend:not(:first-child) > .btn-group > .btn,
+//.input-group > .input-group-prepend:first-child > .btn-group:not(:first-child) > .btn {
+//  border-left: none;
+//
+//  &:hover,
+//  &:active,
+//  &:focus {
+//    background-color: $white;
+//    border-color: $gray-1;
+//  }
+//}
 
 .btn.btn-default {
 
@@ -1123,15 +1169,19 @@ a.btn,
 }
 
 .btn-outline-primary {
-  color: #303132;
-  border-color: #303132;
-  font-weight: bold;
+  color: $black;
+  border-color: $black;
+  font-weight: $font-weight-bold;
 }
 .btn-outline-primary:hover:not(:disabled):not(.disabled),
 .btn-outline-primary.active:not(:disabled):not(.disabled) {
-  color: #fff;
-  background-color: #303132;
-  border-color: #303132;
+  color: $white;
+  background-color: $black;
+  border-color: $black;
+}
+
+ion-icon.email {
+  font-size: 64px;
 }
 
 .btn.link,
@@ -1156,26 +1206,6 @@ a.btn,
   font-weight: 400;
 }
 
-/* ---------- Buttons ---------- */
-
-/*a.btn,*/
-/*button.btn {*/
-/*padding: .5rem 1.2rem;*/
-/*font-weight: $font-weight-bold;*/
-/*transition: all 200ms ease-in;*/
-/*}*/
-/*a.btn {*/
-/*padding: .6rem 1.2rem;*/
-/*}*/
-/*a.btn:hover,*/
-/*a.btn:active,*/
-/*button.btn:hover,*/
-/*button.btn:active {*/
-/*opacity: .6;*/
-/*transform: translateY(3px);*/
-/*box-shadow: 0 3px rgba(255, 193, 7, 1)*/
-/*}*/
-
 .btn.btn__menu,
 .btn.btn__close {
   padding: 0;
@@ -1183,26 +1213,48 @@ a.btn,
   font-weight: $font-weight-bold;
 }
 
-/*.policy-actions .dropdown-item,*/
-/*.delete button,*/
-/*.delete button{*/
-/*transition: all 200ms ease-in;*/
-/*}*/
+.custom-file-label {
+  margin-left: .6rem;
 
-/*.delete button:hover,*/
-/*.delete button:active{*/
-/*background-color: rgba(255, 0, 0, .2);*/
-/*}*/
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+
+    &::after {
+      background-color: $gray-hover !important;
+    }
+  }
+}
+
+.custom-file-label::after {
+  color: $black;
+  background-color: $white;
+  font-weight: $font-weight-bold;
+  cursor: pointer;
+  transition: all 200ms ease-in;
+}
+
+/* ---------- BUTTONS END ---------- */
 
 
 /* ---------- DROPDOWNS ---------- */
 .dropdown-toggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: $font-size-14;
   color: $primary-dark;
   background-color: $white;
   border-color: $gray-1;
   font-weight: 400;
   outline: 0 !important;
   box-shadow: none !important;
+
+  &::after {
+    display: none;
+  }
 
   &:hover,
   &:active,
@@ -1211,12 +1263,35 @@ a.btn,
     outline: 0 !important;
     box-shadow: none !important;
   }
+
+
+  svg {
+    fill: #000;
+    transition: all 200ms ease-in;
+  }
+
+  &.active svg {
+    transform: rotate(90deg);
+  }
+
+  &.btn-none {
+    border-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      color: $black;
+      background-color: $gray-background;
+      border-color: $gray-1;
+    }
+  }
 }
-.open > .btn.dropdown-toggle.btn-default {
-  color: $primary-dark;
-  background-color: $gray-background;
-  border-color: $gray-1;
-}
+//.open > .btn.dropdown-toggle.btn-default {
+//  color: $primary-dark;
+//  background-color: $gray-background;
+//  border-color: $gray-1;
+//}
 
 .actions {
   position: relative;
@@ -1350,38 +1425,6 @@ a.btn,
   background-color: $blue-light;
 }
 
-.dropdown-toggle {
-  display: flex;
-  align-items: center;
-
-  font-size: $font-size-14;
-}
-
-.dropdown-toggle::after {
-  display: none;
-}
-
-.dropdown-toggle svg {
-  fill: #000;
-  transition: all 200ms ease-in;
-}
-
-.dropdown-toggle.active svg {
-  transform: rotate(90deg);
-}
-
-.btn.dropdown-toggle.btn-none {
-  border-color: transparent;
-
-  &:hover,
-  &:focus,
-  &:active,
-  &.active {
-    color: $black;
-    background-color: $gray-background;
-    border-color: $gray-1;
-  }
-}
 
 /* ---------- LINKS ---------- */
 a,
@@ -1426,7 +1469,7 @@ table.table {
       text-overflow: ellipsis;
     }
 
-    .btn.dropdown-toggle {
+    .dropdown-toggle {
       padding-top: 0;
       padding-bottom: 0;
     }
@@ -1467,7 +1510,7 @@ table.table {
         margin-right: .2em;
       }
 
-      .btn.dropdown-toggle {
+      .dropdown-toggle {
         padding: 0;
       }
 
@@ -1715,6 +1758,10 @@ table.table {
   }
 }
 
+.table tbody + tbody {
+  border-top: none;
+}
+
 /* ---------- Additional style change later for better solution ---------- */
 .truncate {
   width: 100%;
@@ -1869,6 +1916,10 @@ table.table {
       color: $white;
     }
   }
+}
+
+.exam .badge {
+  padding: 5px 15px;
 }
 
 
@@ -3079,21 +3130,6 @@ select.custom-select {
   color: $black !important;
 }
 
-// RECHECK .btn-secondary
-.btn-secondary:not(:disabled):not(.disabled):active,
-.btn-secondary.active:not(:disabled):not(.disabled), .show > .btn-secondary.dropdown-toggle,
-.input-group > .input-group-append > .btn-group > .btn,
-.input-group > .input-group-prepend:not(:first-child) > .btn-group > .btn,
-.input-group > .input-group-prepend:first-child > .btn-group:not(:first-child) > .btn {
-  border-left: none;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: $white;
-    border-color: $gray-1;
-  }
-}
 
 // ALERTS
 .alert {
@@ -3154,6 +3190,11 @@ select.custom-select {
 
 .modal-title {
   text-transform: capitalize;
+
+  max-width: 450px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .modal-header .close {
   font-size: 1.75rem;
@@ -3162,6 +3203,16 @@ select.custom-select {
 
 .modal-body {
   padding: 1.5625rem 1.25rem;
+
+  .b-icon.bi.modal-body__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  p {
+    @include font-regular-14;
+    color: $black;
+  }
 }
 
 /* ---------- RADIO BUTTONS---------- */

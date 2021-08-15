@@ -97,9 +97,6 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       resetForm() {
         this.exam = {
           email: '',
@@ -116,7 +113,7 @@
         e.preventDefault();
 
         if (!this.exam.email) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.toast('Error', `Please check all fields!`, true)
           return
         }
 
@@ -130,13 +127,13 @@
             .then(response => {
               if(response.errors) {
                 for (const [key, value] of Object.entries(response.errors)) {
-                  this.toast('Error', `${key}: ${value}`)
+                  this.toast('Error', `${key}: ${value}`, true)
                   this.errors = Object.assign(this.errors, { [key]: value })
                 }
               }
 
               if(!response.errors) {
-                this.makeToast('Success', `Invite successfully sended!`)
+                this.toast('Success', `Invite successfully sended!`)
                 // this.$emit('saved')
                 // this.$bvModal.hide(this.modalId)
                 // this.resetForm()
@@ -145,7 +142,7 @@
             .catch(error => console.error(error))
 
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       async unIinvite(id, email) {
@@ -161,13 +158,13 @@
             .then(response => {
               if(response.errors) {
                 for (const [key, value] of Object.entries(response.errors)) {
-                  this.toast('Error', `${key}: ${value}`)
+                  this.toast('Error', `${key}: ${value}`, true)
                   this.errors = Object.assign(this.errors, { [key]: value })
                 }
               }
 
               if(!response.errors) {
-                this.makeToast('Success', `Invite successfully removed!`)
+                this.toast('Success', `Invite successfully removed!`)
                 // this.$emit('saved')
                 // this.$bvModal.hide(this.modalId)
                 // this.resetForm()
@@ -176,7 +173,7 @@
             .catch(error => console.error(error))
 
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       copyTestingCode () {
@@ -187,9 +184,9 @@
         try {
           var successful = document.execCommand('copy');
           var msg = successful ? 'successful' : 'unsuccessful';
-          this.makeToast('Success', `Sharing link was copied ${msg}`)
+          this.toast('Success', `Sharing link was copied ${msg}`)
         } catch (err) {
-          this.makeToast('Error', `Oops, unable to copy`)
+          this.toast('Error', `Oops, unable to copy`, true)
         }
 
         /* unselect the range */

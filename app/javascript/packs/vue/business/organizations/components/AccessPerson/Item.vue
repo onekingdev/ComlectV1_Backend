@@ -17,14 +17,14 @@
           b-icon(icon="three-dots")
         UserModalAddEdit(:user="item",  :inline="false")
           b-dropdown-item Edit
-        UserModalArchive(:user="item",  :inline="false")
-          b-dropdown-item Archive
+        UserModalArchive(:archiveStatus="item.status" :inline="false")
+          b-dropdown-item {{ item.status ? 'Unarchive' : 'Archive' }}
 </template>
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
-  import UserModalAddEdit from "../../../settings/components/users/modals/UserModalAddEdit";
-  import UserModalArchive from "../../../../specialist/settings/components/users/modals/UserModalArchive";
+  import UserModalAddEdit from "@/common/Users/modals/UserModalAddEdit";
+  import UserModalArchive from "@/common/Users/modals/UserModalArchive";
   import RoleIcon from "@/common/Users/components/RoleIcon";
 
   export default {

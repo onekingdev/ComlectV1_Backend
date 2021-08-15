@@ -26,7 +26,7 @@
   padding: 0.625rem;
   font-size: 0.875rem;
   vertical-align: middle;
-  border-bottom: solid 1px #ced4da;
+  border-bottom: solid 1px #DCDEE4;
 }
 
 .table__cell .table__cell {
@@ -193,12 +193,18 @@
 /*}*/
 
 .policy__main-title {
-  max-width: 200px;
+  max-width: 400px;
   font-size: 1.5rem;
   color: #303132;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (max-width: 1250px) {
+  .policy__main-title {
+    max-width: 200px;
+  }
 }
 
 .policy .tab-pane {

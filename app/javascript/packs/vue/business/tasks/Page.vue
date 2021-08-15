@@ -45,7 +45,7 @@
         //      b-badge.m-r-1(variant="light") 0
         //      h3 Compilance Program
         .row
-          .col
+          .col(:class="shortTable ? 'p-0' : ''")
             Loading(:absolute="true")
             TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
             b-pagination(v-if="!shortTable && sortedTasks.length > perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')

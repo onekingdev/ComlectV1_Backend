@@ -408,7 +408,9 @@
         const data = {
           id: task.id,
           message: {
-            message: this.task.comment
+            message: {
+              message: this.task.comment
+            }
           }
         }
 

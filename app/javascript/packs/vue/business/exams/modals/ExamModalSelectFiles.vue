@@ -113,13 +113,13 @@
 
                 sendFIle
                   .then(response => this.toast('Success', `${response.name} successful uploaded!`))
-                  .catch(error => this.toast('Error', error.message))
+                  .catch(error => this.toast('Error', error.message, true))
               })
               .catch(error => console.error(error))
           }
 
         } catch (error) {
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
         } finally {
           this.filesCollection = []
           this.$emit('saved')
@@ -134,7 +134,7 @@
               this.$store.commit('filefolders/SET_CUREENT_FOLDER_NAME', null)
             })
         } catch (error) {
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       async getData () {
@@ -151,7 +151,7 @@
           // }
         } catch (error) {
           console.error(error)
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       collecingFiles (form) {

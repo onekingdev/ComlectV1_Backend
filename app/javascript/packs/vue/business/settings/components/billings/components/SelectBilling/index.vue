@@ -106,7 +106,7 @@
                         b-form-group
                           .row
                             .col-12.text-center
-                              button.btn.link  Resend code
+                              button.btn.btn-link  Resend code
           #step2.form(v-if='!loading'  :class="step3 ? 'd-block' : 'd-none'")
             div.d-flex.justify-content-between
               .text-left
@@ -406,23 +406,6 @@
     margin-bottom: 0;
     font-size: 1.2rem;
     line-height: 14px;
-  }
-
-  /*BUTTONS*/
-  .btn-outline-primary {
-    color: #303132;
-    border-color: #303132;
-    font-weight: bold;
-  }
-  .btn-outline-primary:hover:not(:disabled):not(.disabled),
-  .btn-outline-primary.active:not(:disabled):not(.disabled) {
-    color: #fff;
-    background-color: #303132;
-    border-color: #303132;
-  }
-
-  ion-icon.email {
-    font-size: 64px;
   }
 </style>
 

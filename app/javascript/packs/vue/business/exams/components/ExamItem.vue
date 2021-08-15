@@ -2,13 +2,12 @@
   tr
     td
       router-link.link(:to='`/business/exam_management/${item.id}`') {{ item.name }}
-      // a.link(:href="`/business/exam_management/${item.id}`") {{ item.name }}
     td
-      b-badge(:variant="item.complete ? 'success' : 'light'") {{ item.complete ? 'Completed' : 'Incomplete' }}
-    td.text-right {{ dateToHuman(item.created_at) }}
-    td.text-right {{ dateToHuman(item.updated_at) }}
+      b-badge(:variant="item.complete ? 'success' : 'secondary'") {{ item.complete ? 'Completed' : 'In progress' }}
+    td.text-right {{ item.created_at | asDate }}
+    td.text-right {{ item.updated_at | asDate }}
     td.text-right
-      b-dropdown.actions(size="sm" variant="light" class="m-0 p-0" right)
+      b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
         ExamsModalEdit(v-if="!item.complete" :exam="item" :inline="false")
@@ -41,15 +40,10 @@
         updateExam: 'exams/updateExam',
         deleteExam: 'exams/deleteExam',
       }),
-      dateToHuman(value) {
-        const date = DateTime.fromJSDate(new Date(value))
-        if (!date.invalid) return date.toFormat('MM/dd/yyyy')
-        if (date.invalid) return value
-      },
       deleteRecord(id){
         this.deleteExam({ id: id})
           .then(response => this.toast('Success', `The exam has been deleted!`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
       },
     }
   }

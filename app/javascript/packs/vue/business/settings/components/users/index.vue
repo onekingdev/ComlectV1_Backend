@@ -50,7 +50,7 @@
   import Loading from '@/common/Loading/Loading'
   import UsersTable from "./components/UsersTable";
   import SearchItem from "./components/SearchItem";
-  import UserModalAddEdit from "./modals/UserModalAddEdit";
+  import UserModalAddEdit from "@/common/Users/modals/UserModalAddEdit";
 
   export default {
     components: {

@@ -12,7 +12,7 @@
             :options="billingTypeOptions"
             :aria-describedby="ariaDescribedby"
             button-variant="outline-primary"
-            size="lg"
+            size="md"
             name="radio-btn-outline"
             buttons
             @change="onBiliingChange"

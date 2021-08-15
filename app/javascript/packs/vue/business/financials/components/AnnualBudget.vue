@@ -6,7 +6,7 @@
         h2.card-title__name Annual Budget
         .card-title__actions
           //button.btn.btn.btn-default Edit
-          b-dropdown#dropdown-form.m-2(ref='dropdown' right)
+          b-dropdown#dropdown-form.m-2(ref='dropdown' variant="default" right)
             template(#button-content)
                 | Edit
             b-dropdown-form(style="width: 240px;")

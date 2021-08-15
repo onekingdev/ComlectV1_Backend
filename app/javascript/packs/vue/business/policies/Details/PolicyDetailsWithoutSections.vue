@@ -29,9 +29,9 @@
                   | Actions
                   b-icon.m-l-1(icon="chevron-down" font-scale="1")
                 PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
-                  b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }} Policy
+                  b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }}
                 PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
-                  b-dropdown-item.delete Delete Policy
+                  b-dropdown-item.delete Delete
 
             b-tab(title="Details" active)
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0

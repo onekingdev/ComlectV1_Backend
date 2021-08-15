@@ -230,17 +230,4 @@
     font-size: 1.2rem;
     line-height: 14px;
   }
-
-  /*BUTTONS*/
-  .btn-outline-primary {
-    color: #303132;
-    border-color: #303132;
-    font-weight: bold;
-  }
-  .btn-outline-primary:hover:not(:disabled):not(.disabled),
-  .btn-outline-primary.active:not(:disabled):not(.disabled) {
-    color: #fff;
-    background-color: #303132;
-    border-color: #303132;
-  }
 </style>

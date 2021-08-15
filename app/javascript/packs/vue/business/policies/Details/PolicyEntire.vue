@@ -21,7 +21,7 @@
                     b-badge.btn.mr-3(variant="light")  None
                     h3.policy__main-title.m-y-0  Policy Entire
                   .d-flex.justify-content-end.align-items-center
-                    a.link.btn.mr-3(@click="saveDraft") Save Draft
+                    a.btn.btn-link.mr-3(@click="saveDraft") Save Draft
                     button.btn.btn-default.mr-3(@click="download") Download
                     PoliciesModalPublish(@publishConfirmed="publishPolicy")
                       button.btn.btn-dark.mr-3 Publish

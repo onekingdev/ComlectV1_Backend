@@ -14,7 +14,7 @@
         ul.dropdown-menu(aria-labelledby="profile_dropdown_btn" :class="{ show: isProfileMenuOpen }")
           li(class="dropdown-item" @click="signOut") Sign Out
       .ml-auto.mr-3.mt-auto.mb-auto(v-else)
-        router-link.btn.btn-dark(to='/users/sign_in') Sign in
+        router-link.btn.btn.btn-dark(to='/users/sign_in') Sign in
 </template>
 
 <script>

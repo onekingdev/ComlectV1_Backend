@@ -1,7 +1,6 @@
 $default-font-size: 1rem; //16px
 
-$font-size-20: 1.25rem; //20px
-$font-size-14: 0.875rem; //14
+@import "_variables.scss";
 
 h1 {
 
@@ -44,6 +43,10 @@ h6 {
   //&:not(:last-child) {
   //  margin-bottom: 3rem;
   //}
+}
+
+.paragraph-16 {
+  font-size: $font-size-16;
 }
 
 //a[class~="text-white"] {

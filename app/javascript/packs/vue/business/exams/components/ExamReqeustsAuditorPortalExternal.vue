@@ -134,9 +134,6 @@
         confirmEmail: 'exams/confirmEmail',
         confirmOTP: 'exams/confirmOTP',
       }),
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       selectType(type){
         this.userType = type
       },
@@ -146,7 +143,7 @@
         this.errors = []
 
         if (!this.form.email) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.toast('Error', `Please check all fields!`, true)
           return
         }
 
@@ -159,11 +156,11 @@
           .then((response) => {
             if (response.error) {
               this.error = response.error
-              this.makeToast('Error', `${response.error} ${response.message ? response.message : response.status }`)
+              this.toast('Error', `${response.error} ${response.message ? response.message : response.status }`, true)
             }
             if (!response.error) {
               // this.userId = response.userid
-              this.makeToast('Success', `${response.message ? response.message : response.status}`)
+              this.toast('Success', `${response.message ? response.message : response.status}`)
 
               // open step 2
               this.step1 = false
@@ -173,7 +170,7 @@
           .catch((error) => {
             console.error(error)
             for (const type of Object.keys(error.errors)) {
-              this.makeToast('Error', `${error.errors[type]}`)
+              this.toast('Error', `${error.errors[type]}`, true)
               this.error = `Error! ${error.errors[type]}`
             }
             this.showAlert()
@@ -185,7 +182,7 @@
         this.errors = []
 
         if(this.form2.code.length !== 6) {
-          this.makeToast('Error', `Code length incorrect!`)
+          this.toast('Error', `Code length incorrect!`, true)
           return
         }
 
@@ -200,17 +197,17 @@
             if (response.errors) {
               for (const type of Object.keys(response.errors)) {
                 this.errors = response.errors[type]
-                this.makeToast('Error', `Email successful confirmed!`)
+                this.toast('Error', `Email successful confirmed!`, true)
               }
             }
             if (!response.errors) {
-              this.makeToast('Success', `${response.message ? response.message : response.status}`)
+              this.toast('Success', `${response.message ? response.message : response.status}`)
               // open step 3
               this.step2 = false
               this.step3 = true
             }
           })
-          .catch((error) => this.makeToast('Error', `Couldn't submit form! ${error.message}`) )
+          .catch((error) => this.toast('Error', `Couldn't submit form! ${error.message}`, true) )
       },
       onCodeChange(e){
         this.errors = []
@@ -257,8 +254,8 @@
         }
 
         this.confirmEmail(data)
-          .then((response) => this.makeToast('Success', `${response.message}`))
-          .catch((error) => this.makeToast('Error', `${error.message}`))
+          .then((response) => this.toast('Success', `${response.message}`))
+          .catch((error) => this.toast('Error', `${error.message}`, true))
       },
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown

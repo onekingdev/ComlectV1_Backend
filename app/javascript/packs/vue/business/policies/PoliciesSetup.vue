@@ -13,7 +13,7 @@
             .col-12.col-lg-3
               .preview
                 b-img(v-if="url" left :src="url" alt="Preview image")
-            .col-6
+            .col-6.pl-0
               b-form-file(v-model="form.logo"
               :state="Boolean(form.logo)"
               ref="inputFile"
@@ -21,7 +21,7 @@
               placeholder="Choose a file or drop it here..."
               drop-placeholder="Drop file here..."
               @change="onFileChange")
-              button.btn.link.m-t-10(@click.prevent='onRemove') Remove
+              button.btn.btn-link.m-t-10(@click.prevent='onRemove') Remove
         //b-form-group#input-groupAddress(label='Address:' label-for='inputAddress')
         //  b-form-input#inputAddress(v-model='form.address'  required)
         //b-form-group#input-groupPhone(label='Phone:' label-for='inputPhone')

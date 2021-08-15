@@ -26,10 +26,6 @@
   import Loading from '@/common/Loading/Loading'
   import TopNavbar from "../components/TopNavbar";
 
-  /* Will be deleted soon after we test it on staging */
-  console.warn("process.env.STRIPE_PUBLISHABLE_KEY > ", process.env.STRIPE_PUBLISHABLE_KEY)
-  console.warn("process.env.PLAID_PUBLIC_KEY > ", process.env.PLAID_PUBLIC_KEY)
-
   const initialForm = () => ({
     firstName: ``,
     lastName: ``,

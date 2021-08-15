@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Exam" @shown="getData")
+    b-modal.fade(:id="modalId" title="New Exam")
       .row
         .col-12.m-b-2
           label.form-label Name
@@ -18,43 +18,39 @@
 
       template(slot="modal-footer")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-dark(@click="submit") Save
+        button.btn.btn-dark(@click="submit") Create
 </template>
 
 <script>
-  import { DateTime } from 'luxon'
-  import EtaggerMixin from '@/mixins/EtaggerMixin'
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
-
-  const initialExam = () => ({
-    id: '',
-    name: '',
-    starts_on: '',
-    ends_on: ''
-  })
+  var today = new Date();
+  var year = today.getFullYear();
 
   export default {
-    mixins: [EtaggerMixin()],
     props: {
       inline: {
         type: Boolean,
         default: true
       },
-      exam: {
-        type: Object,
-        required: true
-      },
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        exam_management: initialExam(),
-        errors: []
+        exam_management: {
+          name: '',
+          starts_on: '',
+          ends_on: ''
+        },
+        errors: {}
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      resetForm() {
+        this.exam_management = {
+          name: '',
+          starts_on: '',
+          ends_on: ''
+        }
       },
       onChange(e){
         if (e.keyCode === 13) {
@@ -66,29 +62,23 @@
         e.preventDefault();
 
         if (!this.exam_management.name || !this.exam_management.starts_on || !this.exam_management.ends_on) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.toast('Error', `Please check all fields!`, true)
           return
         }
 
         try {
-          await this.$store.dispatch('exams/updateExam', this.exam_management)
+          await this.$store.dispatch('exams/createExam', this.exam_management)
             .then(response => {
-              this.makeToast('Success', `Exam Management successfully updated!`)
-              this.$emit('saved')
+              this.toast('Success', `Exam Management successfully created!`)
+              // this.$emit('saved')
               this.$bvModal.hide(this.modalId)
-              this.newEtag()
+              this.resetForm()
             })
-            .catch(error => {
-              console.error(error)
-              throw error
-            })
+            .catch(error => this.toast('Error', `Something wrong! ${error}`, true) )
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
-      getData() {
-        this.exam_management = Object.assign({}, this.exam_management, this.exam)
-      }
     },
     computed: {
       datepickerOptions() {
@@ -96,9 +86,6 @@
           min: new Date
         }
       },
-    },
-    mounted() {
-
     },
   }
 </script>

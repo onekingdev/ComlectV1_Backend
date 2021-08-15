@@ -17,7 +17,7 @@
           .d-flex.align-items-center
             .paragraph.font-weight-bold
               | {{ card.number }} {{ card.type }}
-            a.btn.link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
+            a.btn.btn-link.ml-2(@click.stop="deletePaymentMethod(card.id)") Remove
     .registration-card-header.borderless.p-t-20.px-0(v-show="!cardOptions.length")
       stripe-element-card(ref="elementRef" :pk="pk" @token="tokenCreated")
       .row
@@ -34,9 +34,6 @@
 <script>
   import { StripeCheckout, StripeElementCard  } from '@vue-stripe/vue-stripe';
   import PlaidLink from "vue-plaid-link";
-
-  /* Will be deleted soon after we test it on staging */
-  console.warn("process.env.STRIPE_PUBLISHABLE_KEY > ", process.env.STRIPE_PUBLISHABLE_KEY)
 
   export default {
     props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'userType'],

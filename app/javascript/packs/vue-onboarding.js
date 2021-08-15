@@ -10,8 +10,8 @@ import AuthLayoyt from './vue/layouts/Auth'
 // import ChangePasswordPage from './vue/auth/ChangePassword/Page.vue'
 // import SpecialistOnboardingPage from './vue/auth/SignUp/Onboarding/Specialist/SpecialistPage.vue'
 // import BusinessOnboardingPage from './vue/auth/SignUp/Onboarding/Business/BusinessPage.vue'
-import BusinessExamManagementAuditorPortalShowPage from './vue/business/exammanagement/PageAuditorPortalInternalAccess.vue'
-import ExamManagementAuditorPortal from './vue/business/exammanagement/PageAuditorPortalExternalAccess.vue'
+import BusinessExamManagementAuditorPortalShowPage from './vue/business/exams/PageAuditorPortalInternalAccess.vue'
+import ExamManagementAuditorPortal from './vue/business/exams/PageAuditorPortalExternalAccess.vue'
 
 init({
   store,

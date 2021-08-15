@@ -90,10 +90,7 @@
     },
     methods: {
       getData() {
-        console.log('this.form1', this.form)
         if (this.user) this.form = this.user
-        console.log('this.user', this.user)
-        console.log('this.form2', this.form)
       },
       async submit(e) {
         e.preventDefault();
@@ -109,7 +106,7 @@
       },
       editUser(value) {
         console.log(value)
-        console.log('123')
+        console.log('Edit User')
       },
     },
     computed: {

@@ -8,14 +8,14 @@
           button.btn.btn-dark.float-end New Policy
     b-tabs.special-navs(content-class="mt-0")
       b-tab(title="Compliance" active)
-        .card-body.white-card-body.card-body_full-height
+        .card-body.white-card-body.card-body_full-height.p-x-40
           PoliciesTable.m-b-20(:policies="filteredUnArchivedListLimited", @searching="searching")
           b-pagination(v-if="!loading && filteredUnArchivedList.length" v-model='currentPage' :total-rows='filteredUnArchivedList.length' :per-page='perPage' aria-controls='PoliciesTable')
       b-tab(title="Archive")
-        .card-body.white-card-body.card-body_full-height
+        .card-body.white-card-body.card-body_full-height.p-x-40
           PoliciesTable(:policies="filteredArchivedList", @searching="searchingArchived")
       b-tab(title="Setup" lazy)
-        .card-body.white-card-body.card-body_full-height
+        .card-body.white-card-body.card-body_full-height.p-x-40
           PoliciesSetup
 </template>
 
@@ -117,6 +117,6 @@
   };
 </script>
 
-<style scoped>
+<style module>
   @import "./styles.css";
 </style>

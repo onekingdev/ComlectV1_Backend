@@ -3,12 +3,12 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="archiveStatus ? 'Disable User' : 'Undisable User'")
+    b-modal.fade(:id="modalId" :title="archiveStatus ? 'Undisable User' : 'Disable User'")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-triangle-fill" width="25" height="25" variant="warning")
+          b-icon.modal-body__icon.mt-2.ml-3(icon="exclamation-triangle-fill" variant="warning")
         .col
-          p.m-b-10 Archiving the user will remove any permissions and access granted to them.
+          p.mb-0 Archiving the user will remove any permissions and access granted to them.
           p.m-b-10 Please select a reason for disabling the user.
           p.mb-0
             b Do you want to continue?
@@ -44,7 +44,7 @@
       },
       archiveStatus: {
         type: Boolean,
-        default: true
+        required: true
       },
     },
     data() {

@@ -20,16 +20,16 @@
         UserModalAddEdit(:user="item",  :inline="false")
           b-dropdown-item Edit
         UserModalArchive(:archiveStatus="item.status" :inline="false")
-          b-dropdown-item {{ item.status ? 'Archive' : 'Unarchive' }}
+          b-dropdown-item {{ item.status ? 'Unarchive' : 'Archive' }}
         UserModalDelete(v-if="!item.status" :inline="false")
           b-dropdown-item.delete Delete
 </template>
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
-  import UserModalArchive from "../modals/UserModalArchive";
-  import UserModalDelete from "../modals/UserModalDelete";
-  import UserModalAddEdit from "../modals/UserModalAddEdit";
+  import UserModalArchive from "@/common/Users/modals/UserModalArchive";
+  import UserModalDelete from "@/common/Users/modals/UserModalDelete";
+  import UserModalAddEdit from "@/common/Users/modals/UserModalAddEdit";
   import RoleIcon from "@/common/Users/components/RoleIcon";
 
   export default {

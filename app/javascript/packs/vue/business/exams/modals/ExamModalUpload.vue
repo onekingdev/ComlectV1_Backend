@@ -55,14 +55,11 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       async submit(e) {
         e.preventDefault();
 
         if (!this.files.length) {
-          this.makeToast('Error', `Please add minimal 1 file!`)
+          this.toast('Error', `Please add minimal 1 file!`, true)
           return
         }
 
@@ -98,13 +95,13 @@
           });
 
           await sendFIle
-            .then(response => this.makeToast('Success', `${response.name} successful uploaded!`))
-            .catch(error => this.makeToast('Error', error.message))
+            .then(response => this.toast('Success', `${response.name} successful uploaded!`))
+            .catch(error => this.toast('Error', error.message, true))
           // const result = await sendFIle
           // console.log('result', result)
           }
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         } finally {
           this.files = []
           this.$emit('saved')
