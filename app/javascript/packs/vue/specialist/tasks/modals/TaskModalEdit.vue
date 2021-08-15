@@ -418,7 +418,7 @@
       },
       url() {
         // return `/api/business/reminders/${(this.taskId) ? `/${this.taskId}` : ''}/documents`
-        return `/api/business/reminders/${(this.taskId) ? `/${this.taskId}` : ''}/messages`
+        return `/api/reminders/${(this.taskId) ? `/${this.taskId}` : ''}/messages`
       },
       datepickerOptions() {
         return {

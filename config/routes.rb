@@ -301,6 +301,14 @@ Rails.application.routes.draw do
     resources :direct_messages, path: 'messages/:recipient_id', only: %i[index create]
     get 'messages' => 'direct_messages#show'
     resources :project_ratings, only: %i[index]
+    get '/reminders/:id' => 'reminders#show'
+    delete '/reminders/:id' => 'reminders#destroy'
+    post '/reminders/:id' => 'reminders#update'
+    get '/reminders/:id/messages' => '/api/reminder_messages#index'
+    post '/reminders/:id/messages' => '/api/reminder_messages#create'
+    get '/reminders/:date_from/:date_to' => 'reminders#by_date'
+    get '/overdue_reminders' => 'reminders#overdue'
+    post '/reminders' => 'reminders#create'
     namespace :business do
       resources :exams, only: %i[index show create update destroy] do
         resources :exam_requests, path: 'requests', only: %i[create update destroy] do
@@ -316,14 +324,6 @@ Rails.application.routes.draw do
       end
       resources :file_docs, only: %i[create update destroy]
       resource :compliance_policy_configuration, only: %i[show update]
-      get '/reminders/:id' => 'reminders#show'
-      delete '/reminders/:id' => 'reminders#destroy'
-      post '/reminders/:id' => 'reminders#update'
-      get '/reminders/:id/messages' => '/api/reminder_messages#index'
-      post '/reminders/:id/messages' => '/api/reminder_messages#create'
-      get '/reminders/:date_from/:date_to' => 'reminders#by_date'
-      get '/overdue_reminders' => 'reminders#overdue'
-      post '/reminders' => 'reminders#create'
       resources :local_projects, only: %i[index create show update destroy]
       put 'local_projects/:id/complete' => 'local_projects#complete'
       resources :projects, only: %i[index show create update destroy] do

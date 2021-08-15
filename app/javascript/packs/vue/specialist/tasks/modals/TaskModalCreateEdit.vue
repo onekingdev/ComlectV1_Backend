@@ -424,7 +424,7 @@
       },
 
       url() {
-        return `/api/business/reminders/${(this.taskProp.id) ? `${this.taskProp.id}` : ''}/documents`
+        return `/api/reminders/${(this.taskProp.id) ? `${this.taskProp.id}` : ''}/documents`
         // return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/messages`
       },
       datepickerOptions() {

@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
-class Api::Business::RemindersController < ApiController
+class Api::RemindersController < ApiController
   include RemindersUpdater
   include RemindersFetcher
 
-  before_action :require_business!
+  before_action :require_someone!
   before_action :authorize_action
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def by_date
-    tasks, projects = tasks_calendar_grid2(current_business, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
+    tasks, projects = tasks_calendar_grid2(@current_someone, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
     render json: { tasks: tasks, projects: projects }
   end
 
   def overdue
-    render json: { tasks: reminders_past(current_business) }
+    render json: { tasks: reminders_past(@current_someone) }
   end
 
   def create
     @reminder = Reminder.new(reminder_params)
-    @reminder.remindable_id = current_business.id
-    @reminder.remindable_type = 'Business'
+    @reminder.remindable_id = @current_someone.id
+    @reminder.remindable_type = @current_someone.class.name.split('::').first
     @reminder.repeats = nil if @reminder.repeats.blank?
     @reminder.skip_occurencies = []
     @reminder.done_occurencies = {}
-    # skip_occurence(current_business) if params[:src_id]
+    # skip_occurence(@current_someone) if params[:src_id]
     if @reminder.save
       render json: @reminder, status: :created
     else
@@ -34,12 +34,12 @@ class Api::Business::RemindersController < ApiController
   end
 
   def show
-    @reminder = current_business.reminders.find(params[:id])
+    @reminder = @current_someone.reminders.find(params[:id])
     render json: @reminder, status: :ok
   end
 
   def destroy
-    @reminder = current_business.reminders.find(params[:id])
+    @reminder = @current_someone.reminders.find(params[:id])
     if params[:oid]
       @reminder.update(skip_occurencies: @reminder.skip_occurencies + [params[:oid].to_i])
     else
@@ -48,11 +48,11 @@ class Api::Business::RemindersController < ApiController
   end
 
   def update
-    @reminder = current_business.reminders.find(params[:id])
+    @reminder = @current_someone.reminders.find(params[:id])
     change_reminder_state if params[:done].present?
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
-    skip_occurence(current_business) if params[:src_id]
+    skip_occurence(@current_someone) if params[:src_id]
 
     if @reminder.save
       render json: @reminder, status: :ok

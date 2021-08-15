@@ -38,7 +38,7 @@ export default {
       const { taskId, oid } = splitReminderOccurenceId(task.id)
       const oidParam = oid !== null ? `&oid=${oid}` : ''
       var target_state = (!(!!task.done_at)).toString()
-      fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
+      fetch(`/api/reminders/${taskId}?done=${target_state}${oidParam}`, {
         method: 'POST',
         headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
       }).then(response => this.$emit('saved'))

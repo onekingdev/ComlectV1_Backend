@@ -25,8 +25,8 @@
 const LIMIT_OF_ARRAY_TASKS = 10
 const LIMIT_OF_ARRAY_PROJECTS = 5
 
-const endpointUrl = '/api/business/reminders/'
-const overdueEndpointUrl = '/api/business/overdue_reminders'
+const endpointUrl = '/api/reminders/'
+const overdueEndpointUrl = '/api/overdue_reminders'
 
 import TaskTable from '@/common/TaskTable'
 import ProjectTable from './ProjectTable'
