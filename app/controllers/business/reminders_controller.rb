@@ -70,23 +70,36 @@ class Business::RemindersController < ApplicationController
       format.csv do
         csv_a = []
         @remindable = current_business
-        csv_a.push(%w[Year Month Task Starts Ends Completed Note])
-        (@remindable.created_at.year..(Time.zone.today.year + 1)).each do |year|
-          csv_a.push(["#{@remindable.name} #{year} Compliance Calendar"])
-          Reminder::TOTAL_MONTH.each do |i|
-            csv_a.push([year, I18n.t(:date)[:month_names][i]])
-            base_date = Date.new(year, 0o1, 0o1)
-            tgt_from_date = Date.parse("#{base_date.year}-#{i.to_s.rjust(2, '0')}-01")
-            tgt_to_date = tgt_from_date + 1.month
-            reminders = Reminder.get_all_reminders(@remindable, tgt_from_date, tgt_to_date)
-            if reminders.count.positive?
-              reminders.each do |reminder|
-                csv_a.push(['', '', reminder.body, (reminder&.remind_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')), (reminder&.end_date&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')), (reminder&.done_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y') if reminder.done_at.present?), (reminder&.note if reminder.class.name != 'Project')])
+        if params[:from_date].blank?
+          csv_a.push(%w[Year Month Task Starts Ends Completed Note])
+          (@remindable.created_at.year..(Time.zone.today.year + 1)).each do |year|
+            csv_a.push(["#{@remindable.name} #{year} Compliance Calendar"])
+            Reminder::TOTAL_MONTH.each do |i|
+              csv_a.push(['', I18n.t(:date)[:month_names][i]])
+              base_date = Date.new(year, 0o1, 0o1)
+              tgt_from_date = Date.parse("#{base_date.year}-#{i.to_s.rjust(2, '0')}-01")
+              tgt_to_date = tgt_from_date + 1.month
+              reminders = Reminder.get_all_reminders(@remindable, tgt_from_date, tgt_to_date)
+              if reminders.count.positive?
+                reminders.each do |reminder|
+                  csv_a.push(['', '', reminder.body, (reminder&.remind_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')), (reminder&.end_date&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')), (reminder&.done_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y') if reminder.done_at.present?), (reminder&.note if reminder.class.name != 'Project')])
+                end
               end
             end
+            csv_a.push([])
+            csv_a.push([])
           end
-          csv_a.push([])
-          csv_a.push([])
+        else
+          csv_a.push(%w[Date Task Starts Ends Completed Note])
+          tgt_from_date = Date.parse(params[:from_date])
+          tgt_to_date = Date.parse(params[:to_date])
+          csv_a.push(["#{@remindable.name} #{tgt_from_date.strftime('%b %-d, %Y')} - #{tgt_to_date.strftime('%b %-d, %Y')} Compliance Calendar"])
+          reminders = Reminder.get_all_reminders(@remindable, tgt_from_date, tgt_to_date)
+          if reminders.count.positive?
+            reminders.each do |reminder|
+              csv_a.push(['', reminder.body, (reminder&.remind_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')), (reminder&.end_date&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')), (reminder&.done_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y') if reminder.done_at.present?), (reminder&.note if reminder.class.name != 'Project')])
+            end
+          end
         end
         @csv_a = csv_a
         headers['Content-Disposition'] = 'attachment; filename="user-list.csv"'
