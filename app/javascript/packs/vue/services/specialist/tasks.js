@@ -1,8 +1,8 @@
 import axios from '../../services/axios'
 // import store from '../../store/specialist'
 
-const END_POINT_OVERDUE = '/specialist/overdue_reminders'
-const END_POINT = '/specialist/reminders'
+const END_POINT_OVERDUE = '/overdue_reminders'
+const END_POINT = '/reminders'
 
 export async function getTasks() {
   return axios

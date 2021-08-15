@@ -5,7 +5,7 @@ class Api::RemindersController < ApiController
   include RemindersFetcher
 
   before_action :require_someone!
-  before_action :authorize_action
+  # before_action :authorize_action
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 

@@ -25,8 +25,8 @@
 const LIMIT_OF_ARRAY_TASKS = 10
 const LIMIT_OF_ARRAY_PROJECTS = 5
 
-const endpointUrl = '/api/specialist/reminders/'
-const overdueEndpointUrl = '/api/specialist/overdue_reminders'
+const endpointUrl = '/api/reminders/'
+const overdueEndpointUrl = '/api/overdue_reminders'
 
 import TaskTable from '@/common/TaskTable'
 import ProjectTable from './ProjectTable'
@@ -64,6 +64,7 @@ export default {
           projects = result.projects
 
           // this.tasks = tasks.slice(0, LIMIT_OF_ARRAY_TASKS).filter(task => !task.done_at)
+          console.log(this.tasks)
           this.tasks = tasks.filter(task => !task.done_at)
           this.projects = projects.slice(0, LIMIT_OF_ARRAY_PROJECTS)
         })
