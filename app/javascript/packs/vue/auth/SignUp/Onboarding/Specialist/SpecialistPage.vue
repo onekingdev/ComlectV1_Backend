@@ -18,10 +18,10 @@
                 .col-xl-6
                   b-form-group#inputS-group-1(label='Jurisdiction' label-for='selectS-1' label-class="onboarding__label required")
                     div(
-                    :class="{ 'invalid': errors.jurisdiction }"
+                    :class="{ 'invalid': errors.jurisdiction_ids }"
                     )
                       multiselect#selectS-1(
-                      v-model="formStep1.jurisdiction"
+                      v-model="form.specialist.jurisdiction_ids"
                       :options="staticCollection.jurisdictions"
                       :multiple="true"
                       :show-labels="false"
@@ -29,7 +29,7 @@
                       label="name",
                       placeholder="Select jurisdiction",
                       required)
-                      .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction }}
+                      .invalid-feedback.d-block(v-if="errors.jurisdiction_ids") {{ errors.jurisdiction_ids[0] }}
               .row
                 .col-xl-6
                   b-form-group#inputB-group-7.m-b-40(label='Your Time Zone' label-for='selectB-7' label-class="onboarding__label required")
@@ -37,7 +37,7 @@
                     :class="{ 'invalid': errors.time_zone }"
                     )
                       multiselect#selectB-7(
-                      v-model="formStep1.time_zone"
+                      v-model="form.specialist.time_zone"
                       :options="staticCollection.timezones"
                       :multiple="false"
                       :show-labels="false"
@@ -45,7 +45,7 @@
                       label="name",
                       placeholder="Select Time Zone",
                       required)
-                      .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone }}
+                      .invalid-feedback.d-block(v-if="errors.time_zone") {{ errors.time_zone[0] }}
               .row
                 .col
                   h3.onboarding__title.m-b-10 What industries do you serve?
@@ -54,10 +54,10 @@
                 .col-xl-6
                   b-form-group#inputS-group-4(label='Industry' label-for='selectS-4' label-class="onboarding__label required")
                     div(
-                    :class="{ 'invalid': errors.industry }"
+                    :class="{ 'invalid': errors.industry_ids }"
                     )
                       multiselect#selectS-4(
-                      v-model="formStep1.industry"
+                      v-model="form.specialist.industry_ids"
                       :options="staticCollection.industries"
                       :multiple="true"
                       :show-labels="false"
@@ -66,43 +66,42 @@
                       placeholder="Select Industry",
                       @input="onChangeIndustries",
                       required)
-                      .invalid-feedback.d-block(v-if="errors.industry") {{ errors.industry }}
+                      .invalid-feedback.d-block(v-if="errors.industry_ids") {{ errors.industry_ids[0] }}
               .row
                 .col-xl-6
                   b-form-group#inputS-group-5.m-b-40(label='Sub-Industry' label-for='selectS-5' label-class="onboarding__label required")
                     div(
-                    :class="{ 'invalid': errors.subIndustry }"
+                    :class="{ 'invalid': errors.sub_industries }"
                     )
                       multiselect#selectS-5(
-                      v-model="formStep1.subIndustry"
-                      :options="formStep1.subIndustryOptions"
+                      v-model="form.specialist.sub_industry_ids"
+                      :options="subIndustryOptions"
                       :multiple="true"
                       :show-labels="false"
                       track-by="name",
                       label="name",
                       placeholder="Select Sub-Industry",
                       required)
-                      .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry }}
+                      .invalid-feedback.d-block(v-if="errors.sub_industries") {{ errors.sub_industries[0] }}
               .row
                 .col
                   h3.onboarding__title Are you a former regulator?
-                    //ion-icon.onboarding__icon(name="information-circle" v-b-tooltip.hover.html title='some text')
                   p.onboarding__sub-title Select all that apply:
               .row
                 .col
                   b-form-group(v-slot='{ ariaDescribedby }')
-                    b-form-radio-group(v-model='formStep1.regulatorSelected' :options='formStep1.regulatorOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
+                    b-form-radio-group(v-model='form.specialist.former_regulator' :options='regulatorOptions' :aria-describedby='ariaDescribedby' name='radios-stacked' stacked)
               .row
                 .col-lg-6
                   .row
                     .col-md-11.offset-lg-1
-                      b-form-group(v-if="formStep1.regulatorSelected === 'yes'" label='Where did you work?'  label-for='selectS-6' label-class="onboarding__label pb-0" )
+                      b-form-group(v-if="form.specialist.former_regulator" label='Where did you work?'  label-for='selectS-6' label-class="onboarding__label pb-0" )
                         div(
-                        :class="{ 'invalid': errors.regulator }"
+                        :class="{ 'invalid': errors.specialist_other }"
                         )
                           multiselect#selectS-6(
-                          v-model="formStep1.regulator"
-                          :options="formStep1.regulatorOptionsTags"
+                          v-model="specialist_other"
+                          :options="specialistOtherOptions"
                           :multiple="true"
                           :show-labels="false"
                           track-by="name",
@@ -112,7 +111,7 @@
                           :taggable="true",
                           @tag="addTag"
                           required)
-                          .invalid-feedback.d-block(v-if="errors.regulator") {{ errors.regulator }}
+                          .invalid-feedback.d-block(v-if="errors.specialist_other") {{ errors.specialist_other[0] }}
               .row
                 .col
                   .text-right.m-t-30
@@ -128,11 +127,11 @@
                 //     b-button.mr-2(type='button' variant='outline-primary') Skip this step
               b-form-group(label='Skills' class="onboarding-group m-b-30" label-for='selectS-7' label-class="onboarding__label")
                 div(
-                :class="{ 'invalid': errors.skills }"
+                :class="{ 'invalid': errors.skill_names }"
                 )
                   multiselect#selectS-7(
-                  v-model="formStep2.skills"
-                  :options="formStep2.skillsTags"
+                  v-model="form.specialist.skill_names"
+                  :options="skillsTags"
                   :multiple="true"
                   :show-labels="false"
                   track-by="name",
@@ -142,39 +141,40 @@
                   :taggable="true",
                   @tag="addSkillsTag"
                   required)
-                  .invalid-feedback.d-block(v-if="errors.skills") {{ errors.skills }}
+                  .invalid-feedback.d-block(v-if="errors.skill_names") {{ errors.skill_names }}
               h3.onboarding__title What's your experience?
               label.onboarding__sub-title(class='label required') Select one that best matches your level of your expertise.
               b-form-group(class="onboarding-group m-b-30")
-                b-button.exp__btn(variant="default" :class="formStep2.experience === 0 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 0)")
+                b-button.exp__btn(variant="default" :class="form.specialist.experience === '0' ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, '0')")
                   span.exp__btn--main Junior
                   span.exp__btn--sub Beginner consultant with some industry experience.
-                b-button.exp__btn(variant="default" :class="formStep2.experience === 1 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 1)")
+                b-button.exp__btn(variant="default" :class="form.specialist.experience === '1' ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, '1')")
                   span.exp__btn--main Intermediate
                   span.exp__btn--sub Good experience and solid knowledge of the industry.
-                b-button.exp__btn(variant="default" :class="formStep2.experience === 2 ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, 2)")
+                b-button.exp__btn(variant="default" :class="form.specialist.experience === '2' ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, '2')")
                   span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
+                .invalid-feedback.d-block(v-if="errors.experience") {{ errors.experience[0] }}
               // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               // b-form-group.m-t-2(class="onboarding-group")
-              //   b-form-file(v-model='formStep2.file' :state='Boolean(formStep2.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
-              //   .m-t-3 Selected file: {{ formStep2.file ? formStep2.file.name : '' }}
+              //   b-form-file(v-model='form.file' :state='Boolean(form.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
+              //   .m-t-3 Selected file: {{ form.file ? form.file.name : '' }}
               // hr
               h3.onboarding__title.m-b-10 Upload your resume:
               p.onboarding__sub-title Optional
-              label.dropbox.w-100(v-if="!formStep2.file" for="upload-file")
+              label.dropbox.w-100(v-if="!file" for="upload-file")
                 input.input-file(type="file" id="upload-file" accept="application/pdf" ref="file" @change="selectFile")
-                p(v-if="!formStep2.file") Drop resume here OR
+                p(v-if="!file") Drop resume here OR
                   button.btn.btn-default Upload
-                p(v-if="formStep2.file") Selected file: {{ formStep2.file.name }}
-              .row(v-if="formStep2.file")
+                p(v-if="file") Selected file: {{ file.name }}
+              .row(v-if="file")
                 .col-md-12.m-b-1
                   .file-card
                     div
                       b-icon.file-card__icon(icon="file-earmark-text-fill")
                     .ml-0.mr-auto
-                      p.file-card__name {{ formStep2.file.name }}
-                      a.file-card__link.link(:href="formStep2.file.file_url" target="_blank") Download
+                      p.file-card__name {{ file.name }}
+                      a.file-card__link.link(:href="file.file_url" target="_blank") Download
                     .ml-auto.my-auto.align-self-start.actions
                       b-dropdown(size="sm" class="m-0 p-0" right)
                         template(#button-content)
@@ -203,6 +203,20 @@
   import SelectPlanPaymentAndSummary from '@/auth/components/SelectPlan/Specialist/components/SelectPlanDetails'
   import Overlay from '../Overlay'
 
+  const initialAccountInfo = () => ({
+    specialist: {
+      jurisdiction_ids: [],
+      time_zone: '', // "International Date Line West"
+      industry_ids: [],
+      sub_industry_ids: [],
+      former_regulator: false, // Boolean
+      //specialist_other: [], //# if former_regulator -> true "specialist_other"=>"val1, val2"
+      skill_names: [], // "#finra", "#cfdc"
+      experience: null, // integer 0 1 2//
+      resume:  null,
+    },
+  })
+
   export default {
     // props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states', 'userInfo', 'timezones'],
     props: ['userInfo'],
@@ -216,51 +230,36 @@
       Overlay
     },
     created() {
-      // if(this.timezones) {
-      //   for (const value of this.timezones) {
-      //     const [ zone, city ] = value
-      //     this.formStep1.timeZoneOptions.push({
-      //       value: city,
-      //       name: zone
+      // const accountInfo = localStorage.getItem('app.currentUser');
+      // const accountInfoParsed = JSON.parse(accountInfo);
+      // if(accountInfo) {
+      //   this.form.specialist.industry_ids = accountInfoParsed.industries || []
+      //   this.onChangeIndustries(accountInfoParsed.industries)
+      //   this.form.specialist.sub_industry_ids = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
+      //     const subIndfromOpt = this.subIndustryOptions.find(opt => {
+      //       if (opt.name === subInd)
+      //         return opt
       //     })
+      //     return {
+      //       name: subIndfromOpt.name,
+      //       value: subIndfromOpt.value
+      //     }
+      //   }) : []
+      //   this.form.specialist.jurisdiction = accountInfoParsed.jurisdictions || []
+      //
+      //   this.form.specialist.time_zone = {
+      //     name: accountInfoParsed.time_zone,
+      //     value: accountInfoParsed.time_zone
       //   }
+      //
+      //   this.form.specialist.skills = accountInfoParsed.skills || []
+      //   this.form.specialist.experience = accountInfoParsed.experience
+      //   if(accountInfoParsed.resume_url)
+      //     this.file = {
+      //       name: "Uploaded File",
+      //       file_url: accountInfoParsed.resume_url
+      //     }
       // }
-      // if(this.industryIds) this.formStep1.industryOptions = this.industryIds;
-      // if(this.jurisdictionIds) this.formStep1.jurisdictionOptions = this.jurisdictionIds;
-      // if(this.states) this.formStep1.stateOptions = this.states;
-
-      const accountInfo = localStorage.getItem('app.currentUser');
-      const accountInfoParsed = JSON.parse(accountInfo);
-      if(accountInfo) {
-        this.formStep1.industry = accountInfoParsed.industries || []
-        this.onChangeIndustries(accountInfoParsed.industries)
-        // this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => ({ name: subInd, value: idx })) : []
-        this.formStep1.subIndustry = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
-          const subIndfromOpt = this.subIndustryOptions.find(opt => {
-            if (opt.name === subInd)
-              return opt
-          })
-          return {
-            name: subIndfromOpt.name,
-            value: subIndfromOpt.value
-          }
-        }) : []
-        this.formStep1.jurisdiction = accountInfoParsed.jurisdictions || []
-        // this.formStep1.regulatorSelected = accountInfoParsed.former_regulator ? 'yes' : 'no';
-
-        this.formStep1.time_zone = {
-          name: accountInfoParsed.time_zone,
-          value: accountInfoParsed.time_zone
-        }
-
-        this.formStep2.skills = accountInfoParsed.skills || []
-        this.formStep2.experience = accountInfoParsed.experience
-        if(accountInfoParsed.resume_url)
-          this.formStep2.file = {
-            name: "Uploaded File",
-            file_url: accountInfoParsed.resume_url
-          }
-      }
 
       const url = new URL(window.location);
       const currentStep = +url.searchParams.get('step')
@@ -274,42 +273,17 @@
           'Skills and education',
           'Choose plan'
         ],
-        formStep1: {
-          regulator: [],
-          regulatorSelected: 'no',
-          regulatorOptions: [
-            {text: 'No', value: 'no'},
-            {text: 'Yes', value: 'yes'},
-          ],
-          regulatorOptionsTags: [],
-          industry: '',
-          // industryOptions: [],
-          subIndustry: '',
-          subIndustryOptions: [],
-          jurisdiction: '',
-          // jurisdictionOptions: [],
-          time_zone: [],
-          // timeZoneOptions: [],
-        },
-        formStep2: {
-          skills: [],
-          skillsTags: [],
-          file: null,
-          experience: '',
-
-          companyName: '',
-          aum: '',
-          numAcc: '',
-
-          website: '',
-          phoneNumber: '',
-          businessAddress: '',
-          aptUnit: '',
-          zip: '',
-          city: '',
-          // state: '',
-          // stateOptions: [],
-        },
+        form: initialAccountInfo(),
+        subIndustryOptions: [],
+        regulatorOptions: [
+         { text: 'No', value: false },
+         { text: 'Yes', value: true },
+        ],
+        specialist_other: [],
+        specialistOtherOptions: [],
+        regulatorOptionsTags: [],
+        skillsTags: [],
+        file: null,
 
         notify: {
           show: 'show',
@@ -348,16 +322,16 @@
           name: newTag,
           code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
         }
-        this.formStep1.regulatorOptionsTags.push(tag)
-        this.formStep1.regulator.push(tag)
+        this.regulatorOptionsTags.push(tag)
+        this.specialistOtherOptions.push(tag)
       },
       addSkillsTag (newTag) {
         const tag = {
           name: newTag,
           code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
         }
-        this.formStep2.skillsTags.push(tag)
-        this.formStep2.skills.push(tag)
+        this.skillsTags.push(tag)
+        this.form.skill_names.push(tag)
       },
       onexperienceChange(event, value){
         document.querySelectorAll('.exp__btn').forEach((el) => el.classList.remove('active'))
@@ -366,7 +340,7 @@
         } else {
           event.target.closest(".exp__btn").classList.toggle('active')
         }
-        this.formStep2.experience = value;
+        this.form.specialist.experience = value;
       },
       onSubmit(event){
         event.preventDefault()
@@ -381,69 +355,73 @@
       prevStep(stepNum) {
         this.navigation(stepNum)
       },
-      nextStep(stepNum) {
-        // CLEAR ERRORS
-        for (var value in this.errors) delete this.errors[value];
-
-        if (this.formStep1.regulatorSelected === 'yes' && !this.formStep1.regulator.length) {
-          this.errors = Object.assign({}, this.errors, { regulator: `Required field` })
-          return
+      applyData(formData, field, data) {
+        if (data.length) {
+          data.forEach((item) => formData.append(field, item))
+        } else {
+          formData.append(field, data);
         }
+      },
+      nextStep(stepNum) {
+
         if (stepNum === 2) {
-        //   if (!this.formStep1.jurisdiction.length) this.errors = Object.assign({}, this.errors, { jurisdiction: `Required Field` })
-        //   if (!this.formStep1.time_zone.length) this.errors = Object.assign({}, this.errors, { time_zone: `Required Field` })
-        //   if (!this.formStep1.industry.length) this.errors = Object.assign({}, this.errors, { industry: `Required Field` })
-        //   if (!this.formStep1.subIndustry.length) this.errors = Object.assign({}, this.errors, { subIndustry: `Required Field` })
-        //   if (!this.formStep1.industry || !this.formStep1.time_zone || !this.formStep1.subIndustry || !this.formStep1.jurisdiction ) {
-        //     return
-        //   }
-        //
           this.navigation(stepNum)
         }
 
         if (stepNum === 3) {
-
-          if (!this.formStep2.skills) this.errors = Object.assign({}, this.errors, { skills: `Required Field` })
-          if (!this.formStep2.skills) return
+          // CLEAR ERRORS
+          for (var value in this.errors) delete this.errors[value];
 
           const params = {
             specialist: {
-              // industry_ids: this.formStep1.industry.map(record => record.id),
-              // jurisdiction_ids: this.formStep1.jurisdiction.map(record => record.id),
-
-              time_zone: this.formStep1.time_zone.value,
-              first_name: this.currentUser.first_name,
-              last_name: this.currentUser.last_name,
-              former_regulator: this.formStep1.regulatorSelected === 'yes',
-              specialist_other: this.formStep1.regulator.join(', '),
-              experience: this.formStep2.experience,
-              // certifications: '',
-              resume: this.formStep2.file ? this.formStep2.file : '',
+              jurisdiction_ids: this.form.specialist.jurisdiction_ids ? this.form.specialist.jurisdiction_ids.map(record => record.id) : [],
+              time_zone: this.form.specialist.time_zone.value || '',
+              industry_ids: this.form.specialist.industry_ids ? this.form.specialist.industry_ids.map(record => record.id) : [],
+              sub_industry_ids: this.form.specialist.sub_industry_ids ? this.form.specialist.sub_industry_ids.map(record => record.value) : [],
+              former_regulator: this.form.specialist.former_regulator,
+              //specialist_other: this.form.specialist_other.join(', '),
+              skill_names: this.form.specialist.skill_names ? this.form.specialist.skill_names.map(skill => skill.name) : [],
+              experience: this.form.specialist.experience || '',
+              resume: this.file ? this.file : '',
             },
-            sub_industry_ids: this.formStep1.subIindustry ? this.formStep2.subIindustry.map(record => record.value) : [],
-            skill_names: this.formStep2.skills ? this.formStep2.skills.map(skill => skill.name) : [],
           }
 
+          const specialist = params.specialist
           let formData = new FormData()
-          formData.append(`specialist[industry_ids][]`, this.formStep1.industry ? this.formStep1.industry.map(record => record.id) : [])
-          formData.append(`specialist[jurisdiction_ids][]`, this.formStep1.jurisdiction ? this.formStep1.jurisdiction.map(record => record.id) : [])
-          Object.keys(params.specialist)
-            .map(specAttr => formData.append(`specialist[${specAttr}]`, params.specialist[specAttr]))
-          params.sub_industry_ids
-            .map(subIindustryIds => formData.append(`sub_industry_ids[]`, subIindustryIds))
-          params.skill_names
-            .map(skillName => formData.append(`skill_names[]`, skillName))
+
+          this.applyData(formData, 'specialist[jurisdiction_ids][]', specialist.jurisdiction_ids)
+          formData.append('specialist[time_zone]', specialist.time_zone);
+          this.applyData(formData, 'specialist[industry_ids][]', specialist.industry_ids)
+          this.applyData(formData, 'specialist[sub_industry_ids][]', specialist.sub_industry_ids)
+          formData.append('specialist[former_regulator]', specialist.former_regulator);
+          this.applyData(formData, 'specialist[skill_names][]', specialist.skill_names)
+          formData.append('specialist[experience]', specialist.experience);
+          formData.append('specialist[resume]', specialist.resume);
+
+          if (this.form.specialist.former_regulator) {
+            formData.append('specialist[specialist_other]', this.specialist_other ? this.specialist_other.map(record => record.name).join(', ') : [])
+          }
 
           this.$store.dispatch('updateAccountInfoWithFile', formData)
             .then(response => {
+              if(response.errors) {
+                for (const type of Object.keys(response.errors)) {
+                  this.errors = response.errors[type]
+                }
+                console.log('this.errors')
+
+                if (response.errors.specialist.industry_ids || response.errors.specialist.jurisdiction_ids || response.errors.specialist.sub_industries || response.errors.specialist.time_zone || response.errors.specialist.specialist_other) {
+                  this.navigation(1)
+                }
+              }
               if(!response.errors) {
                 this.navigation(stepNum)
-                // this.toast('Success', `Company info successfully sended!`)
               }
             })
             .catch(error => {
               // this.navigation(1)
               console.error('updateAccountInfoWithFile', error)
+              this.toast('Error', `${error.status} ${error.statusText}`, true)
             })
         }
       },
@@ -505,19 +483,19 @@
         this.isSidebarOpen = false
       },
       selectFile(event){
-        this.formStep2.file = event.target.files[0]
+        this.file = event.target.files[0]
       },
       onChangeIndustries (industries) {
         if(industries) {
-          delete this.errors.industries
-          this.formStep1.subIndustryOptions = []
+          delete this.errors.industry_ids
+          this.subIndustryOptions = []
           const results = industries.map(industry => industry.id)
 
           if(this.staticCollection.sub_industries_specialist) {
             for (const [key, value] of Object.entries(this.staticCollection.sub_industries_specialist)) {
               for (const i of results) {
                 if (i === +key.split('_')[0]) {
-                  this.formStep1.subIndustryOptions.push({
+                  this.subIndustryOptions.push({
                     value: key,
                     name: value
                   })
@@ -531,15 +509,12 @@
         if(e.target) e.target.classList.remove('is-invalid')
         if(e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('d-block')
       },
-      // onChangeState(){
-      //   delete this.errors.state
-      // },
       redirect() {
         localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
         window.location.href = `/${this.userType}`;
       },
       removeFile() {
-        this.formStep2.file = null
+        this.file = null
       },
     },
     computed: {
@@ -554,20 +529,30 @@
       },
       overlay() {
         return this.$store.getters.overlay;
-      }
+      },
     },
     mounted () {
       this.$store.dispatch('getSkills')
-        .then(response => this.formStep2.skillsTags = response)
+        .then(response => this.skillsTags = response)
         .catch(error => console.error(error))
 
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
 
       this.$store.dispatch('getStaticCollection')
-        .then(response => this.onChangeIndustries(accountInfoParsed.industries))
+        .then(response => {
+          // this.onChangeIndustries(accountInfoParsed.industries)
+        })
         .catch(error => console.error(error))
-    }
+    },
+    watch: {
+      form: function (newForm) {
+        console.log('newForm', newForm)
+        Object.entries(newForm).forEach(
+          ([key, value]) => console.log(key, value)
+        )
+      }
+    },
   }
 </script>
 

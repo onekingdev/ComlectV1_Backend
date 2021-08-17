@@ -16,9 +16,32 @@ end
   Jurisdiction.find_or_create_by! name: name
 end
 
-%w[Broker-Dealer Banking Fund\ Manager Investment\ Adviser
-   Commodities\ Trader Family\ Office Pension\ Plan Other].each do |name|
-  Industry.find_or_create_by! name: name
+industries = {
+  'Broker-Dealer' => {
+    'sub_industries' => "Broker Rep\r\nFunding Portal\r\nCapital Acquisition Broker\r\nLimited Purpose Broker Dealer\r\nBroker Dealer\r\nAlternative Trading System/Exchange",
+    'sub_industries_specialist' => "Funding portals\r\nATS/Exchanges\r\nLimited purpose broker dealers\r\nCapital acquisition brokers\r\nBroker dealers\r\nAML/KYC (Broker Dealer)"
+  },
+  'Banking' => {},
+  'Fund Manager' => {},
+  'Investment Adviser' => {
+    'sub_industries' => "Provide advice to separately managed accounts (e.g. individuals)\r\nProvide advice to mutual funds\r\nProvide advice to hedge funds\r\nProvide advice to private equity funds\r\nProvide advice to venture capital funds\r\nProvide advice to ERISA accounts\r\nProvide advice to Taft-Hartley accounts\r\nProvide advice to municipalities or on municipal securities",
+    'sub_industries_specialist' => "ERISA\r\nGIPS\r\nMutual funds\r\nBusiness development corporations\r\nPrivate equity funds\r\nHedge funds\r\nVenture capital funds\r\nMunicipal advisors\r\nFinancial Planners"
+  },
+  'Commodities Trader' => {},
+  'Family Office' => {},
+  'Pension Plan' => {},
+  'Other' => {}
+}
+
+industries.each do |key, val|
+  industry = Industry.find_or_initialize_by(name: key)
+
+  if val.present?
+    industry.sub_industries = val['sub_industries']
+    industry.sub_industries_specialist = val['sub_industries_specialist']
+  end
+
+  industry.save!
 end
 
 %w[sec finra cfdc nfa volckerrule doddfrank ria privateequity hedgefund mutualfund

@@ -3,11 +3,17 @@
 class SpecialistSerializer < ApplicationSerializer
   has_many :skills, serializer: SkillSerializer
   has_many :industries, serializer: IndustrySerializer
-  attributes :id,
-             :first_name,
-             :last_name,
-             :resume_url,
-             :username,
-             :experience,
-             :former_regulator
+  has_many :jurisdictions, serializer: JurisdictionSerializer
+
+  attributes \
+    :id,
+    :username,
+    :time_zone,
+    :last_name,
+    :first_name,
+    :resume_url,
+    :experience,
+    :sub_industries,
+    :former_regulator,
+    :specialist_other
 end

@@ -148,6 +148,9 @@ Lint/RequireParentheses:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
+Layout/AlignParameters:
+  Enabled: false
+
 # === Style ===
 
 Style/FrozenStringLiteralComment:

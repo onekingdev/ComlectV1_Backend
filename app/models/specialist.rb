@@ -208,7 +208,12 @@ class Specialist < ApplicationRecord
   # validate :cookie_agreement_invalid?
   validates :username, uniqueness: true, allow_blank: true
   validates :call_booked, presence: true, on: :signup
-  validates :resume, presence: true, on: :signup if Rails.env != 'test'
+
+  validates :former_regulator, inclusion: { in: [true, false] }
+  validates :specialist_other, presence: true, if: :former_regulator?
+
+  validates :jurisdiction_ids, :time_zone, :industry_ids,
+    :sub_industries, :experience, presence: true, on: :onboarding
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 

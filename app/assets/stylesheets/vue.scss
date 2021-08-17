@@ -1035,6 +1035,11 @@ input, button, select, optgroup, textarea {
     outline: 0 !important;
     box-shadow: none !important;
   }
+
+  .b-icon.bi {
+    padding-bottom: 2px;
+    font-size: 100%;
+  }
 }
 
 //.btn:not(.dropdown-toggle) {
@@ -1072,11 +1077,6 @@ a.btn {
     //color: #fff;
     background-color: $gray-2;
     border-color: $gray-2;
-  }
-
-  .b-icon.bi {
-    padding-bottom: 2px;
-    font-size: 100%;
   }
 }
 .btn.btn-default {
@@ -3801,7 +3801,8 @@ select.custom-select {
 .exp__btn {
   padding: 1.25rem;
   color: #797B7E;
-  max-width: 15.625rem; /*250px*/
+  //max-width: 15.625rem; /*250px*/
+  max-width: 15.7rem;
   text-align: left;
   border: solid 1px #DCDEE4;
   background-color: white;
