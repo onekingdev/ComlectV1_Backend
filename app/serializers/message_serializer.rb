@@ -7,5 +7,6 @@ class MessageSerializer < ApplicationSerializer
              :sender,
              :recipient,
              :message,
-             :file
+             :file,
+             :created_at
 end

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class SenderRecipientSerializer < ApplicationSerializer
-  attributes :name,
+  attributes :first_name,
+             :last_name,
              :photo
 
   def photo

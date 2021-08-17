@@ -247,6 +247,8 @@ class Business < ApplicationRecord
   end
 
   alias communicable_projects projects
+  alias_attribute :first_name, :contact_first_name
+  alias_attribute :last_name, :contact_last_name
 
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
 
