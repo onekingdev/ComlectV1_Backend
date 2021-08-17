@@ -5,7 +5,7 @@
         Breadcrumbs.mb-2(:items="['Projects', pageTitle]")
         .page-header__title.my-0.ml-0.m-b-10 {{ pageTitle }}
         p.page-header__subtitle.mb-0 Tell us more about your project and get connected to our experienced specialists.
-    .white-card-body.card-body_full-height.h-100
+    .white-card-body.card-body_full-height.p-x-40.h-100
       WizardProgress(v-bind="{step,steps}")
       .row.no-gutters
         .col-lg-6(v-if="step === steps[0]")
