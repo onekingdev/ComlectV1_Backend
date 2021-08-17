@@ -12,7 +12,7 @@ class Api::ReminderMessagesController < ApiController
   def create
     message = Message::Create.call(@reminder, message_params.merge(sender: @current_someone, recipient: nil), @current_someone, nil)
     if message.persisted?
-      render json: message.to_json
+      respond_with message, serializer: MessageSerializer
     else
       render json: { errors: message.errors.to_json }
     end
