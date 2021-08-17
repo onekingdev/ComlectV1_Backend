@@ -6,6 +6,7 @@ class Api::EmailConfirmationController < ApiController
 
   def update
     user = User.find_by(email: params[:email])
+    render(json: { message: 'Invalid code length' }) && return if params[:otp_secret].length != 6
     if !user.confirmed_at && user.verify_otp(params[:otp_secret])
       user.update(confirmed_at: Time.zone.now)
       sign_in(:user, user)
