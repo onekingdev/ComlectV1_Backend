@@ -59,24 +59,21 @@ export default {
         return
       }
       const reviewCategory = this.category
-      const data = {
+      const id = this.annualId
+      const dataToSend = {
         annualId: this.annualId,
         name: reviewCategory.name,
         complete: false
       }
       try {
         this.category.visible = false
-        const response = await this.createReviewCategory(data)
+        const response = await this.createReviewCategory(dataToSend)
         if (response) {
-          console.log('response1', response)
-          this.toast('Success', "New category added")
-          await this.getCurrentReviewReview(this.annualId)
-          this.category.name = ""
-          //window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
+          await this.getCurrentReviewReview(id)
+          this.category.name = ''
           this.$router.push(`/business/annual_reviews/${response.annual_report_id}/${response.id}`)
+          this.toast('Success', "New category added")
         }
-        const data = response.json()
-        console.log('response2 data', data)
       } catch (error) {
         this.toast('Error', error.message, true)
       }

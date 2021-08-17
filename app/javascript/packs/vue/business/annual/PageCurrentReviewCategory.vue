@@ -39,7 +39,7 @@
                   .d-flex.justify-content-between.align-items-center
                     h3
                       | {{ currentCategory.name }}
-                      b-badge.m-l-20(variant="default") {{ currentCategory.review_topics ? currentCategory.review_topics.length : 0 }} Tasks
+                      b-badge.ml-2(variant="default") {{ currentCategory.review_topics ? currentCategory.review_topics.length : 0 }} Tasks
                     AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory(currentCategory.id)", :inline="false")
                       b-button(variant="light") Delete
                 .reviews__topiclist(v-if="currentCategory.review_topics")

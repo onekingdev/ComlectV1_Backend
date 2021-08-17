@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import { DateTime } from 'luxon'
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   var today = new Date();
   var year = today.getFullYear();
@@ -125,7 +126,7 @@
       },
       datepickerOptions() {
         return {
-          min: new Date
+          min: new Date().toISOString()
         }
       },
     },
