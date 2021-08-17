@@ -6,13 +6,13 @@ class Api::ProjectMessagesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
-    render json: @project.messages.page(params[:page]).per(20).to_json
+    respond_with @project.messages.includes(:sender, :recipient).page(params[:page]).per(20), each_serializer: MessageSerializer
   end
 
   def create
     message = Message::Create.call(@project, message_params.merge(sender: @current_someone, recipient: nil), @current_someone, nil)
     if message.persisted?
-      render json: message.to_json
+      respond_with message, serializer: MessageSerializer
     else
       render json: { errors: message.errors.to_json }
     end

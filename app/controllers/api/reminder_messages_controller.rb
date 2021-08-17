@@ -6,7 +6,7 @@ class Api::ReminderMessagesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
-    respond_with @reminder.messages.includes(sender: %i[first_name last_name], recipient: %i[first_name last_name]).page(params[:page]).per(20), each_serializer: MessageSerializer
+    respond_with @reminder.messages.includes(:sender, :recipient).page(params[:page]).per(20), each_serializer: MessageSerializer
   end
 
   def create

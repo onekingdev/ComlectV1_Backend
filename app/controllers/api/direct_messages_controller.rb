@@ -26,8 +26,8 @@ class Api::DirectMessagesController < ApiController
        @current_someone.id]
     end
 
-    messages = Message.business_specialist(bid, sid).direct.page(params[:page]).per(20)
-    render json: messages.to_json
+    messages = Message.business_specialist(bid, sid).direct.includes(:sender, :recipient).page(params[:page]).per(20)
+    respond_with messages, each_serializer: MessageSerializer
   end
 
   def create
@@ -44,9 +44,9 @@ class Api::DirectMessagesController < ApiController
 
     message = Message::Create.call(nil, message_params.merge(sender: @current_someone, recipient: recipient), @current_someone, recipient)
     if !message.nil?
-      render json: message
+      respond_with message, serializer: MessageSerializer
     else
-      render json: message.errors
+      render json: { errors: message.errors.to_json }
     end
   end
 
