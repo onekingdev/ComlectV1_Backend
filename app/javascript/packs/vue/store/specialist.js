@@ -5,7 +5,7 @@ import tasks from "./specialistModules/tasks"
 import settings from "./specialistModules/settings";
 import projects from "./specialistModules/projects"
 import shared from "./commonModules/shared";
-// import auth from "./commonModules/auth";
+import auth from "./commonModules/auth";
 
 Vue.use(Vuex)
 
@@ -29,7 +29,7 @@ const store = new Vuex.Store({
   },
   modules: {
     shared,
-    // auth,
+    auth,
     reminders: {
       namespaced: true,
       ...tasks,
