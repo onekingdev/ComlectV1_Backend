@@ -35,7 +35,7 @@ import { toEvent, cssClass } from '@/common/TaskHelper'
 import TaskFormModal from '@/common/TaskFormModal'
 import Download from '@/common/Dashboard/components/Download'
 
-const endpointUrl = '/api/specialist/reminders/'
+const endpointUrl = '/api/reminders/'
 const jsToSql = date => DateTime.fromJSDate(date).toSQLDate()
 
 export default {
