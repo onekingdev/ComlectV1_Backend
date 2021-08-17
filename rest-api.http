@@ -30,6 +30,14 @@ Content-Type: application/json
   "otp_secret": "657908"
 }
 
+######### DASHBOARD
+GET http://127.0.0.1:3000/business/reminders.csv?from_date=01-01-2019&to_date=01-01-2021
+Content-Type: application/json
+
+### like this through the download range
+### and without parameters from_date just downloads everything, for the download all button
+
+
 #########################################
 GET http://localhost:3000/api/specialist/payment_settings
 Content-Type: application/json
