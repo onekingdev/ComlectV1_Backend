@@ -1,62 +1,62 @@
 <template lang="pug">
-  .page.exam
+  .page.exam(v-if="currentExam")
     .page-header.bg-white
       div
         h3.page-header__breadcrumbs Regulatory Exams&nbsp;
           span.separator /&nbsp;
-          b {{ exam ? exam.name : '' }}
-        h2.page-header__title {{ exam ? exam.name : '' }}
+          b {{ currentExam ? currentExam.name : '' }}
+        h2.page-header__title {{ currentExam ? currentExam.name : '' }}
       .page-header__actions
-        ExamModalShare.mr-3(v-if="exam" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="exam.complete")
+        ExamModalShare.mr-3(v-if="currentExam" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="currentExam.complete")
           a.btn.btn-link Share Link
-        ExamModalComplite.mr-3(v-if="exam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
-          button.btn.btn-default Mark {{ exam.complete ? 'Incomplete' : 'Complete' }}
-        button.btn.btn-dark.mr-3(v-if="exam && !exam.complete" @click="saveAndExit") Save and Exit
+        ExamModalComplite.mr-3(v-if="currentExam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
+          button.btn.btn-default Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
+        button.btn.btn-dark.mr-3(v-if="currentExam && !currentExam.complete" @click="saveAndExit") Save and Exit
         button.btn.btn__close(@click="exit")
           b-icon(icon="x")
 
     b-tabs.reviews__tabs.exams__tabs(content-class="mt-0")
       template(#tabs-end)
-        b-dropdown.tab-actions.actions(v-if="exam && !exam.complete" variant="default", right)
+        b-dropdown.tab-actions.actions(v-if="currentExam && !currentExam.complete" variant="default", right)
           template(#button-content)
             | Actions
             b-icon.ml-2(icon="chevron-down" font-scale="1")
-          ExamModalEdit(:exam="exam" :inline="false")
+          ExamModalEdit(:exam="currentExam" :inline="false")
             b-dropdown-item Edit
-          ExamModalDelete(@deleteConfirmed="deleteExam(exam.id)" :inline="false")
+          ExamModalDelete(@deleteConfirmed="deleteExam(currentExam.id)" :inline="false")
             b-dropdown-item.delete Delete
       b-tab(title="Detail" active)
         .container-fluid
           .row
             .col-md-9.mx-auto.position-relative
-              .card-body.white-card-body.reviews__card(v-if="loading && !exam")
+              .card-body.white-card-body.reviews__card(v-if="loading && !currentExam")
                 Loading
-              .card-body.white-card-body.reviews__card(v-if="exam")
+              .card-body.white-card-body.reviews__card(v-if="currentExam")
                 .reviews__card--internal.d-flex.justify-content-between.align-items-center.pt-0.m-b-20
                   h3 Requests
-                  a.btn.btn-default(:href="`/business/exam_management/${exam.id}/portal`") View Portal
+                  a.btn.btn-default(:href="`/business/exam_management/${currentExam.id}/portal`") View Portal
                 .reviews__topiclist
                   .d-flex.justify-content-between.m-b-20
                     b-button-group(size="md")
                       b-button(type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
                       b-button(type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
-                    ExamRequestModalCreate(v-if="!exam.complete" :examId="examId")
+                    ExamRequestModalCreate(v-if="!currentExam.complete" :examId="currentExam.id")
                       b-button(variant='default') Add request
                   template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExamRequestsFiltered")
                     .reviews__card--internal.exams__card--internal(:key="`${currentExam.name}-${i}`" :class="{ 'completed': currentRequst.complete }")
                       .row.m-b-1
                         .col-md-1
                           .reviews__checkbox.d-flex.justify-content-between
-                            .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true, exam.complete)" :class="{ 'checked': currentRequst.complete, 'disabled': exam.complete }")
+                            .reviews__checkbox-item.reviews__checkbox-item--true(@click="markCompleteReqeust(currentRequst.id, true, currentExam.complete)" :class="{ 'checked': currentRequst.complete, 'disabled': currentExam.complete }")
                               b-icon(icon="check2")
-                            .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false, exam.complete)" :class="{ 'checked': !currentRequst.complete, 'disabled': exam.complete }")
+                            .reviews__checkbox-item.reviews__checkbox-item--false(@click="markCompleteReqeust(currentRequst.id, false, currentExam.complete)" :class="{ 'checked': !currentRequst.complete, 'disabled': currentExam.complete }")
                               b-icon(icon="x")
                         .col-md-11
                           .d-flex.justify-content-between.align-items-center
                             .d-flex.align-items-center
                               b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                               .exams__input.exams__topic-name {{ currentRequst.name }}
-                            .d-flex.actions.min-w-225(v-if="!exam.complete")
+                            .d-flex.actions.min-w-225(v-if="!currentExam.complete")
                               b-dropdown(size="xs" variant="default" class="m-0 p-0" right)
                                 template(#button-content)
                                   | Add Item
@@ -91,9 +91,9 @@
                           .row(v-if="currentRequst.text_items")
                             template(v-for="(textItem, textIndex) in currentRequst.text_items")
                               .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
-                                textarea.exams__text-body(v-if="!exam.complete" v-model="currentRequst.text_items[textIndex].text")
+                                textarea.exams__text-body(v-if="!currentExam.complete" v-model="currentRequst.text_items[textIndex].text")
                                 p(v-if="exam.complete") {{ currentRequst.text_items[textIndex].text }}
-                                button.btn.btn__close.float-right(v-if="!exam.complete" @click="removeTextEntry(i, textIndex)")
+                                button.btn.btn__close.float-right(v-if="!currentExam.complete" @click="removeTextEntry(i, textIndex)")
                                   b-icon(icon="x" font-scale="1")
                           .row
                             template(v-for="(file, fileIndex) in currentRequst.exam_request_files")
@@ -104,25 +104,29 @@
                                   div.ml-0.mr-auto
                                     p.file-card__name: b {{ file.name }}
                                     a.file-card__link.link(:href="file.file_url" target="_blank") Download
-                                  div.ml-auto.align-self-start.actions(v-if="!exam.complete")
+                                  div.ml-auto.align-self-start.actions(v-if="!currentExam.complete")
                                     b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                       template(#button-content)
                                         b-icon(icon="three-dots")
                                       b-dropdown-item.delete(@click="removeFile(currentRequst.id, file.id)") Delete file
 
-                ExamRequestModalCreate(v-if="currentExam.exam_requests && currentExam.exam_requests.length && !exam.complete" :examId="examId")
+                ExamRequestModalCreate(v-if="currentExam.exam_requests && currentExam.exam_requests.length && !currentExam.complete" :examId="currentExam.id")
                   b-button.m-b-2(variant='default')
                     b-icon.mr-2(icon='plus-circle-fill')
                     | Add Request
                 .white-card-body
                   .d-flex.justify-content-end
-                    button.btn.btn-default.mr-2(v-if="!exam.complete" @click="saveExam") Save
+                    button.btn.btn-default.mr-2(v-if="!currentExam.complete" @click="saveExam") Save
                     ExamModalComplite(@compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
                       button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks" lazy)
         PageTasks
       b-tab(title="Documents" lazy)
-        PageAttachments(:currentExam="currentExam")
+        .container
+          .row.p-x-1
+            .col
+              .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
+                PageAttachments(:currentExam="currentExam")
       // b-tab(title="Activity" lazy)
       //   PageActivity
 </template>
@@ -175,15 +179,15 @@
     },
     computed: {
       ...mapGetters({
-        exam: 'exams/currentExam'
+        currentExam: 'exams/currentExam'
       }),
       loading() {
         return this.$store.getters.loading;
       },
-      currentExam() {
-        // return this.exam.exam_categories.find(item => item.id === this.revcatId)
-        return this.exam
-      },
+      // currentExam() {
+      //   // return this.exam.exam_categories.find(item => item.id === this.revcatId)
+      //   return this.exam
+      // },
       currentExamRequestsFiltered() {
         if (this.filterOption === 'shared') {
           return this.currentExam.exam_requests.filter(exam => exam.shared)
@@ -197,8 +201,11 @@
         return `${completedLenght}/${totalLenght}`
       },
       itemsTotal() {
+
         const reqeustsItemsArr = this.currentExam.exam_requests.map(request => {
-          const itemsTotal = request.text_items.length + request.exam_request_files.length
+          const requestTextsCount = request.text_items ? request.text_items.length : 0
+          const requestFilesCount = request.exam_request_files ? request.exam_request_files.length : 0
+          const itemsTotal = requestTextsCount + requestFilesCount
           return itemsTotal ? itemsTotal : 0
         })
         return reqeustsItemsArr
@@ -206,7 +213,6 @@
     },
     async mounted() {
       try {
-        if (!this.examId) this.examId = 1;
         await this.getCurrentExam(this.examId)
       } catch (error) {
         this.toast('Error', error.message, true)

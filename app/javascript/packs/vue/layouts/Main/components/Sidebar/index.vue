@@ -206,9 +206,12 @@
 
         document.querySelector('.sidebar-menu').style.display = "flex"
         if(splitUrl === "file-folders"
+          || splitUrl === "exam-management"
+          || splitUrl === "exam-management-current-review"
           || splitUrl === "settings"
-          || splitUrl === "settings-notification-center") this.$store.commit('changeSidebar', 'documents')
-        if(splitUrl !== "file-folders") this.$store.commit('changeSidebar', 'default')
+          || splitUrl === "settings-notification-center"
+        ) this.$store.commit('changeSidebar', 'documents')
+        // if(splitUrl !== "file-folders") this.$store.commit('changeSidebar', 'default')
       }
     }
   }

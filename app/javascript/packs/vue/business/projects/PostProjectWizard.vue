@@ -100,6 +100,7 @@ import {
   MINIMUM_EXPERIENCE_OPTIONS,
 } from '@/common/ProjectInputOptions'
 import ExitLocalProjectModal from "./modals/ExitLocalProjectModal";
+import { DateTime } from 'luxon'
 
 const REQUIRED = 'This field is required'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
@@ -210,7 +211,7 @@ export default {
           }
         })
       } else if (this.currentStep === 1) {
-        if (!this.project.minimum_experience) {
+        if (isNaN(parseInt(this.project.minimum_experience))) {
           this.errors.minimum_experience = [REQUIRED]
         }
       }
@@ -290,7 +291,7 @@ export default {
     },
     datepickerOptions() {
       return {
-        min: new Date
+        min: DateTime.now().toISODate()
       }
     },
     isLocationVisible() {

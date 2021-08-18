@@ -7,7 +7,7 @@
       .row
         .col-12.m-y-1
           label.dropbox.w-100(for="files")
-            input.input-file(type="file" id="files" ref="files" multiple accept="application/pdf" @change="selectFile")
+            input.input-file(type="file" id="files" ref="files" multiple @change="selectFile")
             p Drag your file(s) here
               br
               | or

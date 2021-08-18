@@ -16,11 +16,8 @@
                 b-dropdown-item.delete Delete file
     .row(v-if="!countDocuments")
       .col
-        table.table.task_table.mb-0
-          tbody
-            tr
-              td.text-center
-                h3 No documents
+        EmptyState
+
 </template>
 
 <script>

@@ -345,6 +345,7 @@ export default {
           .then((success) => {
             if (success) {
               const data = success.data
+              data.text_items = data.text_items ? data.text_items.map(text => ({ text })) : []
               commit('ADD_REQUEST_CURRENT_EXAM', data)
               return success
             }
