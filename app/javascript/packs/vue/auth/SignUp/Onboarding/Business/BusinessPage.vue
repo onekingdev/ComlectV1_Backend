@@ -215,36 +215,12 @@
       SelectPlanPaymentAndSummary,
     },
     created() {
-      // if(this.timezones) {
-      //   for (const value of this.timezones) {
-      //     const [ zone, city ] = value
-      //     this.timeZoneOptions.push({
-      //       value: city,
-      //       name: zone
-      //     })
-      //   }
-      // }
-      // if(this.industryIds) this.industryOptions = this.industryIds;
-      // if(this.jurisdictionIds) this.jurisdictionOptions = this.jurisdictionIds;
-      // if(this.states) this.stateOptions = this.states;
-
       const accountInfo = localStorage.getItem('app.currentUser');
       const accountInfoParsed = JSON.parse(accountInfo);
       if(accountInfo) {
         if(accountInfo.crd_number) this.formStep1.crd_number = accountInfo.crd_number
         this.formStep2.business = Object.assign({}, this.formStep2.business, { ...accountInfoParsed })
         this.onChangeIndustries(accountInfoParsed.industries)
-
-        this.formStep2.business.sub_industries = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
-          const subIndfromOpt = this.subIndustryOptions.find(opt => {
-            if (opt.name === subInd)
-              return opt
-          })
-          return {
-            name: subIndfromOpt.name,
-            value: subIndfromOpt.value
-          }
-        }) : []
 
         this.formStep2.business.time_zone = {
           name: accountInfoParsed.time_zone,
@@ -336,7 +312,7 @@
         this.currentStep = stepNum
       },
       prevStep(stepNum) {
-        this.currentStep = stepNum
+        this.navigation(stepNum)
       },
       nextStep(stepNum) {
         // CLEAR ERRORS
@@ -357,6 +333,8 @@
           delete this.formStep2.errors
           const dataToSend = this.formStep2
           if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
+
+          console.log('dataToSend', dataToSend)
 
           dataToSend.business.industry_ids = this.formStep2.business.industries ? this.formStep2.business.industries.map(record => record.id) : []
           dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : []
@@ -503,7 +481,23 @@
       const accountInfoParsed = JSON.parse(accountInfo);
 
       this.$store.dispatch('getStaticCollection')
-        .then(response => this.onChangeIndustries(accountInfoParsed.industries))
+        .then(response => {
+          this.onChangeIndustries(accountInfoParsed.industries)
+
+          const results = accountInfoParsed.sub_industries
+          if(results) {
+            for (const [key, value] of Object.entries(this.staticCollection.sub_industries_business)) {
+              for (const i of results) {
+                if (i === value) {
+                  this.formStep2.business.sub_industries.push({
+                    name: value,
+                    value: key
+                  })
+                }
+              }
+            }
+          }
+        })
         .catch(error => console.error(error))
     }
   }

@@ -230,36 +230,26 @@
       Overlay
     },
     created() {
-      // const accountInfo = localStorage.getItem('app.currentUser');
-      // const accountInfoParsed = JSON.parse(accountInfo);
-      // if(accountInfo) {
-      //   this.form.specialist.industry_ids = accountInfoParsed.industries || []
-      //   this.onChangeIndustries(accountInfoParsed.industries)
-      //   this.form.specialist.sub_industry_ids = accountInfoParsed.sub_industries ? accountInfoParsed.sub_industries.map((subInd, idx) => {
-      //     const subIndfromOpt = this.subIndustryOptions.find(opt => {
-      //       if (opt.name === subInd)
-      //         return opt
-      //     })
-      //     return {
-      //       name: subIndfromOpt.name,
-      //       value: subIndfromOpt.value
-      //     }
-      //   }) : []
-      //   this.form.specialist.jurisdiction = accountInfoParsed.jurisdictions || []
-      //
-      //   this.form.specialist.time_zone = {
-      //     name: accountInfoParsed.time_zone,
-      //     value: accountInfoParsed.time_zone
-      //   }
-      //
-      //   this.form.specialist.skills = accountInfoParsed.skills || []
-      //   this.form.specialist.experience = accountInfoParsed.experience
-      //   if(accountInfoParsed.resume_url)
-      //     this.file = {
-      //       name: "Uploaded File",
-      //       file_url: accountInfoParsed.resume_url
-      //     }
-      // }
+      const accountInfo = localStorage.getItem('app.currentUser');
+      const accountInfoParsed = JSON.parse(accountInfo);
+      if(accountInfo) {
+        this.form.specialist.industry_ids = accountInfoParsed.industries || []
+        this.onChangeIndustries(accountInfoParsed.industries)
+        this.form.specialist.jurisdiction_ids = accountInfoParsed.jurisdictions || []
+
+        this.form.specialist.time_zone = {
+          name: accountInfoParsed.time_zone,
+          value: accountInfoParsed.time_zone
+        }
+
+        this.form.specialist.skill_names = accountInfoParsed.skills || []
+        this.form.specialist.experience = accountInfoParsed.experience
+        if(accountInfoParsed.resume_url)
+          this.file = {
+            name: "Uploaded File",
+            file_url: accountInfoParsed.resume_url
+          }
+      }
 
       const url = new URL(window.location);
       const currentStep = +url.searchParams.get('step')
@@ -372,16 +362,18 @@
           // CLEAR ERRORS
           for (var value in this.errors) delete this.errors[value];
 
+          console.log('form', this.form)
+
           const params = {
             specialist: {
               jurisdiction_ids: this.form.specialist.jurisdiction_ids ? this.form.specialist.jurisdiction_ids.map(record => record.id) : [],
-              time_zone: this.form.specialist.time_zone.value || '',
+              time_zone: this.form.specialist.time_zone.value  ? this.form.specialist.time_zone.value : '',
               industry_ids: this.form.specialist.industry_ids ? this.form.specialist.industry_ids.map(record => record.id) : [],
               sub_industry_ids: this.form.specialist.sub_industry_ids ? this.form.specialist.sub_industry_ids.map(record => record.value) : [],
               former_regulator: this.form.specialist.former_regulator,
               //specialist_other: this.form.specialist_other.join(', '),
               skill_names: this.form.specialist.skill_names ? this.form.specialist.skill_names.map(skill => skill.name) : [],
-              experience: this.form.specialist.experience || '',
+              experience: this.form.specialist.experience,
               resume: this.file ? this.file : '',
             },
           }
@@ -540,8 +532,22 @@
       const accountInfoParsed = JSON.parse(accountInfo);
 
       this.$store.dispatch('getStaticCollection')
-        .then(response => {
-          // this.onChangeIndustries(accountInfoParsed.industries)
+        .then(() => {
+          this.onChangeIndustries(accountInfoParsed.industries)
+
+          const results = accountInfoParsed.sub_industries
+          if(results) {
+            for (const [key, value] of Object.entries(this.staticCollection.sub_industries_specialist)) {
+              for (const i of results) {
+                if (i === value) {
+                  this.form.specialist.sub_industry_ids.push({
+                    name: value,
+                    value: key
+                  })
+                }
+              }
+            }
+          }
         })
         .catch(error => console.error(error))
     },
