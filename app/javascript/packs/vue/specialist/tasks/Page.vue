@@ -149,12 +149,9 @@
       //     .then(response => response.json())
       //     .then(response => {
       //       console.log('result', response)
-      //       this.makeToast('Success', `Task successfully deleted!`)
+      //       this.toast('Success', `Task has been deleted.`)
       //     })
-      //     .catch(error => this.makeToast('Error', `${error.message}`))
-      // },
-      // makeToast(title, str) {
-      //   this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
+      //     .catch(error => this.toast('Error', `${error.message}`, true))
       // },
       sortBy (value) {
         this.sortedBy = value
@@ -225,7 +222,7 @@
         //  .then(response => console.log('response Overdue', response))
         //  .catch(error => console.error('error', error))
       } catch (error) {
-        this.makeToast('Error', error.message)
+        this.toast('Error', error.message, true)
       }
     },
     // watch: {

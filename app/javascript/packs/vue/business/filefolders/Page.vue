@@ -62,9 +62,6 @@
         startZipping: 'filefolders/startZipping',
         getFileFoldersById: 'filefolders/getFileFoldersById',
       }),
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       selectFile() {
         let fileInputElement = this.$refs.inputFile;
         fileInputElement.click();
@@ -97,12 +94,12 @@
             // console.log('response', response)
 
             if(!response.errors) {
-              this.makeToast('Success', `File successfully sended!`)
+              this.toast('Success', `File has been uploaded.`)
             }
           })
           .catch(error => {
             console.error(error)
-            this.makeToast('Error', `Something wrong! ${error}`)
+            this.toast('Error', `File has been not been uploaded. Please try again`, true)
             this.zipStatus = false
             this.disabled = false
           })
@@ -116,7 +113,7 @@
           await this.$store.dispatch('filefolders/startZipping')
             .then(response => {
               // console.log(response)
-              this.makeToast('Success', `${response.message}`)
+              this.toast('Success', `File has been downloaded.`)
 
               setTimeout(() => {
                 this.zippinTimerChecker()
@@ -130,7 +127,7 @@
             })
             // .finally(() => this.zippinTimerChecker()) // FOR TESTS
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       async zippinTimerChecker(){
@@ -150,7 +147,7 @@
 
               if (response.complete) {
                 this.zipStatus = true
-                this.makeToast('Success', 'Zipping completed! Dowloading started.')
+                this.toast('Success', 'File has been downloaded.')
 
                 // const url = response.path
                 // this.forceFileDownload(response.path)
@@ -170,11 +167,11 @@
             //     }
             //   } else {
             //     this.disabled = false
-            //     this.makeToast('Error', 'Requests for checking is too much!')
+            //     this.toast('Error', 'File has not been downloaded. Please try again.')
             //   }
             // })
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       // forceFileDownload(response){
@@ -199,7 +196,7 @@
               this.$store.commit('filefolders/SET_CUREENT_FOLDER_NAME', null)
             })
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       mouseOver: function(event){
@@ -242,7 +239,7 @@
         }
       } catch (error) {
         console.error(error)
-        this.makeToast('Error', error.message)
+        this.toast('Error', error.message, true, true)
       }
     },
   };

@@ -46,19 +46,16 @@
       })
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       async submit(e) {
         e.preventDefault();
 
         if (!this.file_folder.name) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.toast('Error', `N - Required field`, true)
           return
         }
         if (this.file_folder.name.length <= 3) {
           this.errors.push('Name is very short, must be more 3 characters.');
-          this.makeToast('Error', 'Name is very short, must be more 3 characters.')
+          this.toast('Error', 'N - Name must have more than 3 characters.', true)
           return;
         }
 
@@ -67,17 +64,17 @@
         try {
           const response = await this.$store.dispatch('filefolders/createFolder', this.file_folder)
           if (response.errors) {
-            this.makeToast('Error', `${response.status}`)
+            this.toast('Error', `Folder has not been created. Please try again. ${response.status}`, true)
             Object.keys(response.errors)
-              .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.makeToast('Success', `Folder successfully created!`)
+          this.toast('Success', `Folder has been created.`)
           this.$emit('saved')
           this.$bvModal.hide(this.modalId)
           this.file_folder.name = ''
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
     },

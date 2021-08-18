@@ -74,10 +74,6 @@
       focusInput() {
         this.$refs.input.focus();
       },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
-
       async submit (e) {
         e.preventDefault();
         this.errors = [];

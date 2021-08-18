@@ -47,9 +47,6 @@ export default {
       createReviewCategory: 'annual/createReviewCategory',
       getCurrentReviewReview: 'annual/getCurrentReview'
     }),
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    },
     async addCategory () {
       if (this.category.name.length === 0) {
         this.category.visible = false
@@ -64,12 +61,12 @@ export default {
       try {
         this.category.visible = false
         const response = await this.createReviewCategory(data)
-        this.makeToast('Success', "New category added")
+        this.toast('Success', "Category has been added")
         await this.getCurrentReviewReview(this.annualId)
         this.category.name = ""
         window.location.href = `${window.location.origin}/business/annual_reviews/${response.annual_report_id}/${response.id}`
       } catch (error) {
-        this.makeToast('Error', error.message)
+        this.toast('Error', error.message, true)
       }
     },
   }

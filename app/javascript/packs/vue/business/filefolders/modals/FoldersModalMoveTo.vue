@@ -68,14 +68,11 @@
       },
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       async submit(e) {
         e.preventDefault();
 
         if (!this.file_folder.destination) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.toast('Error', `N - Required field`, true)
           return
         }
 
@@ -96,12 +93,12 @@
             .dispatch('filefolders/updateFile', { id: this.item.id, data: formData })
             .then(response => {
               if(!response.errors) {
-                this.makeToast('Success', `File successfully updated!`)
+                this.toast('Success', `File has been moved.`)
               }
             })
             .catch(error => {
               console.error(error)
-              this.makeToast('Error', `Something wrong! ${error}`)
+              this.toast('Error', `File has not been moved. Please try again.`, true)
             })
 
           return
@@ -117,16 +114,16 @@
         try {
           const response = await this.$store.dispatch('filefolders/updateFolder', { id: this.item.id, data  })
           if (response.errors) {
-            this.makeToast('Error', `${response.status}`)
+            this.toast('Error', `Folder has not been moved. Please try again. ${response.status}`, true)
             Object.keys(response.errors)
-              .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.makeToast('Success', `Folder successfully updated!`)
+          this.toast('Success', `Folder has been moved.`)
           this.$emit('movedConfirmed', 'test')
           this.$bvModal.hide(this.modalId)
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       getData() {

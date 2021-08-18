@@ -137,11 +137,11 @@
         try {
           await this.$store.dispatch('reminders/deleteFile', data)
             .then(response => {
-              this.makeToast('Success', `File successfull deleted!`)
+              this.toast('Success', `File has been deleted.`)
             })
-            .catch(error => this.makeToast('Error', error.message, true))
+            .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
-          this.makeToast('Error', error.message, true)
+          this.toast('Error', error.message, true)
         }
       },
     }

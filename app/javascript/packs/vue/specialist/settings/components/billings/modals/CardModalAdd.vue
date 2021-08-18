@@ -74,7 +74,7 @@
       submit(e) {
         e.preventDefault();
 
-        // this.makeToast('Success', `....!`)
+        // this.toast('Success', `Changes have been saved.`)
         this.$emit('saved')
         this.$bvModal.hide(this.modalId)
       },

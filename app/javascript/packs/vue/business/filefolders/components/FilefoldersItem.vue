@@ -73,9 +73,6 @@ export default {
       getCurrentReviewFileFoldersById: 'filefolders/getFileFoldersById',
       deleteFileFolder: 'filefolders/deleteFileFolder',
     }),
-    makeToast(title, str) {
-      this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-    },
     dateToHuman(value) {
       const date = DateTime.fromJSDate(new Date(value))
       if (!date.invalid) {
@@ -112,7 +109,7 @@ export default {
         await this.$store.dispatch('filefolders/startZipping', { id: itemId })
           .then(response => {
             // console.log(response)
-            this.makeToast('Success', `${response.message}`)
+            this.toast('Success', `File has been downloaded.`)
 
             setTimeout(() => {
               this.zippinTimerChecker(itemId, itemName)
@@ -126,7 +123,7 @@ export default {
           })
         // .finally(() => this.zippinTimerChecker()) // FOR TESTS
       } catch (error) {
-        this.makeToast('Error', error.message)
+        this.toast('Error', error.message, true)
       }
     },
     async zippinTimerChecker(itemId, itemName){
@@ -143,7 +140,7 @@ export default {
 
             if (response.complete) {
               this.zipStatus = true
-              this.makeToast('Success', 'Zipping completed! Dowloading started.')
+              this.toast('Success', 'File has been downloaded.')
 
               this.download(response.path, `${itemName} ${itemId}.zip`);
               this.disabled = false
@@ -155,7 +152,7 @@ export default {
             this.disabled = false
           })
       } catch (error) {
-        this.makeToast('Error', error.message)
+        this.toast('Error', error.message, true)
       }
     },
     download(dataurl, filename) {
@@ -170,15 +167,15 @@ export default {
     // deleteFileFolder(filefolderId, itemType){
     //   this.$store.dispatch('filefolders/deleteFileFolder', { id: filefolderId, itemType })
     //     .then(response => this.toast('Success', `${response.message}`))
-    //     .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+    //     .catch(error => this.toast('Error', `Folder has not been deleted. Please try again.`, true))
     // },
     async deleteFileFolderItem(id, itemType) {
       try {
         this.deleteFileFolder({id, itemType})
           .then(response => this.toast('Success', `${response.message}`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+          .catch(error => this.toast('Error', `Folder has not been deleted. Please try again.`, true))
       } catch (error) {
-        this.makeToast('Error', error.message)
+        this.toast('Error', error.message, true)
       }
     },
     onChange(event){

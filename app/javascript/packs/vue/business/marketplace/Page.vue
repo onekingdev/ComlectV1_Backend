@@ -158,9 +158,6 @@
         //   .then((response) => console.log('response: ', response) )
         //   .catch((error) => console.error(error) );
       },
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       refetch() {
         fetch(endpointUrl + this.filterQuery, { headers: {'Accept': 'application/json'}})
           .then(response => response.json())

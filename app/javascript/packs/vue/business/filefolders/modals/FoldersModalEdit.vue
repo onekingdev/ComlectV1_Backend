@@ -54,20 +54,17 @@
       }
     },
     methods: {
-      makeToast(title, str) {
-        this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
-      },
       async submit(e) {
         e.preventDefault();
         console.log()
 
         if (!this.file_folder.name) {
-          this.makeToast('Error', `Please check all fields!`)
+          this.toast('Error', `N - Required field`)
           return
         }
         if (this.file_folder.name.length <= 3) {
           this.errors.push('Name is very short, must be more 3 characters.');
-          this.makeToast('Error', 'Name is very short, must be more 3 characters.')
+          this.toast('Error', 'N - Name must be more than 3 characters.')
           return
         }
 
@@ -88,12 +85,12 @@
             .dispatch('filefolders/updateFile', { id: this.item.id, data: formData })
             .then(response => {
               if(!response.errors) {
-                this.makeToast('Success', `File successfully updated!`)
+                this.toast('Success', `File has been saved.`)
               }
             })
             .catch(error => {
               console.error(error)
-              this.makeToast('Error', `Something wrong! ${error}`)
+              this.toast('Error', `File has not been saved.`)
             })
 
           return
@@ -110,17 +107,17 @@
         try {
           const response = await this.$store.dispatch('filefolders/updateFolder', { id: this.item.id, data })
           if (response.errors) {
-            this.makeToast('Error', `${response.status}`)
+            this.toast('Error', `Folder has not been saved. Please Try again. ${response.status}`, true)
             Object.keys(response.errors)
-              .map(prop => response.errors[prop].map(err => this.makeToast(`Error`, `${prop}: ${err}`)))
+              .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.makeToast('Success', `Folder successfully updated!`)
+          this.toast('Success', `Folder has been saved.`)
           this.$emit('editConfirmed')
           this.$bvModal.hide(this.modalId)
 
         } catch (error) {
-          this.makeToast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
     },
