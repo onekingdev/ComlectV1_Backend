@@ -11,7 +11,7 @@
         div(:class="{ 'invalid': errors.industry }")
           multiselect#selectS-1(
             v-model="optionsForRequest.industries"
-            :options="filter.industryOptions"
+            :options="filter.industries"
             :multiple="true"
             :show-labels="false"
             track-by="name",
@@ -50,7 +50,7 @@
         div(:class="{ 'invalid': errors.jurisdictions }")
           multiselect#selectS-2(
             v-model="optionsForRequest.jurisdictions"
-            :options="filter.jurisdictionOptions"
+            :options="filter.jurisdictions"
             :multiple="true"
             :show-labels="false"
             track-by="name",

@@ -13,12 +13,7 @@ class SpecialistsController < ApplicationController
   before_action :fetch_invitation, only: %i[new create]
 
   def index
-    @search = Specialist::Search.new(search_params)
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show

@@ -79,8 +79,8 @@
     budget: BUDGET_OPTIONS.map(() => false),
     duration: DURATION_OPTIONS.map(() => false),
     fromer_regulator: FORMER_REGULATOR_OPTIONS.map(() => false),
-    industries: '',
-    jurisdictions: ''
+    industries: [''],
+    jurisdictions: ['']
   })
 
   export default {

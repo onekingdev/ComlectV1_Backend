@@ -217,6 +217,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/specialistmarketplace' => 'specialists#index'
   resources :specialists, only: %i[index new create show]
   get '/profile/:id', to: 'specialists#edit', as: 'employee_profile'
   resource :specialist, only: %i[edit] do
