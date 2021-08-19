@@ -69,7 +69,7 @@
                 .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="onboarding__label label required")
                     div(
-                    :class="{ 'invalid': errors.subIndustry }"
+                    :class="{ 'invalid': errors.sub_industries }"
                     )
                       multiselect#selectB-5(
                       v-model="formStep2.business.sub_industries"
@@ -80,12 +80,12 @@
                       label="name",
                       placeholder="Select Sub-Industry",
                       required)
-                      .invalid-feedback.d-block(v-if="errors.subIndustry") {{ errors.subIndustry[0] }}
+                      .invalid-feedback.d-block(v-if="errors.sub_industries") {{ errors.sub_industries[0] }}
               .row
                 .col-sm-6.pr-sm-2
                   b-form-group#inputB-group-6(label='Jurisdiction' label-for='selectB-6' label-class="onboarding__label label required")
                     div(
-                    :class="{ 'invalid': errors.jurisdiction }"
+                    :class="{ 'invalid': errors.jurisdiction_ids }"
                     )
                       multiselect#selectB-6(
                       v-model="formStep2.business.jurisdictions"
@@ -96,7 +96,7 @@
                       label="name",
                       placeholder="Select Jurisdiction",
                       required)
-                      .invalid-feedback.d-block(v-if="errors.jurisdiction") {{ errors.jurisdiction[0] }}
+                      .invalid-feedback.d-block(v-if="errors.jurisdiction_ids") {{ errors.jurisdiction_ids[0] }}
                 .col-sm-6.pl-sm-2
                   b-form-group#inputB-group-7(label='Time Zone' label-for='selectB-7' label-class="onboarding__label label required")
                     div(
@@ -289,11 +289,13 @@
           return
         }
 
-        const dataToSend = {
-          crd_number: this.formStep1.crd_number
+        const data = {
+          business: {
+            crd_number: this.formStep1.crd_number
+          }
         }
 
-        this.$store.dispatch('getInfoByCRDNumber', dataToSend)
+        this.$store.dispatch('getInfoByCRDNumber', data)
           .then(response => {
             if (!response.errors) {
               this.formStep1.crd_number = response.crd_number
@@ -331,7 +333,25 @@
         if (stepNum === 3) {
 
           delete this.formStep2.errors
-          const dataToSend = this.formStep2
+          // const dataToSend = this.formStep2
+          const dataToSend = {
+            business: {
+              contact_phone: this.formStep2.business.contact_phone,
+              business_name: this.formStep2.business.business_name,
+              website: this.formStep2.business.website,
+              aum: this.formStep2.business.aum,
+              apartment: this.formStep2.business.apartment,
+              client_account_cnt: this.formStep2.business.client_account_cnt,
+              address_1: this.formStep2.business.address_1,
+              city: this.formStep2.business.city,
+              state: this.formStep2.business.state,
+              zipcode: this.formStep2.business.zipcode,
+              // industries: [],
+              // sub_industries: [],
+              // jurisdictions: [],
+              // time_zone: [],
+            }
+          }
           if(!this.formStep1.crd_number.length) delete dataToSend.business.crd_number
 
           console.log('dataToSend', dataToSend)
@@ -340,6 +360,8 @@
           dataToSend.business.sub_industry_ids = this.formStep2.business.sub_industries ? this.formStep2.business.sub_industries.map(record => record.value) : []
           dataToSend.business.jurisdiction_ids = this.formStep2.business.jurisdictions ? this.formStep2.business.jurisdictions.map(record => record.id) : []
           dataToSend.business.time_zone = this.formStep2.business.time_zone ? this.formStep2.business.time_zone.value : ''
+
+          console.log('dataToSend', dataToSend)
 
           this.$store.dispatch('updateAccountInfo', dataToSend)
             .then(response => {

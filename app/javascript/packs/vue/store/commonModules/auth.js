@@ -253,7 +253,8 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const response = await axios.patch(`/business`, payload)
+        // const response = await axios.patch(`/business`, payload)
+        const response = await axios.patch(`/businesses/auto_populate`, payload)
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
 

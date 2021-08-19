@@ -380,7 +380,13 @@ Rails.application.routes.draw do
       patch '/favorites' => 'favorites#update'
       post '/share_project' => 'share_project#create'
     end
-    resources :businesses, only: [:create]
+
+    resources :businesses, only: [:create] do
+      collection do
+        patch :auto_populate
+      end
+    end
+
     get '/businesses/current' => 'businesses#current'
     resource :business, only: %i[update] do
       patch '/' => 'businesses#update', as: :update

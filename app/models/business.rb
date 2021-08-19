@@ -257,30 +257,34 @@ class Business < ApplicationRecord
   EMPLOYEE_OPTIONS = %w[<10 11-50 51-100 100+].freeze
   RISK_TOLERANCE_OPTIONS = [nil, '', 'Bare minimum', 'Best efforts', 'Best business practices', 'Gold standard'].freeze
 
-  validates :contact_first_name, :contact_last_name, presence: true
-  validates :business_name, :industries, presence: true, if: -> { account_created }
-  validates :city, :state, presence: true, if: -> { account_created }
   validates :description, length: { maximum: 750 }
-  # validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
-  validates :risk_tolerance, inclusion: { in: RISK_TOLERANCE_OPTIONS }, if: -> { account_created }
-  validates :linkedin_link, allow_blank: true, url: true
   validates :website, allow_blank: true, url: true
-  # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :linkedin_link, allow_blank: true, url: true
   validates :username, uniqueness: true, allow_blank: true
-  # validates :client_account_cnt, presence: true
-  # validates :total_assets, presence: true
+  validates :contact_first_name, :contact_last_name, presence: true
+  validates :risk_tolerance, inclusion: { in: RISK_TOLERANCE_OPTIONS }, if: -> { account_created }
+
+  validates :business_name, :industries, :sub_industries, :jurisdiction_ids,
+    :time_zone, :address_1, :apartment, :city, :state, :zipcode,
+    presence: true, if: -> { account_created }
+
   validate if: -> { time_zone.present? } do
     errors.add :time_zone unless ActiveSupport::TimeZone.all.collect(&:name).include?(time_zone)
   end
+
+  # validate :tos_invalid?
+  # validate :cookie_agreement_invalid?
+
+  # validates :total_assets, presence: true
+  # validates :client_account_cnt, presence: true
+  # validates :employees, inclusion: { in: EMPLOYEE_OPTIONS }
+  # validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :tos_agreement
   accepts_nested_attributes_for :cookie_agreement
 
   attr_accessor :sub_industry_ids
-
-  # validate :tos_invalid?
-  # validate :cookie_agreement_invalid?
 
   delegate :suspended?, to: :user
 

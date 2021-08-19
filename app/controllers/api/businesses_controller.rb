@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class Api::BusinessesController < ApiController
-  skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :authenticate_user!, only: :create
   before_action :require_business!, only: %i[update current]
 
   def create
-    business = Business.new(business_params)
+    business = Business.new(signup_params)
+
     if business.save
       business.update_attribute('account_created', true)
       BusinessMailer.verify_email(business.user, business.user.otp).deliver_later
@@ -16,16 +17,12 @@ class Api::BusinessesController < ApiController
   end
 
   def update
-    if edit_business_params.key?('crd_number') && edit_business_params['crd_number'].present?
-      build_business
-      respond_with current_business, serializer: BusinessSerializer
-    elsif current_business.update(edit_business_params)
-      current_business.username = current_business.generate_username if current_business.username.blank?
-      current_business.update(sub_industries: convert_sub_industries(business_params[:sub_industry_ids]))
+    service = BusinessServices::OnboardingService.call(current_business, onboarding_params)
 
-      respond_with current_business, serializer: BusinessSerializer
+    if service.success?
+      respond_with service.business, serializer: BusinessSerializer
     else
-      respond_with errors: { business: current_business.errors.messages }
+      respond_with errors: { business: service.business.errors.messages }
     end
   end
 
@@ -33,44 +30,43 @@ class Api::BusinessesController < ApiController
     respond_with current_business, serializer: BusinessSerializer
   end
 
-  private
+  def auto_populate
+    crd_number = params[:business][:crd_number]
 
-  def convert_sub_industries(ids)
-    return [] if ids.blank?
-    tgt_industries = []
-    ids.each do |sub_ind|
-      c = sub_ind.split('_').map(&:to_i)
-      if current_business.industries.collect(&:id).include? c[0]
-        tgt_industries.push(Industry.find(c[0]).sub_industries.split("\r\n")[c[1]])
-      end
+    if crd_number.blank?
+      respond_with(errors: { business: { crd_number: 'Required field' } }) and return
     end
-    tgt_industries
-  end
 
-  def business_params
-    params.require(:business).permit(
-      :contact_first_name, :contact_last_name, :contact_email, :contact_job_title, :contact_phone,
-      :business_name, :website, :aum, :apartment, :client_account_cnt, :logo, :time_zone,
-      :address_1, :country, :city, :state, :zipcode, :crd_number, sub_industry_ids: [],
-                                                                  industry_ids: [], jurisdiction_ids: [],
-                                                                  user_attributes: %i[
-                                                                    email password
-                                                                  ]
-    )
-  end
+    potential_business = PotentialBusiness.find_by(crd_number: crd_number)
 
-  def edit_business_params
-    business_params.except(:user_attributes)
-  end
-
-  def build_business
-    potential_business = PotentialBusiness.find_by(crd_number: edit_business_params[:crd_number])
-    if potential_business
+    if potential_business.present?
       business_attrs = potential_business.attributes.except('id', 'created_at', 'updated_at')
       current_business.assign_attributes(business_attrs)
       current_business.save(validate: false)
     else
-      current_business.update_attribute('crd_number', edit_business_params[:crd_number])
+      current_business.update_attribute(:crd_number, crd_number)
     end
+
+    respond_with current_business.business, serializer: BusinessSerializer
+  end
+
+  private
+
+  def signup_params
+    params.require(:business).permit(
+      :contact_first_name, :contact_last_name,
+      user_attributes: %i[email password]
+    )
+  end
+
+  def onboarding_params
+    params.require(:business).permit(
+      :business_name, :time_zone, :address_1,
+      :apartment, :city, :state, :zipcode, :aum,
+      :client_account_cnt, :contact_phone, :website,
+      industry_ids: [],
+      sub_industry_ids: [],
+      jurisdiction_ids: []
+    )
   end
 end
