@@ -16,8 +16,8 @@
     td.text-right(v-if="!shortTable")
       | {{ item.remind_at | asDate }}
     td.text-right(:class="{ overdue: isOverdue(item) }")
-      b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
       ion-icon.text-dark.mr-2(v-if="isRepeat(item)" name="repeat-outline")
+      b-icon.mr-2(v-if="isOverdue(item)" icon="exclamation-triangle-fill" variant="warning")
       | {{ item.end_date | asDate }}
     td.d-none(v-if="!shortTable").text-right 0
     td.d-none(v-if="!shortTable").text-right 0

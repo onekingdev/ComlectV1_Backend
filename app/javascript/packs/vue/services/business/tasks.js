@@ -107,7 +107,13 @@ export async function getTaskMessagesById(payload) {
 }
 
 export async function postTaskMessageById(payload) {
-  return await axios.post(`${END_POINT}/${payload.id}/messages`, payload.message)
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+
+  return await axios.post(`${END_POINT}/${payload.id}/messages`, payload.formData, config)
     .then(response => {
       if (response) {
         return response

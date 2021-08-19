@@ -16,11 +16,14 @@ const mapAuthProviders = {
 }
 
 import Task from "../../models/Task";
+import axios from "../../services/axios";
+import {AccountInfoBusiness, AccountInfoSpecialist} from "../../models/AccountInfo";
 
 export default {
   state: {
     tasks: [],
     currentTask: null,
+    currentTaskMessages: []
   },
   mutations: {
     SET_TASKS(state, payload) {
@@ -42,6 +45,12 @@ export default {
     DELETE_TASK(state, payload) {
       const index = state.tasks.findIndex(record => record.id === payload.id);
       state.tasks.splice(index, 1)
+    },
+    CREATE_CURRENT_TASK_MESSAGES(state, payload) {
+      state.currentTaskMessages = payload
+    },
+    UPDATE_CURRENT_TASK_MESSAGES(state, payload) {
+      state.currentTaskMessages.push(payload)
     },
   },
   actions: {
@@ -546,56 +555,12 @@ export default {
       try {
         const getTaskMessagesById = mapAuthProviders[rootState.shared.settings.authProvider].getTaskMessagesById
         getTaskMessagesById(payload)
-          .then((success) => {
+          .then(success => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
             if (success) {
               const data = success.data
-              console.log(data)
-              // commit('UPDATE_TASK', new Task(
-              //   data.body,
-              //   data.created_at,
-              //   data.description,
-              //   data.done_at,
-              //   data.done_occurencies,
-              //   data.end_by,
-              //   data.end_date,
-              //   data.id,
-              //   data.linkable_id,
-              //   data.linkable_type,
-              //   data.note,
-              //   data.on_type,
-              //   data.remind_at,
-              //   data.remindable_id,
-              //   data.remindable_type,
-              //   data.repeat_every,
-              //   data.repeat_on,
-              //   data.repeats,
-              //   data.skip_occurencies,
-              //   data.updated_at,
-              // ))
-              // commit('UPDATE_CURRENT_TASK', new Task(
-              //   data.body,
-              //   data.created_at,
-              //   data.description,
-              //   data.done_at,
-              //   data.done_occurencies,
-              //   data.end_by,
-              //   data.end_date,
-              //   data.id,
-              //   data.linkable_id,
-              //   data.linkable_type,
-              //   data.note,
-              //   data.on_type,
-              //   data.remind_at,
-              //   data.remindable_id,
-              //   data.remindable_type,
-              //   data.repeat_every,
-              //   data.repeat_on,
-              //   data.repeats,
-              //   data.skip_occurencies,
-              //   data.updated_at,
-              // ))
+              commit('CREATE_CURRENT_TASK_MESSAGES', data)
               return data
             }
             if (!success) {
@@ -628,51 +593,7 @@ export default {
             commit("setLoading", false, { root: true });
             if (success) {
               const data = success.data
-              console.log(data)
-              // commit('UPDATE_TASK', new Task(
-              //   data.body,
-              //   data.created_at,
-              //   data.description,
-              //   data.done_at,
-              //   data.done_occurencies,
-              //   data.end_by,
-              //   data.end_date,
-              //   data.id,
-              //   data.linkable_id,
-              //   data.linkable_type,
-              //   data.note,
-              //   data.on_type,
-              //   data.remind_at,
-              //   data.remindable_id,
-              //   data.remindable_type,
-              //   data.repeat_every,
-              //   data.repeat_on,
-              //   data.repeats,
-              //   data.skip_occurencies,
-              //   data.updated_at,
-              // ))
-              // commit('UPDATE_CURRENT_TASK', new Task(
-              //   data.body,
-              //   data.created_at,
-              //   data.description,
-              //   data.done_at,
-              //   data.done_occurencies,
-              //   data.end_by,
-              //   data.end_date,
-              //   data.id,
-              //   data.linkable_id,
-              //   data.linkable_type,
-              //   data.note,
-              //   data.on_type,
-              //   data.remind_at,
-              //   data.remindable_id,
-              //   data.remindable_type,
-              //   data.repeat_every,
-              //   data.repeat_on,
-              //   data.repeats,
-              //   data.skip_occurencies,
-              //   data.updated_at,
-              // ))
+              commit('UPDATE_CURRENT_TASK_MESSAGES', data)
               return data
             }
             if (!success) {
@@ -693,6 +614,7 @@ export default {
   },
   getters: {
     tasks: state => state.tasks,
-    currentTask: state => state.currentTask
+    currentTask: state => state.currentTask,
+    currentTaskMessages: state => state.currentTaskMessages
   },
 };

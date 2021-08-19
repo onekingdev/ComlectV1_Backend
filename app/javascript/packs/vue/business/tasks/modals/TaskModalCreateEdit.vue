@@ -82,11 +82,11 @@
         .col-lg-6.pl-2(v-if="taskProp")
           .card-body.white-card-body.messages-border.h-100.p-0
             b-tabs.special-navs-messages(content-class="m-20" class="p-0")
-              b-tab(title="Comments" active)
+              b-tab(title="Comments" ref="comments" active)
                 b-row
                   .col.text-center
                     .card-body.p-0
-                      Messages
+                      Messages(:messages="messages")
 
               b-tab(title="Files")
                 b-row
@@ -98,10 +98,23 @@
                         label
                           a.btn.btn-default Upload File
                           input(type="file" name="file" @change="onFileChanged" style="display: none")
-                        Get(:documents="url" :etag="etag"): template(v-slot="{documents}"): .row.p-x-1
-                          .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
-                            p {{ document.file_data.metadata.filename }}
-                            p: a(:href='getDocumentUrl(document)' target="_blank") Download
+                        //Get(:documents="url" :etag="etag"): template(v-slot="{documents}"): .row.p-x-1
+                        //  .alert.alert-info.col-md-4(v-for="document in documents" :key="document.id")
+                        //    p {{ document.file_data.metadata.filename }}
+                        //    p: a(:href='getDocumentUrl(document)' target="_blank") Download
+                        .row(v-if="file")
+                          .col-md-12.m-b-1
+                            .file-card
+                              div
+                                b-icon.file-card__icon(icon="file-earmark-text-fill")
+                              .ml-0.mr-auto
+                                p.file-card__name {{ file.name }}
+                                a.file-card__link.link(:href="file.file_url" target="_blank") Download
+                              .ml-auto.my-auto.align-self-start.actions
+                                b-dropdown(size="sm" class="m-0 p-0" right)
+                                  template(#button-content)
+                                    b-icon(icon="three-dots")
+                                  b-dropdown-item.delete(@click="removeFile") Delete File
             hr.m-0
             b-row
               .col
@@ -254,6 +267,7 @@
           [{ list: "bullet" }],
           ["link"]
         ],
+        file: null,
       }
     },
     methods: {
@@ -370,18 +384,19 @@
         }
       },
       async onFileChanged(event) {
-        const file = event.target.files && event.target.files[0]
+        const file = event.target.files[0]
         if (file) {
-          const success = (await uploadFile(this.url, file)).ok
-          const message = success ? 'Document uploaded' : 'Document upload failed'
-          this.toast('Document Upload', message, !success)
-          this.newEtag()
+          this.file = file
+          // const success = (await uploadFile(this.url, file)).ok
+          // const message = success ? 'Document uploaded' : 'Document upload failed'
+          // this.toast('Document Upload', message, !success)
+          // this.newEtag()
         }
       },
       getDocumentUrl(document) {
         return `/uploads/${document.file_data.storage}/${document.file_data.id}`
       },
-      async getData () {
+      getData () {
         this.task = { ...this.taskProp }
         if(this.linkableId || this.linkableType) {
           this.task.linkable_type = this.linkableType
@@ -389,8 +404,7 @@
         }
         // this.task.link_to = this.taskProp.linkable_type
         try {
-          if(this.taskProp)
-            this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
+          if(this.taskProp) this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
 
           this.$store.dispatch("getPolicies")
 
@@ -405,24 +419,36 @@
       },
       sendMessage(task) {
 
+        console.log('file', this.file)
+        let formData = new FormData()
+        formData.append('message[file]', this.file);
+        formData.append('message[message]', this.task.comment);
         const data = {
           id: task.id,
-          message: {
-            message: {
-              message: this.task.comment
-            }
-          }
+          // message: {
+          //   message: {
+          //     message: this.task.comment,
+          //   }
+          // },
+          formData,
         }
 
         this.$store.dispatch("reminders/postTaskMessageById", data)
-          .then((response) => console.log('postTaskMessageById response mounted', response))
+          .then((response) => {
+            this.task.comment = ''
+            this.file = null
+          })
           .catch((err) => console.error(err));
-      }
+      },
+      removeFile() {
+        this.file = null
+      },
     },
     computed: {
       ...mapGetters({
         reviews: 'annual/reviews',
         projects: 'projects/projects',
+        messages: 'reminders/currentTaskMessages',
       }),
       policies() {
         return this.$store.getters.policiesList
@@ -453,7 +479,7 @@
       },
       datepickerOptions() {
         return {
-          // min: new Date
+          min: new Date().toISOString()
         }
       },
     },
