@@ -358,6 +358,7 @@ Rails.application.routes.draw do
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
     end
+
     namespace :specialist do
       get '/projects/my' => 'projects#my'
       resources :projects, only: %i[index show] do
@@ -369,14 +370,15 @@ Rails.application.routes.draw do
         get :calendar_hide
         get :calendar_show
       end
-      post '/upgrade/subscribe' => 'upgrade#subscribe'
-      delete '/upgrade/cancel' => 'upgrade#cancel'
+
+      resources :payment_settings, only: %i[index destroy]
+      put '/payment_settings/validate/:id' => 'payment_settings#validate'
       post '/payment_settings/create_card' => 'payment_settings#create_card'
       post '/payment_settings/create_bank' => 'payment_settings#create_bank'
-      delete '/payment_settings/delete_source/:id' => 'payment_settings#delete_source'
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
-      put '/payment_settings/validate/:id' => 'payment_settings#validate'
-      get '/payment_settings' => 'payment_settings#index'
+
+      post '/upgrade/subscribe' => 'upgrade#subscribe'
+      delete '/upgrade/cancel' => 'upgrade#cancel'
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
       post '/share_project' => 'share_project#create'

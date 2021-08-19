@@ -213,7 +213,9 @@ en:
         cannot_delete: 'Account has not been deleted. Please terminate any active contracts.'
     specialist:
       payment_settings:
-        payment_source_deattached: 'Payment method has been deleted.'
+        destroy:
+          not_found: 'Payment method not found.'
+          payment_source_deattached: 'Payment method has been deleted.'
       upgrade:
         subscribe_success: 'Plan has been upgraded.'
         no_subscription_to_cancel: 'Plan has not been cancelled. There are no active subscriptions'

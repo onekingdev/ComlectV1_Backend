@@ -59,13 +59,15 @@ class Api::Specialist::PaymentSettingsController < ApiController
     respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
   end
 
-  def delete_source
+  def destroy
     payment_source = current_specialist.payment_sources.find(params[:id])
     Stripe::DeattachSource.call(current_specialist.stripe_customer, payment_source.stripe_card_id)
     payment_source.destroy
-    respond_with message: { message: I18n.t('api.specialist.payment_settings.payment_source_deattached') }, status: :ok
+    respond_with message: { message: t('.payment_source_deattached') }, status: :ok
   rescue Stripe::StripeError => e
-    respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
+    respond_with(message: { message: e.message }, status: :unprocessable_entity) and return
+  rescue ActiveRecord::RecordNotFound
+    respond_with(message: { message: t('.not_found') }, status: :not_found) and return
   end
 
   def make_primary
