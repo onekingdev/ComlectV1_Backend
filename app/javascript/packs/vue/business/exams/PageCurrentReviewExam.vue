@@ -92,7 +92,7 @@
                             template(v-for="(textItem, textIndex) in currentRequst.text_items")
                               .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
                                 textarea.exams__text-body(v-if="!currentExam.complete" v-model="currentRequst.text_items[textIndex].text")
-                                p(v-if="exam.complete") {{ currentRequst.text_items[textIndex].text }}
+                                p(v-if="currentExam.complete") {{ currentRequst.text_items[textIndex].text }}
                                 button.btn.btn__close.float-right(v-if="!currentExam.complete" @click="removeTextEntry(i, textIndex)")
                                   b-icon(icon="x" font-scale="1")
                           .row
