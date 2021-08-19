@@ -10,15 +10,12 @@ class Api::Business::ProjectsController < ApiController
   def create
     if project_params[:status] == 'draft'
       @project.save(validate: false)
+      @project = build_local_project(@project) unless @project.local_project_id
       respond_with @project, serializer: ProjectSerializer
     elsif policy(@project).post? && @project.validate
       @project.post!
       @project.new_project_notification
-      unless @project.local_project_id
-        local_project_params = @project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
-        local_project = LocalProject.create(local_project_params)
-        @project.update(local_project_id: local_project.id)
-      end
+      @project = build_local_project(@project) unless @project.local_project_id
       respond_with @project, serializer: ProjectSerializer
     else
       render json: @project.errors, status: :unprocessable_entity
@@ -53,6 +50,13 @@ class Api::Business::ProjectsController < ApiController
   end
 
   private
+
+  def build_local_project(project)
+    local_project_params = project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
+    local_project = LocalProject.create(local_project_params)
+    project.update_attribute('local_project_id', local_project.id)
+    project
+  end
 
   def build_project
     @project = Project::Form.new(business: current_user.business).tap do |project|
