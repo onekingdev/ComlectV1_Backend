@@ -23,7 +23,8 @@
                   ion-icon(:name="icon")
                   | &nbsp;
                 span.pointer(@click="openModal(arg.event.extendedProps.taskId, arg.event.extendedProps.oid)" v-if="arg.event.extendedProps.remind_at") {{arg.event.title}}
-                a(v-else :href="arg.event.extendedProps.href" target="_blank") {{arg.event.title}}
+                //- a(v-else :href="arg.event.extendedProps.href" target="_blank") {{arg.event.title}}
+                router-link(v-else :to='arg.event.extendedProps.href') {{arg.event.title}}
 </template>
 
 <script>
@@ -112,7 +113,7 @@ export default {
             .then(response => response.json())
             .then(result => successCallback(result.tasks.concat(result.projects.map(project => ({
               ...project,
-              href: this.$store.getters.url('URL_PROJECT_SHOW', project.id)
+              href: `/specialist/my-projects/${project.id}`
             }))).map(task => ({
               ...toEvent(task),
               classNames: [cssClass(task)]

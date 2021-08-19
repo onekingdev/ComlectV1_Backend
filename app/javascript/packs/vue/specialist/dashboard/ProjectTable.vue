@@ -8,7 +8,6 @@
       tr(v-for="(project, i) in projectList" :key="i")
         td
           router-link.link(:to='project.href') {{project.title}}
-          // a.text-dark(:href="project.href" target="_blank") {{project.title}}
         td.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
           b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
           | {{ project.ends_on | asDate }}
@@ -31,7 +30,7 @@ export default {
     projectList() {
       return this.projects.map(project => ({
         ...toEvent(project),
-        href: this.$store.getters.url('URL_PROJECT_SHOW', project.id)
+        href: `/specialist/my-projects/${project.id}`
       }))
     }
   }
