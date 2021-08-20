@@ -16,7 +16,7 @@
               .col-md-12
                 h3.mb-0 Browse Specialist
             .card-body
-              MarketPlaceSearchInput(@searchComplited="filterByInput")
+              MarketPlaceSearchInput(@searchCompleted="filterByInput")
             .card-body
               SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
               Loading
@@ -36,8 +36,6 @@
             .d-flex.justify-content-between.m-t-1
               h4 Messages Details
               div
-                a.btn.btn-dark(v-if="project" :href="applyUrl(project)") Apply
-          SpecialistDetails(v-if="project" :project="project")
 </template>
 
 <script>
@@ -78,13 +76,10 @@
     pricing_type: PRICING_TYPE_OPTIONS.map(() => false),
     budget: BUDGET_OPTIONS.map(() => false),
     duration: DURATION_OPTIONS.map(() => false),
-    fromer_regulator: FORMER_REGULATOR_OPTIONS.map(() => false),
-    industries: [''],
-    jurisdictions: ['']
+    former_regulator: FORMER_REGULATOR_OPTIONS.map(() => false)
   })
 
   export default {
-    props: ['industryIds', 'jurisdictionIds', 'subIndustryIds', 'states'],
     components: {
       Loading,
       // VueRangeSlider,
@@ -97,12 +92,9 @@
       return {
         pageTitle: "Specialist Marketplace",
         projects: [],
-        project: null,
         filter: initialFilter(),
-        openId: null,
         isSidebarOpen: false,
         search: null,
-        value: [0, 100],
         optionsForRequest: {
           industries: [],
           experienceLevel: [],
@@ -124,12 +116,6 @@
     },
     created() {
       this.debouncedSend = _debounce(this.sendRequest, 2000)
-      if (this.initialOpenId) {
-        this.openDetails(this.initialOpenId)
-      }
-
-      if(this.industryIds) this.filter.industryOptions = this.industryIds
-      if(this.jurisdictionIds) this.filter.jurisdictionOptions = this.jurisdictionIds
     },
     unmounted() {
       this.debouncedSend.cancel()
@@ -163,24 +149,9 @@
           .then(response => response.json())
           .then(result => this.projects = result.map(parse))
       },
-      openDetails(id) {
-        this.openId = id
-        history.pushState({}, '', `${frontendUrl}/${id}`)
-        fetch(endpointUrl + '/' + this.openId, { headers: {'Accept': 'application/json'}})
-          .then(response => response.json())
-          .then(result => {
-            this.project = result
-            this.isSidebarOpen = true
-          })
-      },
       closeSidebar() {
-        this.openId = null
-        this.project = null
         history.pushState({}, '', '/business/specialists')
         this.isSidebarOpen = false
-      },
-      applyUrl(project) {
-        return `/projects/${project.id}/applications/new`
       },
       filterByInput (values) {
         // console.log('value', values)
@@ -294,7 +265,7 @@
       experienceOptions: () => EXPERIENCE_OPTIONS,
       budgetOptions: () => BUDGET_OPTIONS,
       durationOptions: () => DURATION_OPTIONS,
-      fromer_regulatorOptions: () => FORMER_REGULATOR_OPTIONS,
+      formerRegulatorOptions: () => FORMER_REGULATOR_OPTIONS,
       filterQuery() {
         let query = []
 
@@ -314,13 +285,8 @@
       }
     },
     async mounted () {
-      try {
-        await this.$store.dispatch('marketplace/getSpecialists')
-          .then((response) => console.log('response: ', response) )
-          .catch((error) => console.error(error) );
-      } catch (error) {
-        console.error(error)
-      }
+      await this.$store.dispatch('marketplace/getSpecialists')
+        .catch(error => console.error(error))
     },
   };
 </script>

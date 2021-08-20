@@ -1,5 +1,5 @@
 <template lang="pug">
-  .card#sidebarMenu_alt
+  Get(staticCollections="/api/static_collection"): template(v-slot="{ staticCollections: { industries: industryIds, jurisdictions: jurisdictionIds }}"): .card#sidebarMenu_alt
     .card-header(style='border-bottom: 0px;')
       b Filters
     .card-body
@@ -7,11 +7,10 @@
         | Industry
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_industry(visible)
-        // b-form-input(v-model="filter.industry")
         div(:class="{ 'invalid': errors.industry }")
           multiselect#selectS-1(
             v-model="optionsForRequest.industries"
-            :options="filter.industries"
+            :options="industryIds"
             :multiple="true"
             :show-labels="false"
             track-by="name",
@@ -30,15 +29,15 @@
         | Hourly rate
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_hourly_rate(visible)
-        <!--b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]" :key="'hr'+i") {{option.label}}-->
-        <!--VueRangeSlider.mb-5(-->
-        <!--v-bind="vueRangeOptions"-->
-        <!--ref='slider' v-model='optionsForRequest.hourlyRate')-->
-        <!--vue-range-slider.mb-5(-->
-        <!--ref='slider' v-model='value'-->
-        <!--:min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"-->
-        <!--:bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"-->
-        <!--:tooltip-dir='tooltipDir')-->
+        //- b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]" :key="'hr'+i") {{option.label}}
+        //- VueRangeSlider.mb-5(
+        //- v-bind="vueRangeOptions"
+        //- ref='slider' v-model='optionsForRequest.hourlyRate')
+        //- vue-range-slider.mb-5(
+        //- ref='slider' v-model='value'
+        //- :min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"
+        //- :bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"
+        //- :tooltip-dir='tooltipDir')
         .slieder-contaner
           vue-slider(v-model="optionsForRequest.hourlyRate" :enable-cross="false" v-bind="options")
       hr
@@ -50,7 +49,7 @@
         div(:class="{ 'invalid': errors.jurisdictions }")
           multiselect#selectS-2(
             v-model="optionsForRequest.jurisdictions"
-            :options="filter.jurisdictions"
+            :options="jurisdictionIds"
             :multiple="true"
             :show-labels="false"
             track-by="name",
@@ -59,10 +58,10 @@
             required)
           .invalid-feedback.d-block(v-if="errors.jurisdictions") {{ errors.jurisdictions }}
       hr
-      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_fromer_regulator)
+      h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_former_regulator)
         | Former Regulator
         ion-icon(name='chevron-down-outline')
-      b-collapse#collapse_fromer_regulator(visible)
+      b-collapse#collapse_former_regulator(visible)
         b-form-checkbox(v-for="(option, i) in regulatorOptions" :value="regulatorOptions[i]" v-model="optionsForRequest.formerRegulator" :key="i") {{ option }}
 </template>
 
@@ -90,33 +89,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  created() {
-    if (this.initialOpenId) {
-      this.openDetails(this.initialOpenId)
-    }
-
-    // this.min = 0
-    // this.max = 250
-    // this.bgStyle = {
-    //   backgroundColor: '#fff',
-    //   boxShadow: 'inset 0.5px 0.5px 3px 1px rgba(0,0,0,.36)'
-    // }
-    // this.tooltipStyle = {
-    //   // color: '#303132',
-    //   backgroundColor: '#303132',
-    //   borderColor: '#303132'
-    // }
-    // this.processStyle = {
-    //   backgroundColor: '#303132'
-    // },
-    // this.sliderStyle = {
-    //   backgroundColor: '#303132',
-    // },
-    // this.enableCross = false,
-    // this.tooltipMerge = false,
-    // this.formatter = value => `$${value}`,
-    // this.tooltipDir = 'bottom'
   },
   data () {
     return {

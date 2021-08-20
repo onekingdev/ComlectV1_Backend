@@ -10,6 +10,9 @@
 </template>
 
 <script>
+const SEARCH_URL_INDEX = '/specialistmarketplace'
+const SEARCH_URL_TAGS = tags => `${SEARCH_URL_INDEX}?tag=${tags.join('&tag=')}`
+
 export default {
   name: 'MarketPlaceSearchInput',
   data() {
@@ -18,24 +21,27 @@ export default {
       values: []
     };
   },
+  created() {
+    const tags = this.$router.currentRoute.query.tag
+    if (tags && Array.isArray(tags)) {
+      this.values = tags
+      this.$emit('searchCompleted', this.values)
+    }
+  },
   methods: {
     addTag () {
-      if(!this.search) return
+      if (!this.search) return
       this.values.push(this.search)
       this.search = ''
-      history.pushState({}, '', `/business/specialists?tag=${this.values.join('&tag=')}`)
-      this.$emit('searchComplited', this.values)
+      history.pushState({}, '', SEARCH_URL_TAGS(this.values))
+      this.$emit('searchCompleted', this.values)
     },
     removeTag (id) {
       this.values.splice(id, 1)
-      if(this.values.length) history.pushState({}, '', `/business/specialists?tag=${this.values.join('&tag=')}`)
-      if(!this.values.length) history.pushState({}, '', `/business/specialists`)
-      this.$emit('searchComplited', this.values)
+      if (this.values.length) history.pushState({}, '', SEARCH_URL_TAGS(this.values))
+      if (!this.values.length) history.pushState({}, '', SEARCH_URL_INDEX)
+      this.$emit('searchCompleted', this.values)
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
