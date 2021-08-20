@@ -143,6 +143,7 @@
                   required)
                   .invalid-feedback.d-block(v-if="errors.skill_names") {{ errors.skill_names }}
               h3.onboarding__title What's your experience?
+              .invalid-feedback.d-block(v-if="errors.experience") {{ errors.experience[0] }}
               label.onboarding__sub-title(class='label required') Select one that best matches your level of your expertise.
               b-form-group(class="onboarding-group m-b-30")
                 b-button.exp__btn(variant="default" :class="form.specialist.experience === '0' ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, '0')")
@@ -154,7 +155,6 @@
                 b-button.exp__btn(variant="default" :class="form.specialist.experience === '2' ? 'active' : ''" type='button' data-toggle="button" aria-pressed="false" autocomplete="off" @click="onexperienceChange($event, '2')")
                   span.exp__btn--main Expert
                   span.exp__btn--sub Deep understanding of industry with varied experience.
-                .invalid-feedback.d-block(v-if="errors.experience") {{ errors.experience[0] }}
               // h3.onboarding__title.m-b-3.m-t-2 (Optional) Upload you resume:
               // b-form-group.m-t-2(class="onboarding-group")
               //   b-form-file(v-model='form.file' :state='Boolean(form.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')
@@ -249,6 +249,12 @@
             name: "Uploaded File",
             file_url: accountInfoParsed.resume_url
           }
+        if(accountInfoParsed.specialist_other) {
+          this.form.specialist.former_regulator = true
+          let tempArr = accountInfoParsed.specialist_other.split(', ')
+          this.specialist_other = tempArr.map(record => ({name: record, value: record}))
+          this.form.specialist.specialist_other = this.specialist_other
+        }
       }
 
       const url = new URL(window.location);
@@ -353,16 +359,28 @@
         }
       },
       nextStep(stepNum) {
+        // CLEAR ERRORS
+        for (var value in this.errors) delete this.errors[value];
 
+        if (this.form.specialist.former_regulator && !this.specialist_other.length) {
+          this.errors = Object.assign({}, this.errors, { specialist_other: [`Required field`] })
+          return
+        }
         if (stepNum === 2) {
+          if (!this.form.specialist.jurisdiction_ids.length) this.errors = Object.assign({}, this.errors, { jurisdiction_ids: [`Required field`] })
+          if (!this.form.specialist.time_zone.value) this.errors = Object.assign({}, this.errors, { time_zone: [`Required field`]})
+          if (!this.form.specialist.industry_ids.length) this.errors = Object.assign({}, this.errors, { industry_ids: [`Required field`]})
+          // if (!this.form.specialist.sub_industry_ids.length) this.errors = Object.assign({}, this.errors, { sub_industries: [`Required field`]})
+          if (!this.form.specialist.jurisdiction_ids.length
+            || !this.form.specialist.time_zone.value
+            || !this.form.specialist.industry_ids.length) {
+            return
+          }
+
           this.navigation(stepNum)
         }
 
         if (stepNum === 3) {
-          // CLEAR ERRORS
-          for (var value in this.errors) delete this.errors[value];
-
-          console.log('form', this.form)
 
           const params = {
             specialist: {
@@ -400,7 +418,6 @@
                 for (const type of Object.keys(response.errors)) {
                   this.errors = response.errors[type]
                 }
-                console.log('this.errors')
 
                 if (response.errors.specialist.industry_ids || response.errors.specialist.jurisdiction_ids || response.errors.specialist.sub_industries || response.errors.specialist.time_zone || response.errors.specialist.specialist_other) {
                   this.navigation(1)
@@ -502,7 +519,7 @@
         if(e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('d-block')
       },
       redirect() {
-        localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
+        // localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
         window.location.href = `/${this.userType}`;
       },
       removeFile() {

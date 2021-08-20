@@ -103,11 +103,11 @@
             localStorage.setItem('app.currentUser.paymentMethod', JSON.stringify(data));
 
             this.$emit('complitedPaymentMethod', response)
-            this.toast('Success', `Payment method successfully added!`)
+            // this.toast('Success', `Payment method successfully added!`)
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', 'Payment method could not be added.', true)
+            // this.toast('Error', 'Payment method could not be added.', true)
           })
       },
       deletePaymentMethod(cardId) {
@@ -120,7 +120,7 @@
           .then(response => {
             const index = this.cardOptions.findIndex(record => record.id === cardId);
             this.cardOptions.splice(index, 1)
-            this.toast('Success', `${response.message.message}`)
+            // this.toast('Success', `${response.message.message}`)
           })
           .catch(error => console.error(error))
       },
@@ -163,12 +163,12 @@
             localStorage.setItem('app.currentUser.paymentMethod', JSON.stringify(data));
 
             this.$emit('complitedPaymentMethod', response)
-            this.toast('Success', `Payment method successfully added!`)
+            // this.toast('Success', `Payment method successfully added!`)
           })
           .catch(error => {
             console.error(error)
             // this.toast('Error', `Something wrong! ${error}`)
-            this.toast('Error', 'Payment method could not be added.')
+            // this.toast('Error', 'Payment method could not be added.')
           })
       }
     },

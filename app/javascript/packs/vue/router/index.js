@@ -69,6 +69,8 @@ export default new Router({
     // { path: '/business/dashboard', redirect: '/business/dashboard' },
     // { path: '/specialist', redirect: '/specialist/dashboard' },
     // { path: '/specialist/dashboard', redirect: '/specialist/dashboard' },
+    { path: '/business/new', redirect: '/business/onboarding' },
+    { path: '/specialists/new', redirect: '/specialist/onboarding' },
 
     // AUTH
     { path: '/', name: 'home', component: SignIn },

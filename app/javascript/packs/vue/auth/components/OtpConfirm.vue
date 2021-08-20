@@ -71,7 +71,7 @@
             .then((response) => {
               this.error = response.message
               if(response.message === 'Invalid 6 digits code')
-              this.toast('Error', 'Verification code failed. Try again.', true)
+              // this.toast('Error', 'Verification code failed. Try again.', true)
               if (response.errors) { }
               if (!response.errors && response.token) {
                 // open step 3
@@ -85,7 +85,7 @@
             })
             .catch((error) => {
               console.error(error)
-              this.toast('Error', `${error.message}`, true)
+              // this.toast('Error', `${error.message}`, true)
             })
 
           return
@@ -105,7 +105,7 @@
             .then((response) => {
               if (response.errors) {
                 this.error = response.message
-                this.toast('Error', 'Verification code failed. Try again.', true)
+                // this.toast('Error', 'Verification code failed. Try again.', true)
               }
               if (!response.errors && response.token) {
                 // open dashboard
@@ -116,10 +116,7 @@
               }
             })
             .catch((error) => {
-              console.error('error', error.data)
-              console.error('error', error.data.errors)
-              console.error('error', error.data.errors.invalid)
-              this.toast('Error', 'Verification code failed. Try again.', true)
+              // this.toast('Error', 'Verification code failed. Try again.', true)
               if (error.data.errors) {
                 this.error = error.data.errors.invalid
               }

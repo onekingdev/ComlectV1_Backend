@@ -35,10 +35,10 @@
   })
 
   //validate Email
-  function validateEmail($email) {
-    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    return emailReg.test($email);
-  }
+  // function validateEmail($email) {
+  //   var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  //   return emailReg.test($email);
+  // }
 
   export default {
     components: {
@@ -73,6 +73,7 @@
         //   Object.assign(this.errors, { email: 'Email not valid' })
         //   return
         // }
+        const userTypeLocalStorage = localStorage.getItem('app.currentUser.userType') ? JSON.parse(localStorage.getItem('app.currentUser.userType')) : ''
 
         this.form.email = this.form.email.toLowerCase() // Avoid issues with Capitalized emails
         const data = {
@@ -84,10 +85,13 @@
         this.$store.dispatch('signIn', data)
           .then(response => {
             if (response.errors) {
+              // CATCH CASE NOT PASSED Onboarding
+              if(response.errors.onboarding) this.$router.push(`/${userTypeLocalStorage}/onboarding`)
+
               if (response.errors === 'Invalid email or password') {
                 this.error = response.errors
               }
-              if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email') {
+              if (response.error === 'Please, confirm your email' || response.errors === 'Please, confirm your email' || response.errors === 'Please confirm email') {
                 this.emailVerified = false
                 // OPEN OTP
                 this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})

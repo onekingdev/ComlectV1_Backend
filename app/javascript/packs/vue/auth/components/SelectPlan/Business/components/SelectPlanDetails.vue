@@ -118,7 +118,7 @@
           .catch(error => {
             console.error(error)
 
-            this.toast('Error', 'Payment failed to process.', true)
+            // this.toast('Error', 'Payment failed to process.', true)
             // OVERLAY
             this.$store.dispatch('setOverlay', {
               active: true,
@@ -134,7 +134,7 @@
           .finally(() => this.disabled = true)
       },
       redirect() {
-        localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
+        // localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
         const dashboard = this.userType === 'business' ? '/business' : '/specialist'
         setTimeout(() => {
           window.location.href = `${dashboard}`;

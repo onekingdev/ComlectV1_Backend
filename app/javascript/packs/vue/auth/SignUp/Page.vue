@@ -47,9 +47,9 @@
               Errors(:errors="errors.passwordConfirm")
             b-form-group.paragraph.m-b-10
               p By signing up, I accept the&nbsp;
-                a.link(href="#") Complect Terms of Use&nbsp;
+                a.link(href="http://www.complect.com/terms" target="_blank") Complect Terms of Use&nbsp;
                 | and acknowledge the&nbsp;
-                a.link(href="#") Privacy Policy
+                a.link(href="http://www.complect.com/privacy" target="_blank") Privacy Policy
             b-button.registration__btn.m-b-20.w-100(type='submit' variant='dark') Sign Up
     .card-footer
       b-form-group.text-center.mb-0

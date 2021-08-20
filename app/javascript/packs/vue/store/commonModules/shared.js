@@ -1,4 +1,4 @@
-const userTypeLocalStorage = localStorage.getItem('app.userType') ? localStorage.getItem('app.userType') : ''
+const userTypeLocalStorage = localStorage.getItem('app.currentUser.userType') ? localStorage.getItem('app.currentUser.userType') : ''
 
 export default {
   state: {

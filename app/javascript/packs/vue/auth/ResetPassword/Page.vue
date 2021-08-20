@@ -78,8 +78,9 @@
               // open step 2
               // this.step1 = false
               // this.step2 = true
-
-              window.location.href = `${window.location.origin}/users/sign_in`
+              this.toast('Success', `${response.message}`)
+              // window.location.href = `${window.location.origin}/users/sign_in`
+              this.$router.push(`/users/sign_in`)
             }
 
             // setTimeout(() => {
@@ -89,6 +90,7 @@
           .catch((error) => {
             console.error(error)
             this.error = `${error.status} ${error.statusText}`
+            this.toast('Error', `${error.status} ${error.statusText}`, true)
           })
       },
     },

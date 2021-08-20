@@ -56,6 +56,7 @@ export default {
         commit("setLoading", true);
 
         const response = await axios.post(`/users/sign_in`, payload)
+        if (typeof response.data === 'string') return { errors: { onboarding: 'not-passed' } } // HOOK to catch users not passed onboarding
         if (response.data) {
           if(response.data.token) {
             commit('UPDATE_TOKEN', response.data.token)

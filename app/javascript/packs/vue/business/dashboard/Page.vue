@@ -49,11 +49,11 @@ export default {
   created() {
     this.refetch()
 
-    const firstView = JSON.parse(localStorage.getItem('app.currentUser.firstEnter'))
-    if (firstView) {
-      this.toast('Success', 'Account has been created.')
-      localStorage.removeItem('app.currentUser.firstEnter')
-    }
+    // const firstView = JSON.parse(localStorage.getItem('app.currentUser.firstEnter'))
+    // if (firstView) {
+    //   this.toast('Success', 'Account has been created.')
+    //   localStorage.removeItem('app.currentUser.firstEnter')
+    // }
   },
   computed: {
     pdfUrl: () => pdfUrl,
