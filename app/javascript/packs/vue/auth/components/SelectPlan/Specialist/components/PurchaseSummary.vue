@@ -18,6 +18,10 @@
       //      b Tax
       //    dd.col-6.text-right.m-b-0
       //      b {{ planComputed.tax }}
+      dl.row.mb-0(v-if="percent_off || amount_off")
+        .col-6.text-success Discount
+        dd.col-6.text-right.text-success(v-if="percent_off") {{ percent_off }}%
+        dd.col-6.text-right.text-success(v-if="amount_off") ${{ amount_off }}
       hr
       dl.row.mb-0.purchase-summary__total
         dt.col-6
@@ -42,7 +46,10 @@
     components: { Coupon },
     data() {
       return {
-        loading: false
+        loading: false,
+        percent_off: 0,
+        amount_off: null,
+        coupon_id: ''
       }
     },
     methods: {
@@ -59,6 +66,8 @@
       },
       countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
         let finalCoast, finalUserCoast = 0;
+        let percent_off = this.percent_off
+        let amount_off = this.amount_off
         if (planType === 'monthly') {
           if (usersCount > usersFreeCount) finalUserCoast = (usersCount-usersFreeCount) * usersCoastMonthly
           finalCoast = coastMonthly + finalUserCoast
@@ -67,14 +76,20 @@
           if (usersCount > usersFreeCount)  finalUserCoast = (usersCount-usersFreeCount) * usersCoastAnnually
           finalCoast = coastAnnually + finalUserCoast
         }
+        // CACL IF added percent_off
+        if (percent_off && finalCoast !== 'FREE0') finalCoast = (finalCoast - (finalCoast / 100 * percent_off)).toFixed(2)
+        if (amount_off && finalCoast !== 'FREE0') finalCoast = (finalCoast - amount_off).toFixed(2)
         return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
       },
       complitePurchase() {
         const value = this.planComputed
+        if (this.coupon_id) value.coupon_id = this.coupon_id
         this.$emit('complitePurchaseConfirmed', value)
       },
-      addDiscount() {
-        console.log('disocunt')
+      addDiscount(value) {
+        this.coupon_id = value.coupon_id
+        this.percent_off = value.percent_off
+        this.amount_off = value.amount_off / 100
       }
     },
     computed: {

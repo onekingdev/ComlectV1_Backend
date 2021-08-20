@@ -12,12 +12,12 @@
 #    User charged $400 on Jul 12. Subscription cancelled on Oct 12. No refunds
 
 class StripeSpecialistSubscriptionService < ApplicationService
-  attr_reader :current_specialist, :new_plan, :error, :subscription, :coupon
+  attr_reader :current_specialist, :new_plan, :error, :subscription, :coupon_id
 
   def initialize(current_specialist, turnkey_params)
     @current_specialist = current_specialist
     @new_plan = turnkey_params[:plan]
-    @coupon = turnkey_params[:coupon]
+    @coupon_id = turnkey_params[:coupon_id]
     @success = true
   end
 
@@ -115,7 +115,7 @@ class StripeSpecialistSubscriptionService < ApplicationService
     @stripe_subscription = Subscription.subscribe(
       subscription.plan,
       stripe_customer,
-      coupon: coupon,
+      coupon: coupon_id,
       cancel_at_period_end: false,
       quantity: subscription.quantity
     )

@@ -249,13 +249,14 @@ input[type=number] {
 /* ---------- coupon ---------- */
 .coupon {}
 .coupon__input {
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 .coupon__input::placeholder{
   text-transform: none;
 }
 .coupon__btn {
   margin-left: 0.625rem;
+  width: 80px;
 }
 
 /* ---------- Onboarding page ---------- */

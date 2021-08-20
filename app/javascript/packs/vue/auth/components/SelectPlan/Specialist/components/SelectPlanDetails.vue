@@ -86,6 +86,7 @@
           planName,
           paymentSourceId : this.paymentSourceId,
         }
+        if (selectedPlan.coupon_id) dataToSend.coupon_id = selectedPlan.coupon_id
 
         this.$store.dispatch('updateSubscribe', dataToSend)
           .then(response => {

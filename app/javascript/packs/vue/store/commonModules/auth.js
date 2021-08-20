@@ -384,7 +384,7 @@ export default {
         commit("clearError");
         commit("setLoading", true);
 
-        const { userType, paymentSourceId, planName, additionalUsers } = { ...payload }
+        const { userType, paymentSourceId, planName, additionalUsers, coupon_id } = { ...payload }
 
         const endPoint = userType === 'business' ? 'business' : 'specialist'
         // WAIT LONGER
@@ -392,7 +392,8 @@ export default {
         const response = await axios.post(`/${endPoint}/upgrade/subscribe`, {
           plan: planName,
           payment_source_id: paymentSourceId,
-          seats_count: additionalUsers
+          seats_count: additionalUsers,
+          coupon_id: coupon_id
         })
         // if (!response.ok) throw new Error(`Something wrong, (${response.status})`)
         return response.data
@@ -549,6 +550,20 @@ export default {
         return error
       } finally {
         commit("setLoading", false)
+      }
+    },
+    async applyCoupon({commit}, payload) {
+      try {
+        // commit("clearError");
+        // commit("setLoading", true);
+
+        const response = await axios.post(`/payment_settings/apply_coupon`, payload)
+        return response.data
+
+      } catch (error) {
+        throw error
+      } finally {
+        // commit("setLoading", false)
       }
     },
   },

@@ -91,6 +91,7 @@
           payment_source_id : this.paymentSourceId,
         }
         if (+this.additionalUsers) data.additionalUsers = +this.additionalUsers
+        if (selectedPlan.coupon_id) data.coupon_id = selectedPlan.coupon_id
 
         this.$store.dispatch('updateSubscribe', data)
           .then(response => {
@@ -132,63 +133,6 @@
           })
           .finally(() => this.disabled = true)
       },
-      // paySeats(selectedPlan) {
-      //   // const freeUsers = selectedPlan.usersCount;
-      //   const neededUsers = +this.additionalUsers;
-      //   // if (neededUsers <= freeUsers) {
-      //   //   this.overlayStatusText = 'Account successfully purchased, you will be redirect to the dashboard...'
-      //   //   this.overlayStatus = 'success'
-      //   //   // this.overlay = false
-      //   //   this.redirect()
-      //   //   return
-      //   // }
-      //   // const countPayedUsers = neededUsers - freeUsers // OLD VERSION
-      //   const countPayedUsers = neededUsers
-      //
-      //   this.overlayStatusText = 'Subscribing additional seats...'
-      //
-      //   let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
-      //
-      //   const dataToSend = {
-      //     userType: this.userType,
-      //     planName,
-      //     paymentSourceId : this.paymentSourceId,
-      //     countPayedUsers,
-      //   }
-      //
-      //   this.$store
-      //     .dispatch('updateSeatsSubscribe', dataToSend)
-      //     .then(response => {
-      //
-      //       if(response.errors) {
-      //         for (const type of Object.keys(response[i].data.errors)) {
-      //           // this.toast('Error', `Something wrong! ${response[i].data.errors[type]}`)
-      //         }
-      //       }
-      //
-      //       if(!response.errors) {
-      //         // this.toast('Success', `Update seat subscribe successfully finished!`)
-      //
-      //         // OVERLAY
-      //         this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased, you will be redirect to the dashboard...`
-      //         this.overlayStatus = 'success'
-      //         // this.overlay = false
-      //         this.redirect()
-      //       }
-      //     })
-      //     .catch(error => {
-      //       console.error(error)
-      //       // this.toast('Error', `Something wrong! ${error}`)
-      //
-      //       // OVERLAY
-      //       this.overlayStatus = 'error'
-      //       this.overlayStatusText = `Something wrong! ${error}`
-      //       setTimeout(() => {
-      //         this.overlay = false
-      //       }, 3000)
-      //     })
-      //     .finally(() => this.disabled = true)
-      // },
       redirect() {
         localStorage.setItem('app.currentUser.firstEnter', JSON.stringify(true))
         const dashboard = this.userType === 'business' ? '/business' : '/specialist'
