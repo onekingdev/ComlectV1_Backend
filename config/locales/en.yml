@@ -201,7 +201,9 @@ en:
         destroyed: 'Folder has been deleted'
         compression_queued: 'Download has been initiated.'
       payment_settings:
-        payment_source_deattached: 'Payment method has been deleted.'
+        destroy:
+          not_found: 'Payment method not found.'
+          payment_source_deattached: 'Payment method has been deleted.'
       projects:
         project_has_specialist: 'Project has not been deleted. Please terminate any active contracts.'
       seats:
