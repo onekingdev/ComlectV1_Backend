@@ -11,5 +11,6 @@ class ExamSerializer < ApplicationSerializer
              :created_at,
              :updated_at,
              :exam_requests,
-             :complete
+             :complete,
+             :reminders
 end
