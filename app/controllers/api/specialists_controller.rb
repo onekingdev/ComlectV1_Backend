@@ -16,7 +16,9 @@ class Api::SpecialistsController < ApiController
   end
 
   def update
-    service = ::SpecialistSignupOnboardingService.call(current_specialist, onboarding_params)
+    service = SpecialistServices::SignupOnboardingService.call(
+      current_specialist, onboarding_params
+    )
 
     if service.success?
       respond_with service.specialist, serializer: ::SpecialistSerializer

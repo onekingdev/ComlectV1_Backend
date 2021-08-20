@@ -213,7 +213,7 @@ class Specialist < ApplicationRecord
   validates :specialist_other, presence: true, if: :former_regulator?
 
   validates :jurisdiction_ids, :time_zone, :industry_ids,
-    :sub_industries, :experience, presence: true, on: :onboarding
+    :experience, presence: true, on: :onboarding
 
   default_scope -> { joins("INNER JOIN users ON users.id = specialists.user_id AND users.deleted = 'f'") }
 

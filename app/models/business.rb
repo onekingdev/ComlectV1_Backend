@@ -264,8 +264,8 @@ class Business < ApplicationRecord
   validates :contact_first_name, :contact_last_name, presence: true
   validates :risk_tolerance, inclusion: { in: RISK_TOLERANCE_OPTIONS }, if: -> { account_created }
 
-  validates :business_name, :industries, :sub_industries, :jurisdiction_ids,
-    :time_zone, :address_1, :apartment, :city, :state, :zipcode,
+  validates :business_name, :industries, :jurisdiction_ids,
+    :time_zone, :address_1, :city, :state, :zipcode,
     presence: true, if: -> { account_created }
 
   validate if: -> { time_zone.present? } do

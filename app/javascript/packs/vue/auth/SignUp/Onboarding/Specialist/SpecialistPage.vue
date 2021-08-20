@@ -373,7 +373,7 @@
               former_regulator: this.form.specialist.former_regulator,
               //specialist_other: this.form.specialist_other.join(', '),
               skill_names: this.form.specialist.skill_names ? this.form.specialist.skill_names.map(skill => skill.name) : [],
-              experience: this.form.specialist.experience,
+              experience: this.form.specialist.experience || '',
               resume: this.file ? this.file : '',
             },
           }

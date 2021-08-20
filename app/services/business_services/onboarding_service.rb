@@ -4,17 +4,17 @@
 # ========
 # business_name
 # industry_ids
-# sub_industry_ids
 # jurisdiction_ids
 # time_zone
 # address_1
-# apartment
 # city
 # state
 # zipcode
 
 # Optional fields
 # ===============
+# sub_industry_ids
+# apartment
 # aum
 # client_account_cnt
 # contact_phone
