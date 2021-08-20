@@ -69,7 +69,7 @@
                       .invalid-feedback.d-block(v-if="errors.industry_ids") {{ errors.industry_ids[0] }}
               .row
                 .col-xl-6
-                  b-form-group#inputS-group-5.m-b-40(label='Sub-Industry' label-for='selectS-5' label-class="onboarding__label required")
+                  b-form-group#inputS-group-5.m-b-40(label='Sub-Industry' label-for='selectS-5' label-class="onboarding__label")
                     div(
                     :class="{ 'invalid': errors.sub_industries }"
                     )

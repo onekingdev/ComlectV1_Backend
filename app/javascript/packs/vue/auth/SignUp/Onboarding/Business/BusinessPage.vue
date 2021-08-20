@@ -67,7 +67,7 @@
                       .invalid-feedback.d-block(v-if="errors.industries") {{ errors.industries[0] }}
                       // label.typo__label.form__label(v-if="errors.industries") {{ errors.industries[0] }}
                 .col-sm-6.pl-sm-2
-                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="onboarding__label label required")
+                  b-form-group#inputB-group-5(label='Sub-Industry' label-for='selectB-5' label-class="onboarding__label label")
                     div(
                     :class="{ 'invalid': errors.sub_industries }"
                     )
