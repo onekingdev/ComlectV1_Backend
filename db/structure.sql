@@ -742,7 +742,9 @@ CREATE TABLE public.documents (
     file_data jsonb,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    specialist_id integer
+    specialist_id integer,
+    uploadable_type character varying,
+    uploadable_id integer
 );
 
 
@@ -7941,6 +7943,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210623234110'),
 ('20210627144137'),
 ('20210630220835'),
-('20210708084524');
+('20210708084524'),
+('20210821000146');
 
 
