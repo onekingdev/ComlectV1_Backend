@@ -14,13 +14,18 @@ class PaymentSource < ApplicationRecord
 
   class << self
     def plaid_or_manual(business, params)
-      add_to business, params
+      add_to(business, params)
     end
 
     private
 
     def add_to_existing(profile, token)
-      source = profile.payment_sources.new token: token, validated: true, primary: profile.payment_sources.empty?
+      source = profile.payment_sources.new(
+        token: token,
+        validated: true,
+        primary: profile.payment_sources.empty?
+      )
+
       source.save if profile.errors.empty?
       source
     rescue Stripe::StripeError => e
@@ -36,9 +41,9 @@ class PaymentSource < ApplicationRecord
 
   def self.add_to(business, token)
     if business.payment_profile
-      add_to_existing business.payment_profile, token
+      add_to_existing(business.payment_profile, token)
     else
-      create_profile_and_add business, token
+      create_profile_and_add(business, token)
     end
   end
 

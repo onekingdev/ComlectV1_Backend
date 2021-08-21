@@ -262,3 +262,6 @@ Naming/VariableNumber:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false

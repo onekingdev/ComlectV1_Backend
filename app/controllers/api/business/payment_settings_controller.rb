@@ -8,10 +8,12 @@ class Api::Business::PaymentSettingsController < ApiController
   end
 
   def create
-    payment_source = payment_source_type.plaid_or_manual current_business, stripe_params
+    payment_source = payment_source_type.plaid_or_manual(current_business, stripe_params)
 
     if payment_source.errors.any?
-      respond_with message: { message: payment_source.errors.full_messages.join(', ') }, status: 442
+      respond_with message: {
+        message: payment_source.errors.full_messages.join(', ')
+      }, status: 442
     else
       respond_with payment_source, serializer: ::Business::PaymentSourceSerializer
     end

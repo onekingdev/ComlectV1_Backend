@@ -1,4 +1,6 @@
 en:
+  something_went_wrong: 'Something went wrong'
+
   date:
     formats:
       pickadate: "%Y/%m/%d"

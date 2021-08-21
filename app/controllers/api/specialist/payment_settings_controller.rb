@@ -8,28 +8,15 @@ class Api::Specialist::PaymentSettingsController < ApiController
   end
 
   def create_card
-    cus_id = current_specialist&.stripe_customer
-    unless cus_id
-      cus = Stripe::Customer.create(
-        email: current_specialist&.user&.email,
-        name: current_specialist&.user&.full_name
-      )
-      cus_id = cus.id
-    end
-    card = Stripe::Customer.create_source(cus_id, source: params[:stripeToken])
+    service = SpecialistServices::AddCardService.call(current_specialist, payment_params)
 
-    payment_source = current_specialist&.payment_sources&.create!(
-      stripe_customer_id: cus_id,
-      stripe_card_id: card.id,
-      brand: card.brand,
-      exp_month: card.exp_month,
-      exp_year: card.exp_year,
-      last4: card.last4,
-      primary: current_specialist&.payment_sources&.length&.zero?
-    )
-    respond_with payment_source, serializer: ::Specialist::PaymentSourceSerializer
+    if service.success?
+      respond_with service.payment_source, serializer: ::Specialist::PaymentSourceSerializer
+    else
+      respond_with(error: t('something_went_wrong'), status: :unprocessable_entity)
+    end
   rescue Stripe::StripeError => e
-    respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
+    respond_with(error: e.message, status: :unprocessable_entity) and return
   end
 
   def create_bank
@@ -82,5 +69,17 @@ class Api::Specialist::PaymentSettingsController < ApiController
     respond_with responce, status: :ok
   rescue Stripe::StripeError => e
     respond_with(message: { message: e.message }, status: :unprocessable_entity) && (return)
+  end
+
+  private
+
+  def payment_params
+    return params if params.key?(:stripeToken)
+
+    params.require(:payment_source_ach).permit(
+      :plaid_token,
+      :plaid_account_id,
+      :plaid_institution
+    )
   end
 end
