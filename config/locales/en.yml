@@ -190,6 +190,7 @@ en:
     code_of_ethics_and_insider_trading: Code of Ethics & Insider Trading
 
   api:
+    not_found: "Record not found"
     business:
       exam_request_files:
         unable_to_delete: 'Document has not been deleted.'

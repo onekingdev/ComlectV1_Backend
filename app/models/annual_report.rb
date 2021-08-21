@@ -6,6 +6,7 @@ class AnnualReport < ActiveRecord::Base
   has_many :annual_review_employees, dependent: :destroy
   has_many :regulatory_changes, dependent: :destroy
   has_many :review_categories, dependent: :destroy
+  has_many :documents, as: :uploadable
   accepts_nested_attributes_for :annual_review_employees, allow_destroy: true
   accepts_nested_attributes_for :regulatory_changes, allow_destroy: true
   include PdfUploader[:pdf]

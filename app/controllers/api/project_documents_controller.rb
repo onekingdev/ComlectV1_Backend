@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::DocumentsController < ApiController
+class Api::ProjectDocumentsController < ApiController
   before_action :require_someone!
   before_action :find_local_project
 
@@ -11,7 +11,7 @@ class Api::DocumentsController < ApiController
   end
 
   def create
-    document = @local_project.documents.create(document_params.merge(owner: @current_someone, local_project: @local_project))
+    document = @local_project.documents.create(document_params.merge(owner: @current_someone, uploadable: @local_project))
     respond_with document, serializer: DocumentSerializer
   end
 

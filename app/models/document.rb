@@ -2,8 +2,8 @@
 
 class Document < ApplicationRecord
   include FileUploader[:file]
-  belongs_to :local_project
   belongs_to :owner, polymorphic: true, optional: true
+  belongs_to :uploadable, polymorphic: true, optional: true
   validates :file_data, presence: true
   belongs_to :specialist, optional: true # recipient if uploaded by business @ interview
 

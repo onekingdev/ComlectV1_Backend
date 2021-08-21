@@ -274,10 +274,10 @@ Rails.application.routes.draw do
 
     scope 'projects/:project_id' do
       # resources :project_messages, path: 'messages(/:specialist_username)'
+      resources :documents, only: %i[index create destroy], controller: 'project_documents'
       resources :project_ends, path: 'end', only: %i[create update]
       resources :project_extensions, path: 'extension', only: %i[create update]
       resources :project_issues, path: 'issues', only: %i[create]
-      resources :documents, only: %i[index create destroy]
       resource :project_rating, path: 'rating', only: [:create]
       # resource :project_rating, path: 'rating'
       # resource :project_overview, path: 'overview(/:specialist_username)', only: :show
@@ -346,7 +346,9 @@ Rails.application.routes.draw do
       resources :specialists, only: :index
       get '/seats', to: 'seats#index'
       post '/seats', to: 'seats#assign'
-      resources :annual_reports, only: %i[index show create update destroy]
+      resources :annual_reports, only: %i[index show create update destroy] do
+        resources :documents, only: %i[index create destroy], controller: 'annual_report_documents'
+      end
       get '/annual_reports/:id/clone' => 'annual_reports#clone'
       scope 'annual_reports/:report_id' do
         resources :review_categories, path: 'review_categories', only: %i[index create update destroy]

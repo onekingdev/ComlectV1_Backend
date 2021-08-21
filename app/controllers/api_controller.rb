@@ -6,6 +6,7 @@ class ApiController < ApplicationController
   include Pundit
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :set_default_format
   before_action :authenticate_user!
@@ -42,5 +43,9 @@ class ApiController < ApplicationController
 
   def user_not_authorized
     respond_with  error: 'You are not authorized to perform that action', status: 403
+  end
+
+  def record_not_found
+    respond_with({ error: t('api.not_found') }, { status: :not_found })
   end
 end
