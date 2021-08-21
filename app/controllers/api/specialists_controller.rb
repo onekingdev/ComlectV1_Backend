@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::SpecialistsController < ApiController
-  before_action :require_specialist!, only: :update
+  before_action :require_specialist!, only: %i[update current]
   skip_before_action :authenticate_user!, only: :create
 
   def create
