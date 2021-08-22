@@ -359,6 +359,8 @@ Rails.application.routes.draw do
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
+
+      resources :team_members, only: %i[create]
     end
 
     namespace :specialist do

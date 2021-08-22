@@ -4,9 +4,9 @@ class TeamMember < ActiveRecord::Base
   belongs_to :team
   has_one :seat
 
-  validates :first_name, presence: true
-  # validates :last_name, presence: true
-  validates :email, presence: true
+  before_validation :set_name
+
+  validates :first_name, :last_name, :email, presence: true
 
   before_destroy :clear_seat
 
@@ -33,5 +33,11 @@ class TeamMember < ActiveRecord::Base
         ]
       end
     end
+  end
+
+  private
+
+  def set_name
+    self.name = "#{first_name} #{last_name}"
   end
 end

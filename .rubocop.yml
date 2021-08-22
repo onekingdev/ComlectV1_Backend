@@ -57,6 +57,9 @@ Rails/HasAndBelongsToMany:
 Rails/FilePath:
   Enabled: false
 
+Rails/HttpPositionalArguments:
+  Enabled: false
+
 # === Layout ===
 
 Layout/EmptyLineBetweenDefs:
