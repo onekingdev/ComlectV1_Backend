@@ -33,22 +33,22 @@
               b-dropdown-item(@click="perPage = 10") 10
               b-dropdown-item(@click="perPage = 15") 15
               b-dropdown-item(@click="perPage = 20") 20
+      //.row(v-if="!shortTable")
+      //  .col
+      //    .d-flex.align-items-center
+      //      ion-icon.m-r-1(name="chevron-down-outline" size="small")
+      //      b-badge.m-r-1(variant="light") 0
+      //      h3 Compilance Program
+      .row
+        .col(:class="shortTable ? 'p-0' : ''")
+          TaskTable.m-b-40(:shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
+          b-pagination(v-if="!shortTable && sortedTasks.length > perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+      .row.h-100(v-if="loading")
+        .col.h-100.text-center
+          Loading(:absolute="true")
       .row.h-100(v-if="!sortedTasks.length && !loading")
         .col.h-100.text-center
           EmptyState(name="Tasks")
-      div(v-if="sortedTasks.length")
-        //.row(v-if="!shortTable")
-        //  .col
-        //    .d-flex.align-items-center
-        //      ion-icon.m-r-1(name="chevron-down-outline" size="small")
-        //      b-badge.m-r-1(variant="light") 0
-        //      h3 Compilance Program
-        .row
-          .col
-            Loading(:absolute="true")
-            TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && sortedTasks.length >= perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
-
 </template>
 
 <script>
@@ -239,6 +239,8 @@
         return value.charAt(0).toUpperCase() + value.slice(1)
       },
       linkableTypeCorrector: function (value) {
+        if (value === 'LocalProject') value = 'Projects'
+        if (value === 'CompliancePolicy') value = 'Policies'
         if (value === 'AnnualReport') value = 'Internal Review'
         return value.replace(/[A-Z]/g, ' $&')
       }

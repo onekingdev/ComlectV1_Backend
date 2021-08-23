@@ -8,7 +8,7 @@
     //  b-dropdown-item Monhly
     //  b-dropdown-item Weekly
     //  b-dropdown-item Daily
-    b-dropdown#dropdown-form.m-0(ref='dropdown' variant="default")
+    b-dropdown#dropdown-form.m-0(ref='dropdown' variant="default" @hide='handleHide($event)' @hidden='isCloseable=false')
       template(#button-content)
         b Download
         //b-icon.ml-2(icon="chevron-down")
@@ -23,8 +23,8 @@
             DatePicker(v-model="download.end_date")
             Errors(:errors="errors.end_date")
         .d-flex.justify-content-between.m-y-20
-          a.btn.link(:href="pdfUrl" target="_blank") Download All
-          b-button(variant='secondary' size='sm' @click='onClick') Download
+          a.btn.link(:href="pdfUrl" target="_blank" @click='closeMe') Download All
+          a.btn.btn-secondary(:href="pdfRangeDownload" @click='closeMe') Download
 </template>
 
 <script>
@@ -41,14 +41,47 @@
           start_date: '',
           end_date: '',
         },
-        errors: {}
+        errors: {},
+        isCloseable: false,
       }
     },
     methods: {
-      onClick() {
-        // Close the menu and (by passing true) return focus to the toggle button
-        // this.$refs.dropdown.hide(true)
+      handleHide(bvEvent) {
+        // this.isCloseable = !this.isCloseable;
+        if (!this.isCloseable) {
+          bvEvent.preventDefault();
+        } else {
+          this.$refs.dropdown.hide();
+        }
       },
+      closeMe() {
+        this.isCloseable = true;
+        this.$refs.dropdown.hide();
+      },
+      close (e) {
+        if (!this.$el.contains(e.target)) {
+          this.isCloseable = false
+        }
+      }
+    },
+    computed: {
+      pdfRangeDownload () {
+        const start_date = this.download.start_date
+        const end_date = this.download.end_date
+        const url = `/business/reminders.csv?from_date=${start_date}&to_date=${end_date}`
+        return url
+      },
+      datepickerOptions() {
+        return {
+          min: new Date().toISOString()
+        }
+      },
+    },
+    mounted () {
+      document.addEventListener('click', this.close)
+    },
+    beforeDestroy () {
+      document.removeEventListener('click',this.close)
     }
   }
 </script>

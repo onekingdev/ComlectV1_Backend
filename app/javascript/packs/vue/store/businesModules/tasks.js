@@ -15,9 +15,7 @@ const mapAuthProviders = {
   },
 }
 
-import Task from "../../models/Task";
-import axios from "../../services/axios";
-import {AccountInfoBusiness, AccountInfoSpecialist} from "../../models/AccountInfo";
+import { Task, TaskOverdue, TaskMessage } from "../../models/Task";
 
 export default {
   state: {
@@ -35,6 +33,9 @@ export default {
     ADD_TASK(state, payload) {
       state.tasks.push(payload)
     },
+    CONCAT_OVERDUE_TASKS(state, payload) {
+      state.tasks = state.tasks.concat(payload)
+    },
     UPDATE_TASK(state, payload) {
       const index = state.tasks.findIndex(record => record.id === payload.id);
       state.tasks.splice(index, 1, payload)
@@ -46,7 +47,7 @@ export default {
       const index = state.tasks.findIndex(record => record.id === payload.id);
       state.tasks.splice(index, 1)
     },
-    CREATE_CURRENT_TASK_MESSAGES(state, payload) {
+    GET_CURRENT_TASK_MESSAGES(state, payload) {
       state.currentTaskMessages = payload
     },
     UPDATE_CURRENT_TASK_MESSAGES(state, payload) {
@@ -117,9 +118,62 @@ export default {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
             if (success) {
-              const data = success.data
+              const data = success.data.tasks
+              // const tasks = []
+              // for (const taskItem of data) {
+              //   tasks.push(new Task(
+              //     taskItem.body,
+              //     taskItem.created_at,
+              //     taskItem.description,
+              //     taskItem.done_at,
+              //     taskItem.done_occurencies,
+              //     taskItem.end_by,
+              //     taskItem.end_date,
+              //     taskItem.id,
+              //     taskItem.linkable_id,
+              //     taskItem.linkable_type,
+              //     taskItem.note,
+              //     taskItem.on_type,
+              //     taskItem.remind_at,
+              //     taskItem.remindable_id,
+              //     taskItem.remindable_type,
+              //     taskItem.repeat_every,
+              //     taskItem.repeat_on,
+              //     taskItem.repeats,
+              //     taskItem.skip_occurencies,
+              //     taskItem.updated_at,
+              //   ))
+              // }
+              commit('SET_TASKS', data)
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
+      }
+    },
+    async getOverdueTasks({state, commit, rootState}) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const getOverdueTasks = mapAuthProviders[rootState.shared.settings.authProvider].getOverdueTasks
+        const data = getOverdueTasks()
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data.tasks
               const tasks = []
-              for (const taskItem of data.tasks) {
+              for (const taskItem of data) {
                 tasks.push(new Task(
                   taskItem.body,
                   taskItem.created_at,
@@ -152,60 +206,6 @@ export default {
             }
           })
           .catch(error => error)
-        return data;
-      } catch (error) {
-        console.error('catch error', error);
-        commit("setError", error.message, { root: true });
-        commit("setLoading", false, { root: true });
-        throw error
-      }
-    },
-    async getOverdueTasks({state, commit, rootState}) {
-      commit("clearError", null, { root: true });
-      commit("setLoading", true, { root: true });
-      try {
-        const getOverdueTasks = mapAuthProviders[rootState.shared.settings.authProvider].getOverdueTasks
-        const data = getOverdueTasks()
-          .then((success) => {
-            commit("clearError", null, { root: true });
-            commit("setLoading", false, { root: true });
-            console.log('success overdue', success)
-            if (success) {
-              const data = success.data.tasks
-              const tasks = []
-              for (const taskItem of data) {
-                tasks.push(new Task(
-                  taskItem.body,
-                  taskItem.created_at,
-                  taskItem.description,
-                  taskItem.done_at,
-                  taskItem.done_occurencies,
-                  taskItem.end_by,
-                  taskItem.end_date,
-                  taskItem.id,
-                  taskItem.linkable_id,
-                  taskItem.linkable_type,
-                  taskItem.note,
-                  taskItem.on_type,
-                  taskItem.remind_at,
-                  taskItem.remindable_id,
-                  taskItem.remindable_type,
-                  taskItem.repeat_every,
-                  taskItem.repeat_on,
-                  taskItem.repeats,
-                  taskItem.skip_occurencies,
-                  taskItem.updated_at,
-                ))
-              }
-              commit('SET_TASKS', tasks)
-              return data.data
-            }
-            if (!success) {
-              console.error('Not success', success)
-              commit("setError", success.message, { root: true });
-            }
-          })
-          .catch(error => error)
         return data
       } catch (error) {
         console.error('catch error', error);
@@ -223,7 +223,7 @@ export default {
       });
       try {
         const createTask = mapAuthProviders[rootState.shared.settings.authProvider].createTask
-        createTask(payload)
+        const result = await createTask(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true
@@ -263,6 +263,7 @@ export default {
             }
           })
           .catch(error => error)
+        if (result) return result
       } catch (error) {
         commit("setError", error.message, {
           root: true
@@ -284,12 +285,16 @@ export default {
         const updateTask = mapAuthProviders[rootState.shared.settings.authProvider].updateTask
         updateTask(payload)
           .then((success) => {
+            console.log('success123', success)
             commit("clearError", null, {
               root: true
             });
             commit("setLoading", false, {
               root: true
             });
+
+            if(success.statusText !== "OK") throw new Error(success.statusText)
+
             if (success) {
               const data = success.data
               commit('UPDATE_TASK', new Task(
@@ -363,14 +368,13 @@ export default {
       });
       try {
         const updateTaskStatus = mapAuthProviders[rootState.shared.settings.authProvider].updateTaskStatus
-        updateTaskStatus(payload)
+        const data = updateTaskStatus(payload)
           .then((success) => {
-            commit("clearError", null, {
-              root: true
-            });
-            commit("setLoading", false, {
-              root: true
-            });
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+
+            if(success.statusText !== "OK") throw new Error(`${success.status} ${success.statusText}`)
+
             if (success) {
               const data = success.data
               commit('UPDATE_TASK', new Task(
@@ -424,7 +428,13 @@ export default {
               console.error('Not success', success)
             }
           })
-          .catch(error => error)
+          .catch(error => {
+            console.error('catch error', error)
+            throw error
+          })
+
+        if (data) return data
+
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
@@ -558,9 +568,24 @@ export default {
           .then(success => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
+
+            if(success.statusText !== "OK") throw new Error(`${success.status} ${success.statusText}`)
+
             if (success) {
               const data = success.data
-              commit('CREATE_CURRENT_TASK_MESSAGES', data)
+              // const messages = []
+              // for (const taskMessage of data) {
+              //   console.log('taskMessage', taskMessage)
+              //   messages.push(new TaskMessage(
+              //     taskMessage.created_at,
+              //     taskMessage.file_data,
+              //     taskMessage.id,
+              //     taskMessage.message,
+              //     taskMessage.recipient,
+              //     taskMessage.sender,
+              //   ))
+              // }
+              commit('GET_CURRENT_TASK_MESSAGES', data)
               return data
             }
             if (!success) {
@@ -594,6 +619,14 @@ export default {
             if (success) {
               const data = success.data
               commit('UPDATE_CURRENT_TASK_MESSAGES', data)
+              // commit('UPDATE_CURRENT_TASK_MESSAGES', new TaskMessage(
+              //   data.created_at,
+              //   data.file_data,
+              //   data.id,
+              //   data.message,
+              //   data.recipient,
+              //   data.sender,
+              // ))
               return data
             }
             if (!success) {

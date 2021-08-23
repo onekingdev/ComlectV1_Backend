@@ -895,10 +895,10 @@ input, button, select, optgroup, textarea {
   &__actions {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    //align-items: center;
     //margin-right: 2.5rem; // 40px
-    min-width: 410px;
-    text-align: right;
+    //min-width: 410px;
+    //text-align: right;
 
     @include media-breakpoint-down(lg) {
       //justify-content: center;
@@ -1027,6 +1027,7 @@ input, button, select, optgroup, textarea {
 .btn {
   @include font-bold-14;
   text-transform: capitalize;
+  white-space: nowrap;
 
   &:hover,
   &:focus,
@@ -1039,6 +1040,10 @@ input, button, select, optgroup, textarea {
   .b-icon.bi {
     padding-bottom: 2px;
     font-size: 100%;
+  }
+
+  &.no-capitalize {
+    text-transform: none;
   }
 }
 
@@ -1655,6 +1660,48 @@ table.table {
   }
   ion-icon.white {
     color: $white;
+  }
+  ion-icon.red {
+    color: #D9536A;
+  }
+}
+
+.task-table {
+
+  &__head {
+
+    &_name {
+      width: 40%;
+
+      //@media (max-width: 1399.98px) {
+      //  width: auto;
+      //}
+      @include media-breakpoint-down(lg) {
+        width: auto;
+      }
+    }
+    &_linked {
+      width: auto;
+    }
+    &_assignee {
+      width: auto;
+    }
+    &_start-date {
+      width: auto;
+    }
+    &_due-date {
+      width: auto;
+    }
+    &_files {
+      width: auto;
+    }
+    &_comments {
+      width: auto;
+    }
+    &_actions {
+      width: auto;
+    }
+
   }
 }
 

@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" :title="taskProp ? taskProp.body : 'New task'" :size="taskProp ? 'xl' : 'md'" @show="getData")
       b-row
         div(:class="taskProp ? 'col-lg-6 pr-2' : 'col'")
-          InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
+          InputText(v-model="task.body" :errors="errors.body" placeholder="") Task Name
 
           label.m-t-1.form-label Link to
           ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, internal reviews, or policies to link the task to" @input="inputChangeLinked")
@@ -16,15 +16,15 @@
           label.m-t-1.form-label Assignee
           ComboBox(V-model="task.assignee" :options="assigneeOptions" placeholder="Select an assignee")
           Errors(:errors="errors.assignee")
+          .form-text.text-muted Optional
 
           b-row.m-t-1(no-gutters)
             .col-sm.m-r-1
-              label.form-label Start Date
+              label.form-label.required Start Date
               DatePicker(v-model="task.remind_at" :options="datepickerOptions")
               Errors(:errors="errors.remind_at")
-              .form-text.text-muted Optional
             .col-sm
-              label.form-label Due Date
+              label.form-label.required Due Date
               DatePicker(v-model="task.end_date" :options="datepickerOptions")
               Errors(:errors="errors.end_date")
 
@@ -70,7 +70,7 @@
               Dropdown(v-model="task.repeat_on" v-else :options="daysOfWeek")
           Errors(:errors="errors.repeats || errors.repeat_every || errors.repeat_on || errors.on_type")
 
-          b-row.m-t-1(v-if="task.repeats" no-gutters )
+          b-row(v-if="task.repeats" no-gutters )
             .col-sm-6.m-r-1
               label.form-label End By Date
               DatePicker(v-model="task.end_by")
@@ -114,7 +114,7 @@
                                 b-dropdown(size="sm" class="m-0 p-0" right)
                                   template(#button-content)
                                     b-icon(icon="three-dots")
-                                  b-dropdown-item.delete(@click="removeFile") Delete File
+                                  b-dropdown-item.delete(@click="removeFile") Delete
             hr.m-0
             b-row
               .col
@@ -132,8 +132,8 @@
               b-dropdown-item(@click="deleteTask(task)") Delete Series
           div
             button.btn.btn-link.m-r-1(@click="$bvModal.hide(modalId)") Cancel
-            button.btn.btn-default.m-r-1(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
-            button.btn.btn-default.m-r-1(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
+            button.btn.btn-default.m-r-1.no-capitalize(v-if="taskId && !task.done_at" @click="toggleDone(task)") Mark as Complete
+            button.btn.btn-default.m-r-1.no-capitalize(v-if="taskId && task.done_at" @click="toggleDone(task)") Mark as Incomplete
             button.btn.btn-dark(v-if="!taskId" @click="submit()") Create
             button.btn.btn-dark(v-else-if="null === occurenceId" @click="submit()") Save
             b-dropdown(v-else variant="dark" text="Save")
@@ -146,11 +146,20 @@
           b Completed on {{ task.done_at | asDate }}
         button.btn.btn-default(@click="toggleDone(task)") Reopen
       template(v-if="!task.done_at && taskProp" slot="modal-footer")
-        TaskModalDelete.mr-auto(:inline="false" @click="$bvModal.hide(modalId)" @deleteConfirmed="deleteTask(task)")
+        TaskModalDelete.mr-auto(v-if="null === occurenceId" :inline="false" @deleteConfirmed="deleteTask(task)")
           button.btn.btn-outline-danger Delete Task
+        b-dropdown.mr-auto(v-else-if="taskId" variant="outline-danger" text="Delete Task")
+          TaskModalDelete(:inline="false" @deleteConfirmed="deleteTask(task, true)")
+            b-dropdown-item Delete Occurence
+          TaskModalDelete(:inline="false" @deleteConfirmed="deleteTask(task)")
+            b-dropdown-item Delete Series
         //button.btn.btn-link.ml-auto(@click="$bvModal.hide(modalId)") Cancel
         button.btn.btn-default(@click="toggleDone(task)") Mark as Complete
-        button.btn.btn-dark(@click="submitUpdate") Save
+        button.btn.btn-dark(v-if="!taskProp" @click="submit()") Create
+        button.btn.btn-dark(v-else-if="null === occurenceId" @click="submitUpdate") Save
+        b-dropdown.font-weight-bold(v-else variant="dark" text="Save")
+          b-dropdown-item(@click="submit(true)") Save Occurence
+          b-dropdown-item(@click="submit()") Save Series
 
 </template>
 
@@ -248,6 +257,10 @@
         type: String,
         required: false,
       },
+      toastMessages: {
+        type: Object,
+        required: false,
+      },
     },
     components: {
       VueEditor,
@@ -260,7 +273,7 @@
       return {
         modalId: this.id || `modal_${rnd()}`,
         task: initialTask(),
-        errors: [],
+        errors: {},
         customToolbar: [
           ["bold", "italic", "underline"],
           ["blockquote"],
@@ -288,9 +301,9 @@
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
         } catch (error) {
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
           console.error(error)
         }
       },
@@ -304,31 +317,38 @@
           })
           .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
       },
-      async submit(saveOccurence) {
-        this.errors = []
+      submit(saveOccurence) {
+        for (let value in this.errors) delete this.errors[value];
         // const toId = (this.taskId) ? `/${this.taskId}` : ''
         const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
+
+        let messageSuccess = saveOccurence ? this.toastMessages.success.updated : this.toastMessages.success.created
+        let messageError = saveOccurence ? this.toastMessages.errors.updated : this.toastMessages.errors.created
 
         try {
           const data = {
             ...this.task,
             occurenceParams
           }
-          console.log(data)
 
-          await this.$store.dispatch("reminders/createTask", data)
+          this.$store.dispatch("reminders/createTask", data)
             .then(response => {
-              this.toast('Success', 'The task has been saved')
+              // if (response.body || response.remind_at || respone.end_date) {
+              //   for (const [key, value] of Object.entries(response)) {
+              //     this.errors = Object.assign(this.errors, { [key]: value })
+              //   }
+              //   return
+              // }
+
+              this.toast('Success', messageSuccess)
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
             .catch(error => {
-              console.error('error', error)
-              this.toast('Error', `Something wrong! ${error.message}`, true)
+              this.toast('Error', messageError, true)
             })
         } catch (error) {
           this.toast('Error', error.message, true)
-          console.error('catch error', error)
         }
       },
       updateTaskWithLinkedTo(tempData) {
@@ -344,6 +364,8 @@
         tempTask = checkArray(this.policies, 'CompliancePolicy', value)
         if (tempTask) this.updateTaskWithLinkedTo(tempTask)
         tempTask = checkArray(this.reviews, 'AnnualReport', value)
+        if (tempTask) this.updateTaskWithLinkedTo(tempTask)
+        tempTask = checkArray(this.exams, 'Exam', value)
         if (tempTask) this.updateTaskWithLinkedTo(tempTask)
 
         for (let valueInTemp in tempTask) delete tempTask[valueInTemp];
@@ -363,8 +385,6 @@
             },
           }
 
-          console.log(data)
-
           await this.$store.dispatch("reminders/updateTask", data)
             .then(response => {
               // if (response.errors) {
@@ -373,13 +393,13 @@
               //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               //   return
               // }
-              this.toast('Success', 'The task has been saved')
+              this.toast('Success', this.toastMessages.success.updated)
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', this.toastMessages.errors.updated, true))
         } catch (error) {
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
           console.error(error)
         }
       },
@@ -412,16 +432,15 @@
 
           this.$store.dispatch('projects/getProjects')
 
+          this.$store.dispatch('exams/getExams')
+
         } catch (error) {
           console.error(error)
-          this.toast('Error', error.message, true)
         }
       },
       sendMessage(task) {
-
-        console.log('file', this.file)
         let formData = new FormData()
-        formData.append('message[file]', this.file);
+        if(this.file) formData.append('message[file]', this.file);
         formData.append('message[message]', this.task.comment);
         const data = {
           id: task.id,
@@ -449,6 +468,7 @@
         reviews: 'annual/reviews',
         projects: 'projects/projects',
         messages: 'reminders/currentTaskMessages',
+        exams: 'exams/exams',
       }),
       policies() {
         return this.$store.getters.policiesList
@@ -467,6 +487,7 @@
         return [{...toOption('Projects'), children: this.projects.map(record => ({ id: record.title, label: record.title }))},
                 {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
                 {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
+                {...toOption('Exams'), children: this.exams.map(record => ({ id: record.name, label: record.name }))},
               ]
       },
       assigneeOptions() {

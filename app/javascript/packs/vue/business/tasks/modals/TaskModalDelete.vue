@@ -6,10 +6,9 @@
     b-modal.fade(:id="modalId" title="Delete task")
       .row
         .col-md-1.text-center.px-0
-          //b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
           img.mt-1.ml-3(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p.m-b-10 Deleting this task will also remove all messages and documents associated with this task.
+          p.m-b-10 {{ message }}
           p.mb-0
             b Do you want to continue?
 
@@ -28,6 +27,11 @@
         type: Boolean,
         default: true
       },
+      linkedTo: {
+        type: Object,
+        required: false,
+        default: () => {},
+      }
     },
     data() {
       return {
@@ -44,5 +48,20 @@
         this.$bvModal.hide(this.modalId)
       },
     },
+    computed: {
+      message() {
+        const linkedTo = this.linkedTo
+        let message = `Deleting this task will also remove all messages and documents associated with this task.`
+        if (linkedTo) {
+
+          if(linkedTo.linkable_type === 'LocalProject') { message = `You are deleting a task that is linked to the following project: ${linkedTo.linkable_name}. Deleting this task will also remove all messages and documents associated with this task. Please check whether this deletion may impact your present project progress.` }
+          if(linkedTo.linkable_type === 'CompliancePolicy') { message = `You are deleting a task that is linked to the following policies: ${linkedTo.linkable_name}. Deleting this task will also remove all messages and documents associated with this task. Please check whether this deletion may impact your present policies and procedures.`}
+          if(linkedTo.linkable_type === 'AnnualReport') { message = `You are deleting a task that is linked to an internal review: ${linkedTo.linkable_name}. Deleting this task will also remove all messages and documents associated with this task. Please check whether this deletion may impact your internal review progress.` }
+          if(linkedTo.linkable_type === 'Exam') { message = `You are deleting a task that is linked to an exam management: ${linkedTo.linkable_name}. Deleting this task will also remove all messages and documents associated with this task. Please check whether this deletion may impact your exam management progress.` }
+
+        }
+        return message
+      }
+    }
   }
 </script>

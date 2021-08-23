@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class RecurringReminder
+  include ActiveModel::Serialization
+
   def initialize(src_task, id, date_cursor)
     self.id = id
     self.src_id = src_task.id
@@ -19,10 +21,11 @@ class RecurringReminder
     self.skip_occurencies = src_task.skip_occurencies
     self.done_occurencies = src_task.done_occurencies
     self.rly_past_due = end_date < Time.zone.today.in_time_zone(src_task.remindable.time_zone).to_date
+    self.description = src_task.description
     self.note = ''
   end
 
   attr_accessor :id, :body, :remindable_id, :remind_at, :done_at, :end_date, :remindable_type, :repeats, :rly_past_due,
                 :end_by, :repeat_every, :repeat_on, :on_type, :skip_occurencies, :src_id, :duration, :done_occurencies,
-                :note
+                :note, :description
 end

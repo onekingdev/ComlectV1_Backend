@@ -1,31 +1,31 @@
 <template lang="pug">
-  table.table.task_table(:per-page='perPage' :current-page='currentPage')
+  table.table.task_table.task-table(:per-page='perPage' :current-page='currentPage')
     thead
       tr
-        th
+        th.task-table__head_name(v-if="!shortTable" @click="sortSelect('body', 'string')")
           | Name
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('body', 'string')")
-          | Linked to
+        th.task-table__head_linked(v-if="!shortTable" @click="sortSelect('linkable_type', 'string')")
+          | Linked
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('linkable_type', 'string')")
+        th.task-table__head_assignee(v-if="!shortTable" @click="sortSelect('assignee', 'string')")
           | Assignee
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="!shortTable" @click="sortSelect('updated_at', 'date')").text-right
-          | Start date
+        th.task-table__head_start-date(v-if="!shortTable" @click="sortSelect('remind_at', 'date')").text-right
+          | Start Date
           b-icon.ml-2(icon='chevron-expand')
-        th(@click="sortSelect('created_at', 'date')").text-right
-          | Due date
+        th.task-table__head_due-date(@click="sortSelect('end_date', 'date')").text-right
+          | Due Date
           b-icon.ml-2(icon='chevron-expand')
-        th.d-none(v-if="!shortTable" @click="sortSelect('files', 'number')").text-right
+        th.task-table__head_files.d-none(v-if="!shortTable" @click="sortSelect('files', 'number')").text-right
           | Files
           b-icon.ml-2(icon='chevron-expand')
-        th.d-none(v-if="!shortTable" @click="sortSelect('comments', 'number')").text-right
+        th.task-table__head_comments.d-none(v-if="!shortTable" @click="sortSelect('comments', 'number')").text-right
           | Comments
           b-icon.ml-2(icon='chevron-expand')
-        th.text-right(width="35px")
-    tbody
-      TaskItem(v-for="item in sortedTaskLimited" :key="item.id" :item="item" :shortTable="shortTable")
+        th.task-table__head_actions.text-right(width="35px")
+    tbody(v-if="sortedTaskLimited")
+      TaskItem(v-for="item in sortedTaskLimited" :key="item.id" :item="item" :shortTable="shortTable" :toastMessages="toastMessages")
 </template>
 
 <script>
@@ -54,6 +54,10 @@
       currentPage: {
         type: Number,
         default: 1
+      },
+      toastMessages: {
+        type: Object,
+        required: true
       },
     },
     data () {

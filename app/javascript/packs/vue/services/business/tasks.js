@@ -63,12 +63,14 @@ export async function updateTask(payload) {
 }
 
 export async function updateTaskStatus(payload) {
-  return await axios.post(`${END_POINT}/${payload.id}?done=${payload.done}${payload.oidParam}${payload.src_id_params}`)
+  const endpointParams = payload.oidParam ? `${payload.id}?done=${payload.done}${payload.oidParam}` : `${payload.id}?done=${payload.done}`
+  const endpointParamsWithSrc = payload.src_id_params ? `${payload.id}?done=${payload.done}${payload.oidParam}${payload.src_id_params}` : endpointParams
+  return await axios.post(`${END_POINT}/${endpointParamsWithSrc}`)
     .then(response => {
       if (response) {
         return response
       }
-      return false
+      return response
     })
     .catch(err => err)
 }

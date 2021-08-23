@@ -24,7 +24,7 @@
           | Comments
           b-icon.ml-2(icon='chevron-expand')
         th.text-right(width="35px")
-    tbody
+    tbody(v-if="sortedTaskLimited")
       TaskItem(v-for="item in sortedTaskLimited" :key="item.id" :item="item" :shortTable="shortTable")
 </template>
 

@@ -5,7 +5,7 @@
       .page-header__actions
         //a.btn.btn-default.m-r-1(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
         Download.d-inline-block.m-r-1(v-if="!shortTable" :pdfUrl="pdfUrl")
-        TaskModalCreateEdit(@saved="refetch()")
+        TaskModalCreateEdit(:toastMessages="toastMessages" @saved="refetch()")
           a.btn.btn-dark New Task
     .card-body.white-card-body.card-body_full-height.p-x-40
       .row.mb-3(v-if="!shortTable")
@@ -15,14 +15,14 @@
               template(#button-content)
                 | Show: {{ sortedByNameGeneral | capitalize }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortBy('all')") All Tasks
+              b-dropdown-item(@click="sortBy('all')") All
               b-dropdown-item(@click="sortBy('overdue')") Overdue
               b-dropdown-item(@click="sortBy('completed')") Completed
             b-dropdown.actions__dropdown.actions__dropdown_links.m-r-1(variant="default")
               template(#button-content)
                 | {{ sortedByNameAdditional | capitalize | linkableTypeCorrector }}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item(@click="sortByType('all')") All Links
+              b-dropdown-item(@click="sortByType('all')") All
               b-dropdown-item(@click="sortByType('LocalProject')") Projects
               b-dropdown-item(@click="sortByType('CompliancePolicy')") Policies
               b-dropdown-item(@click="sortByType('AnnualReport')") Internal Reviews
@@ -34,21 +34,22 @@
               b-dropdown-item(@click="perPage = 10") 10
               b-dropdown-item(@click="perPage = 15") 15
               b-dropdown-item(@click="perPage = 20") 20
+      //.row(v-if="!shortTable")
+      //  .col
+      //    .d-flex.align-items-center
+      //      ion-icon.m-r-1(name="chevron-down-outline" size="small")
+      //      b-badge.m-r-1(variant="light") 0
+      //      h3 Compilance Program
+      .row
+        .col(:class="shortTable ? 'p-0' : ''")
+          TaskTable.m-b-40(:shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage" :toastMessages="toastMessages")
+          b-pagination(v-if="!shortTable && sortedTasks.length > perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
+      .row.h-100(v-if="loading")
+        .col.h-100.text-center
+          Loading(:absolute="true")
       .row.h-100(v-if="!sortedTasks.length && !loading")
         .col.h-100.text-center
           EmptyState(name="Tasks")
-      div(v-if="sortedTasks.length")
-        //.row(v-if="!shortTable")
-        //  .col
-        //    .d-flex.align-items-center
-        //      ion-icon.m-r-1(name="chevron-down-outline" size="small")
-        //      b-badge.m-r-1(variant="light") 0
-        //      h3 Compilance Program
-        .row
-          .col(:class="shortTable ? 'p-0' : ''")
-            Loading(:absolute="true")
-            TaskTable.m-b-40(v-if="tasks" :shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
-            b-pagination(v-if="!shortTable && sortedTasks.length > perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
 </template>
 
 <script>
@@ -63,6 +64,9 @@
   import TaskModalCreateEdit from './modals/TaskModalCreateEdit'
   // import TaskModalEdit from './modals/TaskModalEdit'
   import Download from '@/common/Dashboard/components/Download'
+
+  import toastMessages from '@/locales/business/en.json'
+
 
   // const endpointUrl = '/api/business/reminders/'
   // const overdueEndpointUrl = '/api/business/overdue_reminders'
@@ -105,15 +109,37 @@
         sortedByLinkedTo: 'all',
         sortedByNameGeneral: 'All Tasks',
         sortedByNameAdditional: 'All Links',
-        projects: []
+        projects: [],
+        toastMessages: toastMessages.tasks
       }
     },
     // created() {
       // this.refetch()
     // },
     methods: {
+      async mounted () {
+        try {
+          // await this.$store.dispatch('reminders/getTasks')
+
+          const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
+          await this.$store.dispatch('reminders/getTasksByDate', fromTo)
+
+          // const data = await this.$store.dispatch('reminders/getTasksByDate', fromTo)
+          // if (data) console.log('data getTasksByDate', data)
+
+          // const dataOverdue = await this.$store.dispatch('reminders/getOverdueTasks')
+          // if (dataOverdue) console.log('data getOverdueTasks', data)
+
+        } catch (error) {
+          this.toast('Error', error.message, true)
+        }
+      },
       refetch() {
         console.log('refetch')
+
+        // HOOK to GET REPEATING Tasks
+        this.getData()
+
       //   const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
       //
       //   fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
@@ -151,9 +177,12 @@
       //     .then(response => response.json())
       //     .then(response => {
       //       console.log('result', response)
-      //       this.toast('Success', `Task has been deleted.`)
+      //       this.toast('Success', `Task successfully deleted!`)
       //     })
-      //     .catch(error => this.toast('Error', `${error.message}`, true))
+      //     .catch(error => this.toast('Error', `${error.message}`))
+      // },
+      // toast(title, str) {
+      //   this.$bvToast.toast(str, { title, autoHideDelay: 5000 })
       // },
       sortBy (value) {
         this.sortedBy = value
@@ -162,7 +191,24 @@
       sortByType (value) {
         this.sortedByLinkedTo = value
         this.sortedByNameAdditional = value
-      }
+      },
+      async getData() {
+        try {
+          // await this.$store.dispatch('reminders/getTasks')
+
+          const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
+          await this.$store.dispatch('reminders/getTasksByDate', fromTo)
+
+          // const data = await this.$store.dispatch('reminders/getTasksByDate', fromTo)
+          // if (data) console.log('data getTasksByDate', data)
+
+          // const dataOverdue = await this.$store.dispatch('reminders/getOverdueTasks')
+          // if (dataOverdue) console.log('data getOverdueTasks', data)
+
+        } catch (error) {
+          this.toast('Error', error.message, true)
+        }
+      },
     },
     computed: {
       ...mapGetters({
@@ -190,42 +236,36 @@
 
         let result
 
+        const tasksWithOid = this.tasks.map(task => {
+          const { taskId, oid } = splitReminderOccurenceId(task.id)
+          return {
+            ...task,
+            taskId: taskId,
+            oid: oid
+          }
+        })
+
         if (sortedBy) {
           if (sortedBy === 'completed')
-            result = this.tasks.filter(task => task.done_at)
+            result = tasksWithOid.filter(task => task.done_at)
           if (sortedBy === 'overdue')
-            result = this.tasks.filter(task => isOverdue(task))
+            result = tasksWithOid.filter(task => isOverdue(task))
           if (sortedBy === 'all')
-            result = this.tasks
+            result = tasksWithOid
         }
 
         if (sortedByType) {
           if (sortedByType === 'LocalProject' || sortedByType === 'CompliancePolicy'|| sortedByType === 'AnnualReport')
             result = result.filter(task => task.linkable_type === sortedByType)
           if (sortedByType === 'all')
-            result = result ? result : this.tasks
+            result = result ? result : tasksWithOid
         }
 
-        return result ? result : this.tasks
+        return result ? result : tasksWithOid
       },
     },
     async mounted () {
-      try {
-        // await this.$store.dispatch('reminders/getTasks')
-
-        const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
-        await this.$store.dispatch('reminders/getTasksByDate', fromTo)
-          .then(response => {
-            console.log('response', response)
-            if (response.projects) this.projects = response.projects
-          })
-          .catch(error => console.error('error', error))
-        //await this.$store.dispatch('reminders/getOverdueTasks')
-        //  .then(response => console.log('response Overdue', response))
-        //  .catch(error => console.error('error', error))
-      } catch (error) {
-        this.toast('Error', error.message, true)
-      }
+      this.getData()
     },
     // watch: {
       // etag: {
@@ -241,6 +281,8 @@
         return value.charAt(0).toUpperCase() + value.slice(1)
       },
       linkableTypeCorrector: function (value) {
+        if (value === 'LocalProject') value = 'Projects'
+        if (value === 'CompliancePolicy') value = 'Policies'
         if (value === 'AnnualReport') value = 'Internal Review'
         return value.replace(/[A-Z]/g, ' $&')
       }

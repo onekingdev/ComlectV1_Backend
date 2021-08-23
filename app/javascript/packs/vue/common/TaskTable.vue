@@ -8,7 +8,7 @@
       tr(v-for="(task, i) in taskEventsShort" :key="i")
         td
           //ion-icon.m-r-1.pointer(@click="toggleDone(task)" v-bind:class="{ done_task: task.done_at }" name='checkmark-circle-outline')
-          TaskFormModal.link(:task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
+          TaskFormModal.link(:taskProp="task" :task-id="task.taskId" :occurence-id="task.oid" @saved="$emit('saved')") {{ task.title }}
         td.text-right(class="due-date" :class="{ overdue: isOverdue(task) }")
           b-icon.mr-2(v-if="isOverdue(task)" icon="exclamation-triangle-fill" variant="warning")
           | {{ task.end }}
@@ -16,7 +16,8 @@
 
 <script>
 import { DateTime } from 'luxon'
-import TaskFormModal from '@/common/TaskFormModal'
+// import TaskFormModal from '@/common/TaskFormModal'
+import TaskFormModal from '@/business/tasks/modals/TaskModalCreateEdit'
 import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 
 const SHORT_TASK_COUNT = 6
@@ -34,15 +35,15 @@ export default {
   },
   methods: {
     isOverdue,
-    toggleDone(task) {
-      const { taskId, oid } = splitReminderOccurenceId(task.id)
-      const oidParam = oid !== null ? `&oid=${oid}` : ''
-      var target_state = (!(!!task.done_at)).toString()
-      fetch(`/api/reminders/${taskId}?done=${target_state}${oidParam}`, {
-        method: 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-      }).then(response => this.$emit('saved'))
-    }
+    // toggleDone(task) {
+    //   const { taskId, oid } = splitReminderOccurenceId(task.id)
+    //   const oidParam = oid !== null ? `&oid=${oid}` : ''
+    //   var target_state = (!(!!task.done_at)).toString()
+    //   fetch(`/api/reminders/${taskId}?done=${target_state}${oidParam}`, {
+    //     method: 'POST',
+    //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+    //   }).then(response => this.$emit('saved'))
+    // }
   },
   computed: {
     taskEvents() {

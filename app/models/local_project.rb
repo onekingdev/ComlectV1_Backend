@@ -12,6 +12,8 @@ class LocalProject < ApplicationRecord
   has_many :messages, as: :thread
   has_many :documents, as: :uploadable
 
+  alias_attribute :name, :title
+
   validates :title, presence: true
 
   enum status: {

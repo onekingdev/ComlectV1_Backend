@@ -11,7 +11,7 @@ class Api::RemindersController < ApiController
 
   def by_date
     tasks, projects = tasks_calendar_grid2(@current_someone, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
-    render json: { tasks: tasks, projects: projects }
+    render json: { tasks: ActiveModel::Serializer::CollectionSerializer.new(tasks), projects: projects }
   end
 
   def overdue
@@ -52,7 +52,7 @@ class Api::RemindersController < ApiController
     change_reminder_state if params[:done].present?
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
-    skip_occurence(@current_someone) if params[:src_id]
+    skip_occurence(@reminder) if params[:oid]
 
     if @reminder.save
       render json: @reminder, status: :ok

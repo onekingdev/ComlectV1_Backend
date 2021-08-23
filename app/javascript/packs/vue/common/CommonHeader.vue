@@ -4,7 +4,7 @@
       Breadcrumbs.mb-2(:items="breadcrumbs")
       h2.page-header__title.my-0.ml-0.mb-2 {{ title }}
       p(v-if="sub") {{ sub }}
-    .page-header__actions
+    .page-header__actions.flex-column
         slot
 </template>
 

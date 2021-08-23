@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 
 const isProject = task => task.hasOwnProperty('starts_on') && task.hasOwnProperty('ends_on')
 const isTask = task => task.hasOwnProperty('remindable_type') && task.hasOwnProperty('skip_occurencies')
-const isOverdue = task => (task.end_date || task.ends_on) && DateTime.fromISO(task.end_date || task.ends_on) <= DateTime.local()
+const isOverdue = task => (task.end_date || task.ends_on) && DateTime.fromISO(task.end_date || task.ends_on) <= DateTime.local().minus({ days: 1 })
 const isRepeat = task => task.repeat_every || task.repeat_on || task.repeats
 const isComplete = task => {
   const { oid } = splitReminderOccurenceId(task.id)
@@ -44,10 +44,12 @@ const badgeClass = project => project.status == "pending" ? 'badge-secondary'
 
 const linkedTo = linkableType => linkableType.linkable_type === 'CompliancePolicy' ? 'document-text'
                                : linkableType.linkable_type === "AnnualReport" ? "reader"
-                               : linkableType.linkable_type === "LocalProject" ? "list-circle" : ''
+                               : linkableType.linkable_type === "LocalProject" ? "list-circle"
+                               : linkableType.linkable_type === "Exam" ? "list-circle" : ''
 
 const linkedToClass = linkableType => linkableType.linkable_type === 'CompliancePolicy' ? 'black'
                                     : linkableType.linkable_type === "AnnualReport" ? "yellow"
-                                    : linkableType.linkable_type === "LocalProject" ? "blue" : ''
+                                    : linkableType.linkable_type === "LocalProject" ? "blue"
+                                    : linkableType.linkable_type === "Exam" ? "red" : ''
 
 export { isProject, isTask, isOverdue, isRepeat, isComplete, toEvent, cssClass, splitReminderOccurenceId, iconArray, badgeClass, linkedTo, linkedToClass }

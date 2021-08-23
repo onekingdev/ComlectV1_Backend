@@ -2,17 +2,19 @@
   .page
     Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`" currentBusiness="/api/businesses/current"): template(v-slot="{project,currentBusiness}")
       CommonHeader(:title="project.title" :sub="currentBusiness.business_name" :breadcrumbs="['Projects', project.title]")
-        p.text-right.m-b-2: ShowOnCalendarToggle(:project="project")
-        b-dropdown.m-r-1(variant="light")
-          template(#button-content)
-            | Actions
-            b-icon.ml-2(icon="chevron-down")
-          li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
-            button.dropdown-item Edit
-          li: DeleteLocalProjectModal(:project="project")
-        router-link.m-r-1.btn.btn-default(v-if="project.visible_project" :to='viewHref(project.visible_project)') View Post
-        router-link.m-r-1.btn.btn-default(v-else :to='postHref(project)') Post Project
-        CompleteLocalProjectModal(:project="project" @saved="newEtag")
+        .d-flex.justify-content-end
+          p.m-b-2: ShowOnCalendarToggle(:project="project")
+        .d-flex
+          b-dropdown.m-r-1(variant="light")
+            template(#button-content)
+              | Actions
+              b-icon.ml-2(icon="chevron-down")
+            li: LocalProjectModal(@saved="newEtag" :project-id="project.id" :inline="false")
+              button.dropdown-item Edit
+            li: DeleteLocalProjectModal(:project="project")
+          router-link.m-r-1.btn.btn-default(v-if="project.visible_project" :to='viewHref(project.visible_project)') View Post
+          router-link.m-r-1.btn.btn-default(v-else :to='postHref(project)') Post Project
+          CompleteLocalProjectModal(:project="project" @saved="newEtag")
       b-tabs.special-navs(content-class="mt-0 h-100" v-model="tab")
         b-tab(title="Overview" active)
           .card-body.white-card-body.card-body_full-height

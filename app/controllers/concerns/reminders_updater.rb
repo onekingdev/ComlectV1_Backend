@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module RemindersUpdater
-  def skip_occurence(remindable)
-    src_reminder = remindable.reminders.find(params[:src_id])
-    src_reminder.update(skip_occurencies: src_reminder.skip_occurencies + [params[:oid].to_i])
+  def skip_occurence(reminder)
+    reminder.update(skip_occurencies: reminder.skip_occurencies + [params[:oid].to_i])
   end
 
   def change_reminder_state

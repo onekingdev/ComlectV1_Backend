@@ -4,7 +4,7 @@
       .name
         b-icon.pointer.m-r-1(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
         //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
-        TaskModalCreateEdit.link(:taskProp="item" @saved="$emit('saved')")
+        TaskModalCreateEdit.link(:taskProp="item" :task-id="item.taskId" :occurence-id="item.oid" :toastMessages="toastMessages" @saved="$emit('saved')")
           span(v-if="!item.done_at" ) {{ item.body }}
           s(v-else) {{ item.body }}
     td(v-if="!shortTable")
@@ -26,10 +26,10 @@
         template(#button-content)
           b-icon(icon="three-dots")
         //b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit
-        TaskModalCreateEdit(@editConfirmed="editConfirmed", :taskProp="item", :inline="false")
+        TaskModalCreateEdit(@editConfirmed="editConfirmed", :taskProp="item", :toastMessages="toastMessages" :inline="false")
           b-dropdown-item Edit
         //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
-        TaskModalDelete(@deleteConfirmed="deleteTask(item)", :inline="false")
+        TaskModalDelete(@deleteConfirmed="deleteTask(item)", :linkedTo="{ linkable_type: item.linkable_type, linkable_name: item.linkable_name }" :inline="false")
           b-dropdown-item Delete
 </template>
 
@@ -41,7 +41,7 @@ import TaskModalDelete from '../modals/TaskModalDelete'
 
 export default {
   name: "TaskItem",
-  props: ['item', 'shortTable'],
+  props: ['item', 'shortTable', 'toastMessages'],
   components: {
     TaskModalCreateEdit,
     TaskModalDelete,
@@ -53,24 +53,43 @@ export default {
     linkedTo,
     linkedToClass,
     async toggleDone(task) {
+      // OLD CODE
+      // const { taskId, oid } = splitReminderOccurenceId(task.id)
+      // const oidParam = oid !== null ? `&oid=${oid}` : ''
+      // var target_state = (!(!!task.done_at)).toString()
+      // fetch(`/api/reminders/${taskId}?done=${target_state}${oidParam}`, {
+      //   method: 'POST',
+      //   headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+      // }).then(response => this.$emit('saved'))
+
+      const fixedId = task.id
+
       const { taskId, oid } = splitReminderOccurenceId(task.id)
-      const oidParam = oid !== null ? `&oid=${oid}` : ''                // BACK RETURNS 404 with this
-      const src_id_params = oid !== null ? `&src_id=${task.id}` : ''    // BACK RETURNS 404 with this
+      const oidParam = oid !== null ? `&oid=${oid}` : ''                               // BACK RETURNS 404 with this
+      const src_id_params = oid !== null ? `&src_id=${task.id.split('_')[0]}` : ''    // BACK RETURNS 404 with this
       let target_state = (!(!!task.done_at)).toString()
 
+      // console.log('task', task)
+      // console.log('taskId, oid', taskId, oid)
+      // console.log('oidParam', oidParam)
+      // console.log('target_state', target_state)
+
+      const statusWord = task.done_at ? 'incompleted' : 'completed'
+
       try {
-        await this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state, oidParam, src_id_params })
-          .then(response => this.toast('Success', `Updated!`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+        await this.$store.dispatch('reminders/updateTaskStatus', { fixedId, id: taskId, done: target_state, oidParam })
+          .then(response => this.toast('Success', `${this.toastMessages.success.complete.replace("$.", statusWord)}.` ))
+          .catch(error => this.toast('Error', this.toastMessages.errors.complete, true))
       } catch (error) {
         console.error('error catch in task Item', error)
+        this.toast('Error', `${error.message}`, true)
       }
     },
     deleteTask(task, deleteOccurence){
       const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
       this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
-        .then(response => this.toast('Success', `The task deleted!`))
-        .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+        .then(response => this.toast('Success', this.toastMessages.success.deleted))
+        .catch(error => this.toast('Error', this.toastMessages.errors.deleted, true))
     },
     editConfirmed() { console.log('editConfirmed') }
   },

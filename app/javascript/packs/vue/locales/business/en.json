@@ -1,165 +1,176 @@
 {
-  "annual": {
-    "success": {
-      "name_required": "Name is required.",
-      "check_all_fields": "Please check all fields!",
-      "updated": "Saved changes to annual review.",
-      "created": "Annual Review Successfully created!",
-      "completed": "Annual review marked as complete!",
-      "deleted": "`The annual review has been deleted! ${response.id}`",
-      "deleted_task": "Task successfully deleted!",
-      "deleted_category": "`The annual review category has been deleted! ${response.id}`",
-      "updated_task": "The task has been saved",
-      "uploaded": "Document uploaded",
-      "category_created": "New category added",
-      "duplicated": "`The annual review has been duplicated! ${response.id}`"
+  "annual":{
+    "success":{
+      "name_required":"Name is required.",
+      "check_all_fields":"Please check all fields!",
+      "updated":"Saved changes to annual review.",
+      "created":"Annual Review Successfully created!",
+      "completed":"Annual review marked as complete!",
+      "deleted":"`The annual review has been deleted! ${response.id}`",
+      "deleted_task":"Task successfully deleted!",
+      "deleted_category":"`The annual review category has been deleted! ${response.id}`",
+      "updated_task":"The task has been saved",
+      "uploaded":"Document uploaded",
+      "category_created":"New category added",
+      "duplicated":"`The annual review has been duplicated! ${response.id}`"
     },
-    "errors": {
-      "error": "`Something wrong! ${error}`",
-      "upload": "Document upload failed"
+    "errors":{
+      "error":"`Something wrong! ${error}`",
+      "upload":"Document upload failed"
     }
   },
-  "dashboard": {
-    "success": {
-      "created": "Account has been created."
+  "dashboard":{
+    "success":{
+      "created":"Account has been created."
     }
   },
-  "exams": {
-    "success": {
-      "saved": "Saved changes to exam.",
-      "updated": "Exam updated!",
-      "deleted": "The exam has been deleted",
-      "updated_reqeust": "Request updated!",
-      "deleted_reqeust": "The request has been deleted!",
-      "file_reqeust": "File successfully deleted",
-      "saved_task": "The task has been save",
-      "deleted_task": "Task successfully deleted",
-      "added_reqeust": "Exam Request successfully added",
-      "updated2": "Exam Management successfully updated",
-      "uploaded_file": "`${response.filename} successful uploaded!",
-      "uploaded_file2": "Document uploaded",
-      "invite": "Invite successfully sended",
-      "share": "Sharing link was copied successfully"
+  "exams":{
+    "success":{
+      "saved":"Saved changes to exam.",
+      "updated":"Exam updated!",
+      "deleted":"The exam has been deleted",
+      "updated_reqeust":"Request updated!",
+      "deleted_reqeust":"The request has been deleted!",
+      "file_reqeust":"File successfully deleted",
+      "saved_task":"The task has been save",
+      "deleted_task":"Task successfully deleted",
+      "added_reqeust":"Exam Request successfully added",
+      "updated2":"Exam Management successfully updated",
+      "uploaded_file":"`${response.filename} successful uploaded!",
+      "uploaded_file2":"Document uploaded",
+      "invite":"Invite successfully sended",
+      "share":"Sharing link was copied successfully"
     },
-    "errors": {
-      "upload_file": "Document upload failed",
-      "share": "Sharing link was copied unsuccessful",
-      "check_all_fileds": "Please check all fields!",
-      "error": "`Something wrong! ${error}`",
-      "min_1_file": "Please add minimal 1 file!"
+    "errors":{
+      "upload_file":"Document upload failed",
+      "share":"Sharing link was copied unsuccessful",
+      "check_all_fileds":"Please check all fields!",
+      "error":"`Something wrong! ${error}`",
+      "min_1_file":"Please add minimal 1 file!"
     }
   },
-  "filefolders": {
-    "success": {
-      "sended": "File successfully sended!",
-      "download": "Zipping completed! Downloading started.",
-      "updated": "File successfully updated!",
-      "updated_folder": "Folder successfully updated!",
-      "created_folder": "Folder successfully created!"
+  "filefolders":{
+    "success":{
+      "sended":"File successfully sended!",
+      "download":"Zipping completed! Downloading started.",
+      "updated":"File successfully updated!",
+      "updated_folder":"Folder successfully updated!",
+      "created_folder":"Folder successfully created!"
     },
-    "errors": {
-      "field_short": "Name is very short, must be more 3 characters.",
-      "error": "`Something wrong! ${error}`",
-      "check_all": "`Please check all fields!`"
+    "errors":{
+      "field_short":"Name is very short, must be more 3 characters.",
+      "error":"`Something wrong! ${error}`",
+      "check_all":"`Please check all fields!`"
     }
   },
-  "marketplace": {},
-  "notifications": {},
-  "policies": {
-    "success": {
-      "saved_config": "Config successfully saved!",
-      "moved": "Policy successfully moved.",
-      "updated": "Changes successfully saved.",
-      "deleted": "`Policy successfully deleted!",
-      "archived": "`Policy successfully archived",
-      "updated2": "Changes saved",
-      "saved_risk": "The risk has been saved",
-      "created": "Policy successfully created! You will be redirect...",
-      "download": "Policy successfully downloaded.",
-      "published": "Policy successfully published. Please wait you will be redirected to the new Draft",
-      "updated3": "Policy successfully updated!"
+  "marketplace":{
+
+  },
+  "notifications":{
+
+  },
+  "policies":{
+    "success":{
+      "saved_config":"Config successfully saved!",
+      "moved":"Policy successfully moved.",
+      "updated":"Changes successfully saved.",
+      "deleted":"`Policy successfully deleted!",
+      "archived":"`Policy successfully archived",
+      "updated2":"Changes saved",
+      "saved_risk":"The risk has been saved",
+      "created":"Policy successfully created! You will be redirect...",
+      "download":"Policy successfully downloaded.",
+      "published":"Policy successfully published. Please wait you will be redirected to the new Draft",
+      "updated3":"Policy successfully updated!"
     },
-    "errors": {
-      "unarchived": "Policy successfully unarchived!",
-      "error": "`Couldn't submit form! ${error}`",
-      "field_required": "Name is required.",
-      "field_short": "Name is very short, must be more 3 characters."
+    "errors":{
+      "unarchived":"Policy successfully unarchived!",
+      "error":"`Couldn't submit form! ${error}`",
+      "field_required":"Name is required.",
+      "field_short":"Name is very short, must be more 3 characters."
     }
   },
-  "profile": {
-    "success": {
-      "updated": "Config successfully saved!"
+  "profile":{
+    "success":{
+      "updated":"Config successfully saved!"
     },
-    "errors": {
-      "error": "`Something wrong! ${error}`"
+    "errors":{
+      "error":"`Something wrong! ${error}`"
     }
   },
-  "projects": {
-    "success": {
-      "saved": "The project has been saved",
-      "issue": "Issue submitted",
-      "uploaded_doc": "Document uploaded",
-      "added_specialist": "Specialist added to project.",
-      "completed": "Project completed",
-      "saved2": "Saved",
-      "denied": "Proposal denied.",
-      "project_end_request": "Project End has been requested",
-      "role_setted": "The Role has been setted!",
-      "deleted": "Project deleted"
+  "projects":{
+    "success":{
+      "saved":"The project has been saved",
+      "issue":"Issue submitted",
+      "uploaded_doc":"Document uploaded",
+      "added_specialist":"Specialist added to project.",
+      "completed":"Project completed",
+      "saved2":"Saved",
+      "denied":"Proposal denied.",
+      "project_end_request":"Project End has been requested",
+      "role_setted":"The Role has been setted!",
+      "deleted":"Project deleted"
     },
-    "errors": {
-      "field_title_empty":  "Please enter title'",
-      "end_project": "Cannot request End project",
-      "upload_doc_error": "Document upload failed"
+    "errors":{
+      "field_title_empty":"Please enter title'",
+      "end_project":"Cannot request End project",
+      "upload_doc_error":"Document upload failed"
     }
   },
-  "reportsrisks": {},
-  "riskregister": {
-    "success": {
-      "updated": "The risk has been updated!",
-      "deleted": "Risk successfully deleted!",
-      "created": "The risk has been saved"
+  "reportsrisks":{
+
+  },
+  "riskregister":{
+    "success":{
+      "updated":"The risk has been updated!",
+      "deleted":"Risk successfully deleted!",
+      "created":"The risk has been saved"
     },
-    "errors": {
-      "filed_required": "Field is required.",
-      "delete_error": "`Couldn't delete risk! ${error}`",
-      "error": "`Couldn't submit form! ${error}`"
+    "errors":{
+      "filed_required":"Field is required.",
+      "delete_error":"`Couldn't delete risk! ${error}`",
+      "error":"`Couldn't submit form! ${error}`"
     }
   },
-  "settings": {
-    "success": {
-      "user_deleted": "`The user has been deleted! ${response.id}`",
-      "user_added": "User successfully added!",
-      "user_update": "Saved changes to specialist.",
-      "app_deleted": "`The app has been deleted! ${response.id}`",
-      "card_changed": "`The primary card successfully changed!`",
-      "setting_updated": "Setting is updated",
-      "plan_uprated": "Plan upgraded.",
-      "billing_upgrated": "Billing upgraded.",
-      "payment_method_added": "Payment Method successfully added!",
-      "subsribe_updated": "Update subscribe successfully finished!",
-      "seats_subsribe_updated": "Update seat subscribe successfully finished!",
-      "info_saved": "Information successfully saved!"
+  "settings":{
+    "success":{
+      "user_deleted":"`The user has been deleted! ${response.id}`",
+      "user_added":"User successfully added!",
+      "user_update":"Saved changes to specialist.",
+      "app_deleted":"`The app has been deleted! ${response.id}`",
+      "card_changed":"`The primary card successfully changed!`",
+      "setting_updated":"Setting is updated",
+      "plan_uprated":"Plan upgraded.",
+      "billing_upgrated":"Billing upgraded.",
+      "payment_method_added":"Payment Method successfully added!",
+      "subsribe_updated":"Update subscribe successfully finished!",
+      "seats_subsribe_updated":"Update seat subscribe successfully finished!",
+      "info_saved":"Information successfully saved!"
     },
-    "errors": {
-      "error": "`Something wrong! ${error.message}`",
-      "field_error": "`Form has errors! Please recheck fields! ${response.errors[type]}`",
-      "from_error": "`Couldn't submit form! ${error.message}`",
-      "field_required": "Name is required.",
-      "filed_short": "Name is very short, must be more 3 characters."
+    "errors":{
+      "error":"`Something wrong! ${error.message}`",
+      "field_error":"`Form has errors! Please recheck fields! ${response.errors[type]}`",
+      "from_error":"`Couldn't submit form! ${error.message}`",
+      "field_required":"Name is required.",
+      "filed_short":"Name is very short, must be more 3 characters."
     }
   },
-  "tasks": {
-    "success": {
-      "updated": "Updated!",
-      "deleted": "The Task has been deleted!",
-      "added_category": "New category added",
-      "created": "The task has been saved",
-      "uploaded_doc": "Document uploaded"
+  "tasks":{
+    "success":{
+      "created":"Task has been created.",
+      "updated":"Task has been updated.",
+      "deleted":"Task has been deleted.",
+      "complete":"Task has been marked as $.",
+      "added_category":"New category added"
     },
-    "errors": {
-      "Error": "`Something wrong! ${error.message}`",
-      "doc_upload_error": "Document upload failed"
+    "errors":{
+      "created":"Task has not been created. Please try again.",
+      "updated":"Task has not been updated. Please try again.",
+      "deleted":"Task has not been deleted. Please try again.",
+      "complete":"Task has not been marked as completed. Please try again.",
+      "upload":"File has not been uploaded. Please try again.",
+      "plan_error":"File has not been uploaded. Please upgrade plan for additional data storage.",
+      "comment":"Comment has not been sent. Please try again"
     }
   }
 }
