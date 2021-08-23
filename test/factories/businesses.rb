@@ -46,4 +46,20 @@ FactoryBot.define do
       fee_free true
     end
   end
+
+  factory :business_with_subscription, parent: :business do
+    after(:create) do |business|
+      profile = business&.payment_profile || create(:payment_profile, business: business)
+
+      profile.payment_sources.first.update(
+        primary: true,
+        brand: 'Chase',
+        validated: true,
+        type: 'PaymentSource::Ach'
+      )
+
+      payment_source = profile.payment_sources.first
+      create(:subscription, business: business, payment_source: payment_source)
+    end
+  end
 end

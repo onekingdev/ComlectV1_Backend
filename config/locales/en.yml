@@ -210,9 +210,10 @@ en:
       projects:
         project_has_specialist: 'Project has not been deleted. Please terminate any active contracts.'
       seats:
-        no_available_seats: 'User has not been added. Please purchase an additional seat.'
         invalid_employee: 'User has not been added. Try again.'
         employee_not_in_team: 'User cannot be added. This email is already in use.'
+      team_members:
+        no_available_seats: 'User has not been added. Please purchase an additional seat.'
     settings:
       profile:
         cannot_delete: 'Account has not been deleted. Please terminate any active contracts.'

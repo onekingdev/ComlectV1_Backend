@@ -345,7 +345,6 @@ Rails.application.routes.draw do
       resources :specialist_roles, only: :update
       resources :specialists, only: :index
       get '/seats', to: 'seats#index'
-      post '/seats', to: 'seats#assign'
       resources :annual_reports, only: %i[index show create update destroy] do
         resources :documents, only: %i[index create destroy], controller: 'annual_report_documents'
       end

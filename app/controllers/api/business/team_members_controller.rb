@@ -4,13 +4,12 @@ class Api::Business::TeamMembersController < ApiController
   before_action :require_business!
 
   def create
-    team_member = TeamMember.new(member_params)
-    current_business.assign_team(team_member)
+    service = BusinessServices::TeamMemberService.call(current_business, member_params)
 
-    if team_member.save
-      respond_with team_member, serializer: ::TeamMemberSerializer
+    if service.success?
+      respond_with service.team_member, serializer: ::TeamMemberSerializer
     else
-      respond_with team_member
+      respond_with service.team_member
     end
   end
 
@@ -19,7 +18,7 @@ class Api::Business::TeamMembersController < ApiController
   def member_params
     params.require(:team_member).permit(
       :first_name, :last_name, :email,
-      :start_date, :access_person
+      :role, :start_date, :access_person
     )
   end
 end
