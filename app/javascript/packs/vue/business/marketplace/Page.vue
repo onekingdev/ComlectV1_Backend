@@ -16,12 +16,12 @@
               .col-md-12
                 h3.mb-0 Browse Specialist
             .card-body
-              MarketPlaceSearchInput(@searchCompleted="filterByInput")
+              MarketPlaceSearchInput(@searchCompleted="sortOptions.tags = $event")
             .card-body
               SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
               Loading
               b-pagination(v-if="filteredSpecialists.length && !loading" v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table' align="center" pills size="sm")
-            //.card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
+            //- .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
             .card-body(v-if="!filteredSpecialists.length && !loading")
               EmptyState
 
@@ -152,10 +152,6 @@
       closeSidebar() {
         history.pushState({}, '', '/business/specialists')
         this.isSidebarOpen = false
-      },
-      filterByInput (values) {
-        // console.log('value', values)
-        this.sortOptions.tags = values
       }
     },
     computed: {
@@ -185,29 +181,16 @@
           return filteredSpecialists
         }
 
-        if(this.sortOptions.tags.length) {
-          const sortOption = this.sortOptions
-
-          for (const tag of sortOption.tags) {
-            defaultSpecialists.map(specialist => {
-              // const name = specialist.first_name.toLowerCase() === tag.toLowerCase()
-              // const surname = specialist.last_name.toLowerCase() === tag.toLowerCase()
-
-              for (const [key, value] of Object.entries(specialist)) {
-
-                // console.log(`${key}: ${value}`)
-                if (typeof value === 'string') {
-                  var myString = specialist[key].toLowerCase()
-                  var myWord = tag.toLowerCase()
-                  var a = new RegExp('\\b' + myWord + '\\b');
-
-                  if (a.test(myString)) {
-                    if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
-                  }
-                }
-              }
+        if (this.sortOptions.tags.length) {
+          this.specialists.map(specialist => {
+            const matches = specialist => this.sortOptions.tags.every(tag => {
+              const specialistString = JSON.stringify(Object.values(specialist)).toLowerCase()
+              return new RegExp(tag, 'ig').test(specialistString)
             })
-          }
+            if (matches(specialist) && !filteredSpecialists.includes(specialist)) {
+              filteredSpecialists.push(specialist)
+            }
+          })
           return filteredSpecialists
         }
 
