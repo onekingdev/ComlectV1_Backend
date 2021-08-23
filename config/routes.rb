@@ -344,7 +344,6 @@ Rails.application.routes.draw do
       end
       resources :specialist_roles, only: :update
       resources :specialists, only: :index
-      get '/seats', to: 'seats#index'
       resources :annual_reports, only: %i[index show create update destroy] do
         resources :documents, only: %i[index create destroy], controller: 'annual_report_documents'
       end
@@ -360,6 +359,12 @@ Rails.application.routes.draw do
       patch '/favorites' => 'favorites#update'
 
       resources :team_members, only: %i[create]
+
+      resources :seats, only: [] do
+        collection do
+          get :available_seat_count
+        end
+      end
     end
 
     namespace :specialist do

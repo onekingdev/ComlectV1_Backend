@@ -2,11 +2,9 @@
 
 FactoryBot.define do
   factory :team_member do
-    team_id 1
-    name 'MyString'
-    first_name 'Alex'
-    last_name 'Petrov'
-    department 'MyString'
-    email 'MyString'
+    team_id nil
+    first_name 'Team'
+    last_name 'Member'
+    email 'team@member.com'
   end
 end
