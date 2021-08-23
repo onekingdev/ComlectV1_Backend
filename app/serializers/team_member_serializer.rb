@@ -3,6 +3,8 @@
 class TeamMemberSerializer < ApplicationSerializer
   attributes \
     :id,
+    :role,
+    :name,
     :email,
     :last_name,
     :first_name,

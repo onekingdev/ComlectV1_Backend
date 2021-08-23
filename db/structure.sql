@@ -4766,7 +4766,8 @@ CREATE TABLE public.team_members (
     first_name character varying,
     last_name character varying,
     access_person boolean DEFAULT false,
-    business_member boolean DEFAULT false
+    business_member boolean DEFAULT false,
+    role character varying
 );
 
 
@@ -7944,6 +7945,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210627144137'),
 ('20210630220835'),
 ('20210708084524'),
-('20210821000146');
+('20210821000146'),
+('20210823211705');
 
 

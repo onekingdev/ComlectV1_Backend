@@ -3,6 +3,13 @@
 class Api::Business::TeamMembersController < ApiController
   before_action :require_business!
 
+  def index
+    team_ids = current_business.teams.ids
+    team_members = TeamMember.where(team_id: team_ids)
+
+    respond_with team_members, each_serializer: ::TeamMemberSerializer
+  end
+
   def create
     service = BusinessServices::TeamMemberService.call(current_business, member_params)
 

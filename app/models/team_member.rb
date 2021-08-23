@@ -10,6 +10,8 @@ class TeamMember < ActiveRecord::Base
 
   before_destroy :clear_seat
 
+  enum role: { basic: 'basic', admin: 'admin', trusted: 'trusted' }
+
   def clear_seat
     seat&.unassign
   end

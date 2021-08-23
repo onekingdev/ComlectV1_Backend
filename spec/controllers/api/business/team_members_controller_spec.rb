@@ -9,6 +9,34 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
     login_as_business(business.user)
   end
 
+  describe 'GET index' do
+    context 'empty list' do
+      before do
+        TeamMember.destroy_all
+        get :index, as: 'json'
+      end
+
+      it { expect(response).to have_http_status(200) }
+      it { expect(JSON.parse(response.body)).to eq([]) }
+    end
+
+    context 'team member list' do
+      before do
+        TeamMember.last.update(role: 'admin', start_date: '2021-08-22')
+        get :index, as: 'json'
+      end
+
+      it { expect(response).to have_http_status(200) }
+      it { expect(JSON.parse(response.body)[0]['name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['email']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['role']).to eq('admin') }
+      it { expect(JSON.parse(response.body)[0]['last_name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['first_name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['access_person']).to be_falsey }
+      it { expect(JSON.parse(response.body)[0]['start_date']).to eq('2021-08-22') }
+    end
+  end
+
   describe 'POST create' do
     context 'raises ParameterMissing exception' do
       let(:error) { ActionController::ParameterMissing }
@@ -111,6 +139,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(TeamMember.last.name).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['role']).to eq('basic') }
       it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
       it { expect(JSON.parse(response.body)['access_person']).to be_truthy }
