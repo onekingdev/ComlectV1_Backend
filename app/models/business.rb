@@ -240,7 +240,7 @@ class Business < ApplicationRecord
   end
 
   def assign_team(team_member)
-    team = team.find_or_create_by(name: 'Misc', display: false)
+    team = team.presence || Team.create(business: Business.last, name: 'Misc', display: true)
     team_member.team_id = team.id
     team_member.save
   end
