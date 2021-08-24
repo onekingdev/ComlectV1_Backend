@@ -360,6 +360,11 @@ Rails.application.routes.draw do
         collection do
           get :specialists
         end
+
+        member do
+          patch :archive
+          patch :unarchive
+        end
       end
 
       resources :seats, only: [] do

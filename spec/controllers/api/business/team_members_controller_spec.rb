@@ -297,14 +297,9 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
     end
 
     context 'return team member successfully' do
-      let(:team) { Business.first.team }
-      let!(:team_member) { create(:team_member, team_id: team.id) }
-      let!(:seat) { create(:seat, business: Business.first, subscription: Subscription.first) }
-      let!(:specialist_invitation) { create(:specialist_invitation, team_id: team.id, team_member_id: team_member.id) }
+      let!(:team_member) { create(:full_team_member) }
 
       before do
-        seat.assign_to(team_member.id)
-
         expect(Seat.count).to eq(1)
         expect(TeamMember.count).to eq(2)
         expect(Seat.last.assigned_at).not_to be_nil
@@ -326,6 +321,98 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
       it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
+    end
+  end
+
+  describe 'PATCH archive' do
+    context 'return not found' do
+      before { patch :archive, as: 'json', params: { id: 0 } }
+
+      it { expect(response).to have_http_status(404) }
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+    end
+
+    context 'archive team member' do
+      let!(:team_member) { create(:full_team_member) }
+
+      before do
+        expect(Seat.count).to eq(1)
+        expect(TeamMember.count).to eq(2)
+        expect(Seat.last.assigned_at).not_to be_nil
+        expect(Specialist::Invitation.count).to eq(1)
+        expect(team_member.reload.active).to be_truthy
+        expect(Seat.last.team_member_id).to eq(team_member.id)
+
+        patch :archive, as: 'json', params: { id: team_member.id }
+      end
+
+      it { expect(response).to have_http_status(200) }
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+
+      it { expect(Seat.count).to eq(1) }
+      it { expect(TeamMember.count).to eq(2) }
+      it { expect(Seat.last.assigned_at).to be_nil }
+      it { expect(Seat.last.team_member_id).to be_nil }
+      it { expect(team_member.reload.active).to be_falsey }
+      it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
+      it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
+      it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
+    end
+  end
+
+  describe 'PATCH unarchive' do
+    context 'return not found' do
+      before { patch :unarchive, as: 'json', params: { id: 0 } }
+
+      it { expect(response).to have_http_status(404) }
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+    end
+
+    context 'there is no available seat' do
+      let(:team) { Business.first.team }
+      let(:team_member) { create(:team_member, team_id: team.id, active: false) }
+      let(:msg) { 'User has not been added. Please purchase an additional seat.' }
+
+      before do
+        expect(Seat.count).to be_zero
+        expect(team_member.active).to be_falsey
+
+        patch :unarchive, as: 'json', params: { id: team_member.id }
+      end
+
+      it { expect(response).to have_http_status(422) }
+
+      it { expect(team_member.reload.active).to be_falsey }
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['error']).to eq(msg) }
+    end
+
+    context 'successfully' do
+      let(:team) { Business.first.team }
+      let(:team_member) { create(:team_member, team_id: team.id, active: false) }
+      let!(:seat) { create(:seat, business: Business.first, subscription: Subscription.first) }
+
+      before do
+        expect(Seat.count).to eq(1)
+        expect(team_member.active).to be_falsey
+
+        patch :unarchive, as: 'json', params: { id: team_member.id }
+      end
+
+      it { expect(response).to have_http_status(200) }
+
+      it { expect(Seat.count).to eq(1) }
+      it { expect(Seat.last.assigned_at).to be_present }
+      it { expect(Seat.last.team_member_id).to eq(team_member.id) }
+
+      it { expect(team_member.reload.active).to be_truthy }
+      it { expect(JSON.parse(response.body)['error']).to be_nil }
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
+      it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
+      it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
     end
   end
 end

@@ -2,7 +2,7 @@
 
 class Api::Business::TeamMembersController < ApiController
   before_action :require_business!
-  before_action :load_team_member, only: :destroy
+  before_action :load_team_member, only: %i[destroy archive unarchive]
 
   def index
     team_members = current_business.team_members
@@ -39,6 +39,26 @@ class Api::Business::TeamMembersController < ApiController
 
   def destroy
     @team_member.destroy
+    respond_with @team_member, serializer: TeamMemberSerializer
+  end
+
+  def archive
+    @team_member.update(active: false) && @team_member.clear_seat
+    respond_with @team_member, serializer: TeamMemberSerializer
+  end
+
+  def unarchive
+    seat = current_business.seats.available.first
+
+    unless seat
+      render(
+        json: { error: t('api.business.team_members.no_available_seats') },
+        status: :unprocessable_entity
+      ) and return
+    end
+
+    seat.assign_to(@team_member.id)
+    @team_member.update(active: true)
     respond_with @team_member, serializer: TeamMemberSerializer
   end
 
