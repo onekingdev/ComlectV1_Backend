@@ -14,9 +14,13 @@ class Api::Business::TeamMembersController < ApiController
     service = BusinessServices::TeamMemberService.call(current_business, member_params)
 
     if service.success?
-      respond_with service.team_member, serializer: ::TeamMemberSerializer
-    else
+      respond_with(service.team_member, serializer: ::TeamMemberSerializer) and return
+    end
+
+    if service.team_member.present?
       respond_with service.team_member
+    else
+      render json: { error: service.error }, status: :unprocessable_entity
     end
   end
 

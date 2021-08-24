@@ -4,7 +4,7 @@ module BusinessServices
   class TeamMemberService < ApplicationService
     attr_reader \
       :business, :params, :team_member,
-      :seat, :team, :invitation
+      :seat, :team, :invitation, :error
 
     def initialize(business, params)
       @business = business
@@ -34,8 +34,9 @@ module BusinessServices
       end
 
       Notification::Deliver.got_seat_assigned!(invitation, :new_employee)
-    rescue
+    rescue => e
       @success = false
+      @error = e.message
     end
 
     def create_invitation
