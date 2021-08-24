@@ -4,10 +4,12 @@ class Api::Business::TeamMembersController < ApiController
   before_action :require_business!
 
   def index
-    team_ids = current_business.teams.ids
-    team_members = TeamMember.where(team_id: team_ids)
-
+    team_members = current_business.team.team_members
     respond_with team_members, each_serializer: ::TeamMemberSerializer
+  end
+
+  def specialists
+    respond_with current_business.team.specialists, each_serializer: Business::SpecialistSerializer
   end
 
   def create

@@ -31,8 +31,7 @@ class Business < ApplicationRecord
   has_many :compliance_policy_risks
   has_many :compliance_policy_sections
   has_many :annual_reports
-  has_many :teams
-  has_many :viewable_teams, -> { where(display: true) }, class_name: 'Team'
+  has_one :team
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
   has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
   has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'
@@ -241,7 +240,7 @@ class Business < ApplicationRecord
   end
 
   def assign_team(team_member)
-    team = teams.find_or_create_by(name: 'Misc', display: false)
+    team = team.find_or_create_by(name: 'Misc', display: false)
     team_member.team_id = team.id
     team_member.save
   end

@@ -106,7 +106,6 @@ Rails.application.routes.draw do
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update destroy]
     resources :team_members, only: %i[new create edit update destroy]
-    resources :reminders, only: %i[new update create destroy show edit index]
     resources :tasks, only: %i[new update create destroy show edit index]
     resources :audit_requests, only: %i[index update create new edit show destroy]
     put '/audit_requests' => 'audit_requests#update'
@@ -167,13 +166,12 @@ Rails.application.routes.draw do
   resources :employees, path: 'employee', only: %i[new create index]
   get '/employees/mirror/:business_id', to: 'employees#mirror', as: 'mirror_business'
   get '/employees/stop-mirror', to: 'employees#stop_mirror', as: 'stop_mirror_business'
-
+  resources :reminders, only: ['index']
   namespace :specialists, path: 'specialist' do
     get '/onboarding' => 'onboarding#index'
     post '/onboarding' => 'onboarding#subscribe'
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
-    resources :reminders, only: %i[new update create destroy edit show index]
     resources :tasks, only: %i[new update create destroy edit show index]
     resources :addons, only: %i[index]
     resource :help, only: :show do
@@ -359,6 +357,7 @@ Rails.application.routes.draw do
       patch '/favorites' => 'favorites#update'
 
       resources :team_members, only: %i[index create]
+      get 'team_specialists' => 'team_members#specialists'
 
       resources :seats, only: [] do
         collection do

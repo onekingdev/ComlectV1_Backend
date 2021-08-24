@@ -7,6 +7,7 @@ class Project < ApplicationRecord
   alias_attribute :end_date, :ends_on
   alias_attribute :done_at, :completed_at
   alias_attribute :body, :title
+  alias_attribute :assignee, :specialist
 
   belongs_to :business
   belongs_to :specialist, optional: true

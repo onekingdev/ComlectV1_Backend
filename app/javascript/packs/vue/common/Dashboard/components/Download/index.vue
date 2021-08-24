@@ -68,7 +68,7 @@
       pdfRangeDownload () {
         const start_date = this.download.start_date
         const end_date = this.download.end_date
-        const url = `/business/reminders.csv?from_date=${start_date}&to_date=${end_date}`
+        const url = `/reminders.csv?from_date=${start_date}&to_date=${end_date}`
         return url
       },
       datepickerOptions() {

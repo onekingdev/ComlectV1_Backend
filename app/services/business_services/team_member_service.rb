@@ -50,8 +50,8 @@ module BusinessServices
     end
 
     def buid_team_member
-      @team = business.teams.first
-      @team_member = team.team_members.build(params)
+      @team = business.team
+      @team_member = business.team.team_members.build(params)
     end
 
     def load_seat

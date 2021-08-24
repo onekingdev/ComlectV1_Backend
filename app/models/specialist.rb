@@ -357,11 +357,7 @@ class Specialist < ApplicationRecord
 
   def seat?(business = nil)
     return specialist_invitations.where.not(team_id: nil).exists? if business.nil?
-
-    teams_ids = business.teams.pluck(:id)
-    return unless teams_ids
-
-    specialist_invitations.exists?(team_id: teams_ids)
+    specialist_invitations.exists?(team_id: business.team.id)
   end
 
   def businesses_to_manage

@@ -65,6 +65,6 @@ class Api::RemindersController < ApiController
 
   def reminder_params
     params.permit(:body, :remind_at, :end_date, :repeats, :end_by, :repeat_every,
-                  :repeat_on, :on_type, :description, :linkable_id, :linkable_type)
+                  :repeat_on, :on_type, :description, :linkable_id, :linkable_type, :assignee_type, :assignee_id)
   end
 end

@@ -81,7 +81,7 @@
 
   // const today = () => DateTime.local().toISODate()
 
-  const pdfUrl = '/business/reminders.csv'
+  const pdfUrl = '/reminders.csv'
 
   export default {
     props: {

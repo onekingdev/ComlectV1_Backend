@@ -31,7 +31,7 @@ RSpec.describe Api::Business::SeatsController, type: :controller do
     end
 
     context 'there is one taken seat' do
-      let!(:team_member) { create(:team_member, team_id: Business.first.teams.first.id) }
+      let!(:team_member) { create(:team_member, team_id: Business.first.team.id) }
       let!(:seat) { create(:seat, business: Business.first, subscription: Subscription.first) }
 
       before do

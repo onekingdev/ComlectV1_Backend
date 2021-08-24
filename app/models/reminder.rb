@@ -3,6 +3,7 @@
 class Reminder < ActiveRecord::Base
   belongs_to :remindable, polymorphic: true
   belongs_to :linkable, polymorphic: true, optional: true
+  belongs_to :assignee, polymorphic: true, optional: true
   has_many :messages, as: :thread
 
   TOTAL_MONTH = 1..12
@@ -20,6 +21,10 @@ class Reminder < ActiveRecord::Base
 
   validate if: -> { linkable.present? } do
     errors.add :linkable_id, :invalid if linkable.business != remindable
+  end
+
+  validate if: -> { assignee.present? } do
+    errors.add :assignee_id, :invalid if assignee != remindable && !remindable.team.specialists.include?(assignee)
   end
 
   def start_time
@@ -131,7 +136,7 @@ class Reminder < ActiveRecord::Base
     occurrences
   end
 
-  def self.get_all_reminders(remindable, tgt_from_date, tgt_to_date)
+  def self.get_all_reminders(remindable, tgt_from_date, tgt_to_date, skip_projects)
     data_recurring = []
     reminders = remindable.reminders.where('remind_at > ? AND remind_at < ?', tgt_from_date, tgt_to_date).where(repeats: nil) || []
     recurring_tasks = remindable.reminders.where('remind_at < ?', tgt_to_date).where.not(repeats: nil)
@@ -148,8 +153,12 @@ class Reminder < ActiveRecord::Base
         data_recurring << sample
       end
     end
-    projects_complete = remindable.projects.complete.where('completed_at > ?', tgt_from_date).where('completed_at < ?', tgt_to_date)
-    projects_active = remindable.projects.active.where('starts_on > ?', tgt_from_date).where('starts_on < ?', tgt_to_date)
+    projects_complete = []
+    projects_active = []
+    unless skip_projects
+      projects_complete = remindable.projects.complete.where('completed_at > ?', tgt_from_date).where('completed_at < ?', tgt_to_date)
+      projects_active = remindable.projects.active.where('starts_on > ?', tgt_from_date).where('starts_on < ?', tgt_to_date)
+    end
     (reminders + data_recurring + projects_complete + projects_active).sort_by { |e| e.remind_at.strftime('%Y-%m-%d') }
   end
 end

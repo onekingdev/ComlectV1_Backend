@@ -23,9 +23,12 @@ class RecurringReminder
     self.rly_past_due = end_date < Time.zone.today.in_time_zone(src_task.remindable.time_zone).to_date
     self.description = src_task.description
     self.note = ''
+    self.linkable = src_task.linkable
+    self.assignee = src_task.assignee
+    self.messages = nil
   end
 
   attr_accessor :id, :body, :remindable_id, :remind_at, :done_at, :end_date, :remindable_type, :repeats, :rly_past_due,
                 :end_by, :repeat_every, :repeat_on, :on_type, :skip_occurencies, :src_id, :duration, :done_occurencies,
-                :note, :description
+                :note, :description, :linkable, :assignee, :messages
 end

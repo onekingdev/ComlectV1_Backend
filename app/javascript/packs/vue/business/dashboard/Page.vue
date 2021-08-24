@@ -27,7 +27,7 @@ import Calendar from './Calendar'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 
 const endpointProjectsUrl = '/api/business/local_projects/'
-const pdfUrl = '/business/reminders.csv'
+const pdfUrl = '/reminders.csv'
 
 export default {
   data() {

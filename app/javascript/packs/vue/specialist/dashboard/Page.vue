@@ -22,7 +22,7 @@ import UpcomingTasks from '@/specialist/dashboard/UpcomingTasks'
 import EmptyPlan from '@/specialist/settings/components/subscriptions/components/EmptyPlan'
 
 const endpointProjectsUrl = '/api/specialist/projects/my/'
-const pdfUrl = '/specialist/reminders.csv'
+const pdfUrl = '/reminders.csv'
 
 export default {
   data() {
