@@ -14,12 +14,12 @@
 
       template(#modal-footer="{ hide }")
         button.btn.btn-link(@click="hide") Cancel
-        button.btn.btn-dark(@exit="exit") Confirm
+        button.btn.btn-dark(@click="exit") Confirm
 </template>
 
 <script>
-// import { redirectWithToast } from '@/common/Toast'
 const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+
 export default {
   props: {
     inline: {
@@ -34,14 +34,9 @@ export default {
   },
   methods: {
     exit() {
-      // redirectWithToast(redirectUrl, 'Project exit')
-      // this.toast('Success', "Saved changes.")
-      this.$emit('exitConfirmed')
       this.$bvModal.hide(this.modalId)
+      this.back()
     }
-  },
-  computed: {
-
   }
 }
 </script>

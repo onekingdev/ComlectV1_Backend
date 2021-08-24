@@ -76,7 +76,7 @@
             button.btn.btn-default.float-left(v-if="prevEnabled" @click="prev")
               b-icon.mr-2(icon="chevron-left")
               | Previous
-            ExitLocalProjectModal.m-r-1.ml-auto(@exitConfirmed="back")
+            ExitLocalProjectModal.m-r-1.ml-auto
               button.btn.btn-link Exit
             button.btn.btn-default.m-r-1(v-if="saveDraftEnabled && !canSaveDraft" @click="toast('Error', 'Please enter title')") Save as Draft
             Post(v-else-if="saveDraftEnabled" :action="endpointUrl" :model="draftProject" :method="method" @saved="saved" @errors="errors = $event")
@@ -102,7 +102,7 @@ import {
 import ExitLocalProjectModal from "./modals/ExitLocalProjectModal";
 import { DateTime } from 'luxon'
 
-const REQUIRED = 'This field is required'
+const REQUIRED = 'Required field'
 const STEPS = ['Project Details', 'Expertise', 'Budget']
 const DEFAULT_TYPE = 'rfp'
 
