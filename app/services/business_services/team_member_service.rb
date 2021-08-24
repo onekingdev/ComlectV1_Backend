@@ -6,9 +6,10 @@ module BusinessServices
       :business, :params, :team_member,
       :seat, :team, :invitation, :error
 
-    def initialize(business, params)
+    def initialize(business, params, team_member = nil)
       @business = business
       @params = params
+      @team_member = team_member
       @success = true
     end
 
@@ -17,17 +18,37 @@ module BusinessServices
     end
 
     def call
-      add_team_member
+      if team_member.present?
+        update_team_member
+      else
+        add_team_member
+      end
+
       self
     end
 
     private
 
+    def update_team_member
+      if team_member.update(params) && team_member.saved_change_to_email?
+        Notification::Deliver.got_seat_assigned!(
+          team_member.specialist_invitation,
+          :new_employee
+        )
+      else
+        @success = false
+      end
+    end
+
     def add_team_member
       buid_team_member
 
       ActiveRecord::Base.transaction do
-        team_member.save
+        unless team_member.save
+          @success = false
+          return
+        end
+
         load_seat
         seat.assign_to(team_member.id)
         create_invitation
@@ -40,13 +61,7 @@ module BusinessServices
     end
 
     def create_invitation
-      @invitation = Specialist::Invitation.create(
-        team: team,
-        email: team_member.email,
-        last_name: team_member.last_name,
-        first_name: team_member.first_name,
-        role: Specialist::Invitation.roles[params[:role]]
-      )
+      @invitation = team_member.create_specialist_invitation(team: team)
     end
 
     def buid_team_member

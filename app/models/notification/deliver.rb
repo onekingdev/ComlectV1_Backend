@@ -78,9 +78,10 @@ class Notification::Deliver < Draper::Decorator
         }
       )
 
+      team_member = invitation.team_member
       NotificationMailer.deliver_later(
         :notification,
-        invitation.email,
+        team_member.email,
         dispatcher.message_mail,
         dispatcher.action_label,
         dispatcher.initiator_name,

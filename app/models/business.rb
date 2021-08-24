@@ -32,6 +32,7 @@ class Business < ApplicationRecord
   has_many :compliance_policy_sections
   has_many :annual_reports
   has_one :team
+  has_many :team_members, through: :team
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
   has_many :active_specialists, through: :active_projects, class_name: 'Specialist', source: :specialist
   has_many :outdated_compliance_policies, -> { where('last_uploaded < ?', Time.zone.today - 1.year) }, class_name: 'CompliancePolicy'

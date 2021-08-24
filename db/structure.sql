@@ -4206,7 +4206,9 @@ CREATE TABLE public.reminders (
     note character varying DEFAULT ''::character varying,
     description text DEFAULT ''::text,
     linkable_id integer,
-    linkable_type character varying
+    linkable_type character varying,
+    assignee_type character varying,
+    assignee_id integer
 );
 
 
@@ -4458,13 +4460,10 @@ CREATE TABLE public.specialist_invitations (
     id bigint NOT NULL,
     specialist_team_id integer,
     specialist_id bigint,
-    first_name character varying NOT NULL,
-    last_name character varying,
-    email character varying NOT NULL,
     token character varying NOT NULL,
     status integer DEFAULT 0 NOT NULL,
     team_id integer,
-    role integer DEFAULT 0
+    team_member_id bigint
 );
 
 
@@ -4767,7 +4766,8 @@ CREATE TABLE public.team_members (
     last_name character varying,
     access_person boolean DEFAULT false,
     business_member boolean DEFAULT false,
-    role character varying
+    role character varying,
+    active boolean DEFAULT true
 );
 
 
@@ -7090,6 +7090,13 @@ CREATE INDEX index_specialist_invitations_on_team_id ON public.specialist_invita
 
 
 --
+-- Name: index_specialist_invitations_on_team_member_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialist_invitations_on_team_member_id ON public.specialist_invitations USING btree (team_member_id);
+
+
+--
 -- Name: index_specialist_invitations_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7946,6 +7953,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210630220835'),
 ('20210708084524'),
 ('20210821000146'),
-('20210823211705');
+('20210823211705'),
+('20210824095936'),
+('20210824171605'),
+('20210824180007'),
+('20210824182507');
 
 

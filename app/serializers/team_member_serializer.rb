@@ -6,6 +6,7 @@ class TeamMemberSerializer < ApplicationSerializer
     :role,
     :name,
     :email,
+    :active,
     :last_name,
     :first_name,
     :start_date,

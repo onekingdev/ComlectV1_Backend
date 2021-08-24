@@ -60,6 +60,9 @@ Rails/FilePath:
 Rails/HttpPositionalArguments:
   Enabled: false
 
+Rails/BulkChangeTable:
+  Enabled: false
+
 # === Layout ===
 
 Layout/EmptyLineBetweenDefs:
