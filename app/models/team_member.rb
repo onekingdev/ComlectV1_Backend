@@ -4,14 +4,14 @@ class TeamMember < ActiveRecord::Base
   belongs_to :team
 
   has_one :seat
-  has_one :specialist_invitation, class_name: 'Specialist::Invitation'
+  has_one :specialist_invitation, class_name: 'Specialist::Invitation', dependent: :destroy
 
   before_validation :set_name
 
   validates :email, uniqueness: { scope: :team_id }
   validates :first_name, :last_name, :email, presence: true
 
-  before_destroy :clear_seat
+  after_destroy :clear_seat
 
   enum role: { basic: 'basic', admin: 'admin', trusted: 'trusted' }
 

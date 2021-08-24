@@ -356,7 +356,7 @@ Rails.application.routes.draw do
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
 
-      resources :team_members, only: %i[index create update] do
+      resources :team_members, only: %i[index create update destroy] do
         collection do
           get :specialists
         end

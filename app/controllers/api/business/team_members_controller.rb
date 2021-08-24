@@ -2,6 +2,7 @@
 
 class Api::Business::TeamMembersController < ApiController
   before_action :require_business!
+  before_action :load_team_member, only: :destroy
 
   def index
     team_members = current_business.team_members
@@ -12,7 +13,7 @@ class Api::Business::TeamMembersController < ApiController
     service = BusinessServices::TeamMemberService.call(current_business, member_params)
 
     if service.success?
-      respond_with(service.team_member, serializer: ::TeamMemberSerializer) and return
+      respond_with(service.team_member, serializer: TeamMemberSerializer) and return
     end
 
     if service.team_member.present?
@@ -23,17 +24,27 @@ class Api::Business::TeamMembersController < ApiController
   end
 
   def update
-    service = BusinessServices::TeamMemberService.call(current_business, member_params, load_team_member)
+    service = BusinessServices::TeamMemberService.call(
+      current_business,
+      member_params,
+      load_team_member
+    )
 
     if service.success?
-      respond_with service.team_member, serializer: ::TeamMemberSerializer
+      respond_with service.team_member, serializer: TeamMemberSerializer
     else
       respond_with service.team_member
     end
   end
 
+  def destroy
+    @team_member.destroy
+    respond_with @team_member, serializer: TeamMemberSerializer
+  end
+
   def specialists
-    respond_with current_business.team.specialists, each_serializer: Business::SpecialistSerializer
+    specialists = current_business.team.specialists
+    respond_with specialists, each_serializer: Business::SpecialistSerializer
   end
 
   private
@@ -46,6 +57,6 @@ class Api::Business::TeamMembersController < ApiController
   end
 
   def load_team_member
-    current_business.team_members.find(params[:id])
+    @team_member = current_business.team_members.find(params[:id])
   end
 end

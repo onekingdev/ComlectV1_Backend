@@ -137,6 +137,8 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       before do
         expect(Seat.count).to eq(1)
         expect(TeamMember.count).to eq(1)
+        expect(Seat.last.assigned_at).to be_nil
+        expect(Seat.last.team_member_id).to be_nil
         expect(Business.last.seats.available).to be_present
         expect(Notification::Deliver).to receive(:got_seat_assigned!)
 
@@ -147,6 +149,9 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(response.message).to eq('Created') }
       it { expect(response).to have_http_status(201) }
       it { expect(Specialist::Invitation.count).to eq(1) }
+
+      it { expect(Seat.last.assigned_at).not_to be_nil }
+      it { expect(Seat.last.team_member_id).to eq(TeamMember.last.id) }
 
       it { expect(TeamMember.last.name).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
@@ -279,6 +284,48 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(JSON.parse(response.body)['name']).to eq(team_member.name) }
       it { expect(JSON.parse(response.body)['last_name']).to eq(team_member.last_name) }
       it { expect(JSON.parse(response.body)['first_name']).to eq(team_member.first_name) }
+    end
+  end
+
+  describe 'DELETE destroy' do
+    context 'return not found' do
+      before { delete :destroy, as: 'json', params: { id: 0 } }
+
+      it { expect(response).to have_http_status(404) }
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+    end
+
+    context 'return team member successfully' do
+      let(:team) { Business.first.team }
+      let!(:team_member) { create(:team_member, team_id: team.id) }
+      let!(:seat) { create(:seat, business: Business.first, subscription: Subscription.first) }
+      let!(:specialist_invitation) { create(:specialist_invitation, team_id: team.id, team_member_id: team_member.id) }
+
+      before do
+        seat.assign_to(team_member.id)
+
+        expect(Seat.count).to eq(1)
+        expect(TeamMember.count).to eq(2)
+        expect(Seat.last.assigned_at).not_to be_nil
+        expect(Specialist::Invitation.count).to eq(1)
+        expect(Seat.last.team_member_id).to eq(team_member.id)
+
+        delete :destroy, as: 'json', params: { id: team_member.id }
+      end
+
+      it { expect(response).to have_http_status(200) }
+
+      it { expect(Seat.count).to eq(1) }
+      it { expect(TeamMember.count).to eq(1) }
+      it { expect(Seat.last.assigned_at).to be_nil }
+      it { expect(Seat.last.team_member_id).to be_nil }
+      it { expect(Specialist::Invitation.count).to be_zero }
+
+      it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
+      it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
+      it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
     end
   end
 end
