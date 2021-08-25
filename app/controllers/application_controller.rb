@@ -98,6 +98,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def authorize_business_tier(policy = nil)
+    authorize current_business, policy_class: policy if policy
+  end
+
+  def authorize_specialist_tier(policy = nil)
+    authorize current_specialist, policy_class: policy if policy
+  end
+
   def current_business
     return @_current_business if @_current_business
     return unless user_signed_in?

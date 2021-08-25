@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-class Roles::CompliancePolicy < ApplicationPolicy
+class Business::CompliancePolicy < ApplicationPolicy
   def index?
-    true
+    team?
   end
 
   def show?
-    true
+    team?
   end
 
   def create?
-    not_basic?
+    team?
   end
 
   def update?
-    not_basic?
+    team?
   end
 
   def download?
-    not_basic?
+    team?
   end
 
   def publish?
-    not_basic?
+    team?
   end
 end

@@ -34,6 +34,7 @@ class EmployeesController < ApplicationController
     @specialist.username = @specialist.generate_username
     if @specialist.save(context: :employee)
       @invitation&.accepted!(@specialist)
+      @specialist.user.confirm
       sign_in @specialist.user
       @specialist.user.update_privacy_agreement(request.remote_ip)
       @specialist.user.update_cookie_agreement(request.remote_ip)

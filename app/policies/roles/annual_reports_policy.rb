@@ -2,26 +2,26 @@
 
 class Roles::AnnualReportsPolicy < ApplicationPolicy
   def index?
-    basic?
+    true
   end
 
   def show?
-    basic?
+    not_basic?
   end
 
   def create?
-    basic?
+    not_basic?
   end
 
   def update?
-    basic?
+    not_basic?
   end
 
   def destroy?
-    basic?
+    not_basic?
   end
 
   def clone?
-    basic?
+    not_basic?
   end
 end

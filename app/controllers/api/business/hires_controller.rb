@@ -12,10 +12,13 @@ class Api::Business::HiresController < ApiController
         @project.job_applications.find(params.require(:job_application_id))
       )
       specialist = job_application.object.specialist
-      specialist.specialists_business_roles.create(
-        business_id: job_application.object.project.business.id,
-        role: params.require(:role)
-      )
+      if specialist_params[:role] == 'none'
+        role = SpecialistsBusinessRole.find_by(business_id: current_business.id, specialist_id: specialist.id)
+        role&.delete
+      else
+        role = SpecialistsBusinessRole.find_or_create_by(business_id: current_business.id, specialist_id: specialist.id)
+        role.update(role: SpecialistsBusinessRole.roles[specialist_params[:role]])
+      end
       LocalProjectsSpecialist.create(local_project_id: @project.local_project.id, specialist_id: specialist.id)
     end
     render json: job_application, status: (job_application.blank? ? :unprocessable_entity : :created)

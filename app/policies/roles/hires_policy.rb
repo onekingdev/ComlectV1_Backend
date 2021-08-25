@@ -2,6 +2,6 @@
 
 class Roles::HiresPolicy < ApplicationPolicy
   def create?
-    basic?
+    not_basic?
   end
 end

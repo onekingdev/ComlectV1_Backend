@@ -86,11 +86,17 @@ class Specialist < ApplicationRecord
     }
   end
 
+  SEAT_ROLES = %w[basic admin trusted].freeze
+
   enum seat_role: {
     basic: 0,
     admin: 1,
     trusted: 2
   }
+
+  validate if: -> { seat? } do
+    errors.add :seat_role unless SEAT_ROLES.include?(seat_role) || seat_role.nil?
+  end
 
   serialize :sub_industries
   serialize :sub_jurisdictions

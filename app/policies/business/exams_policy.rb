@@ -1,31 +1,31 @@
 # frozen_string_literal: true
 
-class Roles::ExamsPolicy < ApplicationPolicy
+class Business::ExamsPolicy < ApplicationPolicy
   def index?
-    not_basic?
+    team?
   end
 
   def show?
-    not_basic?
+    team?
   end
 
   def create?
-    not_basic?
+    team?
   end
 
   def update?
-    not_basic?
+    team?
   end
 
   def destroy?
-    not_basic?
+    team?
   end
 
   def invite?
-    not_basic?
+    team?
   end
 
   def uninvite?
-    not_basic?
+    team?
   end
 end

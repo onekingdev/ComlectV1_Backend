@@ -10,14 +10,14 @@ class Roles::RisksPolicy < ApplicationPolicy
   end
 
   def create?
-    basic?
+    not_basic?
   end
 
   def update?
-    basic?
+    not_basic?
   end
 
   def destroy?
-    basic?
+    not_basic?
   end
 end

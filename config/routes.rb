@@ -397,6 +397,7 @@ Rails.application.routes.draw do
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
       post '/share_project' => 'share_project#create'
+      resources :roles, only: ['index']
     end
 
     resources :businesses, only: [:create] do
