@@ -62,7 +62,7 @@
                           td
                 div(v-else)
                   .row: .col-sm-12
-                    button.btn.btn-dark.float-right(v-b-modal.EndContractModal) End Contract
+                    button.btn.btn-dark.float-right(v-if="!isContractComplete(showingContract)" v-b-modal.EndContractModal) End Contract
                       b-modal.fade(id="EndContractModal" title="End Contract")
                         p ℹ️ Ending this contract will remove you as a collaborator to the project, revoke any permissions granted due to the project, and payout the full contract price.
                         p: b Do you want to continue?
@@ -98,7 +98,7 @@
                   .row
                     .col-sm-12
                       PropertiesTable(title="Contract Details" :properties="proposalProps(showingContract)")
-                        EditContractModal(:project="showingContract" @saved="newEtag(), tab = 0")
+                        EditContractModal(v-if="!isContractComplete(showingContract)" :project="showingContract" @saved="newEtag(), tab = 0")
       b-tab(title="Activity")
     b-tabs(v-else)
       b-tab(title="Overview")
@@ -155,6 +155,8 @@ const acceptedOverviewProps = project => [
   { name: 'Role Details', value: project.role_details },
 ]
 
+const isContractComplete = contract => contract.status === 'complete'
+
 export default {
   mixins: [EtaggerMixin()],
   props: {
@@ -177,6 +179,7 @@ export default {
     acceptedOverviewProps,
     readablePaymentSchedule,
     proposalProps: fields,
+    isContractComplete,
     applicationUrl(projectId) {
       return '/api/specialist/projects/' + projectId + '/applications/my'
     },

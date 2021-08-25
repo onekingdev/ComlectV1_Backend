@@ -182,6 +182,9 @@ export default {
       return query.length ? ('?' + query.join('&')) : ''
     }
   },
+  beforeDestroy() {
+    document.body.classList.remove('overflow-y-hidden')
+  },
   watch: {
     'filter': {
       deep: true,

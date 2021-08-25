@@ -36,11 +36,8 @@ export default {
         body: JSON.stringify(this.model)
       }).then(response => {
         if (response.status === 422) {
-          response.json().then(errors => {
-            Object.keys(errors)
-              .map(prop => errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`, true)))
-            this.$emit('errors', errors)
-          }).catch(() => this.toast('Error', 'Couldn\'t submit form: Unknown error', true))
+          response.json().then(errors => this.$emit('errors', errors))
+            .catch(() => this.toast('Error', 'Couldn\'t submit form: Unknown error', true))
         } else if (response.status >= 200 && response.status <= 299) {
           this.$emit('saved', response)
         } else {

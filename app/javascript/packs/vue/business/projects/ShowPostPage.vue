@@ -71,11 +71,13 @@
                             b-icon.mr-2(icon="search")
                             | View
                         ProposalModal(v-bind="{ application, modalId, confirmModalId, projectId }")
+                        DenyProposalConfirmModal(:application="application" :project-id="projectId" @back="goBack" @denied="denied")
                         AcceptDenyProposalModal(:id="confirmModalId" :application="application" @back="goBack" @saved="accepted")
 </template>
 
 <script>
 import AcceptDenyProposalModal from './AcceptDenyProposalModal'
+import DenyProposalConfirmModal from './DenyProposalConfirmModal'
 import ProposalModal from './ProposalModal'
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 import { redirectWithToast } from '@/common/Toast'
@@ -100,7 +102,6 @@ export default {
   },
   methods: {
     accepted(id, role) {
-
       fetch(`/api/business/specialist_roles/${id}`, {
         method: 'PATCH',
         headers: { 'Authorization': `${TOKEN}`,  'Accept': 'application/json',  'Content-Type': 'application/json' },
@@ -117,8 +118,13 @@ export default {
       redirectWithToast('/business/projects', 'Project post deleted')
       this.$bvModal.hide('DeletePostModal')
     },
+    denied(id) {
+      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Proposal denied.')
+      this.$bvModal.hide(this.confirmModalId)
+    },
     goBack() {
       this.$bvModal.hide(this.confirmModalId)
+      this.$bvModal.hide('DenyProposalConfirm')
       this.$bvModal.show(this.modalId)
     }
   },
@@ -137,6 +143,7 @@ export default {
   components: {
     PostProjectModalDelete,
     AcceptDenyProposalModal,
+    DenyProposalConfirmModal,
     ProposalModal
   }
 }

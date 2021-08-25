@@ -22,7 +22,7 @@ class Api::ProjectRatingsController < ApiController
       Notification::Deliver.got_rated! rating
       respond_with rating, serializer: RatingSerializer
     else
-      respond_with rating.errors.to_json, status: unprocessable_entity
+      respond_with rating.errors.to_json, status: :unprocessable_entity
     end
   end
 

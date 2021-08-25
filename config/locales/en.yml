@@ -108,7 +108,7 @@ en:
         rating:
           attributes:
             review:
-              blank: Incomplete fields
+              blank: Required field
         message:
           attributes:
             message:

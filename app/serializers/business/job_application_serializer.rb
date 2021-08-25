@@ -3,6 +3,7 @@
 class Business::JobApplicationSerializer < ApplicationSerializer
   has_one :specialist, serializer: Business::SpecialistSerializer
   has_one :project, serializer: ProjectSerializer
+  has_one :document
   attributes :id,
              :specialist_id,
              :project_id,
@@ -21,5 +22,6 @@ class Business::JobApplicationSerializer < ApplicationSerializer
              :role_details,
              :specialist,
              :project,
+             :document,
              :visibility
 end

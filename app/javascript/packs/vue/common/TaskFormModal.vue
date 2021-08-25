@@ -137,12 +137,16 @@ export default {
     id: String,
     taskId: Number,
     occurenceId: Number,
-    remindAt: String
+    remindAt: String,
+    defaults: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data() {
     return {
       modalId: this.id || `modal_${rnd()}`,
-      task: initialTask(),
+      task: initialTask(this.defaults),
       errors: []
     }
   },
@@ -203,7 +207,8 @@ export default {
         }).then(response => response.json())
           .then(result => Object.assign(this.task, result))
       } else {
-        this.task = initialTask(this.remindAt ? { remind_at: this.remindAt } : undefined)
+        const withRemindAt = this.remindAt ? { remind_at: this.remindAt } : {}
+        this.task = initialTask({ ...this.defaults, ...withRemindAt })
       }
     }
   },

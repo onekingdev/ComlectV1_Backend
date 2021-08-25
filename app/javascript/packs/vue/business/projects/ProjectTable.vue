@@ -16,8 +16,10 @@
           span.pointer(@click="toggleSorting('cost_int', true)")
             | Cost
             b-icon.ml-2(icon='chevron-expand')
-        th.project-table__status.project-table__status_head Status
-          b-icon.ml-2(icon='chevron-expand')
+        th.project-table__status.project-table__status_head
+          span.pointer(@click="toggleSorting('status')")
+            | Status
+            b-icon.ml-2(icon='chevron-expand')
         th.project-table__start-date.project-table__start-date_head
           span.pointer(@click="toggleSorting('starts_on_int')")
             | Start Date

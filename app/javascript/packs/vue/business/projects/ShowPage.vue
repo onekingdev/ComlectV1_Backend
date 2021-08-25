@@ -23,7 +23,7 @@
                 ApplicationsNotice(:project="project.visible_project" v-if="project.visible_project")
                 Get(v-for="marketProject in project.projects" :etag="etag" :marketProject="`/api/business/projects/${marketProject.id}`" :key="marketProject.id"): template(v-slot="{marketProject}")
                   TimesheetsNotice(:project="marketProject")
-                  EndContractNotice(:project="marketProject" @saved="contractEnded" @errors="contractEndErrors")
+                  EndContractNotice(:project="marketProject" @saved="contractEnded")
                   ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
             .row
               .col
@@ -68,8 +68,8 @@
         b-tab.h-100(title="Tasks")
           .card-body.white-card-body.card-body_full-height.h-100
             .d-flex.m-b-20
-              TaskFormModal.m-r-1(id="ProjectTaskFormModal" @saved="taskSaved")
-              button.btn.btn-dark.m-r-1 New Task
+              TaskFormModal.m-r-1(id="ProjectTaskFormModal" @saved="taskSaved" :defaults="taskDefaults(project)")
+                button.btn.btn-dark New Task
               b-dropdown.m-r-1(text="Show: All Tasks" variant="default")
                 b-dropdown-item All Tasks
                 b-dropdown-item My Tasks
@@ -128,8 +128,8 @@
                         ion-icon.applications__icon.m-b-10(name="person-circle-outline")
                         p.applications__text No collaborators
                 div(v-else)
-                  .row: .col-sm-12
-                    EndContractModal(:project="showingContract" @saved="contractEnded" @errors="contractEndErrors")
+                  .row(v-if="!isContractComplete(showingContract)"): .col-sm-12
+                    EndContractModal(:project="showingContract" @saved="contractEnded")
                       button.btn.btn-dark.float-right End Contract
                     b-dropdown.m-x-1.float-right(text="Actions" variant="default")
                       EditRoleModal(:specialist="showingContract.specialist" :inline="false" @saved="accepted")
@@ -137,9 +137,11 @@
                       b-dropdown-item(v-b-modal="'IssueModal'") Report Issue
                     IssueModal(:project-id="showingContract.id" :token="token")
                     Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
+                  .row(v-else): .col-sm-12
+                    Breadcrumbs.m-y-1(:items="['Collaborators', `${showingContract.specialist.first_name} ${showingContract.specialist.last_name}`]")
                   .row: .col-sm-12
                     PropertiesTable(title="Contract Details" :properties="contractDetails(showingContract)")
-                      EditContractModal(:project="showingContract" @saved="newEtag(), tab = 0")
+                      EditContractModal(v-if="!isContractComplete(showingContract)" :project="showingContract" @saved="newEtag(), tab = 0")
 </template>
 
 <script>
@@ -165,6 +167,7 @@ import IssueModal from './IssueModal'
 import EditRoleModal from './EditRoleModal'
 
 const TOKEN = localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : ''
+const isContractComplete = contract => contract.status === 'complete'
 
 export default {
   mixins: [EtaggerMixin()],
@@ -191,9 +194,6 @@ export default {
       this.newEtag()
       this.toast('Success', 'Project End has been requested')
     },
-    contractEndErrors(errors) {
-      errors.length && this.toast('Error', 'Cannot request End project', true)
-    },
     taskSaved() {
       this.toast('Success', 'Task created')
     },
@@ -206,6 +206,7 @@ export default {
     },
     contractDetails: fields,
     readablePaymentSchedule,
+    isContractComplete,
     getSpecialistsOptions(specialists) {
       return specialists.map(({ id, first_name, last_name }) => ({ id: id, label: `${first_name} ${last_name}`}))
     },
@@ -221,6 +222,12 @@ export default {
     },
   },
   computed: {
+    taskDefaults() {
+      return project => ({
+        linkable_id: project.id,
+        linkable_type: 'LocalProject'
+      })
+    },
     postHref() {
       return project => this.$store.getters.url('URL_POST_LOCAL_PROJECT', project.id)
     },

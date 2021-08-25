@@ -42,13 +42,12 @@
           button.btn.btn-dark.m-r-1 Confirm
     b-modal(:id="modalId + '_review'" title="Write a Review")
       p Please rate/describe your experience and leave any additional comments for the specialist!
-      InputRating(v-model="review.value") Rating
-      InputTextarea(v-model="review.review" placeholder="Describe your overall experience and leave any notes for the specialist")
-      .form-text.text-muted Optional
+      InputRating(v-model="review.value" :errors="errors.value") Rating
+      InputTextarea(v-model="review.review" :errors="errors.review" placeholder="Describe your overall experience and leave any notes for the specialist")
       template(#modal-footer="{ hide }")
         button.btn.btn-link(@click="hide") Cancel
         button.btn.btn-dark(v-if="review.value === null" title="Please rate your experience" disabled) Submit
-        Post(v-else :action="ratingUrl" :model="review" @saved="ratingSaved" @errors="$emit('errors', $event)")
+        Post(v-else :action="ratingUrl" :model="review" @saved="ratingSaved" @errors="submitErrors")
           button.btn.btn-dark Submit
 </template>
 
@@ -72,11 +71,15 @@ export default {
       review: {
         value: null,
         review: null
-      }
+      },
+      errors: {}
     }
   },
   methods: {
     readablePaymentSchedule,
+    submitErrors(errors) {
+      this.errors = errors
+    },
     contractEnded() {
       this.$emit('saved')
       this.$bvModal.hide(this.modalId)
@@ -88,6 +91,11 @@ export default {
     }
   },
   computed: {
+    submitDisabled() {
+      const threeOrLessStars = this.review.value && this.review.value <= 3,
+        emptyReview = this.review.review === null || this.review.review === ''
+      return this.review.value === null || (threeOrLessStars && emptyReview)
+    },
     completeUrl() {
       return '/api/projects/' + this.project.id + '/end'
     },

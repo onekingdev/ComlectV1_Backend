@@ -32,8 +32,10 @@
               dd.col-sm-9 {{ application.role_details }}
               dt.col-sm-3 Key Deliverables
               dd.col-sm-9 {{ application.key_deliverables }}
-              dt.col-sm-3 Attachments
-              dd.col-sm-9
+              dt.col-sm-3 Attachment
+              dd.col-sm-9(v-if="application.document")
+                a(:href="attachmentUrl(application.document)" target="_blank") {{ application.document.metadata.filename }}
+              dd.col-sm-9(v-else) -
       .col.ml-auto
         .card
           .card-header: h3 Messages
@@ -42,8 +44,7 @@
             b-form-textarea(placeholder="Make a comment or leave a note...")
     template(#modal-footer="{ ok, cancel, hide }")
       button.btn.btn-light(@click="hide") Close
-      Post(v-if="!hasSpecialist(application.project)" :action="denyUrl(application.id)" :model="{}" @saved="denied(application.project.local_project_id)")
-        button.btn.btn-outline-dark Deny Proposal
+      button.btn.btn-outline-dark(v-if="!hasSpecialist(application.project)" v-b-modal="'DenyProposalConfirm'") Deny Proposal
       button.btn.btn-dark(v-if="!hasSpecialist(application.project)" v-b-modal="confirmModalId") Accept Proposal
 </template>
 
@@ -71,18 +72,10 @@ export default {
       required: true
     }
   },
-  methods: {
-    denyUrl(id) {
-      return `/api/business/projects/${this.projectId}/applications/${id}/hide`
-    },
-    denied(id) {
-      redirectWithToast(this.$store.getters.url('URL_PROJECT_SHOW', id), 'Proposal denied.')
-      this.$bvModal.hide(this.confirmModalId)
-    }
-  },
   computed: {
     hasSpecialist: () => project => !!project.specialist_id,
-    paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule]
+    paymentScheduleReadable: () => application => FIXED_PAYMENT_SCHEDULE_OPTIONS[application.payment_schedule],
+    attachmentUrl: () => document => `/uploads/${document.storage}/${document.id}`
   },
   components: {
     SpecialistDetails

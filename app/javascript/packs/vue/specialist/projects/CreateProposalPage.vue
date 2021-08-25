@@ -33,8 +33,7 @@
             .text-right
               a.m-r-1.btn(@click="back") Cancel
               a.m-r-1.btn.btn-default Save Draft
-              // PostMultipart(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
-              Post(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
+              PostMultipart(:action="`/api/specialist/projects/${projectId}/applications`" :model="form" @errors="errors = $event" @saved="saved")
                 button.btn.btn-dark Submit Proposal
           .col-md-6
             .card
@@ -46,8 +45,6 @@ import ProjectDetails from './ProjectDetails'
 import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES_OPTIONS,
-  FIXED_PAYMENT_SCHEDULE_OPTIONS,
-  HOURLY_PAYMENT_SCHEDULE_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
   HOURLY_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
 } from '@/common/ProjectInputOptions'
@@ -61,9 +58,9 @@ const initialForm = (project) => ({
   ends_on: (project && project.ends_on ) || null,
   pricing_type: (project && calcPricingType(project)) || null,
   fixed_budget: (project && project.est_budget) || null,
-  fixed_payment_schedule: (project && project.pricing_type == "fixed" && FIXED_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
+  fixed_payment_schedule: (project && project.pricing_type == "fixed" && project.payment_schedule) || null,
   hourly_rate: (project && project.hourly_rate) || null,
-  hourly_payment_schedule: (project && project.pricing_type == "hourly" && HOURLY_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
+  hourly_payment_schedule: (project && project.pricing_type == "hourly" && project.payment_schedule) || null,
   estimated_hours: null,
   message: null,
   key_deliverables: null,

@@ -32,7 +32,6 @@ export default {
 
       fetch(this.action, {
         method: 'POST',
-        headers: {'Content-Type': 'multipart/form-data'},
         body: formData
       }).then(response => {
         if (response.status === 422) {
