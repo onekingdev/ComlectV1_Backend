@@ -176,6 +176,8 @@
 
   import EtaggerMixin from '@/mixins/EtaggerMixin'
 
+  import toastMessages from '@/locales/business/en.json'
+
   const uploadFile = async function(url, file) {
     const formData  = new FormData()
     formData.append('file', file)
@@ -257,10 +259,6 @@
         type: String,
         required: false,
       },
-      toastMessages: {
-        type: Object,
-        required: false,
-      },
     },
     components: {
       VueEditor,
@@ -281,6 +279,7 @@
           ["link"]
         ],
         file: null,
+        toastMessages: toastMessages.tasks
       }
     },
     methods: {
@@ -320,12 +319,13 @@
       submit(saveOccurence) {
         for (let value in this.errors) delete this.errors[value];
         // const toId = (this.taskId) ? `/${this.taskId}` : ''
-        const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
-
-        let messageSuccess = saveOccurence ? this.toastMessages.success.updated : this.toastMessages.success.created
-        let messageError = saveOccurence ? this.toastMessages.errors.updated : this.toastMessages.errors.created
 
         try {
+          const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
+
+          let messageSuccess = saveOccurence ? this.toastMessages.success.updated : this.toastMessages.success.created
+          let messageError = saveOccurence ? this.toastMessages.errors.updated : this.toastMessages.errors.created
+
           const data = {
             ...this.task,
             occurenceParams

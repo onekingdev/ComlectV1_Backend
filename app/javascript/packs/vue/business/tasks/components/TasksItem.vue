@@ -4,7 +4,7 @@
       .name
         b-icon.pointer.m-r-1(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
         //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
-        TaskModalCreateEdit.link(:taskProp="item" :task-id="item.taskId" :occurence-id="item.oid" :toastMessages="toastMessages" @saved="$emit('saved')")
+        TaskModalCreateEdit.link(:taskProp="item" :task-id="item.taskId" :occurence-id="item.oid" @saved="$emit('saved')")
           span(v-if="!item.done_at" ) {{ item.body }}
           s(v-else) {{ item.body }}
     td(v-if="!shortTable")
