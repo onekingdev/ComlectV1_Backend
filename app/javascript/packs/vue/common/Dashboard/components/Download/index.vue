@@ -8,7 +8,7 @@
     //  b-dropdown-item Monhly
     //  b-dropdown-item Weekly
     //  b-dropdown-item Daily
-    b-dropdown#dropdown-form.m-0(ref='dropdown' variant="default" @hide='handleHide($event)' @hidden='isCloseable=false')
+    b-dropdown#dropdown-form.m-0(ref='dropdown' variant="default" @hide='handleHide($event)' @hidden='isCloseable=false' right)
       template(#button-content)
         b Download
         //b-icon.ml-2(icon="chevron-down")
@@ -34,6 +34,7 @@
         type: String,
         required: true
       },
+      right: Boolean
     },
     data() {
       return {

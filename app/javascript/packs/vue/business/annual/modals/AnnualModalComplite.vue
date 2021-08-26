@@ -9,8 +9,8 @@
           b-icon.mt-1.ml-3(v-if="!completedStatus" icon="check-circle-fill" width="25" height="25" variant="success")
           b-icon.mt-1.ml-3(v-if="completedStatus" icon="exclamation-circle-fill" width="25" height="25" variant="danger")
         .col
-          p.m-b-10 This will mark the category as complete and your progress will be updated.
-          p.mb-0
+          p.paragraph.m-b-10 This will mark the category as complete and your progress will be updated.
+          p.paragraph.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")

@@ -24,7 +24,8 @@
         b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
           template(#button-content)
             b-icon(icon="three-dots")
-          b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit
+          //b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit
+          router-link.dropdown-item(:to='`/business/annual_reviews/${item.id}`') Edit
           b-dropdown-item(@click="duplicateReview(item.id)") Dublicate
           AnnualModalDelete(@deleteConfirmed="deleteReview(item.id)", :inline="false")
             b-dropdown-item.delete Delete

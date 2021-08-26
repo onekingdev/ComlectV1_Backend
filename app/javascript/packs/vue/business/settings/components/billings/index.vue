@@ -3,21 +3,19 @@
     .col
       .card.settings__card
         .card-title.px-3.px-xl-5.py-xl-4.mb-0
-          h3.mb-0 Billings
+          h3.mb-0 Billing
         .card-body.white-card-body.px-3.px-xl-5
+          //.settings___card--internal.p-y-1
+          //  .row.m-b-20
+          //    .col
+          //      h4.mb-0 Client Billing
+          //  .row
+          //    .col
+          //      ClientBilling(@openComponent="openComponent")
           .settings___card--internal.p-y-1
-            .row.m-b-2
+            .row.m-b-20(v-if='!loading')
               .col
-                h4
-                  b Client Billing
-            .row
-              .col
-                ClientBilling(@openComponent="openComponent")
-          .settings___card--internal.p-y-1
-            .row.m-b-2(v-if='!loading')
-              .col
-                h4
-                  b Payment Method
+                h4.mb-0 Payment Method
               .col.text-right
                 BillingMethodModalAdd(@selected="addMethod")
                   b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Add Method
@@ -27,12 +25,13 @@
               .col
                 Loading
                 PaymentMethod(v-if='!loading' :paymentMethods="paymentMethods")
-          hr
+
           .settings___card--internal.p-y-1(v-if='!loading')
-            .row
+            .row.m-b-10
               .col
-                h4
-                  b Invoices
+                h4.mb-0 Invoices
+              .col.text-right
+                Download(:pdfUrl="pdfUrl" right)
             .row
               .col
                 InvoicesTable(:invoices="invoices")
@@ -46,7 +45,10 @@
   import PaymentMethod from "./components/PaymentMethod";
   import BillingMethodModalAdd from "./modals/BillingMethodModalAdd";
   import BillingMethodCardModalAdd from "./modals/BillingMethodCardModalAdd";
-  import ClientBilling from "./components/ClientBilling";
+  // import ClientBilling from "./components/ClientBilling";
+  import Download from '@/common/Dashboard/components/Download'
+
+  const pdfUrl = '/business/reminders.csv'
 
   export default {
     components: {
@@ -55,7 +57,8 @@
       PaymentMethod,
       InvoicesTable,
       Loading,
-      ClientBilling,
+      // ClientBilling,
+      Download,
     },
     data() {
       return {
@@ -83,11 +86,9 @@
     },
     computed: {
       ...mapGetters({
+        loading: 'loading',
         paymentMethods: 'settings/paymentMethods'
       }),
-      loading() {
-        return this.$store.getters.loading;
-      },
       invoices() {
         return [
           {
@@ -104,6 +105,7 @@
           }
         ]
       },
+      pdfUrl: () => pdfUrl,
     },
     async mounted() {
       try {

@@ -1,58 +1,100 @@
 <template lang="pug">
   div
+    .card.mb-2(v-if="paymentMethods && !paymentMethods.length")
+      .card-body
+        h5.text-center No payment methods
     .card.mb-2(v-for="payment in paymentMethods" :key="payment.id")
-      .card-title
       .card-body
         .row
           .col
             .d-flex.align-items-center
-              b-icon(v-if="payment.paymentCardType === 'Visa'" icon='credit-card2-back-fill' variant="dark" font-scale="2")
-              ion-icon.payment(v-if="!payment.paymentCardType" name="logo-paypal")
+              b-icon(v-if="payment.last4" icon='credit-card2-back-fill' variant="dark" font-scale="2")
+              ion-icon.payment(v-if="!payment.brand" name="logo-paypal")
               .d-block.ml-4
-                h3 {{ payment.name }}
-                p.mb-0 {{ payment.paymentCard }} {{ payment.paymentCardType }} {{ payment.email }}
+                h5(v-if="payment.last4"): strong Credit Card
+                  span(v-if="payment.primary") (Primary)
+                p.mb-0 {{ '**** **** **** ' + payment.last4 }} {{ payment.brand }} {{ payment.email }}
           .col
-            .d-flex.justify-content-end.align-items-center
-              b-button.btn.mr-2.font-weight-bold(v-if="!payment.primary" type='button' variant='default') Make Primary
-              b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Remove
+            .d-flex.justify-content-end.align-items-center.h-100
+              b-button.btn.mr-2.font-weight-bold(v-if="!payment.primary" type='button' variant='default' @click="makePrimary(payment.id)") Make Primary
+              b-button.btn.mr-2.font-weight-bold(type='button' variant='default' @click="deletePaymentMethod(payment.id)") Remove
 </template>
 
 <script>
-    export default {
-      name: "paymentMethod",
-      components: {
-
-      },
-      data() {
-        return {
-          paymentMethods: [
-            {
-              id: 1,
-              name: 'Credit Card(primary)',
-              users: '10',
-              billinPeriod: 'monthly',
-              monthCoast: '100$/month',
-              paymentCardType: 'Visa',
-              paymentCard: '**** **** **** 4242',
-              nextPaymentDate: 'October 25, 2021',
-              primary: true
-            },
-            {
-              id: 2,
-              name: 'Paypal',
-              email: 'email: some_email@example.com',
-              users: '10',
-              billinPeriod: 'monthly',
-              monthCoast: '100$/month',
-              // paymentCardType: 'Paypal',
-              // paymentCard: '**** **** **** 4242',
-              nextPaymentDate: 'October 25, 2021',
-              primary: false
-            }
-          ]
-        }
+  export default {
+    name: "paymentMethod",
+    props:['paymentMethods'],
+    components: {},
+    data() {
+      return {
+        userType: 'business',
+        // paymentMethods: [
+          // {
+          //   id: 1,
+          //   name: 'Credit Card(primary)',
+          //   users: '10',
+          //   billinPeriod: 'monthly',
+          //   monthCoast: '100$/month',
+          //   paymentCardType: 'Visa',
+          //   paymentCard: '**** **** **** 4242',
+          //   nextPaymentDate: 'October 25, 2021',
+          //   primary: true
+          // },
+          // {
+          //   id: 2,
+          //   name: 'Paypal',
+          //   email: 'email: some_email@example.com',
+          //   users: '10',
+          //   billinPeriod: 'monthly',
+          //   monthCoast: '100$/month',
+          //   // paymentCardType: 'Paypal',
+          //   // paymentCard: '**** **** **** 4242',
+          //   nextPaymentDate: 'October 25, 2021',
+          //   primary: false
+          // }
+        // ]
       }
+    },
+    methods: {
+      async makePrimary(cardId) {
+        try {
+          const dataToSend = {
+            userType: this.userType,
+            id: cardId,
+          }
+          await this.$store.dispatch('settings/makePrimaryPaymentMethod', dataToSend)
+            .then(response => this.toast('Success', `The primary card successfully changed!`) )
+            .catch(error => {
+              console.error(error)
+              this.toast('Error', `Something wrong! ${error}`, true)
+            })
+        } catch (e) {
+          console.error(error)
+        }
+      },
+      async deletePaymentMethod(cardId) {
+        try {
+          const dataToSend = {
+            userType: this.userType,
+            id: cardId,
+          }
+          await this.$store.dispatch('settings/deletePaymentMethod', dataToSend)
+            .then(response => {
+              if (response.status === "ok") this.toast('Success', `${response.message.message}`)
+            })
+            .catch(error => {
+              console.error(error)
+              this.toast('Error', `Something wrong! ${error}`, true)
+            })
+        } catch (e) {
+          console.error(error)
+        }
+      },
+    },
+    mounted() {
+
     }
+  }
 </script>
 
 <style scoped>

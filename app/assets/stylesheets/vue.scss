@@ -173,7 +173,7 @@ input, button, select, optgroup, textarea {
     display: flex;
     align-items: center;
     font-size: 1rem;
-    color: #303132;
+    color: $black;
   }
 }
 
@@ -2905,7 +2905,7 @@ table.table {
   }
 }
 
-/* ---------- settings ---------- */
+/* ---------- SETTINGS PAGES ---------- */
 .settings {
   &__card {
     border-radius: 10px;
@@ -2943,6 +2943,49 @@ table.table {
     &_search {
       padding-left: 2rem;
       padding-right: 2rem;
+    }
+  }
+
+  &-nav {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    list-style: none;
+
+    &__item {
+      padding: .8rem 1.3rem;
+      transition: all 200ms ease-in;
+
+      &:hover,
+      &:active,
+      &.active {
+        color: $black;
+        background-color: #dcdee4;
+        cursor: pointer;
+        border-radius: 5px 0 0 5px;
+      }
+
+      &.active {
+
+        .settings-nav__link {
+          font-weight: 600;
+        }
+      }
+
+      &:not(:last-child){
+        margin-bottom: 1rem;
+      }
+    }
+
+    &__link {
+      color: inherit;
+      font-weight: 400;
+
+      &:hover,
+      &:active {
+        color: $black;
+        text-decoration: none;
+      }
     }
   }
 }
@@ -3256,10 +3299,10 @@ select.custom-select {
     height: 20px;
   }
 
-  p {
-    @include font-regular-14;
-    color: $black;
-  }
+  //p {
+  //  @include font-regular-14;
+  //  color: $black;
+  //}
 }
 
 /* ---------- RADIO BUTTONS---------- */
@@ -3525,7 +3568,7 @@ select.custom-select {
 .billing-plan {
   min-height: 40rem;
   width: 21.2rem; /*340px;*/
-  color: #303132;
+  color: $black;
 
   &__common-info {
     min-height: 11rem;
@@ -3602,7 +3645,7 @@ select.custom-select {
     align-items: center;
     margin-bottom: 1.25rem;
     font-size: 0.875rem;
-    color: #303132;
+    color: $black;
   }
 
   &__icon {
@@ -3664,11 +3707,11 @@ select.custom-select {
     //margin-bottom: 0.625rem;
     margin-bottom: 0;
     font-size: 1.5rem;
-    color: #303132;
+    color: $black;
   }
   &__main-subtitle {
     margin: 0;
-    color: #303132;
+    color: $black;
     font-size: 1rem;
   }
 }
@@ -3713,7 +3756,7 @@ select.custom-select {
 .purchase-summary-header{
   padding: 1.5625rem 2.5rem;
   font-size: 1.25rem;
-  color: #303132;
+  color: $black;
   border-bottom: solid 1px #DCDEE4;
 
   @media (max-width: 800px) {
@@ -3873,7 +3916,7 @@ select.custom-select {
   display: block;
   margin-bottom: .5rem;
   width: 100%;
-  color: #303132;
+  color: $black;
   font-size: 1rem;
   font-weight: bold;
 }
@@ -4133,9 +4176,9 @@ select.custom-select {
   border-bottom: solid 1px #E2E8F0;
   color: $black;
 
-  &:first-child {
-    padding-top: 0;
-  }
+  //&:first-child {
+  //  padding-top: 0;
+  //}
 
   &__user-name {
     //margin-bottom: 0.625rem;
@@ -4165,6 +4208,62 @@ select.custom-select {
   bottom: 2rem;
 }
 
+
+.messages-info {
+
+  &__internal {
+    padding: 1.25rem;
+  }
+
+  &__title {
+    margin-bottom: 0.625rem;
+    @include font-semi-bold-20
+  }
+
+  &__state {
+    margin-bottom: 0.625rem;
+    color: $gray-3;
+  }
+
+  &__stars {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: row;
+    padding: 0.625rem;
+    width: 100%;
+    border: solid 1px $gray-1;
+    border-radius: 0;
+    border-right: none;
+    border-left: none;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0.625rem 1.25rem;
+
+    &:not(:last-child) {
+      border-right: solid 1px $gray-1;
+    }
+  }
+
+  &__item-title {
+    margin-bottom: 0.3125rem;
+    @include font-regular-12;
+    color: $gray-3;
+    text-transform: uppercase;
+  }
+  &__item-text {
+    margin-bottom: 0;
+    @include font-semi-bold-14;
+    color: $black;
+  }
+}
 
 /* ---------- Policy Editor / VUE EDITOR ---------- */
 .ql-snow .ql-picker.ql-header {
@@ -4276,7 +4375,7 @@ select.custom-select {
   }
 
   &.active .step__name{
-    color: #303132;
+    color: $black;
     font-weight: $font-weight-bold;
   }
 }

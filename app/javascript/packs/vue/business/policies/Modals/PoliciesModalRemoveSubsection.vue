@@ -8,8 +8,8 @@
         .col-md-1.text-center.px-0
           b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
         .col
-          p Removing this subsections will permamently delete any items populated withing it.
-            br
+          p.paragraph.m-b-10 Removing this subsections will permamently delete any items populated withing it.
+          p.paragraph.mb-0
             b Do you want to continue?
       Errors(:errors="errors.title")
 

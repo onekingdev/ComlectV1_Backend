@@ -7,14 +7,13 @@
           .row
             .col
               .d-flex.align-items-center
-                .d-block.ml-4
-                  h3 You have no client billing methods yet.
+                .d-block
+                  h5.mb-0 You have no client billing methods yet.
                   p.mb-0 Add how you would like to receive your funds by clicking "Add Method"
             .col
               .d-flex.justify-content-end.align-items-center.h-100
-                b-button.btn.font-weight-bold(type='button' variant='default' @click="$emit('addMethodOpen')") Add Methhod
+                b-button(type='button' variant='dark' @click="$emit('openComponent', 'SelectBilling')") Add Methhod
     .card.mb-2(v-for="billing in clientBilling" :key="billing.id")
-      .card-title
       .card-body
         .row
           .col
@@ -23,11 +22,11 @@
               //b-icon(v-if="billing.billingCardType === 'Visa'" icon='credit-card2-back-fill' variant="dark" font-scale="2")
               //ion-icon.billing(v-if="!billing.billingCardType" name="logo-paypal")
               .d-block.ml-4
-                h3 {{ billing.name }}
+                h5: strong {{ billing.name }}
                 p.mb-0 {{ billing.billingCard }} {{ billing.billingCardType }} {{ billing.email }}
           .col
             .d-flex.justify-content-end.align-items-center
-              b-button.btn.mr-2.font-weight-bold(type='button' variant='default') Edit
+              b-button.btn.mr-2(type='button' variant='default') Edit
               b-button.btn.font-weight-bold(type='button' variant='default') Remove
 </template>
 

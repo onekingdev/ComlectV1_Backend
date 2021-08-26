@@ -3,14 +3,13 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="archiveStatus ? 'Undisable User' : 'Disable User'")
+    b-modal.fade(:id="modalId" :title="archiveStatus ? 'Disable User' : 'Undisable User'")
       .row
         .col-md-1.text-center.px-0
           b-icon.modal-body__icon.mt-2.ml-3(icon="exclamation-triangle-fill" variant="warning")
         .col
-          p.mb-0 Archiving the user will remove any permissions and access granted to them.
-          p.m-b-10 Please select a reason for disabling the user.
-          p.mb-0
+          p.paragraph.m-b-10 Disabling the user will remove any permissions and access granted to them. Please select a reason for disabling the user.
+          p.paragraph.mb-0
             b Do you want to continue?
 
       .row.m-t-1
@@ -34,7 +33,12 @@
 
 <script>
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
-  const toOption = id => ({ id, label: id })
+  const toOption = id => ({ id, label: capitalize(id) })
+  const capitalize = function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
 
   export default {
     props: {
@@ -73,7 +77,7 @@
     },
     computed: {
       reasonOptions() {
-        return ['Termination', 'Registration', 'Temporary', 'Others'].map(toOption)
+        return ['', 'termination', 'resignation', 'temporary', 'other'].map(toOption)
       }
     }
   }

@@ -2,12 +2,9 @@
   div
     .row
       .col
-        Loading
-    .row(v-if='!loading')
-      .col
         .card.settings__card
           .card-title.px-3.px-xl-5.py-xl-4.mb-0
-            h3.mb-0 Role and Permisssions
+            h3.mb-0 Role and Permissions
           .card-body.white-card-body.px-3.px-xl-5
             // .row
             //   .col
@@ -18,7 +15,7 @@
             //           span (7)
             .row.my-3
               .col
-                h3 Clients
+                h4 Clients
             //.div.d-none
             //  .row.my-3
             //    .col-md-8
@@ -31,11 +28,7 @@
               .col-12
                 Loading
                 RolesTable(v-if="!loading" :users="users")
-                table.table(v-if="!users.length")
-                  tbody
-                    tr
-                      td.text-center(colspan=5)
-                        h4.py-2 No Users
+                EmptyState(v-if="!users.length")
                   // b-tab(title='Disabled Users')
                   //   .div
                   //     .row.my-3
@@ -55,6 +48,7 @@
 </template>
 
 <script>
+  import { mapGetters, mapActions } from "vuex"
   import Loading from '@/common/Loading/Loading'
   import RolesTable from "./components/RolesTable";
   // import SearchItem from "./components/SearchItem";
@@ -71,14 +65,18 @@
       };
     },
     methods: {
+      ...mapActions({
+        getEmployeesSpecialists: 'settings/getEmployeesSpecialists',
+      }),
       // searching (value) {
       //   this.searchInput = value
       // },
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
+      ...mapGetters({
+        loading: 'loading',
+        // users: 'settings/employeesSpecialists'
+      }),
       users() {
         return [
           {
@@ -87,7 +85,14 @@
             last_name: 'Hudson',
             role: 'admin',
             status: true,
-            state: 'Arizona, USA'
+            state: 'Arizona, USA',
+            specialist: {
+              first_name: 'Bradly',
+              last_name: 'Hudson',
+              rate: '$25',
+              availability: 'available',
+              total_jobs: 10,
+            }
           },
           {
             id: 2,
@@ -95,7 +100,14 @@
             last_name: 'Baby',
             role: 'trusted',
             status: true,
-            state: 'California, USA'
+            state: 'California, USA',
+            specialist: {
+              first_name: 'Jonson',
+              last_name: 'Baby',
+              rate: '$35',
+              availability: 'not available',
+              total_jobs: 20,
+            }
           },
           {
             id: 3,
@@ -103,7 +115,14 @@
             last_name: 'Brenson',
             role: 'trusted',
             status: false,
-            state: 'New York, USA'
+            state: 'New York, USA',
+            specialist: {
+              first_name: 'Richard',
+              last_name: 'Brenson',
+              rate: '$45',
+              availability: 'available',
+              total_jobs: 30,
+            }
           }
         ]
       },
@@ -120,8 +139,13 @@
       //   return this.filteredUsers.filter(user => user.status === false )
       // }
     },
-    mounted() {
-
+    async mounted() {
+      try {
+        const result = await this.getEmployeesSpecialists()
+        if(result) console.log('result', result)
+      } catch (error) {
+        console.error(error)
+      }
     },
   };
 </script>

@@ -177,7 +177,7 @@
       //     .then(response => response.json())
       //     .then(response => {
       //       console.log('result', response)
-      //       this.toast('Success', `Task has been deleted.`)
+      //       this.toast('Success', `Task successfully deleted!`)
       //     })
       //     .catch(error => this.toast('Error', Task has not been deleted. Please try again.`))
       // },

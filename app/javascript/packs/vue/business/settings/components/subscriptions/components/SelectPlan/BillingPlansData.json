@@ -5,6 +5,8 @@
       "name": "Starter",
       "description": "Try out our product for free!",
       "coast": "FREE",
+      "coastMonthlyDiscount": "FREE",
+      "coastMonthlyDiscountFormatted": "FREE",
       "coastMonthly": "FREE",
       "coastMonthlyFormatted": "FREE",
       "coastAnnually": "FREE",
@@ -14,7 +16,7 @@
       "additionalUserMonthly": 0,
       "additionalUserAnnually": 0,
       "features": [
-        "Compilance Calendar",
+        "Compliance Calendar",
         "Project Management"
       ]
     },
@@ -23,8 +25,10 @@
       "name": "Team",
       "description": "Small teams and startups",
       "coast": "$125/mo",
-      "coastMonthly": 145,
-      "coastMonthlyFormatted": "$145/mo",
+      "coastMonthlyDiscount": 125,
+      "coastMonthlyDiscountFormatted": "$125/mo",
+      "coastMonthly": 150,
+      "coastMonthlyFormatted": "$150/mo",
       "coastAnnually": 1500,
       "coastAnnuallyFormatted": "$1500/year",
       "users": "3 free users plus $15/mo per person",
@@ -32,38 +36,38 @@
       "additionalUserMonthly": 15,
       "additionalUserAnnually": 120,
       "features": [
-        "Compilance Calendar",
+        "Compliance Calendar",
         "Project Management",
         "Policies and Procedures",
-        "1 Internal Review per year",
+        "<b>1</b> Internal Review per year",
         "Exam Management",
-        "5GB storage for books and records",
-        "Unlimited intefrations"
+        "<b>5GB</b> storage for books and records"
       ]
     },
     {
       "id": 3,
       "name": "Business",
       "description": "Medium-sized organizations",
-      "coast": "$250/mo",
-      "coastMonthly": 270,
-      "coastMonthlyFormatted": "$270/mo",
-      "coastAnnually": 3000,
-      "coastAnnuallyFormatted": "$3000/year",
+      "coast": "$210/mo",
+      "coastMonthlyDiscount": 210,
+      "coastMonthlyDiscountFormatted": "$210/mo",
+      "coastMonthly": 250,
+      "coastMonthlyFormatted": "$250/mo",
+      "coastAnnually": 2520,
+      "coastAnnuallyFormatted": "$2520/year",
       "users": "10 free users plus $15/mo per person",
       "usersCount": 10,
       "additionalUserMonthly": 15,
       "additionalUserAnnually": 120,
       "features": [
-        "Compilance Calendar",
+        "Compliance Calendar",
         "Project Management",
         "Policies and Procedures",
-        "1 Internal Review per year",
+        "<b>Unlimited</b> Internal Reviews",
         "Exam Management",
         "Auditor Portal",
-        "10GB storage for books and records",
-        "Unlimited intefrations",
-        "Free Personalized Onboardig"
+        "<b>10GB</b> storage for books and records",
+        "<b>Free</b> personalized onboarding"
       ]
     }
   ]

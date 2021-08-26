@@ -2,35 +2,35 @@
   div
     .row
       .col.mb-2.text-center
-        h2.mb-3 Choose your plan
+        h2.m-b-20 Choose your plan
         b-form-group.mb-5(v-slot="{ ariaDescribedby }")
           b-form-radio-group(id="btn-radios-plan"
           v-model="billingTypeSelected"
           :options="billingTypeOptions"
           :aria-describedby="ariaDescribedby"
           button-variant="outline-primary"
-          size="lg"
+          size="md"
           name="radio-btn-outline"
           buttons)
-    .row
-      .col-xl-4(v-for='(plan, index) in billingPlans')
-        b-card.w-100.mb-2.billing-plan(:class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]")
-          b-button.mb-3(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
-            | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
-          b-card-text
-            h4.billing-plan__name {{ plan.name }}
-            p.billing-plan__descr {{ plan.description }}
-            h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastAnnuallyFormatted : plan.coastMonthlyFormatted }}
-            p.billing-plan__users(v-if="plan.id === 1") 0 free users
-            p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'monthly'")
-              span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
-              span.text-success &nbsp;{{ plan.coastAnnuallyFormatted }}
-            p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
-            hr
-            ul.list-unstyled.billing-plan__list
-              li.billing-plan__item(v-for="feature in plan.features")
-                b-icon.h4.mr-2.mb-0(icon="check-circle-fill" variant="success")
-                | {{ feature }}
+    .billing-plans
+      b-card.billing-plan(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]" :key=`index`)
+        b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
+          | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
+        b-card-text(:class="billingTypeSelected === 'annually' ?  'billing-plan__common-info' : ''")
+          h4.billing-plan__name {{ plan.name }}
+          p.billing-plan__descr {{ plan.description }}
+          h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyDiscountFormatted : plan.coastMonthlyFormatted }}
+            span.billing-plan__discount(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")  &nbsp;{{ plan.coastMonthlyFormatted }}
+          p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
+          p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")
+            //span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
+            span.text-success.font-weight-bold &nbsp;{{ plan.coastAnnuallyFormatted }}
+          p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
+        hr
+        ul.list-unstyled.billing-plan__list
+          li.billing-plan__item(v-for="feature in plan.features")
+            b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
+            span(v-html="feature")
     b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
       .card
         .card-header.borderless
@@ -137,7 +137,7 @@
               // this.redirect();
               this.$emit('upgradePlanComplited')
             })
-            .catch(error =>this.toast('Error', `Something wrong!`))
+            .catch(error =>this.toast('Error', `Something wrong!`, true))
 
           return
         }
@@ -206,7 +206,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Something wrong! ${error}`)
+            this.toast('Error', `Something wrong! ${error}`, true)
 
             // OVERLAY
             this.overlayStatus = 'error'
@@ -240,7 +240,7 @@
 
             if(response.errors) {
               for (const type of Object.keys(response[i].data.errors)) {
-                this.toast('Error', `Something wrong! ${response[i].data.errors[type]}`)
+                this.toast('Error', `Something wrong! ${response[i].data.errors[type]}`, true)
               }
             }
 
@@ -257,7 +257,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Something wrong! ${error}`)
+            this.toast('Error', `Something wrong! ${error}`, true)
 
             // OVERLAY
             this.overlayStatus = 'error'

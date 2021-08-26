@@ -2,13 +2,13 @@
   table.table
     thead
       tr
-        th(@click="sortSelect('created_at', 'date')") Date
+        th.text-right(@click="sortSelect('created_at', 'date')" width="120px") Date
           b-icon.ml-2(icon='chevron-expand')
         th(width="50%") Name
           b-icon.ml-2(icon='chevron-expand')
         th Type
           b-icon.ml-2(icon='chevron-expand')
-        th Price
+        th.text-right Price
           b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
     tbody

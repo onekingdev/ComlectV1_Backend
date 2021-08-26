@@ -10,21 +10,21 @@
             ion-icon.role-info__icon.role-info__icon_admin.mt-1.ml-3(name="people")
         .col
           p.mb-0: b Admin
-          p Full visibility and understricted access to features, functionalities, settings, and billing details.
+          p.paragraph Full visibility and unrestricted access to features, functionalities, settings, and billing details.
       .row
         .col-md-1.text-center.px-0
           .role-info
             ion-icon.role-info__icon.role-info__icon_trusted.mt-1.ml-3(name="checkmark")
         .col
           p.mb-0: b Trusted
-          p Can view, create, and edit. Administrative access without financial settings.
+          p.paragraph Can view, create, and edit. Administrative access without financial settings.
       .row
         .col-md-1.text-center.px-0
           .role-info
             ion-icon.role-info__icon.role-info__icon_basic.mt-1.ml-3(name="person-circle-outline")
         .col
           p.mb-0: b Basic
-          p Employee level access with limited settings.
+          p.paragraph Employee level access with limited settings.
 
       template(slot="modal-footer")
         button.btn(@click="$bvModal.hide(modalId)") Cancel

@@ -2,9 +2,6 @@
   div
     .row
       .col
-        Loading
-    .row(v-if='!loading')
-      .col
         .card.settings__card
           .card-title.px-3.px-xl-5.py-xl-4.mb-0
             h3.mb-0 Notifications
@@ -15,8 +12,7 @@
                   b-form(@submit='onSubmit' @onchange="onChange" @reset="onReset" v-if='show')
                     .row.mb-2
                       .col-10
-                        h4
-                          b Tasks
+                        h4.mb-0 Tasks
                       .col.text-center IN-APP
                       .col.text-center EMAIL
                     .row.mb-2(v-for="(option, i) in notificationsTasksOptions" :key="'task'+i")
@@ -29,8 +25,7 @@
                         input(type="checkbox" v-model="form.notificationsTasksEmail[i]" name="taskEmail" class="regular-checkbox")
                     .row.m-t-1
                       .col-12
-                        h4
-                          b Projects
+                        h4.mb-0 Projects
                     .row.mb-2(v-for="(option, i) in notificationsProjectsOptions" :key="'project'+i")
                       .col-10
                         .custom-checkbox.b-custom-control-lg.pl-0
@@ -41,8 +36,7 @@
                         input(type="checkbox" v-model="form.notificationsProjectEmail[i]" name="projectEmail" class="regular-checkbox")
                     .row.m-t-1
                       .col-12
-                        h4
-                          b Email Updates
+                        h4.mb-0 Email Updates
                       .col-md-6
                         b-form-group
                           b-form-checkbox(v-for="(option, i) in notificationsEmailOptions" v-model="form.notificationsEmail[i]" :key="'email'+i" size="lg" name="email") {{option.label}}

@@ -2,12 +2,12 @@
   table.table
     thead
       tr
-        th Name
+        th Client
           b-icon.ml-2(icon='chevron-expand' font-scale="1")
         th
           | Role
           RoleTypesModalInfo
-            b-icon.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
+            b-icon.ml-2(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
         th Status
           b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
@@ -18,7 +18,7 @@
 <script>
 
 import RoleItem from "./RoleItem"
-import RoleTypesModalInfo from "../../users/modals/RoleTypesModalInfo";
+import RoleTypesModalInfo from "@/common/Users/modals/RoleTypesModalInfo";
 export default {
   components: {
     RoleTypesModalInfo,

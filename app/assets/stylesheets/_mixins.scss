@@ -47,8 +47,33 @@
   font-weight: $font-weight-semi-bold;
 }
 
+@mixin font-semi-bold-18 {
+  font-size: $font-size-18;
+  font-weight: $font-weight-semi-bold;
+}
+
+@mixin font-semi-bold-20 {
+  font-size: $font-size-20;
+  font-weight: $font-weight-semi-bold;
+}
+
 @mixin font-bold-14 {
   font-size: $font-size-14;
+  font-weight: $font-weight-bold;
+}
+
+@mixin font-bold-16 {
+  font-size: $font-size-16;
+  font-weight: $font-weight-bold;
+}
+
+@mixin font-bold-18 {
+  font-size: $font-size-18;
+  font-weight: $font-weight-bold;
+}
+
+@mixin font-bold-20 {
+  font-size: $font-size-20;
   font-weight: $font-weight-bold;
 }
 

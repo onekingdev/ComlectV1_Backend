@@ -186,7 +186,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Something wrong! ${error}`)
+            this.toast('Error', `Something wrong! ${error}`, true)
           })
       },
       // addCardDetail() {
@@ -213,7 +213,7 @@
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Something wrong! ${error}`)
+            this.toast('Error', `Something wrong! ${error}`, true)
           })
       },
       addBankAccount() {

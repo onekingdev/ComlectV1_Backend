@@ -39,7 +39,12 @@
   import RoleTypesModalInfo from "@/common/Users/modals/RoleTypesModalInfo";
   import Notifications from "@/common/Notifications/Notifications";
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
-  const toOption = id => ({ id, label: id })
+  const toOption = id => ({ id, label: capitalize(id) })
+  const capitalize = function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
 
   const initialForm = () => ({
     email: '',
@@ -106,7 +111,7 @@
         }
       },
       roleOptions() {
-        return ['Basic', 'Trusted', 'Admin'].map(toOption)
+        return ['', 'termination', 'resignation', 'temporary', 'other'].map(toOption)
       }
     },
   }

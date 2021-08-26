@@ -12,23 +12,21 @@
             .settings___card--internal.p-y-1
               .row
                 .col-md-12
-                  h4
-                    b Plan
+                  h4.m-b-20 Plan
               .row
                 .col
                   Plan(@openComponent="openComponent")
-            hr
-            .settings___card--internal.p-y-1
-              .row
-                .col-md-6
-                  h4
-                    b Apps
-                .col-md-6.text-right
-                  b-button.btn(type='button' variant='default') My Apps
-              .row
-                .col
-                  AppsTable(:apps="apps")
-                  div(v-if="!apps && apps.length") Apps not avaliable
+            //hr
+            //.settings___card--internal.p-y-1
+            //  .row
+            //    .col-md-6
+            //      h4.mb-0 Apps
+            //    .col-md-6.text-right
+            //      b-button.btn(type='button' variant='default') My Apps
+            //  .row
+            //    .col
+            //      AppsTable(:apps="apps")
+            //      div(v-if="!apps && apps.length") Apps not avaliable
 </template>
 
 <script>

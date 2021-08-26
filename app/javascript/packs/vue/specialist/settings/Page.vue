@@ -1,27 +1,26 @@
 <template lang="pug">
-  div.settings
+  .settings
     .container-fluid
       template(v-if='componentUpgrade')
         .row
           .col-md-9.mx-auto.my-2
             .card
               .card-body
-                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited")
-      .row.p-t-3(v-if='!componentUpgrade')
+                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited" @upgradeBillingComplited="upgradeBillingComplited")
+      .row.p-40.p-y-20(v-if='!componentUpgrade')
         .col-md-3
           .panel-default
             ul.settings-nav
               li.settings-nav__item(v-for='(item, idx) in menu' :key="idx" @click="openSetting(item.component)" :class="{ active: item.link === component }")
                 a.settings-nav__link(:href='item.link' @click.prevent) {{ item.name }}
         .col-md-9
-          component(v-bind:is="component" @addMethodOpen="addMethodOpen")
+          component(v-bind:is="component" :states="states", :timezones="timezones", :contries="contries", :userId="userId" @openComponent="openComponent")
 
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
   import General from "./components/general";
-  import Users from "./components/users";
   import Security from "./components/security";
   import Subscriptions from "./components/subscriptions";
   import ClientPermisssions from "./components/roles";
@@ -33,7 +32,6 @@
     components: {
       Loading,
       General,
-      Users,
       Security,
       Subscriptions,
       ClientPermisssions,
@@ -43,7 +41,6 @@
     },
     created() {
       this.component = General;
-      // this.component = Users;
       // this.component = Security;
       // this.component = Subscriptions;
       // this.component = ClientPermisssions;
@@ -60,8 +57,7 @@
         componentUpgrade: '',
         menu: [
           { name: 'General', link: 'general', component: General },
-          { name: 'Client Permisssions', link: 'roles', component: ClientPermisssions },
-          { name: 'Users', link: 'users', component: Users },
+          { name: 'Client Permissions', link: 'roles', component: ClientPermisssions },
           { name: 'Security', link: 'security', component: Security },
           { name: 'Subscriptions', link: 'subscriptions', component: Subscriptions },
           { name: 'Billings', link: 'billings', component: Billings },
@@ -70,17 +66,29 @@
       };
     },
     methods: {
-      openSetting (name) {
-        this.component = name
+      openSetting (name, event) {
+        this.component = name;
+        document.querySelectorAll('.settings-nav__item').forEach(function (link, i) {
+          link.classList.remove('active')
+        });
+        if(event) event.target.classList.add('active')
+
+        this.navigate(name)
       },
-      addMethodOpen () {
-        // console.log('open')
-        this.componentUpgrade = SelectBilling
+      openComponent (value) {
+        this.componentUpgrade = value
       },
       upgradePlanComplited () {
-        // console.log('open')
         this.componentUpgrade = ''
         this.toast('Success', 'Plan upgraded.')
+      },
+      upgradeBillingComplited () {
+        this.componentUpgrade = ''
+        this.toast('Success', 'Billing upgraded.')
+      },
+      navigate(name) {
+        const baseUrl = new URL(window.location.origin);
+        window.history.pushState({}, name, `${baseUrl}specialist/settings/${name.toLowerCase()}`);
       }
     },
     computed: {
@@ -90,7 +98,3 @@
     },
   };
 </script>
-
-<style>
-  @import "./styles.css";
-</style>

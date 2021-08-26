@@ -31,7 +31,7 @@
       deleteApp(userId){
         this.$store.dispatch('users/deleteApp', { id: userId })
           .then(response => this.toast('Success', `The app has been deleted! ${response.id}`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
       }
     }
   }

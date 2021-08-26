@@ -3,24 +3,20 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Role")
-      b-row.m-b-2
+    b-modal.fade(:id="modalId" title="Edit Role" @shown="getData")
+      b-row
         .col
           .card
             .card-body
               .d-flex
-                UserAvatar(:user="specialist")
+                UserAvatar(:user="user" :bg="true")
                 .d-block.m-l-2
-                  h4: b {{ specialist.first_name + ' ' +  specialist.last_name }}
-                  p.mb-1 {{ specialist.state }}
-                  .d-flex.py-2
-                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                    b-icon(icon='star-fill' variant="warning" font-scale="1.5")
-                    b-icon(icon='star' variant="warning" font-scale="1.5")
+                  h5.mt-2: b {{ user.first_name + ' ' +  user.last_name }}
+                  p.mb-1 {{ user.state }}
+                  StarsRating(:rate="Math.floor(Math.random() * 5)")
               hr
-              InputSelect(v-model="role" :options="specialistRoleOptions") Select Role
+              ComboBox(v-model="form.role" :options="roleOptions" placeholder="Select a role")
+              Errors(:errors="errors.role")
               .form-text.text-muted Determines the permissions the specialist will have access to
 
       template(slot="modal-footer")
@@ -30,63 +26,53 @@
 
 <script>
   import UserAvatar from '@/common/UserAvatar'
-  import { SPECIALIST_ROLE_OPTIONS } from '@/common/ProjectInputOptions'
+  import StarsRating from "../../../business/marketplace/components/StarsRating";
 
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+  const toOption = id => ({ id, label: capitalize(id) })
+  const capitalize = function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
+
   export default {
     props: {
       inline: {
         type: Boolean,
         default: true
       },
-      specialist: {
+      user: {
         type: Object,
         required: true
       }
     },
     components: {
+      StarsRating,
       UserAvatar,
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        // specialist: {
-        //   name: '',
-        //   description: 'N/A',
-        //   sections: [],
-        // },
-        errors: [],
-        role: Object.keys(SPECIALIST_ROLE_OPTIONS)[0]
+        errors: {},
+        form: {
+          role: '',
+        }
       }
     },
     methods: {
+      getData() {
+        this.form.role = this.user.role
+      },
       async submit (e) {
         e.preventDefault();
         this.errors = [];
 
-        if (!this.specialist.name) {
-          this.errors.push('Name is required.');
-          this.toast('Error', 'N - Required field', true)
-          return;
-        }
-        if (this.specialist.name.length <= 3) {
-          this.errors.push({name: 'Name is very short, must be more 3 characters.'});
-          this.toast('Error', 'N- Name must be more than 3 characters.', true)
-          return;
-        }
-
-        const specialist = this.specialist
         const data = {
-          id: specialist.id,
-          name: specialist.name,
-          specialist_start: specialist.specialist_start,
-          specialist_end: specialist.specialist_end,
-          // regulatory_changes_attributes: specialist.regulatory_changes,
-          // material_business_changes: specialist.material_business_changes,
-          // annual_specialist_employees_attributes: specialist.annual_specialist_employees
+          ...this.form
         }
         try {
-          await this.$store.dispatch('annual/updatespecialist', data)
+          await this.$store.dispatch('settings/updateEmployee', data)
             .then((response) => {
               // console.log('response', response)
               if (response.errors) {
@@ -113,7 +99,9 @@
       },
     },
     computed: {
-      specialistRoleOptions: () => SPECIALIST_ROLE_OPTIONS,
+      roleOptions() {
+        return ['basic', 'trusted', 'admin'].map(toOption)
+      }
     }
   }
 </script>

@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.settings
+  .settings
     .container-fluid
       template(v-if='componentUpgrade')
         .row
@@ -7,7 +7,7 @@
             .card
               .card-body
                 component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited" @upgradeBillingComplited="upgradeBillingComplited")
-      .row.p-t-3(v-if='!componentUpgrade')
+      .row.p-40.p-y-20(v-if='!componentUpgrade')
         .col-md-3
           .panel-default
             ul.settings-nav
@@ -27,9 +27,11 @@
   import Roles from "./components/roles";
   import Billings from "./components/billings";
   import Notifications from "./components/notifications";
-  import AccessDenied from "@/common/AccessDenied";
   import SelectPlan from './components/subscriptions/components/SelectPlan'
   import SelectBilling from './components/billings/components/SelectBilling'
+
+  import AccessDenied from "@/common/AccessDenied";
+  import PaymentRequired from "@/common/PaymentRequired";
 
   export default {
     props: ['states', 'timezones', 'contries', 'userId'],
@@ -42,9 +44,10 @@
       Roles,
       Billings,
       Notifications,
-      AccessDenied,
       SelectPlan,
       SelectBilling,
+      AccessDenied,
+      PaymentRequired,
     },
     created() {
       // FOR Hiding Sidebar
@@ -71,12 +74,13 @@
         menu: [
           { name: 'General', link: 'General' },
           { name: 'Users', link: 'Users' },
-          { name: 'Roles and Permisssions', link: 'Roles' },
+          { name: 'Roles and Permissions', link: 'Roles' },
           { name: 'Security', link: 'Security' },
           { name: 'Subscriptions', link: 'Subscriptions' },
           { name: 'Billings', link: 'Billings' },
           { name: 'Notifications', link: 'Notifications' },
-          { name: 'AccessDenied', link: 'AccessDenied' },
+          { name: 'Access Denied', link: 'AccessDenied' },
+          { name: 'Payment Required', link: 'PaymentRequired' },
         ]
       };
     },
@@ -116,7 +120,3 @@
     },
   };
 </script>
-
-<style>
-  @import "./styles.css";
-</style>

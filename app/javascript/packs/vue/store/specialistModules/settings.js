@@ -4,6 +4,7 @@ const mapAuthProviders = {
   jwt: {
     getGeneralSettings: jwt.getGeneralSettings,
     updateGeneralSettings: jwt.updateGeneralSettings,
+    resetEmailSettings: jwt.resetEmailSettings,
     updatePasswordSettings: jwt.updatePasswordSettings,
     deleteAccount: jwt.deleteAccount,
     getNotificationsSettings: jwt.getNotificationsSettings,
@@ -14,17 +15,31 @@ const mapAuthProviders = {
     getPaymentMethod: jwt.getPaymentMethod,
     deletePaymentMethod: jwt.deletePaymentMethod,
     makePrimaryPaymentMethod: jwt.makePrimaryPaymentMethod,
+    getStaticCollection: jwt.getStaticCollection,
   },
 }
 
 // import Settings from "../../models/Settings";
 import { SettingsGeneral, SettingsPaymentMethod } from "../../models/Settings";
+import axios from "../../services/axios";
 
 export default {
   state: {
     settings: [],
     currentSetting: null,
-    paymentMethods: []
+    paymentMethods: [],
+    staticCollection: {
+      GOOGLE_PLACES_API_KEY: '',
+      PLAID_PUBLIC_KEY: '',
+      STRIPE_PUBLISHABLE_KEY: '',
+      countries: [],
+      industries: [],
+      jurisdictions: [],
+      states: [],
+      sub_industries_business: [],
+      sub_industries_specialist: [],
+      timezones: [],
+    },
   },
   mutations: {
     SET_SETTINGS(state, payload) {
@@ -50,6 +65,20 @@ export default {
     DELETE_PAYMENT_METHOD (state, payload) {
       const index = state.paymentMethods.findIndex(record => record.id === payload.id);
       state.paymentMethods.splice(index, 1)
+    },
+    SET_STATIC_COLLECTION (state, payload) {
+      const timezones = payload.timezones.map(tz => {
+          const [ zone, city ] = tz
+          return {
+            value: city,
+            name: zone
+          }
+        }
+      )
+      state.staticCollection = {
+        ...payload,
+        timezones
+      }
     },
   },
   actions: {
@@ -111,6 +140,44 @@ export default {
       try {
         const updateGeneralSettings = mapAuthProviders[rootState.shared.settings.authProvider].updateGeneralSettings
         const data = updateGeneralSettings(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
+      }
+    },
+    async resetEmailSettings({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const resetEmailSettings = mapAuthProviders[rootState.shared.settings.authProvider].resetEmailSettings
+        const data = resetEmailSettings(payload)
           .then((success) => {
             commit("clearError", null, {
               root: true
@@ -493,10 +560,41 @@ export default {
         console.error(error);
       }
     },
+    async getStaticCollection({state, commit, rootState}) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const getStaticCollection = mapAuthProviders[rootState.shared.settings.authProvider].getStaticCollection
+        const data = getStaticCollection()
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              commit('SET_STATIC_COLLECTION', data)
+              return data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+        return data;
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
+      }
+    },
   },
   getters: {
     settings: state => state.settings,
     currentSetting: state => state.currentSetting,
     paymentMethods: state => state.paymentMethods,
+    staticCollection(state) {
+      return state.staticCollection
+    },
   },
 };

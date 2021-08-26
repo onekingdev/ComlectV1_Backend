@@ -10,8 +10,8 @@
       RoleIcon(:role="item.role")
     td(v-if="disabled") {{ item.reason }}
     td
-      b-icon.status__icon.m-r-1(font-scale="1" :icon="item.status ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.status }")
-    td.text-right {{ item.created_at | asDate }}
+      b-icon.status__icon.m-r-1(font-scale="1" :icon="item.access_person ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.access_person }")
+    td.text-right {{ item.start_date | asDate }}
     td.text-right(v-if="disabled") {{ item.disabled_at | asDate }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
@@ -19,9 +19,9 @@
           b-icon(icon="three-dots")
         UserModalAddEdit(:user="item",  :inline="false")
           b-dropdown-item Edit
-        UserModalArchive(:archiveStatus="item.status" :inline="false")
-          b-dropdown-item {{ item.status ? 'Unarchive' : 'Archive' }}
-        UserModalDelete(v-if="!item.status" :inline="false")
+        UserModalArchive(:archiveStatus="item.active" :inline="false")
+          b-dropdown-item {{ item.active ? 'Disable' : 'Enable' }}
+        UserModalDelete(v-if="!item.active" :inline="false")
           b-dropdown-item.delete Delete
 </template>
 

@@ -108,15 +108,7 @@
       }
     },
     created() {
-      const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
       this.$store.commit('changeUserType', this.userType)
-      const splitUrl = splittedUrl[2]
-      if(splitUrl === "reports" || splitUrl === "reports/risks" || splitUrl === "reports/organizations" || splitUrl === "reports/financials") {
-        this.$store.commit('changeSidebar', 'reports')
-        return
-      }
-      if(splitUrl === "file_folders" || splitUrl === "settings") this.$store.commit('changeSidebar', 'documents')
-      if(splitUrl !== "file_folders") this.$store.commit('changeSidebar', 'default')
     },
     methods: {
       openLink (value) {
@@ -144,6 +136,62 @@
           return
         }
         this[value] = !this[value]
+      },
+      checkRouteAndChangeSidebar() {
+        if(window.innerWidth < 576) {
+          this.overview_collapse = false
+          this.program_management_collapse = false
+          this.files = false
+        }
+
+        const routeName = this.$route.name
+
+        if(
+          routeName === "settings-general" ||
+          routeName === "settings-users" ||
+          routeName === "settings-roles" ||
+          routeName === "settings-security" ||
+          routeName === "settings-subscriptions" ||
+          routeName === "settings-billings" ||
+          routeName === "settings-notifications" ||
+          routeName === "settings-notification-center" ||
+          routeName === "specialists-marketplace" ||
+          routeName === "profile" ||
+          routeName === "settings-specialist" ||
+          routeName === "settings-general-specialist" ||
+          routeName === "settings-users-specialist" ||
+          routeName === "settings-roles-specialist" ||
+          routeName === "settings-security-specialist" ||
+          routeName === "settings-subscriptions-specialist" ||
+          routeName === "settings-billings-specialist" ||
+          routeName === "settings-notifications-specialist"
+        ) {
+          this.$store.commit('changeSidebar', 'builder')
+          // document.querySelector('.sidebar-menu').style.display = "none"
+          return
+        }
+
+        if(routeName === "policy-current" || routeName === "settings") {
+          this.$store.commit('changeSidebar', 'builder')
+          // document.querySelector('.sidebar-menu').style.display = "none"
+          return
+        }
+
+        if(routeName === "reports"|| routeName === "reports-risks" || routeName === "reports-organizations" || routeName === "reports-financials") {
+          this.$store.commit('changeSidebar', 'reports')
+          // document.querySelector('.sidebar-menu').style.display = "none"
+          return
+        }
+
+        // document.querySelector('.sidebar-menu').style.display = "flex"
+        if(routeName === "file-folders"
+          || routeName === "exam-management"
+          || routeName === "exam-management-current-review"
+          || routeName === "settings"
+          || routeName === "settings-notification-center"
+        ) this.$store.commit('changeSidebar', 'documents')
+        // if(routeName !== "file-folders") this.$store.commit('changeSidebar', 'default')
+
       }
     },
     computed: {
@@ -182,36 +230,14 @@
           to: '/specialist/my-projects',
           label: 'Projects'
         }]
-      }
+      },
+    },
+    mounted() {
+      this.checkRouteAndChangeSidebar()
     },
     watch: {
       '$route' () {
-        if(window.innerWidth < 576) {
-          this.overview_collapse = false
-          this.program_management_collapse = false
-          this.files = false
-        }
-
-        const splitUrl = this.$route.name
-        if(splitUrl === "policy-current" || splitUrl === "settings") {
-          this.$store.commit('changeSidebar', 'builder')
-          document.querySelector('.sidebar-menu').style.display = "none"
-          return
-        }
-
-        if(splitUrl === "reports-risks" || splitUrl === "reports-organizations" || splitUrl === "reports-financials") {
-          this.$store.commit('changeSidebar', 'reports')
-          return
-        }
-
-        document.querySelector('.sidebar-menu').style.display = "flex"
-        if(splitUrl === "file-folders"
-          || splitUrl === "exam-management"
-          || splitUrl === "exam-management-current-review"
-          || splitUrl === "settings"
-          || splitUrl === "settings-notification-center"
-        ) this.$store.commit('changeSidebar', 'documents')
-        // if(splitUrl !== "file-folders") this.$store.commit('changeSidebar', 'default')
+        this.checkRouteAndChangeSidebar()
       }
     }
   }

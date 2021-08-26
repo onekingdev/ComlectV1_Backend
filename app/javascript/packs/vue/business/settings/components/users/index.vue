@@ -2,9 +2,6 @@
   div
     .row
       .col
-        Loading
-    .row(v-if='!loading')
-      .col
         .card.settings__card
           .card-title.p-x-40
             h2.card-title__name Users
@@ -16,19 +13,22 @@
                   span ({{ filteredUsersActive.length }})
                 .div
                   .row.my-3
-                    .col-md-8
+                    .col-lg-8
                       SearchItem(:users="filteredUsersActive" @searchingConfirmed="searching")
-                    .col-md-4
+                    .col-lg-4
                       .d-flex.justify-content-end
-                        button.btn.btn-default.mr-2 Export
-                        UserModalAddEdit
+                        button.btn.btn-default.mr-2 Download
+                        UserModalAddEdit(:userLimit="userLimit" @saved="userAdded" @editPlan="showModal")
                           button.btn.btn-dark Add User
+                        PlanModalEdit(:plan="plan")
+                          button.d-none(ref="editPlanModal") Add User
+
+                UsersTable(:users="filteredUsersActive")
                 Loading
-                UsersTable(v-if="!loading" :users="filteredUsersActive")
                 EmptyState(v-if="!filteredUsersActive.length")
               b-tab(title='Disabled Users')
                 template(#title)
-                  | Directory&nbsp;
+                  | Disabled&nbsp;
                   span ({{ filteredUsersDisabled.length }})
                 .div
                   .row.my-3
@@ -39,18 +39,20 @@
                         button.btn.btn-default.mr-2 Export
                         UserModalAddEdit
                           button.btn.btn-dark Add User
-                Loading
                 UsersTable(v-if="!loading" :users="filteredUsersDisabled" :disabled="true")
+                Loading
                 EmptyState(v-if="!filteredUsersDisabled.length")
-              b-tab(title='Activity' disabled)
-                p I'm a disabled tab!
+              //b-tab(title='Activity' disabled)
+              //  p I'm a disabled tab!
 </template>
 
 <script>
+  import { mapGetters, mapActions } from "vuex"
   import Loading from '@/common/Loading/Loading'
   import UsersTable from "./components/UsersTable";
   import SearchItem from "./components/SearchItem";
   import UserModalAddEdit from "@/common/Users/modals/UserModalAddEdit";
+  import PlanModalEdit from "@/business/settings/components/subscriptions/modals/PlanModalEdit";
 
   export default {
     components: {
@@ -58,89 +60,72 @@
       Loading,
       UsersTable,
       SearchItem,
+      PlanModalEdit,
     },
     data() {
       return {
         searchInput: '',
+        userLimit: null,
+        plan: {
+          id: 1,
+          name: 'Team Plan',
+          users: '10',
+          billinPeriod: 'monthly',
+          monthCoast: '100$/month',
+          paymentCardType: 'Visa',
+          paymentCard: '**** **** **** 4242',
+          nextPaymentDate: 'October 25, 2021',
+
+          coastMonthly: 145,
+          coastAnnually: 1500,
+          usersCount: 10,
+          additionalUserMonthly: 15,
+          additionalUserAnnually: 120,
+        }
       };
     },
     methods: {
+      ...mapActions({
+        getEmployees: 'settings/getEmployees',
+        getSeatCount: 'settings/getAvailableSeatsCount'
+      }),
       searching (value) {
         this.searchInput = value
       },
+      userAdded () {
+
+      },
+      showModal() {
+        this.$refs.editPlanModal.click()
+      },
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
-      users() {
-        return [
-          {
-            first_name: 'Holgaria',
-            last_name: 'Bolgaria',
-            email: 'holgaria@gmail.com',
-            role: 'trusted',
-            status: false,
-            access: false,
-            created_at: '2021-05-28T15:51:05.892Z',
-            reason: 'Termination',
-            disabled_at: '2021-07-28T15:51:05.892Z'
-          },
-          {
-            first_name: 'Jason',
-            last_name: 'Stetham',
-            email: 'stetham@gmail.com',
-            role: 'trusted',
-            status: false,
-            access: false,
-            created_at: '2021-05-28T15:51:05.892Z',
-            reason: 'Registration',
-            disabled_at: '2021-07-28T15:51:05.892Z'
-          },
-          {
-            first_name: 'Sandra ',
-            last_name: 'Bullock',
-            email: 'sandra111111111@gmail.com',
-            role: 'trusted',
-            status: true,
-            access: false,
-            created_at: '2021-05-28T15:51:05.892Z',
-          },
-          {
-            first_name: 'Julia',
-            last_name: 'Roberts',
-            email: 'julia89099890970@gmail.com',
-            role: 'admin',
-            status: true,
-            access: false,
-            created_at: '2021-05-28T15:51:05.892Z',
-          },
-          {
-            first_name: 'Robert',
-            last_name: 'De Niro',
-            email: 'robertdeniro@gmail.com',
-            role: 'basic',
-            status: true,
-            access: true,
-            created_at: '2021-05-28T15:51:05.892Z',
-          }
-        ]
-      },
+      ...mapGetters({
+        loading: 'loading',
+        users: 'settings/employees'
+      }),
       filteredUsers () {
-        return this.users.filter(user => {
+        const users = this.users
+        return users.filter(user => {
           const fullName = `${user.first_name} ${user.last_name}`
           return fullName?.toLowerCase().includes(this.searchInput.toLowerCase())
         })
       },
       filteredUsersActive () {
-        return this.filteredUsers.filter(user => user.status === true )
+        return this.filteredUsers.filter(user => user.active === true )
       },
       filteredUsersDisabled () {
-        return this.filteredUsers.filter(user => user.status === false )
+        return this.filteredUsers.filter(user => user.active === false )
       }
     },
-    mounted() {
-
+    async mounted() {
+      try {
+        await this.getEmployees()
+        const result = await this.getSeatCount()
+        if(result) this.userLimit = result.count
+      } catch (error) {
+        console.error(error)
+      }
     },
   };
 </script>

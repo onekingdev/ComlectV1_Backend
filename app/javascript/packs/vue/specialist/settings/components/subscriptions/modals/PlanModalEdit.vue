@@ -74,12 +74,12 @@
 
         if (!this.plan.name) {
           this.errors.push('Name is required.');
-          this.toast('Error', 'N - Required field')
+          this.toast('Error', 'N - Required field', true)
           return;
         }
         if (this.plan.name.length <= 3) {
           this.errors.push({name: 'Name is very short, must be more 3 characters.'});
-          this.toast('Error', 'N - Name must be more than 3 characters')
+          this.toast('Error', 'N - Name must be more than 3 characters', true)
           return;
         }
 

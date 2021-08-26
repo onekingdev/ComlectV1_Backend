@@ -3,12 +3,12 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Plan" @shown="getData")
+    b-modal.fade(:id="modalId" title="Edit Plan" size="lg" @shown="getData")
       b-row.m-b-2
         b-col(cols="8").pr-0
           b-row
             b-col
-              p Your organization currently has {{ plan.users }} registered users
+              p Your organization currently has {{ plan.users }} acive users
           b-row.m-b-2
             b-col(class="pr-1")
               label.form-label Billing plan
@@ -109,7 +109,7 @@
             .catch(error => console.error(error))
         } catch (error) {
           console.error(error)
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
     },

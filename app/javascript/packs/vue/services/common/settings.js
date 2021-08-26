@@ -25,6 +25,17 @@ export async function updateGeneralSettings(payload) {
     .catch(err => err)
 }
 
+export async function resetEmailSettings(payload) {
+  return await axios.post(`/users/password`, payload)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
 export async function updatePasswordSettings(payload) {
   return await axios.patch(`${END_POINT}/password`, payload)
     .then(response => {
@@ -155,6 +166,18 @@ export async function makePrimaryPaymentMethod(payload) {
         return response
       }
       return false
+    })
+    .catch(err => err)
+}
+
+export async function getStaticCollection() {
+  return axios
+    .get(`/static_collection`)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return response
     })
     .catch(err => err)
 }

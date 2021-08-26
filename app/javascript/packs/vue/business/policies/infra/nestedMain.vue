@@ -14,7 +14,7 @@
         .table__row
           .table__cell.table__cell_name.table__cell_first
             //router-link.link(:to="{ name: 'policy-current', params: { policyId: el.id, toggleVueEditor: false  }}") {{ el.title }}
-            router-link.link(:to='`/business/compliance_policies/${el.id}`', ) {{ el.title }}
+            router-link.link(:to='`/business/compliance_policies/${el.id}`') {{ el.title }}
           //.table__cell.table__cell_name.table__cell_first(v-show="el.children && el.children.length !== 0")
           //  .d-flex.align-items-center
           //    .dropdown-toggle.link(
@@ -40,7 +40,8 @@
               b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                 template(#button-content)
                   b-icon(icon="three-dots")
-                b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
+                //b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
+                router-link.dropdown-item(:to='`/business/compliance_policies/${el.id}`') Edit
                 b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
                 PoliciesModalArchive(v-if="!el.archived" @saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
                   b-dropdown-item Archive

@@ -9,8 +9,8 @@
           //b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
           img(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p Removing this annual review will delete any progress and tasks associated with the file.
-            br
+          p.paragraph.m-b-10 Removing this annual review will delete any progress and tasks associated with the file.
+          p.paragraph.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")

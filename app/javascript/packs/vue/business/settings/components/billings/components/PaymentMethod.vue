@@ -2,7 +2,7 @@
   div
     .card.mb-2(v-if="paymentMethods && !paymentMethods.length")
       .card-body
-        h5.text-center Payment methods not exist
+        h5.text-center No payment methods
     .card.mb-2(v-for="payment in paymentMethods" :key="payment.id")
       .card-body
         .row
@@ -11,7 +11,7 @@
               b-icon(v-if="payment.last4" icon='credit-card2-back-fill' variant="dark" font-scale="2")
               ion-icon.payment(v-if="!payment.brand" name="logo-paypal")
               .d-block.ml-4
-                h3(v-if="payment.last4") Credit Card
+                h5(v-if="payment.last4"): strong Credit Card
                   span(v-if="payment.primary") (Primary)
                 p.mb-0 {{ '**** **** **** ' + payment.last4 }} {{ payment.brand }} {{ payment.email }}
           .col
@@ -66,7 +66,7 @@
             .then(response => this.toast('Success', `The primary card successfully changed!`) )
             .catch(error => {
               console.error(error)
-              this.toast('Error', `Something wrong! ${error}`)
+              this.toast('Error', `Something wrong! ${error}`, true)
             })
         } catch (e) {
           console.error(error)
@@ -84,7 +84,7 @@
             })
             .catch(error => {
               console.error(error)
-              this.toast('Error', `Something wrong! ${error}`)
+              this.toast('Error', `Something wrong! ${error}`, true)
             })
         } catch (e) {
           console.error(error)

@@ -16,8 +16,7 @@
             .settings___card--internal.p-y-1
               .row
                 .col-md-12
-                  h4
-                    b Plan
+                  h4.m-b-20 Plan
               .row
                 .col
                   Plan

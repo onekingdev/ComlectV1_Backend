@@ -3,20 +3,20 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Delete User")
+    b-modal.fade(:id="modalId" title="Cancel Plan")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          img.mt-1.ml-3(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p Removing the user will permanently delete them from the system.
-            br
+          p.paragraph.m-b-10 You are canceling your subscription to Complect. This will terminate your access to our full suite of features on {{ date }} when your subscription ends. If you have more than 1GB of stored data or users, this will cause your account to be locked until you upgrade to a paid plan.
+          p.paragraph.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")
 
       template(slot="modal-footer")
-        button.btn(@click="$bvModal.hide(modalId)") Cancel
-        button.btn.btn-danger(@click="submit") Confirm
+        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-dark(@click="submit") Confirm
 </template>
 
 <script>
@@ -25,6 +25,10 @@
     props: {
       inline: {
         type: Boolean,
+        default: true
+      },
+      date: {
+        type: String,
         default: true
       },
     },
@@ -39,7 +43,7 @@
         e.preventDefault();
         this.errors = [];
 
-        this.$emit('deleteConfirmed')
+        this.$emit('cancelConfirmed')
         this.$bvModal.hide(this.modalId)
       },
     },

@@ -8,8 +8,8 @@
         .col-md-1.text-center.px-0
           b-icon.mt-1.ml-3(icon="exclamation-triangle-fill" width="25" height="25" variant="warning")
         .col
-          p.m-b-10 Archiving the policy will remove it from the published compliance manual, but maintain a record of the policy and all of its linked risks and tasks.
-          p.mb-0
+          p.paragraph.m-b-10 Archiving the policy will remove it from the published compliance manual, but maintain a record of the policy and all of its linked risks and tasks.
+          p.paragraph.mb-0
             b Do you want to continue?
 
       Errors(:errors="errors.title")

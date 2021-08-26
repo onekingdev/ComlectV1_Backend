@@ -1,13 +1,13 @@
 <template lang="pug">
   .row
-    .col-lg-4.col-12
+    .col-lg-8.col-12
       .position-relative
         b-icon.icon-searh(icon='search')
         input.form-control.form-control_search(type="text" placeholder="Search" v-model="searchInput", @keyup="searching")
         button.btn-clear(v-if="isActive" @click="clearInput")
           b-icon.icon-clear(icon='x-circle')
     .col-4(v-if="users.length !== 0 && searchInput")
-      p Found {{ users.length }} {{ users.length === 1 ? 'result' : 'results' }}
+      p.mb-0.mt-2 Found {{ users.length }} {{ users.length === 1 ? 'result' : 'results' }}
 </template>
 
 <script>

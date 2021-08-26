@@ -25,7 +25,12 @@
 
 <script>
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
-  const toOption = id => ({ id, label: id })
+  const toOption = id => ({ id, label: capitalize(id) })
+  const capitalize = function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
 
   export default {
     props: {
@@ -54,7 +59,7 @@
     },
     computed: {
       reasonOptions() {
-        return ['Termination', 'Registration', 'Temporary', 'Others'].map(toOption)
+        return ['', 'termination', 'resignation', 'temporary', 'other'].map(toOption)
       }
     }
   }

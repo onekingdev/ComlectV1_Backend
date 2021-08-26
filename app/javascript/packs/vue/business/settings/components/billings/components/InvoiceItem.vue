@@ -1,10 +1,9 @@
 <template lang="pug">
   tr
-    td {{ item.date }}
-    td
-      a.link(:href="item.url") {{ item.name }}
+    td.text-right {{ item.date }}
+    td: a.link(:href="item.url") {{ item.name }}
     td {{ item.type }}
-    td {{ item.price }}
+    td.text-right {{ item.price }}
     td.text-right
       b-dropdown.actions(size="sm" variant="none" class="m-0 p-0" right)
         template(#button-content)

@@ -6,11 +6,10 @@
     b-modal.fade(:id="modalId" title="Delete risk")
       .row
         .col-md-1.text-center.px-0
-          //b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
           img(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p You are about to delete the risk and romove any connections to its related controls.
-            br
+          p.paragraph.m-b-10 You are about to delete the risk and romove any connections to its related controls.
+          p.paragraph.mb-0
             b Do you want to continue?
       Errors(:errors="errors.title")
 

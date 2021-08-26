@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import AuthGuard from './auth-guard'
 
-// NOT FOUND
+// COMMON
 import PageNotFound from '@/common/PageNotFound'
+import AccessDenied from '@/common/AccessDenied'
+import PaymentRequired from '@/common/PaymentRequired'
 
 // AUTH
 import SignIn from '@/auth/SingIn/Page'
@@ -63,6 +65,8 @@ export default new Router({
   routes: [
     //NOT FOUND
     { path: "*", component: PageNotFound },
+    { path: "/access-denied", component: AccessDenied },
+    { path: "/payment-required", component: PaymentRequired },
 
     // REDIRECTS
     // { path: '/business', redirect: '/business/dashboard' },
@@ -133,7 +137,6 @@ export default new Router({
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,
       children:  [
         { path: '/specialist/settings/general', name: 'settings-general-specialist', component: SettingsS, },
-        { path: '/specialist/settings/users', name: 'settings-users-specialist', component: SettingsS, },
         { path: '/specialist/settings/roles', name: 'settings-roles-specialist', component: SettingsS, },
         { path: '/specialist/settings/security', name: 'settings-security-specialist', component: SettingsS, },
         { path: '/specialist/settings/subscriptions', name: 'settings-subscriptions-specialist', component: SettingsS, },

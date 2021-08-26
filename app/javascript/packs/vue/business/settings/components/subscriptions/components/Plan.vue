@@ -1,14 +1,14 @@
 <template lang="pug">
   .card
-    .card-title
     .card-body
       .row
         .col
-          h3 {{ plan.name }}
+          h5.mb-0 {{ plan.name }}
           p {{ plan.users }} active users
         .col
           .d-flex.justify-content-end
-            b-button.btn.btn-link.mr-2(type='button' variant='none') Cancel
+            PlanCancelModal.mr-2(:date="plan.nextPaymentDate")
+              b-button.btn.btn-link(type='button') Cancel plan
             PlanModalEdit(:plan="plan")
               b-button.btn.mr-2(type='button' variant='default') Edit plan
             b-button.btn(type='button' variant='dark' @click="$emit('openComponent', 'SelectPlan')") Upgrade
@@ -20,9 +20,10 @@
 
 <script>
     import PlanModalEdit from "../modals/PlanModalEdit";
+    import PlanCancelModal from "../modals/PlanCancelModal";
     export default {
       name: "Plan",
-      components: {PlanModalEdit},
+      components: {PlanCancelModal, PlanModalEdit},
       data() {
         return {
           plan: {

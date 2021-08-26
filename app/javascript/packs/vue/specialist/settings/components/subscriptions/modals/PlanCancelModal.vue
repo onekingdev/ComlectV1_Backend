@@ -3,12 +3,12 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Delete Category")
+    b-modal.fade(:id="modalId" title="Cancel Plan")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-1.ml-3(icon="exclamation-circle-fill" width="25" height="25" variant="danger")
+          img.mt-1.ml-3(src='@/assets/error_20.svg' width="25" height="25")
         .col
-          p.paragraph.m-b-10 This will remove the category from this internal review and all of its associated content.
+          p.paragraph.m-b-10 You are canceling your subscription to Complect. This will terminate your access to our full suite of features on {{ date }} when your subscription ends. If you have more than 1GB of stored data or users, this will cause your account to be locked until you upgrade to a paid plan.
           p.paragraph.mb-0
             b Do you want to continue?
 
@@ -27,6 +27,10 @@
         type: Boolean,
         default: true
       },
+      date: {
+        type: String,
+        default: true
+      },
     },
     data() {
       return {
@@ -39,7 +43,7 @@
         e.preventDefault();
         this.errors = [];
 
-        this.$emit('deleteConfirmed')
+        this.$emit('cancelConfirmed')
         this.$bvModal.hide(this.modalId)
       },
     },

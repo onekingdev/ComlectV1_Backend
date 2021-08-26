@@ -2,23 +2,23 @@
   table.table
     thead
       tr
-        th Name
+        th(@click="sortSelect('first_name', 'string')") Name
           b-icon.ml-2(icon='chevron-expand' font-scale="1")
-        th
+        th(@click="sortSelect('role', 'string')")
           | Roles
           RoleTypesModalInfo
             b-icon.ml-2(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
-        th(v-if="disabled") Reason
+        th(v-if="disabled" @click="sortSelect('role', 'reason')") Reason
           b-icon.ml-2(icon='chevron-expand')
-        th Access Person
+        th(@click="sortSelect('access_person', 'string')") Access Person
           b-icon.ml-2(icon='chevron-expand')
-        th(@click="sortSelect('created_at', 'date')").text-right Start created
+        th(@click="sortSelect('created_at', 'date')").text-right Start Date
           b-icon.ml-2(icon='chevron-expand')
-        th(v-if="disabled" @click="sortSelect('disabled_at', 'date')").text-right Date disabled
+        th(v-if="disabled" @click="sortSelect('disabled_at', 'date')").text-right Disabled Date
           b-icon.ml-2(icon='chevron-expand')
         th(width="35px")
     tbody
-      UserItem(v-for="item in sortedData" :key="item.id" :item="item" :disabled="disabled")
+      UserItem(v-if="!loading" v-for="item in sortedData" :key="item.id" :item="item" :disabled="disabled")
 </template>
 
 <script>
@@ -51,6 +51,9 @@ export default {
     }
   },
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
     sortedData () {
       const sortOption = this.sortOptions
       return this.users.sort((itemA, itemB)=> {

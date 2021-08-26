@@ -6,12 +6,12 @@
     b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplie Exam' : 'Complie Exam'")
       .row
         .col
-          p Marking the exam as complete will disable any links to access your requests.
-          p You currrently have:
-          p
+          p.paragraph Marking the exam as complete will disable any links to access your requests.
+          p.paragraph You currrently have:
+          p.paragraph
             span.text-success {{ countCompleted }}&nbsp;
             | Reqeusts Complited
-          p: b Do you want to continue?
+          p.paragraph: b Do you want to continue?
 
       Errors(:errors="errors.title")
 
