@@ -63,6 +63,9 @@ Rails/HttpPositionalArguments:
 Rails/BulkChangeTable:
   Enabled: false
 
+Bundler/OrderedGems:
+  Enabled: false
+
 # === Layout ===
 
 Layout/EmptyLineBetweenDefs:

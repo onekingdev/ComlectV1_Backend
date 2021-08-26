@@ -179,6 +179,7 @@ group :test do
   gem 'stripe-ruby-mock', require: 'stripe_mock'
   gem 'timecop'
   gem 'webmock'
+  gem 'simplecov', require: false
 end
 
 gem 'rails_12factor', group: :production
