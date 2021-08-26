@@ -27,6 +27,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       end
 
       it { expect(response).to have_http_status(200) }
+      it { expect(assigns(:_current_business)).to be_present }
       it { expect(JSON.parse(response.body)[0]['name']).to be_present }
       it { expect(JSON.parse(response.body)[0]['email']).to be_present }
       it { expect(JSON.parse(response.body)[0]['role']).to eq('admin') }
@@ -45,12 +46,13 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect { post(:create, as: 'json', params: { team_member: {} }) }.to raise_error(error) }
     end
 
-    context 'without empty params' do
+    context 'with empty params' do
       let(:params) { { email: '', first_name: '', last_name: '' } }
 
       before { post :create, as: 'json', params: { team_member: params } }
 
       it { expect(response).to have_http_status(422) }
+      it { expect(assigns(:_current_business)).to be_present }
       it { expect(response.message).to eq('Unprocessable Entity') }
       it { expect(JSON.parse(response.body)['errors']['email']).to eq(['Required field']) }
       it { expect(JSON.parse(response.body)['errors']['last_name']).to eq(['Required field']) }
@@ -216,7 +218,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
     end
 
-    context 'without empty params' do
+    context 'with empty params' do
       let(:team) { Business.first.team }
       let!(:team_member) { create(:team_member, team_id: team.id) }
       let(:params) { { email: '', first_name: '', last_name: '' } }
@@ -230,6 +232,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(TeamMember.count).to eq(2) }
       it { expect(response).to have_http_status(422) }
       it { expect(Specialist::Invitation.count).to eq(0) }
+      it { expect(assigns(:_current_business)).to be_present }
       it { expect(response.message).to eq('Unprocessable Entity') }
       it { expect(JSON.parse(response.body)['errors']['email']).to eq(['Required field']) }
       it { expect(JSON.parse(response.body)['errors']['last_name']).to eq(['Required field']) }
@@ -315,7 +318,9 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(TeamMember.count).to eq(1) }
       it { expect(Seat.last.assigned_at).to be_nil }
       it { expect(Seat.last.team_member_id).to be_nil }
+      it { expect(assigns(:team_member)).to be_present }
       it { expect(Specialist::Invitation.count).to be_zero }
+      it { expect(assigns(:_current_business)).to be_present }
 
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
@@ -355,7 +360,9 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(TeamMember.count).to eq(2) }
       it { expect(Seat.last.assigned_at).to be_nil }
       it { expect(Seat.last.team_member_id).to be_nil }
+      it { expect(assigns(:team_member)).to be_present }
       it { expect(team_member.reload.active).to be_falsey }
+      it { expect(assigns(:_current_business)).to be_present }
       it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
@@ -409,12 +416,43 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(Seat.last.assigned_at).to be_present }
       it { expect(Seat.last.team_member_id).to eq(team_member.id) }
 
+      it { expect(assigns(:team_member)).to be_present }
       it { expect(team_member.reload.active).to be_truthy }
+      it { expect(assigns(:_current_business)).to be_present }
       it { expect(JSON.parse(response.body)['error']).to be_nil }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
       it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
+    end
+  end
+
+  describe 'GET specialists' do
+    context 'return empty array' do
+      let!(:specialist) { create(:specialist) }
+
+      before { get :specialists, as: 'json' }
+
+      it { expect(Specialist.count).to eq(1) }
+      it { expect(response).to have_http_status(200) }
+      it { expect(JSON.parse(response.body)).to eq([]) }
+      it { expect(assigns(:_current_business)).to be_present }
+    end
+
+    context 'successfully response' do
+      let!(:team_member) { create(:team_member_specialist) }
+
+      before do
+        get :specialists, as: 'json'
+      end
+
+      it { expect(response).to have_http_status(200) }
+      it { expect(JSON.parse(response.body)).to be_present }
+      it { expect(JSON.parse(response.body)[0]['error']).to be_nil }
+      it { expect(JSON.parse(response.body)[0]['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)[0]['last_name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['first_name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['former_regulator']).not_to be_nil }
     end
   end
 end

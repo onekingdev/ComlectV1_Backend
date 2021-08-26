@@ -30,4 +30,11 @@ FactoryBot.define do
       seat.assign_to(team_member.id)
     end
   end
+
+  factory :team_member_specialist, parent: :full_team_member do
+    after(:create) do |team_member|
+      specialist = create(:specialist, team_id: team_member.team_id)
+      team_member.specialist_invitation.update(specialist_id: specialist.id)
+    end
+  end
 end
