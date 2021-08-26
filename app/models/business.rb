@@ -414,7 +414,8 @@ class Business < ApplicationRecord
   end
 
   def generate_username
-    src = business_name.split(' ').map(&:capitalize).join('')
+    src = business_name&.split(' ')&.map(&:capitalize)&.join('')
+    src = 'businessuser' if src.nil?
     generated = src.delete(' ').gsub(/[^0-9a-z ]/i, '')
     while Business.find_by_sql(['SELECT * from businesses WHERE username = ?', generated]).count.positive?
       ext_num = generated.scan(/\d/).join('')

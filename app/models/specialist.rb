@@ -277,6 +277,7 @@ class Specialist < ApplicationRecord
 
   def generate_username
     src = "#{first_name&.capitalize}#{last_name[0]&.capitalize}"
+    src = 'specialistuser' if src.nil?
     generated = src.gsub(/[^0-9a-z ]/i, '') # yes
     while Specialist.find_by_sql(['SELECT * from specialists WHERE username = ?', generated]).count.positive?
       ext_num = generated.scan(/\d/).join('')

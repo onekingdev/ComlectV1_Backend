@@ -49,7 +49,7 @@ module BusinessServices
     def assign_attributes
       business.assign_attributes(params)
 
-      if business.username.blank? && business.business_name.present?
+      if business.username.blank?
         business.username = business.generate_username
       end
 

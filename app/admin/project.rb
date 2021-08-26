@@ -74,7 +74,7 @@ ActiveAdmin.register Project do
       link_to project.title, [:admin, project]
     end
     column :type, sortable: :type do |project|
-      status_tag project.full_time? ? 'J' : 'P', 'yes'
+      status_tag(project.full_time? ? 'J' : 'P')
     end
     column :location do |project|
       project.remote? ? 'Remote' : project.location
