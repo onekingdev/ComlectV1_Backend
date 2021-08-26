@@ -18,12 +18,7 @@ class EmployeesController < ApplicationController
   end
 
   def new
-    attributes = {
-      first_name: @invitation&.first_name,
-      last_name: @invitation&.last_name,
-      user_attributes: { email: @invitation&.email }
-    }
-    @specialist = Specialist::Form.signup(attributes)
+    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
   end
 
   def create

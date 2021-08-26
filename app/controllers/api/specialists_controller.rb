@@ -2,12 +2,13 @@
 
 class Api::SpecialistsController < ApiController
   before_action :require_specialist!, only: %i[update current]
+  before_action :fetch_invitation, only: %i[create]
   skip_before_action :authenticate_user!, only: :create
 
   def create
-    specialist = Specialist.new(signup_params)
+    specialist = @invitation.present? ? Specialist::Form.signup(signup_params.merge(invitation: @invitation, dashboard_unlocked: true)) : Specialist.new(signup_params)
 
-    if specialist.save
+    if @invitation.present? ? specialist.save(context: :employee) : specialist.save
       BusinessMailer.verify_email(specialist.user, specialist.user.otp).deliver_later
       render json: { userid: specialist.user_id, message: I18n.t('api.specialists.confirm_otp') }.to_json
     else
@@ -52,5 +53,16 @@ class Api::SpecialistsController < ApiController
       jurisdiction_ids: [],
       sub_industry_ids: []
     )
+  end
+
+  def fetch_invitation
+    return if params[:invite_token].blank?
+    @invitation = Specialist::Invitation
+                  .where(
+                    token: params[:invite_token],
+                    status: Specialist::Invitation.statuses[:pending]
+                  )
+                  .where.not(team_id: nil)
+                  .first
   end
 end
