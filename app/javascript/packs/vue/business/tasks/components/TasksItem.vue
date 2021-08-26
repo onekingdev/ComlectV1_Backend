@@ -25,7 +25,7 @@
       b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
-        //b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit
+        //b-dropdown-item(:href="`/reminders/${item.id}`") Edit
         TaskModalCreateEdit(@editConfirmed="editConfirmed", :taskProp="item", :toastMessages="toastMessages" :inline="false")
           b-dropdown-item Edit
         //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}

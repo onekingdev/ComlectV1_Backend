@@ -168,7 +168,7 @@
 
         this.errors = []
         const toId = (this.taskId) ? `/${this.taskId}` : ''
-        fetch('/api/business/reminders' + toId, {
+        fetch('/api/reminders' + toId, {
           method: 'POST',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
           body: JSON.stringify(this.task)
