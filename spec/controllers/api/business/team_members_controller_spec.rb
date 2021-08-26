@@ -335,6 +335,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
     context 'archive team member' do
       let!(:team_member) { create(:full_team_member) }
+      let(:params) { { id: team_member.id, reason: 'Test reason' } }
 
       before do
         expect(Seat.count).to eq(1)
@@ -344,7 +345,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
         expect(team_member.reload.active).to be_truthy
         expect(Seat.last.team_member_id).to eq(team_member.id)
 
-        patch :archive, as: 'json', params: { id: team_member.id }
+        patch :archive, as: 'json', params: params
       end
 
       it { expect(response).to have_http_status(200) }
@@ -358,6 +359,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
+      it { expect(JSON.parse(response.body)['reason']).to eq('Test reason') }
     end
   end
 

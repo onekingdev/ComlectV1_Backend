@@ -43,7 +43,7 @@ class Api::Business::TeamMembersController < ApiController
   end
 
   def archive
-    @team_member.update(active: false) && @team_member.clear_seat
+    @team_member.update(active: false, reason: params[:reason]) && @team_member.clear_seat
     respond_with @team_member, serializer: TeamMemberSerializer
   end
 
