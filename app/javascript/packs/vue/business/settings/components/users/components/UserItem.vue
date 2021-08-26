@@ -19,9 +19,9 @@
           b-icon(icon="three-dots")
         UserModalAddEdit(:user="item",  :inline="false")
           b-dropdown-item Edit
-        UserModalArchive(:archiveStatus="item.active" :inline="false")
+        UserModalArchive(:user="item" :archiveStatus="item.active" :inline="false" @archiveConfirmed="archiveUser")
           b-dropdown-item {{ item.active ? 'Disable' : 'Enable' }}
-        UserModalDelete(v-if="!item.active" :inline="false")
+        UserModalDelete(v-if="!item.active" :inline="false" @deleteConfirmed="deleteUser(item.id)")
           b-dropdown-item.delete Delete
 </template>
 
@@ -56,10 +56,44 @@
 
     },
     methods: {
-      deleteUser(userId){
-        this.$store.dispatch('users/deleteUser', { id: userId })
-          .then(response => this.toast('Success', `The user has been deleted! ${response.id}`))
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+      archiveUser(value){
+        console.log(value)
+
+        const data = {
+          id: value.id,
+          active: !value.active,
+          body: {
+            ...value,
+          }
+        }
+        console.log('data', data)
+
+        this.$store.dispatch('settings/disableEmployee', data)
+          .then(response => {
+            if (response.errors) {
+              for (const [key, value] of Object.entries(response.errors)) {
+                this.toast('Error', `Something wrong! ${key} ${value}`, true)
+              }
+            }
+            if (!response.errors) {
+              this.toast('Success', `Updated.`)
+            }
+          })
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+      },
+      deleteUser(id){
+        this.$store.dispatch('settings/deleteEmployee', { id })
+          .then(response => {
+            if (response.errors) {
+              for (const [key, value] of Object.entries(response.errors)) {
+                this.toast('Error', `Something wrong! ${key} ${value}`, true)
+              }
+            }
+            if (!response.errors) {
+              this.toast('Success', `The user has been deleted.`)
+            }
+          })
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
       }
     },
     filters: {

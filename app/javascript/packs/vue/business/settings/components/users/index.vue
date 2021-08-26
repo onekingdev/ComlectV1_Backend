@@ -41,7 +41,7 @@
                           button.btn.btn-dark Add User
                 UsersTable(v-if="!loading" :users="filteredUsersDisabled" :disabled="true")
                 Loading
-                EmptyState(v-if="!filteredUsersDisabled.length")
+                EmptyState(v-if="!filteredUsersDisabled.length && !loading")
               //b-tab(title='Activity' disabled)
               //  p I'm a disabled tab!
 </template>

@@ -105,25 +105,24 @@
       },
       submit(e) {
         e.preventDefault();
+        for (let value in this.errors) delete this.errors[value];
 
         try {
 
           const data = {
-            team_member: {
-              ...this.form,
-              // first_name: 'Team',
-              // last_name: 'Member',
-              // email: 'team@member.com',
-              // start_date: '2021-08-22',
-              // access_person: '1',
-              // role: 'basic'
+            body: {
+              team_member: {
+                ...this.form,
+              }
             }
           }
+          if (this.user) data.id = this.user.id
 
-          console.log('data', data)
+          let method = 'settings/createEmployee'
+          if (this.user) method = 'settings/updateEmployee'
 
-          this.$store.dispatch('settings/createEmployee', data)
-            .then((response) => {
+          this.$store.dispatch(method, data)
+            .then(response => {
               if (response.errors) {
                 for (const type of Object.keys(response.errors)) {
                   this.errors = response.errors[type]
@@ -137,10 +136,10 @@
                 this.$bvModal.hide(this.modalId)
               }
             })
-            .catch((error) => this.toast('Error', `Couldn't submit form! ${error}`, true))
+            .catch((error) => this.toast('Error', `${error}`, true))
 
         } catch (error) {
-          this.toast('Error', error.message)
+          this.toast('Error', error.message, true)
         }
       },
       editPlan() {

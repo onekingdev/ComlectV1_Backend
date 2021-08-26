@@ -2,6 +2,7 @@
 
 class EmployeesController < ApplicationController
   include RemindersFetcher
+  include ActionView::Helpers::TagHelper
 
   before_action :fetch_invitation, only: %i[new create]
   before_action :authenticate_user!, only: %i[index]

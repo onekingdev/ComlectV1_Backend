@@ -10,6 +10,7 @@ import PaymentRequired from '@/common/PaymentRequired'
 // AUTH
 import SignIn from '@/auth/SingIn/Page'
 import SignUp from '@/auth/SignUp/Page'
+import SignUpEmployee from '@/auth/SignUp/Employee/Page'
 import ResetPassword from '@/auth/ResetPassword/Page'
 import ChangePassword from '@/auth/ChangePassword/Page'
 import Verification from '@/auth/components/OtpConfirm'
@@ -80,6 +81,7 @@ export default new Router({
     { path: '/', name: 'home', component: SignIn },
     { path: '/users/sign_in', name: 'sign-in', component: SignIn },
     { path: '/users/sign_up', name: 'sign-up', component: SignUp },
+    { path: '/employee/new', name: 'sign-up-employee', props: true, component: SignUpEmployee },
     { path: '/users/password/new', name: 'password-new', component: ResetPassword },
     { path: '/users/password/edit', name: 'password-change', component: ChangePassword },
     { path: '/verification', name: 'verification', component: Verification, props: true },

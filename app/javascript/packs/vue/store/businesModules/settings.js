@@ -20,6 +20,7 @@ const mapAuthProviders = {
     getEmployeesSpecialists: jwtEmployee.getEmployeesSpecialists,
     createEmployee: jwtEmployee.createEmployee,
     updateEmployee: jwtEmployee.updateEmployee,
+    disableEmployee: jwtEmployee.disableEmployee,
     deleteEmployee: jwtEmployee.deleteEmployee,
     getStaticCollection: jwt.getStaticCollection,
     getAvailableSeatsCount: jwtEmployee.getAvailableSeatsCount,
@@ -626,17 +627,6 @@ export default {
             // if(success.status !== 200 || success.status !== 201) throw new Error(`${success.status} ${success.statusText}`)
             if (success) {
               const data = success.data
-              // const settings = []
-              // for (const settingItem of data) {
-              //   settings.push(new SettingsGeneral(
-              //     settingItem.apartment,
-              //     settingItem.city,
-              //     settingItem.contact_phone,
-              //     settingItem.country,
-              //     settingItem.state,
-              //     settingItem.time_zone
-              //   ))
-              // }
               if (!data.errors) commit('ADD_EMPLOYEES', data)
               return data
             }
@@ -697,6 +687,36 @@ export default {
         throw error
       }
     },
+    async disableEmployee({state, commit, rootState}, payload) {
+      commit("clearError", null, { root: true });
+      commit("setLoading", true, { root: true });
+      try {
+        const updateEmployee = mapAuthProviders[rootState.shared.settings.authProvider].updateEmployee
+        const data = updateEmployee(payload)
+          .then((success) => {
+            commit("clearError", null, { root: true });
+            commit("setLoading", false, { root: true });
+            if (success) {
+              const data = success.data
+              if (!data.errors) commit('UPDATE_EMPLOYEES', data)
+              return success.data
+            }
+            if (!success) {
+              console.error('Not success', success)
+              commit("setError", success.message, { root: true });
+            }
+          })
+          .catch(error => error)
+
+        return data;
+
+      } catch (error) {
+        console.error('catch error', error);
+        commit("setError", error.message, { root: true });
+        commit("setLoading", false, { root: true });
+        throw error
+      }
+    },
     async deleteEmployee({state, commit, rootState}, payload) {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
@@ -708,17 +728,6 @@ export default {
             commit("setLoading", false, { root: true });
             if (success) {
               const data = success.data
-              // const settings = []
-              // for (const settingItem of data) {
-              //   settings.push(new SettingsGeneral(
-              //     settingItem.apartment,
-              //     settingItem.city,
-              //     settingItem.contact_phone,
-              //     settingItem.country,
-              //     settingItem.state,
-              //     settingItem.time_zone
-              //   ))
-              // }
               commit('DELETE_EMPLOYEES', data)
               return success.data
             }

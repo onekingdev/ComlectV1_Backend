@@ -16,7 +16,7 @@ export async function getEmployees() {
 }
 
 export async function createEmployee(payload) {
-  return await axios.post(`${END_POINT}`, payload)
+  return await axios.post(`${END_POINT}`, payload.body)
     .then(response => {
       // if (response.status !== 200 || response.status !== 201) throw new Error(`${response.status} ${response.statusText}`)
       if (response) {
@@ -28,8 +28,22 @@ export async function createEmployee(payload) {
 }
 
 export async function updateEmployee(payload) {
-  return await axios.patch(`${END_POINT}/${payload.id}`, payload)
+  return await axios.patch(`${END_POINT}/${payload.id}`, payload.body)
     .then(response => {
+      // if (response.status !== 200 || response.status !== 201) throw new Error(`${response.status} ${response.statusText}`)
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+}
+
+export async function disableEmployee(payload) {
+  const endpoint = !payload.archive ? `archive` : `unarchive`
+  return await axios.patch(`${END_POINT}/${payload.id}/${endpoint}`, payload.body)
+    .then(response => {
+      // if (response.status !== 200 || response.status !== 201) throw new Error(`${response.status} ${response.statusText}`)
       if (response) {
         return response
       }
@@ -39,8 +53,9 @@ export async function updateEmployee(payload) {
 }
 
 export async function deleteEmployee(payload) {
-  return await axios.delete(`${END_POINT}/${payload.id}`, payload)
+  return await axios.delete(`${END_POINT}/${payload.id}`)
     .then(response => {
+      // if (response.status !== 200 || response.status !== 201) throw new Error(`${response.status} ${response.statusText}`)
       if (response) {
         return response
       }
