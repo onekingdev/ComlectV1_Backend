@@ -73,7 +73,7 @@
                                   b-icon(icon="three-dots")
                                 ExamRequestModalEdit(:examId="currentExam.id" :request="currentRequst" :inline="false")
                                   b-dropdown-item Edit
-                                b-dropdown-item(@click="shareReqeust(currentRequst.id, !currentRequst.shared)") {{ currentRequst.shared ? 'Unshare' : 'Share' }}
+                                b-dropdown-item(@click="shareRequest(currentRequst.id, !currentRequst.shared)") {{ currentRequst.shared ? 'Unshare' : 'Share' }}
                                 ExamModalDelete(@deleteConfirmed="deleteExamRequest(currentRequst.id)" :inline="false")
                                   b-dropdown-item.delete Delete
                       .row.m-b-1
@@ -253,7 +253,7 @@
 
         try {
           await this.updateExam(data)
-            .then(response => this.toast('Success', "Saved changes to exam."))
+            .then(response => this.toast('Success', "Exam has been saved."))
             .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
           this.toast('Error', error.message, true)
@@ -268,7 +268,7 @@
         }
         try {
           await this.updateExam(data)
-            .then(response => this.toast('Success', "Exam updated!"))
+            .then(response => this.toast('Success', "Exam has been saved"))
             .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
           this.toast('Error', error.message, true)
@@ -285,13 +285,13 @@
         }
         try {
           await this.updateCurrentExamRequest(data)
-            .then(response => this.toast('Success', "Request updated!"))
+            .then(response => this.toast('Success', "Request has been saved."))
             .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
           this.toast('Error', error.message, true)
         }
       },
-      async shareReqeust(id, status) {
+      async shareRequest(id, status) {
         const data = {
           id: this.currentExam.id,
           request: {
@@ -301,7 +301,7 @@
         }
         try {
           await this.updateCurrentExamRequest(data)
-            .then(response => this.toast('Success', "Request updated!"))
+            .then(response => this.toast('Success', "Request has been saved."))
             .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
           this.toast('Error', error.message, true)
@@ -344,7 +344,7 @@
       async deleteExamRequest(id) {
         try {
           await this.deleteCurrentExamRequest({id: this.examId, requestId: id})
-            .then(response => this.toast('Success', `The request has been deleted!`))
+            .then(response => this.toast('Success', `Request has been deleted.`))
             .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
           this.toast('Error', error.message, true)
@@ -363,10 +363,10 @@
       // deleteexam(examId){
       //   this.$store.dispatch('annual/deleteexam', { id: examId })
       //     .then(response => {
-      //       this.toast('Success', `The annual exam has been deleted! ${response.id}`)
+      //       this.toast('Success', `Internal review has been deleted.`)
       //       window.location.href = `${window.location.origin}/business/annual_exams`
       //     })
-      //     .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+      //     .catch(error => this.toast('Error', `Action has not been completed. Please try again.`))
       // },
       async removeFile(requestId, fileID) {
 
@@ -379,7 +379,7 @@
         try {
           await this.$store.dispatch('exams/deleteExamRequestFile', data)
             .then(response => {
-              this.toast('Success', `File successfull deleted!`)
+              this.toast('Success', `File has been deleted.`)
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
@@ -392,12 +392,12 @@
         try {
           this.deletetCurrentExam({id: id})
             .then(response => {
-              this.toast('Success', `The exam has been deleted!`)
+              this.toast('Success', `Exam has been deleted.`)
               setTimeout(() => {
                 window.location.href = `${window.location.origin}/business/exam_management/`
               }, 2000)
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+            .catch(error => this.toast('Error', `Action has not been completed. Please try again. ${error.message}`, true))
         } catch (error) {
           this.toast('Error', error.message, true)
         }
