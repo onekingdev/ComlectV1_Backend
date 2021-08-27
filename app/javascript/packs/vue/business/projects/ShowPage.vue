@@ -1,6 +1,6 @@
 <template lang="pug">
   .page
-    Get(:etag="etag" :project="`/api/business/local_projects/${projectId}`" currentBusiness="/api/businesses/current"): template(v-slot="{project,currentBusiness}")
+    Get.d-flex.flex-column.flex-grow-1(:etag="etag" :project="`/api/business/local_projects/${projectId}`" currentBusiness="/api/businesses/current"): template(v-slot="{project,currentBusiness}")
       CommonHeader(:title="project.title" :sub="currentBusiness.business_name" :breadcrumbs="['Projects', project.title]")
         .d-flex.justify-content-end
           p.m-b-2: ShowOnCalendarToggle(:project="project")
@@ -106,23 +106,22 @@
                           Post(:action="hireUrl + '?job_application_id=' + project.id" :model="{role}" @saved="newEtag()")
                             button.btn.btn-dark Add
                   .card-body
-                    .card(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
-                      .card-header
-                        .d-flex.justify-content-between.align-items-center
-                          .d-flex.align-items-center.mb-2
-                              div
-                                UserAvatar.userpic_small.mr-2(:user="contract.specialist")
-                              div.d-flex.flex-column
-                                b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }}
-                                span {{ contract.specialist.seat_role }}
-                          .d-flex.justify-content-end
-                            b-dropdown.bg-white.mr-2(variant="light", right)
-                              template(#button-content)
-                                | Actions
-                                b-icon.ml-2(icon="chevron-down")
-                              b-dropdown-item Messages
-                              b-dropdown-item Edit Permissions
-                            button.btn.btn-default(@click="showingContract = contract") View Contract
+                    .card.p-20(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
+                      .d-flex.justify-content-between.align-items-center
+                        .d-flex.align-items-center
+                            div
+                              UserAvatar.userpic_small.mr-2(:user="contract.specialist")
+                            div.d-flex.flex-column
+                              b {{ contract.specialist.first_name }} {{ contract.specialist.last_name }}
+                              span {{ contract.specialist.seat_role }}
+                        .d-flex.justify-content-end
+                          b-dropdown.bg-white.mr-2(variant="light", right)
+                            template(#button-content)
+                              | Actions
+                              b-icon.ml-2(icon="chevron-down")
+                            b-dropdown-item Messages
+                            b-dropdown-item Edit Permissions
+                          button.btn.btn-default(@click="showingContract = contract") View Contract
                     .applications(v-if="!getContracts(project.projects).length")
                       .applications__body.applications__body_center.applications__body_m-h-200
                         ion-icon.applications__icon.m-b-10(name="person-circle-outline")
