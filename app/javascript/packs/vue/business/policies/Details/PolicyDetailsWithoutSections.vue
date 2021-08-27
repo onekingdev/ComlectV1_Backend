@@ -44,8 +44,7 @@
                       .d-flex
                         input.policy-details__input(v-model="policy.title" placeholder="Enter policy name")
                       .policy-details__name Description
-                      .policy-details__text(v-html="policy.description ? policy.description : description" v-if="!toggleVueEditorComputed" @click="toggleVueEditorHandler")
-                      vue-editor.policy-details__text-editor(v-if="toggleVueEditorComputed" :editorOptions="editorSettings" :editor-toolbar="fullToolbar " v-model="policy.description")
+                      Tiptap(v-model="policy.description")
             b-tab(title="Risks" lazy)
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
                 PolicyRisks(:policy="policy" :policyId="policyId")
@@ -58,6 +57,7 @@
 </template>
 
 <script>
+import Tiptap from '@/common/Tiptap'
   import Loading from '@/common/Loading/Loading'
   import nestedDraggable from "../infra/nestedMain";
   import rawdisplayer from "../infra/raw-displayer";
@@ -78,13 +78,9 @@
         type: Number,
         required: true
       },
-      toggleVueEditor: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
     },
     components: {
+      Tiptap,
       Loading,
       nestedDraggable,
       rawdisplayer,
@@ -109,42 +105,10 @@
         title: "Section Name",
         sections: [],
         count: 0,
-        editorSettings: {
-          modules: {
-            keyboard: {
-              bindings: {
-                'list autofill': {
-                  prefix: /^\s{0,}(1){1,1}(\.|-|\*|\[ ?\]|\[x\])$/
-                }
-              }
-            }
-          }
-        },
-        fullToolbar: [
-          // [{ font: [ '-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', "Helvetica Neue", 'Arial', "Noto Sans", 'sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"] }],
-          [{ header: [false, 1, 2, 3, 4, 5, 6] }],
-          // [{ size: ["small", false, "large", "huge"] }],
-          // ["bold", "italic", "underline", "strike"],
-          ["bold", "italic", "underline"],
-          [ { align: "" },  { align: "center" },  { align: "right" },  { align: "justify" } ],
-          // [{ header: 1 }, { header: 2 }],
-          ["blockquote", "code-block"],
-          // [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-          [{ list: "ordered" }, { list: "bullet" }],
-          [{ script: "sub" }, { script: "super" }],
-          [{ indent: "-1" }, { indent: "+1" }],
-          [{ color: [] }, { background: [] }],
-          // ["link", "image", "video", "formula"],
-          ["link"],
-          // [{ direction: "rtl" }],
-          ["clean"]
-        ],
-        toggleVueEditorOpened: false
       }
     },
     methods: {
       saveDraft () {
-        this.toggleVueEditor = false
         this.updatePolicy()
       },
       download () {
@@ -257,9 +221,6 @@
         this.policy.sections.splice(index, 1)
         if (this.policy.sections.length === 0) document.querySelector('.policy-details__btn').style.display = 'block';
       },
-      toggleVueEditorHandler() {
-        this.toggleVueEditorComputed = !this.toggleVueEditorComputed;
-      },
       updateList() {
         this.$store.dispatch("getPolicies")
           .then((response) => {
@@ -340,16 +301,6 @@
       policiesListNested () {
         return this.$store.getters.policiesListNested
       },
-      toggleVueEditorComputed: {
-        // getter
-        get: function () {
-          return this.toggleVueEditor ? this.toggleVueEditor : this.toggleVueEditorOpened
-        },
-        // setter
-        set: function (newValue) {
-          this.toggleVueEditorOpened = newValue
-        }
-      }
     },
     mounted() {
       this.updateList()

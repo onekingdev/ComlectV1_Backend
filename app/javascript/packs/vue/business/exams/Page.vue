@@ -20,15 +20,13 @@
   import { mapActions, mapGetters } from "vuex"
   import { DateTime } from 'luxon'
   import RegulatoryExamsTable from './components/ExamsTable'
-  import TaskFormModal from '@/common/TaskFormModal'
   import Tasks from '@/business/tasks/Page'
-  import TaskModalCreateEdit from "@/business/tasks/modals/TaskModalCreateEdit";
+  import TaskModalCreateEdit from '@/common/TaskFormModal';
 
   export default {
     components: {
       TaskModalCreateEdit,
       RegulatoryExamsTable,
-      TaskFormModal,
       Tasks
     },
     data() {

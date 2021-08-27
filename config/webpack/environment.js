@@ -49,6 +49,16 @@ environment.loaders.prepend('pug', {
     }]
 })
 
+environment.loaders.prepend('js', {
+    test: /\.m?js$/,
+    use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
+        }
+    }
+})
+
 environment.config.merge({
     resolve: {
         alias: {

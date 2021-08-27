@@ -60,7 +60,7 @@
   import Loading from '@/common/Loading/Loading'
   import EmptyState from '@/common/EmptyState'
   import TaskTable from './components/TaskTable'
-  import TaskModalCreateEdit from './modals/TaskModalCreateEdit'
+  import TaskModalCreateEdit from '@/common/TaskFormModal'
   // import TaskModalEdit from './modals/TaskModalEdit'
 
   // const endpointUrl = '/api/business/reminders/'

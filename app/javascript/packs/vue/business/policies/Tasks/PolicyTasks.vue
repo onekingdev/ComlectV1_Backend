@@ -39,7 +39,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import PolicyTaskModal from '@/business/tasks/modals/TaskModalCreateEdit'
+  import PolicyTaskModal from '@/common/TaskFormModal'
   import EtaggerMixin from '@/mixins/EtaggerMixin'
 
   export default {
