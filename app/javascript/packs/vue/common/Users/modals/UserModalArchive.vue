@@ -15,13 +15,13 @@
       .row.m-t-1
         .col-12
           label.form-label Reason
-          ComboBox(v-model="form.user.reason" :options="reasonOptions" placeholder="Select a reason" @input="reasonChange")
+          ComboBox(v-model="form.reason" :options="reasonOptions" placeholder="Select a reason" @input="reasonChange")
           .invalid-feedback.d-block(v-if="errors.reason") {{ errors.reason }}
           Errors(:errors="errors.reason")
       .row.m-t-1(v-if="showTextArea")
         .col-12
           label.form-label Additional Information
-          textarea.form-control(v-model="form.user.description" rows=3)
+          textarea.form-control(v-model="form.description" rows=3)
           .invalid-feedback.d-block(v-if="errors.description") {{ errors.description }}
           .form-text.text-muted Optional
           Errors(:errors="errors.description")
@@ -59,10 +59,8 @@
       return {
         modalId: `modal_${rnd()}`,
         form: {
-          user: {
-            reason: '',
-            description: '',
-          },
+          reason: '',
+          description: '',
         },
         errors: {},
         showTextArea: false
@@ -74,10 +72,11 @@
         this.errors = [];
 
         const data = {
-          ...this.user,
-          ...this.form.user,
-          active: !this.user.active
+          id: this.user.id,
+          reason: this.form.reason,
+          status: this.user.active,
         }
+        if(this.form.description) data.description = this.form.description
 
         this.$emit('archiveConfirmed', data)
         this.$bvModal.hide(this.modalId)

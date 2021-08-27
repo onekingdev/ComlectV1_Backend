@@ -75,57 +75,57 @@
     computed: {
       ...mapGetters({
         loading: 'loading',
-        // users: 'settings/employeesSpecialists'
+        users: 'settings/employeesSpecialists'
       }),
-      users() {
-        return [
-          {
-            id: 1,
-            first_name: 'Bradly',
-            last_name: 'Hudson',
-            role: 'admin',
-            status: true,
-            state: 'Arizona, USA',
-            specialist: {
-              first_name: 'Bradly',
-              last_name: 'Hudson',
-              rate: '$25',
-              availability: 'available',
-              total_jobs: 10,
-            }
-          },
-          {
-            id: 2,
-            first_name: 'Jonson',
-            last_name: 'Baby',
-            role: 'trusted',
-            status: true,
-            state: 'California, USA',
-            specialist: {
-              first_name: 'Jonson',
-              last_name: 'Baby',
-              rate: '$35',
-              availability: 'not available',
-              total_jobs: 20,
-            }
-          },
-          {
-            id: 3,
-            first_name: 'Richard',
-            last_name: 'Brenson',
-            role: 'trusted',
-            status: false,
-            state: 'New York, USA',
-            specialist: {
-              first_name: 'Richard',
-              last_name: 'Brenson',
-              rate: '$45',
-              availability: 'available',
-              total_jobs: 30,
-            }
-          }
-        ]
-      },
+      // users() {
+      //   return [
+      //     {
+      //       id: 1,
+      //       first_name: 'Bradly',
+      //       last_name: 'Hudson',
+      //       role: 'admin',
+      //       status: true,
+      //       state: 'Arizona, USA',
+      //       specialist: {
+      //         first_name: 'Bradly',
+      //         last_name: 'Hudson',
+      //         rate: '$25',
+      //         availability: 'available',
+      //         total_jobs: 10,
+      //       }
+      //     },
+      //     {
+      //       id: 2,
+      //       first_name: 'Jonson',
+      //       last_name: 'Baby',
+      //       role: 'trusted',
+      //       status: true,
+      //       state: 'California, USA',
+      //       specialist: {
+      //         first_name: 'Jonson',
+      //         last_name: 'Baby',
+      //         rate: '$35',
+      //         availability: 'not available',
+      //         total_jobs: 20,
+      //       }
+      //     },
+      //     {
+      //       id: 3,
+      //       first_name: 'Richard',
+      //       last_name: 'Brenson',
+      //       role: 'trusted',
+      //       status: false,
+      //       state: 'New York, USA',
+      //       specialist: {
+      //         first_name: 'Richard',
+      //         last_name: 'Brenson',
+      //         rate: '$45',
+      //         availability: 'available',
+      //         total_jobs: 30,
+      //       }
+      //     }
+      //   ]
+      // },
       // filteredUsers () {
       //   return this.users.filter(user => {
       //     const fullName = `${user.first_name} ${user.last_name}`

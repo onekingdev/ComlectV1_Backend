@@ -7,8 +7,8 @@
           button.btn.btn.btn-default.mr-3 Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
-        Loading
         AccessPersonTable(v-if="!loading && accessPersons.length" :users="accessPersons")
+        Loading
         .row.h-100(v-if="!accessPersons.length && !loading")
           .col.h-100.text-center
             EmptyState
@@ -20,8 +20,8 @@
           button.btn.btn.btn-default.mr-3 Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
-        Loading
         TerminatedEmployees(v-if="!loading && terminatedEmployees.length" :users="terminatedEmployees")
+        Loading
         .row.h-100(v-if="!terminatedEmployees.length && !loading")
           .col.h-100.text-center
             EmptyState
@@ -33,14 +33,15 @@
           button.btn.btn.btn-default.mr-3 Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
-        Loading
         Resignations(v-if="!loading && resignations.length" :users="resignations")
+        Loading
         .row.h-100(v-if="!resignations.length && !loading")
           .col.h-100.text-center
             EmptyState
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex"
 import Loading from '@/common/Loading/Loading'
 import AccessPersonTable from "./components/AccessPerson/Table"
 import TerminatedEmployees from "./components/TerminatedEmployees"
@@ -55,156 +56,39 @@ export default {
   },
   data() {
     return {
-      accessPersons: [
-        {
-          id: 1,
-          first_name: 'Bradly',
-          last_name: 'Hudson',
-          email: 'email@example.com',
-          role: 'admin',
-          status: true,
-          state: 'Arizona, USA',
-          start_date: '2021-07-28T15:51:05.892Z',
-        },
-        {
-          id: 2,
-          first_name: 'Jonson',
-          last_name: 'Baby',
-          email: 'email@example.com',
-          role: 'trusted',
-          status: true,
-          state: 'California, USA',
-          start_date: '2021-07-28T15:51:05.892Z',
-        },
-        {
-          id: 3,
-          first_name: 'Richard',
-          last_name: 'Brenson',
-          email: 'email@example.com',
-          role: 'basic',
-          status: false,
-          state: 'New York, USA',
-          start_date: '2021-07-28T15:51:05.892Z',
-        }
-      ] ,
-      terminatedEmployees: [
-        {
-          id: 1,
-          first_name: 'Bradly',
-          last_name: 'Hudson',
-          email: 'email@example.com',
-          role: 'admin',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: true,
-          state: 'Arizona, USA'
-        },
-        {
-          id: 2,
-          first_name: 'Jonson',
-          last_name: 'Baby',
-          email: 'email@example.com',
-          role: 'trusted',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: true,
-          state: 'California, USA'
-        },
-        {
-          id: 3,
-          first_name: 'Richard',
-          last_name: 'Brenson',
-          email: 'email@example.com',
-          role: 'trusted',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: false,
-          state: 'New York, USA'
-        }
-      ],
-      resignations: [
-        {
-          id: 1,
-          first_name: 'Bradly',
-          last_name: 'Hudson',
-          email: 'email@example.com',
-          role: 'admin',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: true,
-          state: 'Arizona, USA'
-        },
-        {
-          id: 2,
-          first_name: 'Jonson',
-          last_name: 'Baby',
-          email: 'email@example.com',
-          role: 'trusted',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: true,
-          state: 'California, USA'
-        },
-        {
-          id: 3,
-          first_name: 'Richard',
-          last_name: 'Brenson',
-          email: 'email@example.com',
-          role: 'trusted',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: false,
-          state: 'New York, USA'
-        },
-        {
-          id: 4,
-          first_name: 'Richarddsadas',
-          last_name: 'Brensondsadasd',
-          email: 'email@example.com',
-          role: 'trusted',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: false,
-          state: 'New York, USA'
-        },
-        {
-          id: 5,
-          first_name: 'Richard sadasdasd',
-          last_name: 'Brensonasdasdsad',
-          email: 'email@example.com',
-          role: 'trusted',
-          reason: 'Termination',
-          accessPerson: '-',
-          start_date: '2021-07-28T15:51:05.892Z',
-          end_date: '2021-09-28T15:51:05.892Z',
-          status: false,
-          state: 'New York, USA'
-        }
-      ]
+
     }
   },
   computed: {
-    loading() {
-      return this.$store.getters.loading;
+    ...mapGetters({
+      loading: 'loading',
+      users: 'settings/employees'
+    }),
+    accessPersons() {
+      return this.users.filter(user => user.access_person)
     },
+    terminatedEmployees() {
+      return this.users.filter(user => user.reason === 'termination')
+    },
+    resignations() {
+      return this.users.filter(user => user.reason === 'resignation')
+    }
   },
   methods: {
-
-  }
+    ...mapActions({
+      getEmployees: 'settings/getEmployees',
+      // getSeatCount: 'settings/getAvailableSeatsCount'
+    })
+  },
+  async mounted() {
+    try {
+      await this.getEmployees()
+      // const result = await this.getSeatCount()
+      // if(result) this.userLimit = result.count
+    } catch (error) {
+      console.error(error)
+    }
+  },
 }
 </script>
 

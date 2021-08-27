@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     CommonTable(:users="users")
-    b-pagination(v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table')
+    b-pagination(v-if="users > 10" v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table')
 </template>
 
 <script>

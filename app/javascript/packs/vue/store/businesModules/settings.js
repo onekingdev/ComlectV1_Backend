@@ -691,8 +691,8 @@ export default {
       commit("clearError", null, { root: true });
       commit("setLoading", true, { root: true });
       try {
-        const updateEmployee = mapAuthProviders[rootState.shared.settings.authProvider].updateEmployee
-        const data = updateEmployee(payload)
+        const disableEmployee = mapAuthProviders[rootState.shared.settings.authProvider].disableEmployee
+        const data = disableEmployee(payload)
           .then((success) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });

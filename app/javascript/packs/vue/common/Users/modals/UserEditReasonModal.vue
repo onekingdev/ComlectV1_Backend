@@ -3,17 +3,17 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Reason")
+    b-modal.fade(:id="modalId" title="Edit Reason" @shown="getData")
       .row
         .col-12
           label.form-label Reason
-          ComboBox(v-model="user.reason" :options="reasonOptions" placeholder="Select a reason")
+          ComboBox(v-model="form.reason" :options="reasonOptions" placeholder="Select a reason")
           .invalid-feedback.d-block(v-if="errors.reason") {{ errors.reason }}
           Errors(:errors="errors.reason")
       .row.m-t-1
         .col-12
           label.form-label Additional Information
-          textarea.form-control(v-model="user.description" rows=3)
+          textarea.form-control(v-model="form.description" rows=3)
           .invalid-feedback.d-block(v-if="errors.description") {{ errors.description }}
           .form-text.text-muted Optional
           Errors(:errors="errors.description")
@@ -38,11 +38,15 @@
         type: Boolean,
         default: true
       },
+      user: {
+        type: Object,
+        default: true
+      },
     },
     data() {
       return {
         modalId: `modal_${rnd()}`,
-        user: {
+        form: {
           reason: '',
           description: '',
         },
@@ -53,9 +57,23 @@
       submit(e) {
         e.preventDefault();
         this.errors = [];
-        this.$emit('confirmed')
+
+        const data = {
+          id: this.user.id,
+          reason: this.form.reason,
+        }
+        if(this.form.description) data.description = this.form.description
+
+        this.$emit('editReasonConfirmed', data)
         this.$bvModal.hide(this.modalId)
+
       },
+      getData() {
+        this.form = {
+          reason: this.user.reason,
+          description: this.user.description,
+        }
+      }
     },
     computed: {
       reasonOptions() {

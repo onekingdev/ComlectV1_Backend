@@ -37,7 +37,7 @@
       .row
         .col-12
           b-form-checkbox(v-model="form.access_person") Access Person
-          Errors(:errors="errors.access")
+          Errors(:errors="errors.access_person")
 
       template(slot="modal-footer")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
@@ -97,6 +97,7 @@
           scale: 2,
           animation: ""
         },
+        // show: true
       }
     },
     methods: {
@@ -124,19 +125,19 @@
           this.$store.dispatch(method, data)
             .then(response => {
               if (response.errors) {
-                for (const type of Object.keys(response.errors)) {
-                  this.errors = response.errors[type]
+                for (const [key, value] of Object.entries(response.errors)) {
+                  this.errors = Object.assign({}, this.errors, { [key]: value })
+                  if (response.errors.seat) this.toast('Error', `${response.errors.seat}`, true)
                 }
-                if (response.errors.seat) this.toast('Error', `${response.errors.seat}`, true)
               }
 
               if (!response.errors) {
-                this.toast('Success', `User successfully added/edited!`)
+                this.toast('Success', `User successfully ${!this.user ? 'added' : 'edited'}`)
                 this.$emit('saved')
                 this.$bvModal.hide(this.modalId)
               }
             })
-            .catch((error) => this.toast('Error', `${error}`, true))
+            .catch(error => this.toast('Error', `${error}`, true))
 
         } catch (error) {
           this.toast('Error', error.message, true)

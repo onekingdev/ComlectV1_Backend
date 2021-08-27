@@ -8,7 +8,9 @@
           p.email {{ item.email }}
     td
       RoleIcon(:role="item.role")
-    td(v-if="disabled") {{ item.reason }}
+    td(v-if="disabled")
+      UserEditReasonModal(:user="item" @editReasonConfirmed="editReason")
+        .link {{ item.reason | capital }}
     td
       b-icon.status__icon.m-r-1(font-scale="1" :icon="item.access_person ? 'check-circle-fill' : 'check-circle'" :class="{ done_task: item.access_person }")
     td.text-right {{ item.start_date | asDate }}
@@ -19,8 +21,9 @@
           b-icon(icon="three-dots")
         UserModalAddEdit(:user="item",  :inline="false")
           b-dropdown-item Edit
-        UserModalArchive(:user="item" :archiveStatus="item.active" :inline="false" @archiveConfirmed="archiveUser")
+        UserModalArchive(v-if="item.active" :user="item" :archiveStatus="item.active" :inline="false" @archiveConfirmed="archiveUser")
           b-dropdown-item {{ item.active ? 'Disable' : 'Enable' }}
+        b-dropdown-item(v-if="!item.active" @click="archiveUser(item)") Enable
         UserModalDelete(v-if="!item.active" :inline="false" @deleteConfirmed="deleteUser(item.id)")
           b-dropdown-item.delete Delete
 </template>
@@ -31,6 +34,7 @@
   import UserModalDelete from "@/common/Users/modals/UserModalDelete";
   import UserModalAddEdit from "@/common/Users/modals/UserModalAddEdit";
   import RoleIcon from "@/common/Users/components/RoleIcon";
+  import UserEditReasonModal from "@/common/Users/modals/UserEditReasonModal";
 
   export default {
     name: "userItem",
@@ -46,6 +50,7 @@
       }
     },
     components: {
+      UserEditReasonModal,
       RoleIcon,
       UserModalAddEdit,
       UserModalDelete,
@@ -56,19 +61,36 @@
 
     },
     methods: {
-      archiveUser(value){
-        console.log(value)
-
-        const data = {
+      editReason(value){
+        const dataToSend = {
           id: value.id,
-          active: !value.active,
-          body: {
-            ...value,
-          }
+          reason: value.reason,
+          status: false,
         }
-        console.log('data', data)
+        if (value.description) dataToSend.description = value.description
 
-        this.$store.dispatch('settings/disableEmployee', data)
+        this.$store.dispatch('settings/disableEmployee', dataToSend)
+          .then(response => {
+            if (response.errors) {
+              for (const [key, value] of Object.entries(response.errors)) {
+                this.toast('Error', `Something wrong! ${key} ${value}`, true)
+              }
+            }
+            if (!response.errors) {
+              this.toast('Success', `Updated.`)
+            }
+          })
+          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+      },
+      archiveUser(value){
+        const dataToSend = {
+          id: value.id,
+          reason: value.reason,
+          status: !value.status,
+        }
+        if (value.description) dataToSend.description = value.description
+
+        this.$store.dispatch('settings/disableEmployee', dataToSend)
           .then(response => {
             if (response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
@@ -105,15 +127,3 @@
     },
   }
 </script>
-
-<style scoped>
-
-</style>
-<style>
-  ion-icon.black {
-    color: #303132;
-  }
-  ion-icon.grey {
-    color: #c6c8ce;
-  }
-</style>

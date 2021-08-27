@@ -73,7 +73,7 @@
       return {
         userId: '',
         otpSecret: '',
-        userType: 'specialist',
+        userType: 'employee',
         form: initialForm(),
         show: true,
         error: '',
@@ -120,21 +120,8 @@
 
         let dataToSend;
 
-        // FOR BUSSINES
-        if (this.userType === 'business') {
-          dataToSend = {
-            "business": {
-              "contact_first_name": this.form.firstName,
-              "contact_last_name": this.form.lastName,
-              "user_attributes": {
-                "email": this.form.email,
-                "password": this.form.password
-              }
-            }
-          }
-        }
-        // FOR SPECIALIST
-        if (this.userType === 'specialist') {
+        // FOR EMPLOYEE
+        if (this.userType === 'employee') {
           dataToSend = {
             "invite_token": this.inviteToken,
             "specialist": {
@@ -148,22 +135,6 @@
           }
         }
 
-        // NEED FIX AND TRACE
-        // this.userType = 'seat'
-        if (this.userType === 'seat') {
-          dataToSend = {
-            seat_id: this.seat_id,
-            "seat": {
-              "first_name": this.form.firstName,
-              "last_name": this.form.lastName,
-              "user_attributes": {
-                "email": this.form.email,
-                "password": this.form.password
-              }
-            },
-          }
-        }
-
         this.$store.dispatch('signUp', dataToSend)
           .then(response => {
             if (response.errors) {
@@ -174,7 +145,7 @@
             if (!response.errors) {
               this.userId = response.userid
               // OPEN OTP
-              this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified }})
+              this.$router.push({ name: 'verification', params: {form: this.form, userid: this.userid, userType: this.userType, emailVerified: this.emailVerified, inviteToken: this.inviteToken }})
               this.toast('Success', `${response.message}`)
             }
           })

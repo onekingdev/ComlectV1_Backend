@@ -29,7 +29,7 @@
 
 <script>
   export default {
-    props: ['form', 'userid', 'userType', 'emailVerified'],
+    props: ['form', 'userid', 'userType', 'emailVerified', 'inviteToken'],
     data() {
       return {
         show: true,
@@ -73,6 +73,11 @@
               if(response.message === 'Invalid 6 digits code')
               // this.toast('Error', 'Verification code failed. Try again.', true)
               if (response.errors) { }
+              if (!response.errors && response.specialist && response.token && this.inviteToken) {
+                const dashboard = '/business'
+                window.location.href = `${dashboard}`;
+                return
+              }
               if (!response.errors && response.token) {
                 // open step 3
                 // this.step2 = false
@@ -106,6 +111,11 @@
               if (response.errors) {
                 this.error = response.message
                 // this.toast('Error', 'Verification code failed. Try again.', true)
+              }
+              if (!response.errors && response.specialist && response.token && this.inviteToken) {
+                const dashboard = '/business'
+                window.location.href = `${dashboard}`;
+                return
               }
               if (!response.errors && response.token) {
                 // open dashboard
