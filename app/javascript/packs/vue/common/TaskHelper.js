@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 
 const isProject = task => task.hasOwnProperty('starts_on') && task.hasOwnProperty('ends_on')
-const isTask = task => task.hasOwnProperty('remindable_type') && task.hasOwnProperty('skip_occurencies')
+const isTask = task => task.hasOwnProperty('remindable_type')
 const isOverdue = task => (task.end_date || task.ends_on) && DateTime.fromISO(task.end_date || task.ends_on) <= DateTime.local().minus({ days: 1 })
 const isRepeat = task => task.repeat_every || task.repeat_on || task.repeats
 const isComplete = task => {

@@ -29,7 +29,7 @@ class Api::RemindersController < ApiController
     if @reminder.save
       render json: @reminder, status: :created
     else
-      render json: @reminder.errors, status: :unprocessable_entity
+      render json: { errors: @reminder.errors }, status: :unprocessable_entity
     end
   end
 
