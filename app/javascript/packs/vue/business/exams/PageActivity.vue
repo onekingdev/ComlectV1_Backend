@@ -9,7 +9,7 @@
                 .col-md-12.d-flex.justify-content-between
                   h2 Activity
                   div
-                    a.btn.btn-default Download
+                    a.btn.btn-default.d-none Download
                     a.btn.m-l-1.btn-dark Create Activity
               .row
                 .col

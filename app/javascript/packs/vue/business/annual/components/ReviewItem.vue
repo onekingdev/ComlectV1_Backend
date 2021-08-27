@@ -26,10 +26,10 @@
             b-icon(icon="three-dots")
           //b-dropdown-item(:href="`/business/annual_reviews/${item.id}`") Edit
           router-link.dropdown-item(:to='`/business/annual_reviews/${item.id}`') Edit
-          b-dropdown-item(@click="duplicateReview(item.id)") Dublicate
+          b-dropdown-item(@click="duplicateReview(item.id)") Duplicate
           AnnualModalDelete(@deleteConfirmed="deleteReview(item.id)", :inline="false")
             b-dropdown-item.delete Delete
-          b-dropdown-item
+          b-dropdown-item.d-none
             a.link(:href="item.pdf_url" target="_blank") Download
 </template>
 

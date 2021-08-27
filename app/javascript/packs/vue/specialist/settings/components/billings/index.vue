@@ -31,7 +31,7 @@
               .col
                 h4.mb-0 Invoices
               .col.text-right
-                Download(:pdfUrl="pdfUrl")
+                Download.d-none(:pdfUrl="pdfUrl")
             .row
               .col
                 InvoicesTable(:invoices="invoices")

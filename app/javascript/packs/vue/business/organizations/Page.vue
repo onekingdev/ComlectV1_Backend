@@ -4,7 +4,7 @@
       .card-title.p-x-20
         h2.card-title__name Access Persons
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Download
+          button.btn.btn.btn-default.mr-3.d-none Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
         AccessPersonTable(v-if="!loading && accessPersons.length" :users="accessPersons")
@@ -17,7 +17,7 @@
       .card-title.p-x-20
         h2.card-title__name Terminated Employees
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Download
+          button.btn.btn.btn-default.mr-3.d-none Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
         TerminatedEmployees(v-if="!loading && terminatedEmployees.length" :users="terminatedEmployees")
@@ -30,7 +30,7 @@
       .card-title.p-x-20
         h2.card-title__name Resignations
         .card-title__actions
-          button.btn.btn.btn-default.mr-3 Download
+          button.btn.btn.btn-default.mr-3.d-none Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
         Resignations(v-if="!loading && resignations.length" :users="resignations")

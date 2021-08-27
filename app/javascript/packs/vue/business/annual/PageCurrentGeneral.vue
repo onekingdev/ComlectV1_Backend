@@ -8,7 +8,7 @@
         h2.page-header__title: b {{ review ? review.year : '' }} {{ review ? review.name : '' }}
       .page-header__actions
         div
-          button.btn.btn-default.mr-3 Download
+          button.btn.btn-default.mr-3.d-none Download
           button.btn.btn-dark.mr-3(@click="saveGeneral(true)") Save and Exit
           AnnualModalDelete(@deleteConfirmed="deleteReview(review.id)")
             button.btn.btn__close

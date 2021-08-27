@@ -17,7 +17,7 @@
                       SearchItem(:users="filteredUsersActive" @searchingConfirmed="searching")
                     .col-lg-4
                       .d-flex.justify-content-end
-                        button.btn.btn-default.mr-2 Download
+                        button.btn.btn-default.mr-2.d-none Download
                         UserModalAddEdit(:userLimit="userLimit" @saved="userAdded" @editPlan="showModal")
                           button.btn.btn-dark Add User
                         PlanModalEdit(:plan="plan")

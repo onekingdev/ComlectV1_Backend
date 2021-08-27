@@ -7,7 +7,7 @@
             .reviews__card--header.p-b-20
               h2 Tasks
               div
-                a.btn.btn-default.m-r-1 Download
+                a.btn.btn-default.m-r-1.d-none Download
                 a.btn.btn-dark Create task
             .reviews__card--internal.borderless
               table.table.task_table

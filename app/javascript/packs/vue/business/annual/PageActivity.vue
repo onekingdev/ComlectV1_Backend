@@ -7,7 +7,7 @@
             .reviews__card--header.p-b-20
               h2 Activity
               div
-                a.btn.btn-default Download
+                a.btn.btn-default.d-none Download
                 a.btn.m-l-1.btn-dark Create Activity
             .reviews__card--internal.borderless
               EmptyState

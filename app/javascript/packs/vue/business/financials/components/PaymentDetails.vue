@@ -4,7 +4,7 @@
     .card
       .card-title.p-x-20
         h2.card-title__name Payment Details
-        .card-title__actions
+        .card-title__actions.d-none
           button.btn.btn.btn-default Download
       .card-body.white-card-body
         b-tabs.special-navs-financials(content-class="mt-2")

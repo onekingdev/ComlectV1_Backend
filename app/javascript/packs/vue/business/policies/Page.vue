@@ -3,7 +3,7 @@
     .page-header
       h2.page-header__title Policies and Procedures
       .page-header__actions
-        button.btn.btn.btn-default.mr-3 Download
+        button.btn.btn.btn-default.mr-3.d-none Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New Policy
     b-tabs.special-navs(content-class="mt-0")
