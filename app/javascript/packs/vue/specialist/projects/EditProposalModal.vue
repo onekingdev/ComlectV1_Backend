@@ -34,7 +34,6 @@
 
 <script>
 import ProjectDetails from './ProjectDetails'
-import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS,
@@ -44,17 +43,21 @@ import {
 const FIXED_BUDGET = Object.keys(PRICING_TYPES_OPTIONS)[0]
 const HOURLY_RATE = Object.keys(PRICING_TYPES_OPTIONS)[1]
 
+const specialAttributes = project => ({
+  fixed_payment_schedule: (project && project.pricing_type == "fixed" && project.payment_schedule) || null,
+  hourly_payment_schedule: (project && project.pricing_type == "hourly" && project.payment_schedule) || null,
+})
 const initialForm = (project) => ({
   starts_on: (project && project.starts_on) || null,
   ends_on: (project && project.ends_on ) || null,
+  payment_schedule: (project && project.payment_schedule) || null,
   pricing_type: (project && calcPricingType(project)) || null,
-  fixed_budget: (project && project.est_budget) || null,
-  fixed_payment_schedule: (project && project.pricing_type == "fixed" && FIXED_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
   hourly_rate: (project && project.hourly_rate) || null,
-  hourly_payment_schedule: (project && project.pricing_type == "hourly" && HOURLY_PAYMENT_SCHEDULE_OPTIONS[project.payment_schedule]) || null,
+  fixed_budget: (project && project.fixed_budget) || null,
   estimated_hours: null,
   key_deliverables: null,
   role_details: null,
+  ...specialAttributes(project)
 })
 const calcPricingType = function(project) {
   if (project.pricing_type == "fixed") {
@@ -89,10 +92,11 @@ export default {
   },
   methods: {
     saved() {
-      redirectWithToast(this.$store.getters.url('URL_MY_PROJECT_SHOW', ''), 'Proposal sent')
+      const root = this.$root
+      this.$router.push('/specialist/my-projects/', () => root.toast('Proposal sent', ' '))
     },
     loaded(result) {
-      this.form = result
+      Object.assign(this.form, { ...result, ...specialAttributes(result) })
     },
     initialForm,
     calcPricingType

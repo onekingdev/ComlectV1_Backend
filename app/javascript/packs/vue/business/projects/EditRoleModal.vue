@@ -11,8 +11,8 @@
           InputSelect(v-model="role" :options="specialistRoleOptions") Select Role
           .form-text.text-muted Determines the permissions the specialist will have access to
 
-      template(slot="modal-footer")
-        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+      template(#modal-footer="{ hide }")
+        button.btn.btn-link(@click="hide") Cancel
         button.btn.btn-dark(@click="submit") Set
 </template>
 

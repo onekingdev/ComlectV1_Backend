@@ -18,13 +18,9 @@ class JobApplication::Form < JobApplication
   validates :role_details, presence: true
   validates(:starts_on, presence: true, if: :rfp?)
   validates(:ends_on, presence: true, if: :rfp?)
-  validates :hourly_rate, presence: true, if: :hourly_pricing?
+  validates :hourly_rate, :hourly_payment_schedule, presence: true, if: :hourly_pricing?
   validates :estimated_hours, presence: true, if: :hourly_pricing?
-  validates :fixed_budget, presence: true, if: :fixed_pricing?
-  validates :hourly_payment_schedule, :hourly_rate,
-            presence: true, if: -> { hourly_pricing? && payment_schedule.blank? }
-  validates :fixed_payment_schedule, :fixed_budget,
-            presence: true, if: -> { fixed_pricing? && payment_schedule.blank? }
+  validates :fixed_budget, :fixed_payment_schedule, presence: true, if: :fixed_pricing?
   validate if: -> { starts_on.present? } do
     errors.add :starts_on, :past if starts_on.in_time_zone(project.business.tz).to_date < project.business.tz.today
   end
@@ -86,6 +82,7 @@ class JobApplication::Form < JobApplication
   end
 
   def assign_pricing_type_fields
+    self.payment_schedule = nil
     if hourly_pricing?
       self.fixed_budget = nil
       self.payment_schedule = hourly_payment_schedule

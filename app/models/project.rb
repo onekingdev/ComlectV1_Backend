@@ -243,6 +243,17 @@ class Project < ApplicationRecord
     touch :completed_at
   end
 
+  def status_business
+    if specialist_id.present?
+      return 'not_started' if starts_on.present? && (starts_on < business.tz.today)
+      return 'in_progress'
+    elsif draft? || complete?
+      return status
+    elsif published?
+      'pending'
+    end
+  end
+
   def requires_business_rating?
     !full_time? && complete? && !solicited_business_rating
   end

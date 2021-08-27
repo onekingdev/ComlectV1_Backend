@@ -42,7 +42,6 @@
 
 <script>
 import ProjectDetails from './ProjectDetails'
-import { redirectWithToast } from '@/common/Toast'
 import {
   PRICING_TYPES_OPTIONS,
   FIXED_PAYMENT_SCHEDULE_OPTIONS_FILTERED,
@@ -90,7 +89,8 @@ export default {
   },
   methods: {
     saved() {
-      redirectWithToast('/specialist/my-projects/', 'Proposal sent')
+      const root = this.$root
+      this.$router.push('/specialist/my-projects/', () => root.toast('Proposal sent', ' '))
     },
     pickFile(event) {
       this.form.document = event.target.files[0]

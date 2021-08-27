@@ -16,7 +16,6 @@
 
 <script>
 import { DateTime } from 'luxon'
-// import TaskFormModal from '@/common/TaskFormModal'
 import TaskFormModal from '@/common/TaskFormModal'
 import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
 

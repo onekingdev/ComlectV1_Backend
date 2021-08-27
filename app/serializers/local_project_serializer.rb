@@ -11,6 +11,7 @@ class LocalProjectSerializer < ApplicationSerializer
              :starts_on,
              :ends_on,
              :status,
+             :status_business,
              :created_at,
              :updated_at,
              :projects,
@@ -18,10 +19,6 @@ class LocalProjectSerializer < ApplicationSerializer
              :visible_project,
              :hide_on_calendar,
              :reminders
-
-  def status
-    object.deep_status
-  end
 
   def hide_on_calendar
     current_user.hidden_local_projects.include?(object.id)

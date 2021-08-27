@@ -23,11 +23,11 @@ class LocalProject < ApplicationRecord
     pending: 'pending'
   }
 
-  def deep_status
+  def status_business
     if visible_project.present?
-      visible_project.status
+      visible_project.status_business
     else
-      status
+      'draft'
     end
   end
 

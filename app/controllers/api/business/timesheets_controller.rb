@@ -6,7 +6,7 @@ class Api::Business::TimesheetsController < ApiController
   before_action :find_project
 
   def index
-    timesheets = @project.timesheets.sorted.not_pending
+    timesheets = @project.timesheets.sorted
     respond_with paginate(timesheets), each_serializer: TimesheetSerializer
   end
 

@@ -17,7 +17,7 @@
             | Cost
             b-icon.ml-2(icon='chevron-expand')
         th.project-table__status.project-table__status_head
-          span.pointer(@click="toggleSorting('status')")
+          span.pointer(@click="toggleSorting('status_business')")
             | Status
             b-icon.ml-2(icon='chevron-expand')
         th.project-table__start-date.project-table__start-date_head
@@ -35,7 +35,7 @@
         td.project-table__left.text-right {{ project.tasks_left || '----' }}
         td.project-table__coast.text-right {{ project.cost | usdWhole }}
         td.project-table__status
-          span.badge(:class="badgeClass(project)") {{ project.status | statusCorrector }}
+          span.badge(:class="businessProjectBadgeClass(project)") {{ project.status_business | underscoreToCapitalized }}
         td.project-table__start-date {{ project.starts_on | asDate }}
         td.project-table__end-date.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
           b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { isOverdue, badgeClass } from '@/common/TaskHelper'
+import { isOverdue, businessProjectBadgeClass } from '@/common/TaskHelper'
 
 const key = project => `${project.id}${project.type ? '-p' : '-l'}`
 const tasks_left = project => project.reminders.filter(r => !r.done_at).length
@@ -64,7 +64,7 @@ export default {
   methods: {
     key,
     isOverdue,
-    badgeClass,
+    businessProjectBadgeClass,
     toggleSorting(field, startDescending = false) {
       const initialDirection = startDescending ? -1 : 1
       this.sortDirection = this.sortField === field ? -1 * this.sortDirection : initialDirection
@@ -96,10 +96,7 @@ export default {
     }
   },
   filters: {
-    statusCorrector: function (value) {
-      if (value === 'inprogress') value = 'In Progress'
-      return value.replace(/[A-Z]/g, ' $&')
-    }
+    underscoreToCapitalized: value => value.replace(/_/g, ' ').replace(/(?: |\b)(\w)/g, key => key.toUpperCase())
   },
 }
 </script>

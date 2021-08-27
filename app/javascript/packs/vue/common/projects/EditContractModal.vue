@@ -1,7 +1,8 @@
 <template lang="pug">
-  div
-    button.btn.btn-outline-dark.float-right(v-b-modal="'EditContractModal'") Edit
-    b-modal(id="EditContractModal" title="Edit Contract")
+  div(:class="{'d-inline-block w-100':inline}")
+    div(v-b-modal="modalId" :class="{'d-inline-block w-100':inline}")
+      slot: button.btn.btn-outline-dark.float-right Edit
+    b-modal(:id="modalId" title="Edit Contract")
       .row
         .col-md-12
           h3 Terms
@@ -35,16 +36,22 @@ const initialForm = (project) => ({
   key_deliverables: project.key_deliverables || null,
   role_details: project.role_details || null,
 })
+const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
 
 export default {
   props: {
     project: {
       type: Object,
       required: true
+    },
+    inline: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
+      modalId: `modal_${rnd()}`,
       form: initialForm(this.project),
       errors: {}
     }

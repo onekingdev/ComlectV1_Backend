@@ -80,7 +80,7 @@ export default {
     },
     buttonConfig() {
       return timesheetId => ({
-        action: this.url('URL_API_PROJECT_TIMESHEETS', this.project.id) + '/' + timesheetId,
+        action: this.url('URL_API_PROJECT_TIMESHEETS', this.projectId) + '/' + timesheetId,
         method: 'PUT',
         headers: { Authorization: this.accessToken }
       })

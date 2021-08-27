@@ -1,9 +1,6 @@
 <template lang="pug">
   div(v-if="hasChanges || isSuggestionVisible")
-    .alert.alert-success.m-b-20(v-if="hasChanges && isMyChange")
-      h4.alert-heading Project update requested.
-      p.mb-0 Waiting for {{ counterpartyType }} to accept or decline.
-    .alert.alert-warning.m-b-20(v-else-if="hasChanges && project.extension.ends_on_only")
+    .alert.alert-warning.m-b-20(v-if="hasChanges && !isMyChange && project.extension.ends_on_only")
       h4.alert-heading {{ counterpartyName }} has requested to extend the deadline to {{ project.extension.ends_on | asDate }}
       p.mb-0
         Post(:action="`${submitUrl}/1`" method="PUT" :model="{confirm:true}" @saved="saved('Deadline extended')")
@@ -11,7 +8,7 @@
         Post(:action="`${submitUrl}/1`" method="PUT" :model="{deny:true}" @saved="saved('Deadline extension denied')")
           button.btn.btn-default.float-right.m-r-1 Deny
         | Would you like to proceed?
-    .alert.alert-warning.m-b-20(v-else-if="hasChanges")
+    .alert.alert-warning.m-b-20(v-else-if="hasChanges && !isMyChange")
       h4.alert-heading Contract change requested
       p.mb-0
         | Would you like to proceed?
