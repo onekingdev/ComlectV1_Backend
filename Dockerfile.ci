@@ -5,7 +5,6 @@ WORKDIR /complect
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   postgresql-client \
   build-essential \
-  libreoffice \
   wkhtmltopdf
 
 ENV NODE_VERSION=14.17.3
