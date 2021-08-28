@@ -7,14 +7,6 @@ services:
       POSTGRES_PASSWORD: mysecretpassword
   redis:
     image: redis
-  ci:
-    build:
-      context: .
-      dockerfile: Dockerfile.ci
-    env_file: ./.env.ci
-    depends_on:
-      - postgres
-      - redis
   web:
     build:
       context: .
