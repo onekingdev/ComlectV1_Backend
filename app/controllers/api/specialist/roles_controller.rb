@@ -6,10 +6,10 @@ class Api::Specialist::RolesController < ApiController
 
   def index
     if current_specialist.seat?
-      respond_with current_specialist, serializer: Business::SpecialistSerializer
+      render json: { role: current_specialist.seat_role, business_name: current_specialist.manager.name, business_id: current_specialist.manager.id }.to_json
     else
       roles = current_specialist.specialists_business_roles
-      respond_with specialist_business_roles: roles
+      respond_with roles, each_serializer: Specialist::RoleSerializer
     end
   end
 end

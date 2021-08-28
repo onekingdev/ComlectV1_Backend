@@ -34,7 +34,6 @@ class Specialist < ApplicationRecord
   has_many :payments, -> { for_rfp_or_one_off_projects }, through: :projects, source: :charges
   has_many :transactions, through: :projects
   has_many :active_projects, -> { where(status: statuses[:published]).where.not(specialist_id: nil) }, class_name: 'Project'
-  has_many :manageable_businesses, through: :active_projects, class_name: 'Business', source: :business
   has_one :referral, as: :referrable
   has_many :referral_tokens, as: :referrer
   has_many :specialist_invitations, class_name: 'Specialist::Invitation'
@@ -46,6 +45,7 @@ class Specialist < ApplicationRecord
   has_many :reminders, as: :remindable
   has_and_belongs_to_many :local_projects
   has_many :specialists_business_roles
+  has_many :manageable_businesses, through: :specialists_business_roles, class_name: 'Business', source: :business
   has_many :subscriptions, foreign_key: :specialist_id
   validate if: -> { time_zone.present? } do
     errors.add :time_zone unless ActiveSupport::TimeZone.all.collect(&:name).include?(time_zone)
@@ -339,7 +339,7 @@ class Specialist < ApplicationRecord
   end
 
   def manager
-    team&.manager || self
+    team&.business || self
   end
 
   def public?
