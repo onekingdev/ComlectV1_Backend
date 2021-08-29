@@ -77,7 +77,7 @@ import ProjectFigures from './ProjectFigures'
 import ProjectDetails from './ProjectDetails'
 import debounce from 'lodash.debounce'
 
-const frontendUrl = '/projects'
+const frontendUrl = '/job_board'
 const endpointUrl = '/api/specialist/projects'
 
 const parse = p => ({
@@ -155,7 +155,7 @@ export default {
       this.isSidebarOpen = false
     },
     applyUrl(project) {
-      return `/projects/${project.id}/applications/new`
+      return `/job_board/${project.id}/applications/new`
     }
   },
   computed: {

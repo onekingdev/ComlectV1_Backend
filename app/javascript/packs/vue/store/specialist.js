@@ -12,7 +12,7 @@ Vue.use(Vuex)
 const URL_MY_PROJECT_SHOW = '/specialist/my-projects/:id'
 const URL_API_MY_PROJECT = '/api/specialist/projects/:id'
 const URL_API_MY_PROJECTS = '/api/specialist/projects/my'
-const URL_PROJECT_TIMESHEET = '/projects/:id/timesheets'
+const URL_PROJECT_TIMESHEET = '/specialist/my-projects/:id/timesheets'
 const URL_API_PROJECT_TIMESHEET = '/api/specialist/projects/:id/timesheets'
 
 const URLS = {

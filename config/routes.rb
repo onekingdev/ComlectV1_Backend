@@ -224,7 +224,7 @@ Rails.application.routes.draw do
 
   resources :project_invites, path: 'invite'
 
-  resources :projects, only: %i[index show] do
+  resources :projects, path: 'job_board', only: %i[index show] do
     scope module: 'projects' do
       resources :job_applications, path: 'applications'
       resource :dashboard, only: :show
