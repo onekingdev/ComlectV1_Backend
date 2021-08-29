@@ -246,9 +246,9 @@ class Project < ApplicationRecord
   def status_business
     if specialist_id.present?
       return 'not_started' if starts_on.present? && (starts_on < business.tz.today)
-      return 'in_progress'
+      'in_progress'
     elsif draft? || complete?
-      return status
+      status
     elsif published?
       'pending'
     end

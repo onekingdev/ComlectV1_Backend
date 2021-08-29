@@ -356,6 +356,11 @@ Rails.application.routes.draw do
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
 
+      get '/financials/processed' => 'financials#processed'
+      get '/financials/payments' => 'financials#payments'
+      get '/financials/budget' => 'financials#get_budget_data'
+      patch '/financials/annual_budget' => 'financials#set_annual_budget'
+
       resources :team_members, only: %i[index create update destroy] do
         collection do
           get :specialists
@@ -398,6 +403,11 @@ Rails.application.routes.draw do
       patch '/favorites' => 'favorites#update'
       post '/share_project' => 'share_project#create'
       resources :roles, only: ['index']
+
+      get '/financials/processed' => 'financials#processed'
+      get '/financials/payments' => 'financials#payments'
+      get '/financials/revenue' => 'financials#get_revenue_data'
+      patch '/financials/annual_revenue' => 'financials#set_annual_revenue'
     end
 
     resources :businesses, only: [:create] do

@@ -10,6 +10,76 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: tiger; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA tiger;
+
+
+--
+-- Name: tiger_data; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA tiger_data;
+
+
+--
+-- Name: topology; Type: SCHEMA; Schema: -; Owner: -
+--
+
+CREATE SCHEMA topology;
+
+
+--
+-- Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON SCHEMA topology IS 'PostGIS Topology schema';
+
+
+--
+-- Name: address_standardizer; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS address_standardizer WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION address_standardizer; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION address_standardizer IS 'Used to parse an address into constituent elements. Generally used to support geocoding address normalization step.';
+
+
+--
+-- Name: address_standardizer_data_us; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS address_standardizer_data_us WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION address_standardizer_data_us; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION address_standardizer_data_us IS 'Address Standardizer US dataset example';
+
+
+--
+-- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
+
+
+--
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -21,6 +91,62 @@ CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry and geography spatial types and functions';
+
+
+--
+-- Name: postgis_raster; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_raster WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis_raster; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_raster IS 'PostGIS raster types and functions';
+
+
+--
+-- Name: postgis_sfcgal; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_sfcgal WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis_sfcgal; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_sfcgal IS 'PostGIS SFCGAL functions';
+
+
+--
+-- Name: postgis_tiger_geocoder; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
+
+
+--
+-- Name: EXTENSION postgis_tiger_geocoder; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_tiger_geocoder IS 'PostGIS tiger geocoder and reverse geocoder';
+
+
+--
+-- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+
+
+--
+-- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
 
 
 --
@@ -7553,7 +7679,7 @@ ALTER TABLE ONLY public.compliance_policies_risks
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user", public, tiger;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20160603200743'),

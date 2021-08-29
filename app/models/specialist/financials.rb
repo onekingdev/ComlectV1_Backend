@@ -9,23 +9,13 @@ class Specialist::Financials
     end
   end
 
-  PAYMENT_ORDERING = {
-    'date' => 'date',
-    'project' => 'projects.title',
-    'business' => 'businesses.business_name',
-    'amount' => 'amount_in_cents'
-  }.freeze
-
   def self.upcoming(specialist, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
-
     select = <<-SELECT
       charges.date, charges.project_id,
       SUM(charges.amount_in_cents) AS amount_in_cents,
       SUM(specialist_amount_in_cents) AS specialist_amount_in_cents,
       MIN(running_balance_in_cents) AS running_balance_in_cents
     SELECT
-
     # Group per project and date so charges for timesheets on the same date return a single line:
     specialist.payments
               .not_charged
@@ -33,18 +23,14 @@ class Specialist::Financials
               .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
               .select(select)
               .group(:project_id, :date, 'businesses.business_name', 'projects.title')
-              .page(params[:page]).per(5)
+              .page(params[:page]).per(params[:per_page])
   end
 
-  def self.processed(specialist, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
-
+  def self.processed(specialist, _params)
     specialist.transactions
               .processed
               .one_off
-              .joins(:business)
-              .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
-              .page(params[:page]).per(5)
+              .by_year(Time.zone.now.year)
   end
 
   def processed_this_month

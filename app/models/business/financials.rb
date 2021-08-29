@@ -9,39 +9,25 @@ class Business::Financials
     end
   end
 
-  PAYMENT_ORDERING = {
-    'date' => 'date',
-    'project' => 'projects.title',
-    'specialist' => 'specialists.first_name',
-    'amount' => 'amount_in_cents'
-  }.freeze
-
-  def self.upcoming(business, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('desc').zero? ? 'DESC' : 'ASC'
+  def self.upcoming(business, _params)
     select = <<-SELECT
-      charges.date, charges.project_id,
+      charges.date,
       SUM(charges.amount_in_cents) AS amount_in_cents,
       SUM(total_with_fee_in_cents) AS total_with_fee_in_cents,
       MIN(running_balance_in_cents) AS running_balance_in_cents
     SELECT
     # Group per project and date so charges for timesheets on the same date return a single line:
     business.charges
-            .not_charged
-            .joins(:specialist)
-            .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
+            .upcoming
+            .after(Time.zone.now.beginning_of_year)
             .select(select)
-            .group(:project_id, :date, 'projects.title', 'specialists.first_name')
-            .page(params[:page]).per(5)
+            .group(:date)
   end
 
-  def self.processed(business, params)
-    sort_direction = params[:sort_direction].to_s.casecmp('asc').zero? ? 'ASC' : 'DESC'
-
+  def self.processed(business, _params)
     business.transactions
             .processed
-            .joins(:specialist)
-            .order("#{PAYMENT_ORDERING[params[:sort_by] || 'date']} #{sort_direction}")
-            .page(params[:page]).per(5)
+            .by_year(Time.zone.now.year)
   end
 
   def processed_this_month
@@ -58,15 +44,6 @@ class Business::Financials
 
   def processed_total
     @processed_total ||= processed_charges.sum(:total_with_fee_in_cents) / 100.0
-  end
-
-  def get_budget_data(_range_axis)
-    [{ data: { 'Spent' => 2_000_000 } }, { data: { 'Annual Budget' => 3_000_000 } }]
-    # @budget_data ||= [{ data: { name: 'Spent', value: 2_000_000 } }, { data: { name: 'Annual Budget', value: 3_000_000 } }]
-    # @budget_data.each do |item|
-    #   _range_axis.push(item[:data][:value]/1000)
-    # end
-    # @library ||= [{ vAxis: { ticks: ((_range_axis.min)..(_range_axis.max)).to_a } }]
   end
 
   private
