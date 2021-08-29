@@ -117,7 +117,7 @@
           .dispatch("downloadPolicy", { policyId: this.policyId })
           .then((myBlob) => {
             // console.log('response', myBlob)
-            this.toast('Success', 'Policy succesfully downloaded.')
+            this.toast('Success', 'Policy has been downloaded.')
           })
           .catch((err) => {
             // console.log(err)
@@ -129,7 +129,7 @@
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
             // console.log(response)
-            this.toast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
+            this.toast('Success', 'Policy has been published.')
             setTimeout(() => {
               //window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
               this.$router.push(`/business/compliance_policies/${response.id}`)
@@ -144,10 +144,10 @@
         this.$store
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
-            this.toast('Success', `Policy successfully deleted!`)
+            this.toast('Success', `Policy has been deleted.`)
           })
           .catch(error => {
-            this.toast('Error', `Couldn't submit form! ${error}`, true)
+            this.toast('Error', `Policy has not been deleted. Please try again.`, true)
           })
       },
       closeAndExit () {
@@ -159,11 +159,11 @@
           .dispatch('archivePolicyById', { policyId: this.policyId, archived: archiveStatus })
           .then(response => {
             console.log('response', response)
-            this.toast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
+            this.toast('Success', `Policy has been ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Couldn't submit form! ${error}`, true)
+            this.toast('Error', `Action has not been completed. Please try again.`, true)
           })
       },
       deleteAllSections(){
@@ -186,7 +186,7 @@
           .then((response) => {
             // this.$router.push("/list");
             // console.log("Policy successfull saved!");
-            this.toast('Success', `Policy successfully updated!`)
+            this.toast('Success', `Policy has been saved.`)
             console.log('response updatePolicy', response)
           })
           .catch((error) => {
@@ -241,10 +241,10 @@
         this.$store
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
-            this.toast('Success', `Policy successfully deleted!`)
+            this.toast('Success', `Policy has been deleted.`)
           })
           .catch(error => {
-            this.toast('Error', `Couldn't submit form! ${error}`, true)
+            this.toast('Error', `Policy has not been deleted. Please try again.`, true)
           })
       },
 
@@ -266,16 +266,9 @@
           }
         ]
 
-        this.$store
-          .dispatch("moveUpPolicy", arrToChange)
-          .then((response) => {
-            console.log('response', response)
-            this.toast('Success', 'Policy succesfully moved.')
-          })
-          .catch((err) => {
-            // console.error(err)
-            this.toast('Error', err.message, true)
-          });
+        this.$store.dispatch("moveUpPolicy", arrToChange)
+          .then(response => console.log('response', response))
+          .catch(error => console.error(error));
       },
     },
     computed: {
