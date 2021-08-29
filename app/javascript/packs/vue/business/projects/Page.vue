@@ -14,15 +14,9 @@
           div.m-b-20
             b-dropdown.m-r-1(variant="default")
               template(#button-content)
-                | Filter by: All
+                | Filter by: {{filteredStatus}}
                 ion-icon.ml-2(name="chevron-down-outline" size="small")
-              b-dropdown-item All
-              b-dropdown-item Not Started
-              b-dropdown-item Draft
-              b-dropdown-item In Progress
-              b-dropdown-item Pending
-              b-dropdown-item Complete
-              b-dropdown-item Overdue
+              b-dropdown-item(v-for="(status, key) in filterStatuses" :key="key" @click="filterStatus = key") {{status}}
             //b-dropdown.m-r-1(variant="default")
             //  template(#button-content)
             //    | Year: All
@@ -30,7 +24,7 @@
             //  b-dropdown-item 2021
             //  b-dropdown-item 2020
           Get(projects="/api/business/local_projects/" :etag="etag"): template(v-slot="{projects}")
-              ProjectTable(:projects="projects")
+            ProjectTable(:projects="filterProjects(projects)")
       b-tab(title="Contacts")
         .card-body.white-card-body.card-body_full-height
           Get(contacts="/api/business/local_projects/" :etag="etag" :callback="getContacts"): template(v-slot="{contacts}"): table.table
@@ -87,8 +81,23 @@ import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import StarsRating from '@/business/marketplace/components/StarsRating'
 
+const FILTER_STATUSES = {
+  all: 'All',
+  not_started: 'Not Started',
+  draft: 'Draft',
+  in_progres: 'In Progress',
+  pending: 'Pending',
+  complete: 'Complete',
+  overdue: 'Overdue'
+}
+
 export default {
   mixins: [EtaggerMixin()],
+  data() {
+    return {
+      filterStatus: Object.keys(FILTER_STATUSES)[0]
+    }
+  },
   components: {
     ProjectTable,
     LocalProjectModal,
@@ -112,6 +121,15 @@ export default {
         }
         return result
       }, [])
+    },
+    filterProjects(projects) {
+      return projects.filter(project => ['all', project.status_business].includes(this.filterStatus))
+    }
+  },
+  computed: {
+    filterStatuses: () => FILTER_STATUSES,
+    filteredStatus() {
+      return FILTER_STATUSES[this.filterStatus]
     }
   }
 }

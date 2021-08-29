@@ -6,8 +6,10 @@
           span.pointer(@click="toggleSorting('title')")
             | Name
             b-icon.ml-2(icon='chevron-expand')
-        th.project-table__assignee.project-table__assignee_head Collaborators
-          b-icon.ml-2(icon='chevron-expand')
+        th.project-table__assignee.project-table__assignee_head
+          span.pointer(@click="toggleSorting('collaborators_count', true)")
+            | Collaborators
+            b-icon.ml-2(icon='chevron-expand')
         th.project-table__left.project-table__left_head.text-right
           span.pointer(@click="toggleSorting('tasks_left', true)")
             | Tasks Left
@@ -31,8 +33,8 @@
     tbody
       tr(v-for="project in projectsSorted" :key="key(project)")
         td.project-table__name: router-link.link(:to='`${project.href}`') {{ project.title }}
-        td.project-table__assignee {{ project.assignee }}
-        td.project-table__left.text-right {{ project.tasks_left || '----' }}
+        td.project-table__assignee {{ project.collaborators_count || '' }}
+        td.project-table__left.text-right {{ project.tasks_left || '' }}
         td.project-table__coast.text-right {{ project.cost | usdWhole }}
         td.project-table__status
           span.badge(:class="businessProjectBadgeClass(project)") {{ project.status_business | underscoreToCapitalized }}
@@ -40,6 +42,8 @@
         td.project-table__end-date.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
           b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
           span.end-date {{ project.ends_on | asDate }}
+      tr(v-if="!projectsSorted.length")
+        td(colspan="7") No projects
 </template>
 
 <script>
@@ -47,6 +51,8 @@ import { isOverdue, businessProjectBadgeClass } from '@/common/TaskHelper'
 
 const key = project => `${project.id}${project.type ? '-p' : '-l'}`
 const tasks_left = project => project.reminders.filter(r => !r.done_at).length
+const push_unique = (array, value) => (!value || array.includes(value)) ? array : [...array, value]
+const collaborators_count = project => project.projects.reduce((result, project) => push_unique(result, project.specialist_id), []).length
 
 export default {
   props: {
@@ -92,6 +98,7 @@ export default {
         cost_int: asSortableNonNeg(p.cost),
         starts_on_int: asSortableNonNeg(p.starts_on),
         ends_on_int: asSortableNonNeg(p.ends_on),
+        collaborators_count: collaborators_count(p)
       }))
     }
   },
