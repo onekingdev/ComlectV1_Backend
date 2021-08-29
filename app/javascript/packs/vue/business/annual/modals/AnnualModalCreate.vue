@@ -4,12 +4,13 @@
       slot
 
     b-modal.fade(:id="modalId" title="New Review")
-      .row(v-if="reviewsOptions && reviewsOptions.length")
+      b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
+      .row.m-b-1(v-if="reviewsOptions && reviewsOptions.length")
         .col-12
           label.form-label Template
           b-form-select(v-model="reviewSelected" :options="reviewsOptions")
-      .row.m-t-1
-        .col-12.mb-1
+      .row
+        .col-12
           label.form-label Name
           input.form-control(v-model="annual_review.name" type="text" placeholder="Enter the name of your review" ref="input")
       .row.m-t-1
@@ -26,7 +27,9 @@
 </template>
 
 <script>
+  import { mapActions, mapGetters } from "vuex"
   import { DateTime } from 'luxon'
+
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   var today = new Date();
   var year = today.getFullYear();
@@ -53,21 +56,21 @@
           review_end: ''
         },
         reviewSelected: null,
-        // reviewsOptions: [
-        //   { value: null, text: 'Please select an option' },
-        //   { value: 'a', text: 'This is First option' },
-        //   { value: 'b', text: 'Selected Option' },
-        //   { value: { C: '3PO' }, text: 'This is an option with object value' },
-        //   { value: 'd', text: 'This one is disabled', disabled: true }
-        // ]
+        error: ''
       }
     },
     methods: {
+      ...mapActions({
+        createReview: 'annual/createReview',
+        updateReview: 'annual/updateReview',
+        duplicateReview: 'annual/duplicateReview',
+      }),
       async submit(e) {
         e.preventDefault();
+        this.error = ''
 
         if (!this.annual_review.name || !this.annual_review.review_start || !this.annual_review.review_end) {
-          this.toast('Error', `Please check all fields!`, true)
+          this.error = 'Please check all fields'
           return
         }
 
@@ -89,35 +92,45 @@
               }
 
               this.$store.dispatch('annual/updateReview', data)
-                .then((response) => {
-                  this.toast('Success', `Annual Review Successfully created!`)
+                .then(response => {
+                  this.toast('Success', `Internal review has been created.`)
                   this.$emit('saved')
                   this.$bvModal.hide(this.modalId)
                 })
-                .catch((error) => console.error(error))
+                .catch(error => console.error(error))
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+            .catch(error => this.toast('Error', `Internal review has not been created. Please try again. ${error.message}`, true))
 
           return
         }
 
         try {
-          const response = await this.$store.dispatch('annual/createReview', this.annual_review)
+          const response = await this.createReview(this.annual_review)
           if (response.errors) {
             this.toast('Error', `${response.status}`, true)
             Object.keys(response.errors)
               .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.toast('Success', `Annual Review Successfully created!`)
-          this.$emit('saved')
-          this.$bvModal.hide(this.modalId)
+
+          if (!response.errors) {
+            this.toast('Success', `Internal review has been created.`)
+            this.$emit('saved')
+            this.$bvModal.hide(this.modalId)
+          }
+
         } catch (error) {
           this.toast('Error', error.message, true)
         }
       },
     },
     computed: {
+      ...mapGetters({
+        filefolders: 'filefolders/filefolders',
+        currentFileFolders: 'filefolders/currentFileFolders',
+        currentFolderId: 'filefolders/currentFolder',
+        currentFolderName: 'filefolders/currentFolderName'
+      }),
       reviewsOptions () {
         const revOpt = this.reviews.map(review => {
           return { value: review.id, text: review.name }
