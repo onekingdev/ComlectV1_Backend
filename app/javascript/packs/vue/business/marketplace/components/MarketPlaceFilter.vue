@@ -29,15 +29,6 @@
         | Hourly rate
         ion-icon(name='chevron-down-outline')
       b-collapse#collapse_hourly_rate(visible)
-        //- b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]" :key="'hr'+i") {{option.label}}
-        //- VueRangeSlider.mb-5(
-        //- v-bind="vueRangeOptions"
-        //- ref='slider' v-model='optionsForRequest.hourlyRate')
-        //- vue-range-slider.mb-5(
-        //- ref='slider' v-model='value'
-        //- :min="min" :max="max" :formatter="formatter" :tooltip-merge="tooltipMerge" :enable-cross="enableCross"
-        //- :bgStyle="bgStyle" :tooltipStyle="tooltipStyle" :processStyle="processStyle" :slider-style="sliderStyle"
-        //- :tooltip-dir='tooltipDir')
         .slieder-contaner
           vue-slider(v-model="optionsForRequest.hourlyRate" :enable-cross="false" v-bind="options")
       hr
@@ -66,9 +57,6 @@
 </template>
 
 <script>
-// import 'vue-range-component/dist/vue-range-slider.css'
-// import VueRangeSlider from 'vue-range-component'
-
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 

@@ -16,12 +16,11 @@
               .col-md-12
                 h3.mb-0 Browse Specialist
             .card-body
-              MarketPlaceSearchInput(@searchCompleted="sortOptions.tags = $event")
+              MarketPlaceSearchInput(@searchCompleted="optionsForRequest.tags = $event")
             .card-body
               SpecialistPanel(v-for="specialist in filteredSpecialists" :specialist="specialist" :key="specialist.id" @directMessage="isSidebarOpen = true")
               Loading
               b-pagination(v-if="filteredSpecialists.length && !loading" v-model='currentPage' :total-rows='rows' :per-page='perPage' aria-controls='my-table' align="center" pills size="sm")
-            //- .card-body.m-2.text-danger(v-if="!specialists && !specialists.length"  title="No specialists")
             .card-body(v-if="!filteredSpecialists.length && !loading")
               EmptyState
 
@@ -47,7 +46,6 @@
   import SpecialistDetails from './components/SpecialistDetails'
   import _debounce from 'lodash/debounce'
 
-  const frontendUrl = '/projects'
   const endpointUrl = '/api/specialist/projects'
 
   const parse = p => ({
@@ -82,7 +80,6 @@
   export default {
     components: {
       Loading,
-      // VueRangeSlider,
       SpecialistPanel,
       SpecialistDetails,
       MarketPlaceFilter,
@@ -96,14 +93,14 @@
         isSidebarOpen: false,
         search: null,
         optionsForRequest: {
+          tags: [],
           industries: [],
           experienceLevel: [],
-          hourlyRate: [3, 100],
+          hourlyRate: [1, 500],
           jurisdictions: [],
           formerRegulator: []
         },
         sortOptions: {
-          tags: [],
           industries: [],
           experienceLevel: [],
           hourlyRate: [],
@@ -129,17 +126,12 @@
       }
     },
     methods: {
-      sendRequest(newValue, oldValue) {
-        console.log('changed: ', newValue)
+      sendRequest(newValue) {
         this.sortOptions = {
           ...this.sortOptions,
           ...newValue
         }
 
-        // const data = {
-        //   min_hourly_rate: newValue.hourlyRate
-        // }
-        //
         // this.$store.dispatch('marketplace/getSpecialistsByFilter', data)
         //   .then((response) => console.log('response: ', response) )
         //   .catch((error) => console.error(error) );
@@ -162,87 +154,46 @@
         return this.$store.getters.loading;
       },
       filteredSpecialists() {
-        const defaultSpecialists = this.specialists
-        let filteredSpecialists = []
+        const sameLowercaseName = (a, b) => a.name.toLowerCase() === b.name.toLowerCase()
 
-        if(this.sortOptions.industries.length) {
-          const sortOption = this.sortOptions.industries
-
-          for (const industry of sortOption) {
-            for (const specialist of defaultSpecialists) {
-              for (const ind of specialist.industries) {
-                if(ind.name.toLowerCase() === industry.name.toLowerCase()) {
-                  if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
-                }
-              }
-            }
-          }
-
-          return filteredSpecialists
+        const filterIndustries = specialist => {
+          if (!this.optionsForRequest.industries || !this.optionsForRequest.industries.length) return true
+          return specialist.industries.find(industry => this.optionsForRequest.industries
+            .find(inputIndustry => sameLowercaseName(industry, inputIndustry)))
         }
 
-        if (this.sortOptions.tags.length) {
-          this.specialists.map(specialist => {
-            const matches = specialist => this.sortOptions.tags.every(tag => {
-              const specialistString = JSON.stringify(Object.values(specialist)).toLowerCase()
-              return new RegExp(tag, 'ig').test(specialistString)
-            })
-            if (matches(specialist) && !filteredSpecialists.includes(specialist)) {
-              filteredSpecialists.push(specialist)
-            }
+        const filterJurisdictions = specialist => {
+          if (!this.optionsForRequest.jurisdictions || !this.optionsForRequest.jurisdictions.length) return true
+          return specialist.jurisdictions.find(jurisdiction => this.optionsForRequest.jurisdictions
+            .find(inputJurisdiction => sameLowercaseName(jurisdiction, inputJurisdiction)))
+        }
+
+        const filterTags = specialist => {
+          if (!this.optionsForRequest.tags || !this.optionsForRequest.tags.length) return true
+          return this.optionsForRequest.tags.every(tag => {
+            const specialistString = JSON.stringify(Object.values(specialist)).toLowerCase()
+            return new RegExp(tag, 'ig').test(specialistString)
           })
-          return filteredSpecialists
         }
 
-        if(this.sortOptions.experienceLevel.length) {
-          const sortOption = this.sortOptions.experienceLevel
-
-          for (const level of sortOption) {
-            let numLevel = null
-            if (level === 'Junior') numLevel = 0
-            if (level === 'Intermediate') numLevel = 1
-            if (level === 'Expert') numLevel = 2
-
-            for (const specialist of defaultSpecialists) {
-              if(specialist.experience === numLevel) {
-                if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
-              }
-            }
-          }
-
-          return filteredSpecialists
+        const filterExperience = specialist => {
+          if (!this.optionsForRequest.experienceLevel || !this.optionsForRequest.experienceLevel.length) return true
+          const levels = ['Junior', 'Intermediate', 'Expert']
+          const specialistLevel = levels.indexOf(specialist.experience)
+          return this.optionsForRequest.experienceLevel.includes(specialistLevel)
         }
 
-        if(this.sortOptions.jurisdictions.length) {
-          const sortOption = this.sortOptions.jurisdictions
-
-          for (const industry of sortOption) {
-            for (const specialist of defaultSpecialists) {
-              for (const ind of specialist.jurisdictions) {
-                if(ind.name.toLowerCase() === industry.name.toLowerCase()) {
-                  if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
-                }
-              }
-            }
-          }
-
-          return filteredSpecialists
+        const filterHourlyRate = specialist => {
+          const [min, max] = this.optionsForRequest.hourlyRate
+          return specialist.min_hourly_rate >= min && specialist.min_hourly_rate <= max
         }
 
-        // if(this.sortOptions.hourlyRate.length) {
-        //   const [min, max] = this.sortOptions.hourlyRate
-        //
-        //   for (const specialist of defaultSpecialists) {
-        //     const [sMin, sMax] = this.specialist.hourlyRate
-        //     if (min >= sMin && max <= sMax) {
-        //       if(!filteredSpecialists.includes(specialist)) filteredSpecialists.push(specialist)
-        //     }
-        //   }
-        //
-        //   return filteredSpecialists
-        // }
-
-        return defaultSpecialists
+        return this.specialists
+          .filter(filterIndustries)
+          .filter(filterJurisdictions)
+          .filter(filterTags)
+          .filter(filterExperience)
+          .filter(filterHourlyRate)
       },
       pricingTypeOptions: () => PRICING_TYPE_OPTIONS,
       experienceOptions: () => EXPERIENCE_OPTIONS,
