@@ -1,7 +1,7 @@
 <template lang="pug">
   .row.py-2
     .col-lg-2.col-3
-      b-img(width="100" height="100" class="m1" rounded="circle" alt="image_desc" :src="specialist.photo ? specialist.photo : `https://loremflickr.com/100/100/cat?lock=${specialist.id}`")
+      UserAvatar(:user="specialist" size100)
     .col-lg-10.col-9
       .row
         .col-md-9.col
