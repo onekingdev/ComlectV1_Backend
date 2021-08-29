@@ -223,8 +223,8 @@
 
         try {
           this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state })
-            .then(response => this.toast('Success', `Updated!`))
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .then(response => this.toast('Success', `Task has been updated.`))
+            .catch(error => this.toast('Error', `Task has not been updated. Please try again. ${error.message}`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -234,10 +234,10 @@
         try {
           this.$store.dispatch('reminders/deleteTask', { id: this.task.id })
             .then(response => {{
-              this.toast('Success', `The Task has been deleted!`)
+              this.toast('Success', `Task has been deleted.`)
               this.$bvModal.hide(this.modalId)
             }})
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', `Task has not been deleted. Please try again. ${error.message}`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -276,11 +276,11 @@
               //   return
               // }
 
-              this.toast('Success', 'The task has been saved')
+              this.toast('Success', 'Task has been updated.')
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', `Task has not been updated. Please try again. ${error.message}`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -291,7 +291,7 @@
         //     console.log('updateTask response', response)
         //
         //     this.$emit('saved')
-        //     this.toast('Success', 'The task has been saved')
+        //     this.toast('Success', 'Task has been updated.')
         //     this.$bvModal.hide(this.modalId)
         //   })
         //   .catch((err) => console.error(err));
@@ -309,11 +309,11 @@
         //     })
         //   } else if (response.status === 201 || response.status === 200) {
         //     this.$emit('saved')
-        //     this.toast('Success', 'The task has been saved')
+        //     this.toast('Success', 'Task has been updated.')
         //     this.$bvModal.hide(this.modalId)
         //     // this.resetTask()
         //   } else {
-        //     this.toast('Error', 'Couldn\'t submit form')
+        //     this.toast('Error', 'Task has not been updated.')
         //   }
         // })
 
@@ -322,8 +322,8 @@
         const file = event.target.files && event.target.files[0]
         if (file) {
           const success = (await uploadFile(this.url, file)).ok
-          const message = success ? 'Document uploaded' : 'Document upload failed'
-          this.toast('Document Upload', message, !success)
+          const message = success ? 'Document has been uploaded' : 'Document has not been uploaded'
+          this.toast('Document has been uploaded.', message, !success)
           this.newEtag()
         }
       },
