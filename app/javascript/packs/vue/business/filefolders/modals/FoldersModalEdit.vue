@@ -4,8 +4,10 @@
       slot
 
     b-modal.fade(:id="modalId" title="Edit Folder Name")
+      b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
+
       .row
-        .col-12.m-b-2
+        .col-12
           label.form-label Name
           input.form-control(v-model="fileFolder" type="text" placeholder="Enter the name of your folder" ref="input" v-on:keyup.enter="submit")
           Errors(:errors="errors.name")
@@ -40,7 +42,8 @@
         file_folder: {
           name: '',
         },
-        errors: []
+        errors: [],
+        error: ''
       }
     },
     computed: {
@@ -56,15 +59,14 @@
     methods: {
       async submit(e) {
         e.preventDefault();
-        console.log()
+        this.error = ''
 
         if (!this.file_folder.name) {
-          this.toast('Error', `N - Required field`)
+          this.error = 'Required field'
           return
         }
         if (this.file_folder.name.length <= 3) {
-          this.errors.push('Name is very short, must be more 3 characters.');
-          this.toast('Error', 'N - Name must be more than 3 characters.')
+          this.error = 'Name must be more than 3 characters.'
           return
         }
 
@@ -112,9 +114,11 @@
               .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
           }
-          this.toast('Success', `Folder has been saved.`)
-          this.$emit('editConfirmed')
-          this.$bvModal.hide(this.modalId)
+          if (!response.errors) {
+            this.toast('Success', `Folder has been saved.`)
+            this.$emit('editConfirmed')
+            this.$bvModal.hide(this.modalId)
+          }
 
         } catch (error) {
           this.toast('Error', error.message, true)
