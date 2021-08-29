@@ -4893,7 +4893,9 @@ CREATE TABLE public.team_members (
     business_member boolean DEFAULT false,
     role character varying,
     active boolean DEFAULT true,
-    reason character varying
+    reason character varying,
+    disabled_at timestamp without time zone,
+    description character varying
 );
 
 
@@ -8078,6 +8080,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210824180007'),
 ('20210824182507'),
 ('20210825181853'),
-('20210826205423');
+('20210826205423'),
+('20210829184005');
 
 

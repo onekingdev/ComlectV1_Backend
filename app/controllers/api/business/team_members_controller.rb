@@ -43,7 +43,7 @@ class Api::Business::TeamMembersController < ApiController
   end
 
   def archive
-    @team_member.update(active: false, reason: params[:reason]) && @team_member.clear_seat
+    @team_member.update(archive_params) && @team_member.clear_seat
     respond_with @team_member, serializer: TeamMemberSerializer
   end
 
@@ -58,7 +58,14 @@ class Api::Business::TeamMembersController < ApiController
     end
 
     seat.assign_to(@team_member.id)
-    @team_member.update(active: true)
+
+    @team_member.update(
+      reason: nil,
+      active: true,
+      description: nil,
+      disabled_at: nil
+    )
+
     respond_with @team_member, serializer: TeamMemberSerializer
   end
 
@@ -74,6 +81,13 @@ class Api::Business::TeamMembersController < ApiController
       :first_name, :last_name, :email,
       :role, :start_date, :access_person
     )
+  end
+
+  def archive_params
+    params.permit(:reason, :description).tap do |whitelisted|
+      whitelisted['active'] = false
+      whitelisted['disabled_at'] = Time.zone.now
+    end
   end
 
   def load_team_member

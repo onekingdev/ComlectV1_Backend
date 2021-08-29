@@ -340,7 +340,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
     context 'archive team member' do
       let!(:team_member) { create(:full_team_member) }
-      let(:params) { { id: team_member.id, reason: 'Test reason' } }
+      let(:params) { { id: team_member.id, reason: 'Test reason', description: 'description' } }
 
       before do
         expect(Seat.count).to eq(1)
@@ -367,6 +367,8 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
       it { expect(JSON.parse(response.body)['reason']).to eq('Test reason') }
+      it { expect(JSON.parse(response.body)['disabled_at']).to be_present }
+      it { expect(JSON.parse(response.body)['description']).to eq('description') }
     end
   end
 
@@ -400,12 +402,27 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
     context 'successfully' do
       let(:team) { Business.first.team }
-      let(:team_member) { create(:team_member, team_id: team.id, active: false) }
+      let(:disabled_at) { Time.zone.now }
+
+      let(:team_member) do
+        create(
+          :team_member,
+          active: false,
+          team_id: team.id,
+          reason: 'reason',
+          disabled_at: disabled_at,
+          description: 'description'
+        )
+      end
+
       let!(:seat) { create(:seat, business: Business.first, subscription: Subscription.first) }
 
       before do
         expect(Seat.count).to eq(1)
         expect(team_member.active).to be_falsey
+        expect(team_member.reason).to eq('reason')
+        expect(team_member.disabled_at).to eq(disabled_at)
+        expect(team_member.description).to eq('description')
 
         patch :unarchive, as: 'json', params: { id: team_member.id }
       end
@@ -418,9 +435,15 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(assigns(:team_member)).to be_present }
       it { expect(team_member.reload.active).to be_truthy }
+      it { expect(team_member.reload.reason).to be_nil }
+      it { expect(team_member.reload.description).to be_nil }
+      it { expect(team_member.reload.disabled_at).to be_nil }
       it { expect(assigns(:_current_business)).to be_present }
       it { expect(JSON.parse(response.body)['error']).to be_nil }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)['reason']).to be_nil }
+      it { expect(JSON.parse(response.body)['disabled_at']).to be_nil }
+      it { expect(JSON.parse(response.body)['description']).to be_nil }
       it { expect(JSON.parse(response.body)['first_name']).to eq('Team') }
       it { expect(JSON.parse(response.body)['name']).to eq('Team Member') }
       it { expect(JSON.parse(response.body)['last_name']).to eq('Member') }
