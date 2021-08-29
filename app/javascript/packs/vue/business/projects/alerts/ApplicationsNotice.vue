@@ -11,7 +11,7 @@
           router-link.btn.btn-light.mt-2(:to="viewPostUrl") View
     div(v-else)
       Notifications.m-b-20(:notify="applications")
-        router-link.btn.btn-light.m-r-1(:to="viewPostUrl") View
+        router-link.btn.btn-light.m-r-2(:to="viewPostUrl") View
 
 </template>
 

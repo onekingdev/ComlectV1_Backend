@@ -2,44 +2,41 @@
   div.d-inline-block(:class="{ 'float-right': right }")
     div.d-inline-block(v-b-modal="modalId"): slot
     b-modal.fade(:id="modalId" title="End Contract" no-stacking)
-      .row
-        .col-sm-1
-          b-icon.m-l-1(icon="exclamation-triangle-fill" scale="2" variant="warning")
-        .col-sm
-          p Ending this contract will remove this specialist as a collaborator to the project, revoke their permissions to access your account, and payout the full contract price.
-          p: b Do you want to continue?
+      .row.m-b-20
+        .col-md-1.text-center.px-0
+          b-icon.mt-1.ml-3(icon="exclamation-triangle-fill" scale="1.5" variant="warning")
+        .col
+          p.paragraph.m-b-10 Ending this contract will remove this specialist as a collaborator to the project, revoke their permissions to access your account, and payout the full contract price.
+          p.paragraph.mb-0
+            b Do you want to continue?
       .card
-        .card-header
-          .row
-            .col-sm-7
-              .row
-                .col-2.pt-2
-                  UserAvatar.userpic_small(:user="project.specialist")
-                .col
-                  <!--img.m-r-1.userpic_small(v-if="project.specialist.photo" :src="project.specialist.photo")-->
-                  h3 {{ project.specialist.first_name }} {{project.specialist.last_name }}
-                  p Specialist
-            .col-sm
-              span.float-right Outstanding Due <br> {{ 500 | usdWhole }}
-        .card-header
-          p
-            b Project name
-            span.float-right {{ project.title }}
-          p
-            b Payment method
-            span.float-right {{ readablePaymentSchedule(project.payment_schedule) }}
-          p
-            b Date Issued
-            span.float-right
-          p
-            b Payment Method
-            span.float-right Transfer to Visa
-        .card-header
-          p.text-right.text-muted *Transactional fees lorem ipsum dolor.
+        .card-title.p-20
+          UserAvatar(:user="project.specialist")
+          .d-block.ml-3
+            h5.mb-0.link {{ project.specialist.first_name }} {{project.specialist.last_name }}
+            p.mb-0 {{ project.specialist.location }}
+          .d-block.ml-auto.text-right
+            span Outstanding Due
+            h4 {{ 500 | usdWhole }}
+        .card-body
+          dl.row.mb-0
+            dt.col-sm-3.label Project name
+            dd.col-sm-9.text-right {{ project.title }}
+          dl.row.mb-0
+            dt.col-sm-3.label Payment method
+            dd.col-sm-9.text-right {{ readablePaymentSchedule(project.payment_schedule) }}
+          dl.row.mb-0
+            dt.col-sm-3.label Date Issued
+            dd.col-sm-9.text-right
+          dl.row.mb-0
+            dt.col-sm-3.label Payment Method
+            dd.col-sm-9.text-right Transfer to Visa
+        .card-footer.bg-white
+          p.text-right.text-muted.mb-0 *Transactional fees lorem ipsum dolor.
       template(#modal-footer="{ hide }")
         button.btn.btn-link(@click="hide") Cancel
         Post(:action="completeUrl" :model="{}" @saved="contractEnded" @errors="$emit('errors', $event)")
-          button.btn.btn-dark.m-r-1 Confirm
+          button.btn.btn-dark Confirm
     b-modal(:id="modalId + '_review'" title="Write a Review")
       p Please rate/describe your experience and leave any additional comments for the specialist!
       InputRating(v-model="review.value" :errors="errors.value") Rating

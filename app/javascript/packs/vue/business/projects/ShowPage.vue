@@ -25,9 +25,9 @@
                   TimesheetsNotice(:project="marketProject")
                   EndContractNotice(:project="marketProject" @saved="contractEnded")
                   ChangeContractAlerts(:project="marketProject" @saved="newEtag" for="Business")
-            .row
-              .col
-                DueDateNotice(:project="project" @saved="newEtag")
+            //.row
+            //  .col
+            //    DueDateNotice(:project="project" @saved="newEtag")
             .row
               .col-md-8.col-sm-12
                 .card
@@ -150,7 +150,7 @@
 import { fields, readablePaymentSchedule } from '@/common/ProposalFields'
 import DiscussionCard from '@/common/projects/DiscussionCard'
 import ApplicationsNotice from './alerts/ApplicationsNotice'
-import DueDateNotice from './alerts/DueDateNotice'
+// import DueDateNotice from './alerts/DueDateNotice'
 import TimesheetsNotice from './alerts/TimesheetsNotice'
 import EndContractNotice from './alerts/EndContractNotice'
 import ProjectDetails from './ProjectDetails'
@@ -255,7 +255,7 @@ export default {
   },
   components: {
     ApplicationsNotice,
-    DueDateNotice,
+    // DueDateNotice,
     ChangeContractAlerts,
     DiscussionCard,
     LocalProjectModal,

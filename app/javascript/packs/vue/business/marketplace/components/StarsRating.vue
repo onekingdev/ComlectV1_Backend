@@ -60,6 +60,7 @@ export default {
   display: flex;
   position: relative;
   background-color: #F3F6F9;
+  width: 125px;
 }
 .stars-rating_filled-line {
   width: 0;

@@ -1,15 +1,20 @@
 <template lang="pug">
-  b-alert(:show="show" variant="primary")
-    .d-flex.align-items-center
-      b-icon.m-r-2.m-l-1(icon="exclamation-triangle-fill" scale="2" variant="warning")
-      .d-block.mr-auto
-        h4: b The project's due date tommorow
-        p.mb-0 Do you want to extend the dataline?
-      ExtendDeadlineModal(@saved="$emit('saved')" :project="project" :project-id="project.id")
-        button.btn.btn-default Extend
+  Notifications.m-b-20(:show="show" :notify="notify")
+    ExtendDeadlineModal.m-r-2(@saved="$emit('saved')" :project="project" :project-id="project.id")
+      button.btn.btn-default Extend
+  //b-alert(:show="show" variant="primary")
+  //  .d-flex.align-items-center
+  //    b-icon.m-r-2.m-l-1(icon="exclamation-triangle-fill" scale="2" variant="warning")
+  //    .d-block.mr-auto
+  //      h4: b The project's due date tommorow
+  //      p.mb-0 Do you want to extend the dataline?
+  //    ExtendDeadlineModal(@saved="$emit('saved')" :project="project" :project-id="project.id")
+  //      button.btn.btn-default Extend
+
 </template>
 
 <script>
+  import Notifications from "@/common/Notifications/Notifications";
   import ExtendDeadlineModal from '../ExtendDeadlineModal'
   export default {
     props: {
@@ -19,7 +24,21 @@
       }
     },
     components: {
+      Notifications,
       ExtendDeadlineModal,
+    },
+    data() {
+      return {
+        notify: {
+          show: 'show',
+          mainText: `The project's due date tommorow`,
+          subText: 'Do you want to extend the dataline?',
+          variant: 'warning',
+          dismissible: true,
+          icon: null,
+          scale: 2,
+        },
+      }
     },
     computed: {
       confirmModalId() {

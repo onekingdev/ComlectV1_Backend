@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    .messages.justify-content-center.align-items.center(v-if="!messages.length")
+    .messages.justify-content-center.align-items.center.text-center(v-if="!messages.length")
       h4 No Comments to Display
       p.mb-0 Type in the comment box below to get started
     .messages(v-if="messages && messages.length")

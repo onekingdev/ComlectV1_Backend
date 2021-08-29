@@ -13,20 +13,29 @@
       p.mb-0
         | Would you like to proceed?
         ApproveContractChangesModal(:project="project" @saved="$emit('saved')")
-    .alert.alert-warning.m-b-20(v-else-if="isSuggestionVisible")
-      h4.alert-heading The project's due date is tomorrow.
-      p.mb-0
-        button.btn.btn-default.float-right(v-b-modal="'ExtendDeadlineModal'") Extend
-        | Do you want to extend the deadline?
+    Notifications.m-b-20(v-else-if="isSuggestionVisible" :notify="notifyDueDate")
+      button.btn.btn-default.m-r-2(v-b-modal="'ExtendDeadlineModal'") Extend
         b-modal(id="ExtendDeadlineModal" title="Extend Deadline")
           InputDate(v-model="form.ends_on" :errors="errors.ends_on" :options="datepickerOptions") New Due Date
           template(#modal-footer="{ hide }")
             button.btn.btn-link.float-right(@click="hide") Cancel
             Post(:action="submitUrl" :model="form" @errors="errors = $event" @saved="saved('A project extension has been requested')")
               button.btn.btn-dark.float-right Confirm
+    //.alert.alert-warning.m-b-20(v-else-if="isSuggestionVisible")
+    //  h4.alert-heading The project's due date is tomorrow.
+    //  p.mb-0
+    //    button.btn.btn-default.float-right(v-b-modal="'ExtendDeadlineModal'") Extend
+    //    | Do you want to extend the deadline?
+    //    b-modal(id="ExtendDeadlineModal" title="Extend Deadline")
+    //      InputDate(v-model="form.ends_on" :errors="errors.ends_on" :options="datepickerOptions") New Due Date
+    //      template(#modal-footer="{ hide }")
+    //        button.btn.btn-link.float-right(@click="hide") Cancel
+    //        Post(:action="submitUrl" :model="form" @errors="errors = $event" @saved="saved('A project extension has been requested')")
+    //          button.btn.btn-dark.float-right Confirm
 </template>
 
 <script>
+import Notifications from "@/common/Notifications/Notifications";
 import ApproveContractChangesModal from './ApproveContractChangesModal'
 import { DateTime } from 'luxon'
 
@@ -50,7 +59,16 @@ export default {
         ends_on_only: true,
         ends_on: null
       },
-      errors: {}
+      errors: {},
+      notifyDueDate: {
+        show: 'show',
+        mainText: `The project's due date tommorow`,
+        subText: 'Do you want to extend the dataline?',
+        variant: 'warning',
+        dismissible: true,
+        icon: null,
+        scale: 2,
+      },
     }
   },
   methods: {
@@ -77,14 +95,15 @@ export default {
       return this.project.specialist_id && DateTime.local().plus({ days: 1 }).toSQLDate() === this.project.ends_on
     },
     datepickerOptions() {
-      return { min: DateTime.local().plus({ days: 1 }).toJSDate() }
+      return { min: DateTime.local().plus({ days: 1 }).toJSDate().toISOString() }
     },
     submitUrl() {
       return '/api/projects/' + this.project.id + '/extension'
     }
   },
   components: {
-    ApproveContractChangesModal
+    Notifications,
+    ApproveContractChangesModal,
   }
 }
 </script>

@@ -55,7 +55,7 @@
                 div
                   ion-icon.project-card__icon(:name="i === 0 ? 'pricetags-outline' : 'time-outline'")
                 .d-block
-                  h5.card-title.project-card__title {{type.label}}
+                  h5.project-card__title {{type.label}}
                   p.card-text.project-card__text {{type.text}}
 
           .m-t-1(v-if="project.pricing_type === pricingTypes[0].id")
