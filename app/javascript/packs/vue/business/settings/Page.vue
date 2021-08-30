@@ -26,8 +26,8 @@
   import SelectPlan from './components/subscriptions/components/SelectPlan'
   import SelectBilling from './components/billings/components/SelectBilling'
 
-  import AccessDenied from "@/common/AccessDenied";
-  import PaymentRequired from "@/common/PaymentRequired";
+  //import AccessDenied from "@/common/AccessDenied";
+  //import PaymentRequired from "@/common/PaymentRequired";
 
   export default {
     props: ['states', 'timezones', 'contries', 'userId'],
@@ -42,8 +42,8 @@
       Notifications,
       SelectPlan,
       SelectBilling,
-      AccessDenied,
-      PaymentRequired,
+      //AccessDenied,
+      //PaymentRequired,
     },
     created() {
       // FOR Hiding Sidebar
@@ -74,9 +74,9 @@
           { name: 'Security', link: 'Security' },
           { name: 'Subscriptions', link: 'Subscriptions' },
           { name: 'Billings', link: 'Billings' },
-          { name: 'Notifications', link: 'Notifications' },
-          { name: 'Access Denied', link: 'AccessDenied' },
-          { name: 'Payment Required', link: 'PaymentRequired' },
+          //{ name: 'Notifications', link: 'Notifications' },
+          //{ name: 'Access Denied', link: 'AccessDenied' },
+          //{ name: 'Payment Required', link: 'PaymentRequired' },
         ]
       };
     },

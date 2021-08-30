@@ -61,7 +61,7 @@
           { name: 'Security', link: 'security', component: Security },
           { name: 'Subscriptions', link: 'subscriptions', component: Subscriptions },
           { name: 'Billings', link: 'billings', component: Billings },
-          { name: 'Notifications', link: 'notifications', component: Notifications },
+          //{ name: 'Notifications', link: 'notifications', component: Notifications },
         ]
       };
     },
