@@ -33,7 +33,9 @@
     tbody
       tr(v-for="project in projectsSorted" :key="key(project)")
         td.project-table__name: router-link.link(:to='`${project.href}`') {{ project.title }}
-        td.project-table__assignee {{ project.collaborators_count || '' }}
+        td.project-table__assignee
+          b-avatar-group(size="2em")
+            b-avatar(v-for="(collaborator, i) in projectCollaboratorsAvatars(project)" :key="`${project.id}_${i}`" v-bind="collaborator" variant="light")
         td.project-table__left.text-right {{ project.tasks_left || '' }}
         td.project-table__coast.text-right {{ project.cost | usdWhole }}
         td.project-table__status
@@ -51,8 +53,6 @@ import { isOverdue, businessProjectBadgeClass } from '@/common/TaskHelper'
 
 const key = project => `${project.id}${project.type ? '-p' : '-l'}`
 const tasks_left = project => project.reminders.filter(r => !r.done_at).length
-const push_unique = (array, value) => (!value || array.includes(value)) ? array : [...array, value]
-const collaborators_count = project => project.projects.reduce((result, project) => push_unique(result, project.specialist_id), []).length
 
 export default {
   props: {
@@ -75,6 +75,11 @@ export default {
       const initialDirection = startDescending ? -1 : 1
       this.sortDirection = this.sortField === field ? -1 * this.sortDirection : initialDirection
       this.sortField = field
+    },
+    projectCollaboratorsAvatars(project) {
+      return project.collaborators.map(collaborator => collaborator.photo
+        ? { src: collaborator.photo }
+        : { text: `${collaborator.first_name[0]}${collaborator.last_name[0]}` })
     }
   },
   computed: {
@@ -98,7 +103,7 @@ export default {
         cost_int: asSortableNonNeg(p.cost),
         starts_on_int: asSortableNonNeg(p.starts_on),
         ends_on_int: asSortableNonNeg(p.ends_on),
-        collaborators_count: collaborators_count(p)
+        collaborators_count: p.collaborators.length
       }))
     }
   },

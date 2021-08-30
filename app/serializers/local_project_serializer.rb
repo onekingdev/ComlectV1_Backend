@@ -17,6 +17,7 @@ class LocalProjectSerializer < ApplicationSerializer
              :projects,
              :cost,
              :visible_project,
+             :collaborators,
              :hide_on_calendar,
              :reminders
 
