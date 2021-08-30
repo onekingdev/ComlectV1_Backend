@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     url() {
-      return '/api/business/local_projects/' + this.project.id
+      return '/api/local_projects/' + this.project.id
     },
     model() {
       return { local_project: { hide_on_calendar: !this.hide_on_calendar }}

@@ -14,18 +14,18 @@
             router-link.topbar-menu__link(:to='`/${userType}`' active-class="active" exact) Home
           li.nav-item.topbar-menu__item(v-if="userType === 'business'" @click="openLink('documents')")
             router-link.topbar-menu__link(:to='`/${userType}/file_folders`' active-class="active") Documents
-          li.nav-item.topbar-menu__item(@click="openLink('reports')")
+          li.nav-item.topbar-menu__item(v-if="role !=='basic'" @click="openLink('reports')")
             router-link.topbar-menu__link(:to='`/${userType}/reports/organizations`' active-class="active") Reports
           li.nav-item.topbar-menu__item.d-none
             a.topbar-menu__link(aria-current='page' href='#') Community
-          li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'business'" @click="openLink('default')")
+          li.nav-item.topbar-menu__item.d-sm-none(v-if="userType !== 'specialist' && role !=='basic'" @click="openLink('default')")
             router-link.topbar-menu__link(:to='`/specialistmarketplace`' active-class="active") Find an Expert
           li.nav-item.topbar-menu__item.d-sm-none(v-if="userType === 'specialist'" @click="openLink('default')")
             router-link.topbar-menu__link(to='/job_board' active-class="active") Browse Projects
     // Right aligned nav items
     b-navbar-nav.flex-row.align-items-center.ml-auto
-      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'business'" :to='`/specialistmarketplace`') Find an Expert
-      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" to='/job_board') Browse Projects
+      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType !== 'specialist' && role !=='basic'" :to='`/specialistmarketplace`') Find an Expert
+      router-link.btn.btn-warning.btn-topbar.btn-topbar_find(v-if="userType === 'specialist'" :to='`/job_board`') Browse Projects
       router-link.btn.btn-topbar.btn-topbar_notify(:to='`/${userType}/settings/notification-center`')
         ion-icon(name='notifications-outline')
       b-nav-item-dropdown.topbar-right-dropdown.actions(right)
@@ -34,8 +34,10 @@
           UserAvatar.topbar-right-dropdown__avatar(:user="account" :sm="true")
           span.topbar-right-dropdown__name {{ account.first_name }} {{ account.last_name }}
           ion-icon.topbar-right-dropdown__icon(name='chevron-down-outline')
-        li(v-if="activeContracts && userType === 'specialist'" v-for="contract in  activeContracts" :key='contract')
-          a.dropdown-item(href="#") {{ contract }}
+        li(v-if="activeContracts && activeContracts.length")
+          .dropdown-item(@click="openSelectedBusiness(null)") Back
+        li(v-if="activeContracts" v-for="(contract, idx) in  activeContracts" :key="idx")
+          .dropdown-item(@click="openSelectedBusiness(contract)") {{ contract.business_name }}
         li(@click="openLink('documents')")
           router-link.dropdown-item(:to='`/${userType}/profile`' active-class="active") Profile
         b-dropdown-item(@click="signOut") Sign Out
@@ -45,8 +47,11 @@
 </template>
 
 <script>
-  // import { mapActions, mapGetters } from "vuex"
+  import { mapActions, mapGetters } from "vuex"
   import UserAvatar from '@/common/UserAvatar'
+
+  const plans = ['basic', 'business', 'team']
+  const roles = ['basic', 'trusted', 'admin']
 
   export default {
     name: "index",
@@ -114,11 +119,7 @@
         })
           .then(response => response.json())
           .then(data => {
-            console.log(data)
-            localStorage.removeItem('app.currentUser');
-            localStorage.removeItem('app.currentUser.token');
-            localStorage.removeItem('app.currentUser.userType');
-            localStorage.removeItem('app.currentUser.paymentMethod');
+            localStorage.clear();
             window.location.href = `${window.location.origin}`
           })
           .catch(error => console.error(error))
@@ -138,26 +139,50 @@
         }
         if(value === 'documents') this.$store.commit('changeSidebar', 'documents')
         if(value !== 'documents') this.$store.commit('changeSidebar', 'default')
+      },
+      /**
+       * When we logged in as Employee, we can opend dashboard as employee for Business account and see some features based on roles
+       */
+      openSelectedBusiness (business) {
+        if (business) {
+          localStorage.setItem('app.business_id', business.business_id)
+          localStorage.setItem('app.currentUser.role', business.role)
+          window.location.href = `/business`
+        }
+        if (!business) {
+          localStorage.removeItem('app.business_id')
+          localStorage.removeItem('app.currentUser.role')
+          window.location.href = `/specialist`
+        }
       }
     },
     computed: {
-      // ...mapGetters({
-      //   currentUser: 'auth/getUser',
-      // }),
-      loggedIn() {
-        return this.$store.getters.loggedIn;
-      },
+      ...mapGetters({
+        // currentUser: 'auth/getUser',
+        loggedIn: 'loggedIn',
+        userType: 'userType',
+        roles: 'roles/roles',
+        role: 'roles/currentRole',
+        plan: 'roles/currentPlan',
+      }),
+      // loggedIn() {
+      //   return this.$store.getters.loggedIn;
+      // },
       // specialist() {
       //   return {
       //     first_name: this.currentUser.contact_first_name ? `${this.currentUser.contact_first_name}` : `${this.currentUser.first_name}`,
       //     last_name: this.currentUser.contact_last_name ? `${this.currentUser.contact_last_name}` : `${this.currentUser.last_name}`,
       //   }
       // }
-      userType () {
-        return this.$store.getters.userType
-      },
+      // userType () {
+      //   return this.$store.getters.userType
+      // },
+
+      /**
+       * It's current active roles (employee attached to Business account and has Roles
+       */
       activeContracts () {
-        return [ 'Active Contract 1', 'Active Contract 2' ]
+        return this.roles
       }
     },
     watch: {

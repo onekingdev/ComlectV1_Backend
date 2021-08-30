@@ -137,7 +137,15 @@
         //   .catch((error) => console.error(error) );
       },
       refetch() {
-        fetch(endpointUrl + this.filterQuery, { headers: {'Accept': 'application/json'}})
+        const headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : '',
+        }
+        const business_id = window.localStorage["app.business_id"]
+        if(business_id) headers.business_id = JSON.parse(business_id)
+
+        fetch(endpointUrl + this.filterQuery, headers)
           .then(response => response.json())
           .then(result => this.projects = result.map(parse))
       },

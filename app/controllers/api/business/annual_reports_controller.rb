@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::Business::AnnualReportsController < ApiController
+  skip_before_action :verify_authenticity_token
   before_action :require_business!
   before_action { authorize_action(Roles::AnnualReportsPolicy) }
   before_action { authorize_business_tier(Business::AnnualReportsPolicy) }

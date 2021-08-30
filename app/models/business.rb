@@ -126,6 +126,14 @@ class Business < ApplicationRecord
     end
   end
 
+  def plan
+    team_tiers = %w[team_tier_monthly team_tier_annual]
+    business_tiers = %w[business_tier_monthly business_tier_annual]
+    return 'team' if subscriptions.active.where(plan: team_tiers).present?
+    return 'business' if subscriptions.active.where(plan: business_tiers).present?
+    'free'
+  end
+
   STEP_THREE = [
     'startup', 'startup rescue', 'complete ongoing maintenance', 'one-off maintenance requests'
   ].freeze

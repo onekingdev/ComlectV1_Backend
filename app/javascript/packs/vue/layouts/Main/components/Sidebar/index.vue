@@ -26,15 +26,9 @@
           ion-icon.ml-auto(name='chevron-down-outline')
         b-collapse#program_management_collapse(v-model="program_management_collapse")
           ul.sidebar-menu__list
-            li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
-              router-link.sidebar-menu__link(:to='`/${userType}/compliance_policies`' active-class="active")
-                | Policies and Procedures
-            li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
-              router-link.sidebar-menu__link(:to='`/${userType}/annual_reviews`' active-class="active")
-                | Internal Review
-            li.nav-item.sidebar-menu__item(@click.stop="openLink('default')")
-              router-link.sidebar-menu__link(:to='`/${userType}/risks`' active-class="active")
-                | Risk Register
+            li.nav-item.sidebar-menu__item(v-for="(link, i) in menuLinksProgramManagement" @click.stop="openLink('default')" :key="i")
+              router-link.sidebar-menu__link(:to='link.to' active-class="active" :exact="link.exact || false")
+                | {{ link.label }}
       div(class="dropdown-divider")
       router-link.sidebar-menu__link.sidebar-menu__link_settings(:to='`/${userType}/settings`' active-class="active")
         h3.sidebar-menu__title.sidebar-menu__title_settings
@@ -52,12 +46,9 @@
       ion-icon.ml-auto(name='chevron-down-outline')
      b-collapse#files(v-model="files")
        ul.sidebar-menu__list
-         li.nav-item.sidebar-menu__item(@click.stop="openLink('documents')")
-           router-link.sidebar-menu__link(:to='`/${userType}/file_folders`' active-class="active" exact)
-             | Book and records
-         li.nav-item.sidebar-menu__item(@click.stop="openLink('documents')")
-           router-link.sidebar-menu__link(:to='`/${userType}/exam_management`' active-class="active")
-             | Exam Management
+         li.nav-item.sidebar-menu__item(v-for="(link, i) in menuLinksFiles" @click.stop="openLink('documents')" :key="i")
+           router-link.sidebar-menu__link(:to='link.to' active-class="active" :exact="link.exact || false")
+             | {{ link.label }}
      div(class="dropdown-divider")
      router-link.sidebar-menu__link.sidebar-menu__link_settings(:to='`/${userType}/settings`' active-class="active")
         h3.sidebar-menu__title.sidebar-menu__title_settings
@@ -75,15 +66,9 @@
         ion-icon.ml-auto(name='chevron-down-outline')
       b-collapse#reports(v-model="reports")
         ul.sidebar-menu__list
-          li.nav-item.sidebar-menu__item(@click.stop="openLink('reports')")
-            router-link.sidebar-menu__link(:to='`/${userType}/reports/organizations`' active-class="active" exact)
-              | Organization
-          li.nav-item.sidebar-menu__item(@click.stop="openLink('reports')")
-            router-link.sidebar-menu__link(:to='`/${userType}/reports/risks`' active-class="active")
-              | Risks
-          li.nav-item.sidebar-menu__item(@click.stop="openLink('reports')")
-            router-link.sidebar-menu__link(:to='`/${userType}/reports/financials`' active-class="active")
-              | Financials
+          li.nav-item.sidebar-menu__item(v-for="(link, i) in menuLinksReports" @click.stop="openLink('reports')" :key="i")
+            router-link.sidebar-menu__link(:to='link.to' active-class="active" :exact="link.exact || false")
+              | {{ link.label }}
       div(class="dropdown-divider")
       router-link.sidebar-menu__link.sidebar-menu__link_settings(:to='`/${userType}/settings`' active-class="active")
         h3.sidebar-menu__title.sidebar-menu__title_settings
@@ -97,6 +82,11 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex"
+
+  const plans = ['basic', 'business', 'team']
+  const roles = ['basic', 'trusted', 'admin']
+
   export default {
     data() {
       return {
@@ -195,9 +185,14 @@
       }
     },
     computed: {
-      leftSidebar () {
-        return this.$store.getters.leftSidebar
-      },
+      ...mapGetters({
+        leftSidebar: 'leftSidebar',
+        role: 'roles/currentRole',
+        plan: 'roles/currentPlan',
+      }),
+      // leftSidebar () {
+      //   return this.$store.getters.leftSidebar
+      // },
       userType() {
         const splittedUrl = window.location.pathname.split('/') // ["", "business", "reminders"]
         return splittedUrl[1] === 'business' ? 'business' : 'specialist'
@@ -230,6 +225,81 @@
           to: '/specialist/my-projects',
           label: 'Projects'
         }]
+      },
+      menuLinksProgramManagement() {
+        const menu = this.userType === 'business' ? this.menuLinksProgramManagementBusiness : this.menuLinksProgramManagementSpecialist
+        return this.role ? menu.filter(item => item.access.indexOf( this.role ) !== -1) : menu
+      },
+      menuLinksProgramManagementBusiness() {
+        return [{
+          to: '/business/compliance_policies',
+          label: 'Policies and Procedures',
+          exact: true,
+          access: ['basic', 'trusted', 'admin']
+        }, {
+          to: '/business/annual_reviews',
+          label: 'Internal Review',
+          access: ['trusted', 'admin']
+        }, {
+          to: '/business/risks',
+          label: 'Risk Register',
+          access: ['basic', 'trusted', 'admin']
+        }]
+      },
+      menuLinksProgramManagementSpecialist() {
+        return [{
+          to: '/specialist/compliance_policies',
+          label: 'Policies and Procedures',
+          exact: true
+        }, {
+          to: '/specialist/annual_reviews',
+          label: 'Internal Review'
+        }, {
+          to: '/specialist/risks',
+          label: 'Risk Register'
+        }]
+      },
+      menuLinksFiles() {
+        const menu = this.userType === 'business' ? this.menuLinksFilesBusiness : this.menuLinksFilesSpecialist
+        return this.role ? menu.filter(item => item.access.indexOf( this.role ) !== -1) : menu
+      },
+      menuLinksFilesBusiness() {
+        return [{
+          to: '/business/file_folders',
+          label: 'Book and records',
+          exact: true,
+          access: ['basic', 'trusted', 'admin']
+        }, {
+          to: '/business/exam_management',
+          label: 'Exam Management',
+          access: ['trusted', 'admin']
+        }]
+      },
+      menuLinksFilesSpecialist() {
+        return []
+      },
+      menuLinksReports() {
+        const menu = this.userType === 'business' ? this.menuLinksReportsBusiness : this.menuLinksReportsSpecialist
+        return this.role ? menu.filter(item => item.access.indexOf( this.role ) !== -1) : menu
+      },
+      menuLinksReportsBusiness() {
+        return [{
+          to: '/business/reports/organizations',
+          label: 'Organization',
+          exact: true,
+          access: ['basic', 'trusted', 'admin']
+        }, {
+          to: '/business/reports/risks',
+          label: 'Risks',
+          access: ['trusted', 'admin']
+        }, {
+          to: '/business/reports/financials',
+          label: 'Financials',
+          access: ['admin']
+        }]
+      },
+      menuLinksReportsSpecialist() {
+        return []
       },
     },
     mounted() {

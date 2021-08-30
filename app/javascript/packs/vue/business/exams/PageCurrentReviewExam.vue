@@ -7,7 +7,7 @@
           b {{ currentExam ? currentExam.name : '' }}
         h2.page-header__title {{ currentExam ? currentExam.name : '' }}
       .page-header__actions
-        ExamModalShare.mr-3(v-if="currentExam" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="currentExam.complete")
+        ExamModalShare.mr-3(v-if="currentExam && plan !=='team'" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="currentExam.complete")
           a.btn.btn-link Share Link
         ExamModalComplite.mr-3(v-if="currentExam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
           button.btn.btn-default Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
@@ -73,7 +73,7 @@
                                   b-icon(icon="three-dots")
                                 ExamRequestModalEdit(:examId="currentExam.id" :request="currentRequst" :inline="false")
                                   b-dropdown-item Edit
-                                b-dropdown-item(@click="shareRequest(currentRequst.id, !currentRequst.shared)") {{ currentRequst.shared ? 'Unshare' : 'Share' }}
+                                b-dropdown-item(v-if="plan !=='team'" @click="shareRequest(currentRequst.id, !currentRequst.shared)") {{ currentRequst.shared ? 'Unshare' : 'Share' }}
                                 ExamModalDelete(@deleteConfirmed="deleteExamRequest(currentRequst.id)" :inline="false")
                                   b-dropdown-item.delete Delete
                       .row.m-b-1
@@ -179,7 +179,8 @@
     },
     computed: {
       ...mapGetters({
-        currentExam: 'exams/currentExam'
+        currentExam: 'exams/currentExam',
+        plan: 'roles/currentPlan',
       }),
       loading() {
         return this.$store.getters.loading;

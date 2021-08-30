@@ -26,7 +26,7 @@
 import Calendar from './Calendar'
 import UpcomingTasks from '@/business/dashboard/UpcomingTasks'
 
-const endpointProjectsUrl = '/api/business/local_projects/'
+const endpointProjectsUrl = '/api/local_projects/'
 const pdfUrl = '/reminders.csv'
 
 export default {
@@ -41,7 +41,15 @@ export default {
       this.etag = Math.random()
     },
     refetch() {
-      fetch(endpointProjectsUrl, { headers: {'Accept': 'application/json'} })
+      const headers = {
+        'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : '',
+      }
+      //const business_id = window.localStorage["app.business_id"]
+      //if(business_id) headers.business_id = JSON.parse(business_id)
+
+      fetch(endpointProjectsUrl, headers)
         .then(response => response.json())
         .then(result => this.projects = result)
     },

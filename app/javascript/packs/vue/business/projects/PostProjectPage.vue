@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     localProjectUrl() {
-      return this.localProjectId && `/api/business/local_projects/${this.localProjectId}`
+      return this.localProjectId && `/api/local_projects/${this.localProjectId}`
     }
   }
 }

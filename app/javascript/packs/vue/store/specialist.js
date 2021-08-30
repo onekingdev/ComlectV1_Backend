@@ -4,8 +4,9 @@ import Vuex from 'vuex'
 import tasks from "./specialistModules/tasks"
 import settings from "./specialistModules/settings";
 import projects from "./specialistModules/projects"
-import shared from "./commonModules/shared";
 import auth from "./commonModules/auth";
+import shared from "./commonModules/shared";
+import roles from "./commonModules/roles-and-permissions";
 
 Vue.use(Vuex)
 
@@ -41,6 +42,10 @@ const store = new Vuex.Store({
     projects: {
       namespaced: true,
       ...projects,
+    },
+    roles: {
+      namespaced: true,
+      ...roles,
     },
   }
 })

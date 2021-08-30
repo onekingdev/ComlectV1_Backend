@@ -48,7 +48,7 @@ export default {
     initialProject: () => initialProject,
     submitUrl() {
       const toId = this.projectId ? `/${this.projectId}` : ''
-      return '/api/business/local_projects' + toId
+      return '/api/local_projects' + toId
     },
     httpMethod() {
       return this.projectId ? 'PATCH' : 'POST'

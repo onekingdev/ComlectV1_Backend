@@ -44,7 +44,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           },
           body: JSON.stringify(payload)
         })
@@ -97,7 +98,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           }
         })
         const data = await response.json()
@@ -150,7 +152,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           }
         })
         if (!response.ok) {
@@ -202,7 +205,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           },
           body: JSON.stringify(payload)
         })
@@ -321,7 +325,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           },
           body: JSON.stringify(payload)
         })
@@ -357,7 +362,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           },
           body: JSON.stringify(payload)
         })
@@ -393,7 +399,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           },
           body: JSON.stringify(payload)
         })

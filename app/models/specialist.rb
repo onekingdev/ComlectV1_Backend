@@ -342,6 +342,11 @@ class Specialist < ApplicationRecord
     team&.business || self
   end
 
+  def plan
+    return 'specialist_pro' if subscriptions.active.where(plan: 'specialist_pro').present?
+    'free'
+  end
+
   def public?
     is_public?
   end

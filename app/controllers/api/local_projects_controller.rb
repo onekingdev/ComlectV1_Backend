@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-class Api::Business::LocalProjectsController < ApiController
-  before_action :require_business!
-  before_action :authorize_action
+class Api::LocalProjectsController < ApiController
+  before_action :require_someone!
+  # before_action :authorize_action
   before_action :find_project, only: %i[show update destroy complete]
   before_action :ongoing_contracts, only: %i[destroy complete]
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    projects = current_business.local_projects.includes(projects: %i[industries skills jurisdictions end_request extension timesheets])
+    projects = @current_someone.local_projects.includes(projects: %i[industries skills jurisdictions end_request extension timesheets])
     respond_with projects, each_serializer: LocalProjectSerializer
   end
 
@@ -17,9 +17,11 @@ class Api::Business::LocalProjectsController < ApiController
   end
 
   def create
-    local_project = current_business.local_projects.build(local_project_params)
+    return render json: { error: 'Able to create project only through business' } if @current_someone.class.name.include?('Specialist')
+    local_project = @current_someone.local_projects.build(local_project_params)
     # local_project.status = 'draft' if params[:draft].present?
     if local_project.save
+      LocalProjectsSpecialist.create(local_project_id: local_project.id, specialist_id: current_user.specialist.id) if current_user.specialist
       process_hide(local_project)
       render json: local_project, status: :created
     else
@@ -54,10 +56,30 @@ class Api::Business::LocalProjectsController < ApiController
     end
   end
 
+  def add_specialist
+    local_project = @current_someone.local_projects.find(params[:project_id])
+    lps = LocalProjectsSpecialist.new(local_project_id: local_project.id, specialist_id: params[:id])
+    if lps.save
+      respond_with lps
+    else
+      respond_with errors: { local_projects_specialist: lps.errors.messages }
+    end
+  end
+
+  def remove_specialist
+    local_project = @current_someone.local_projects.find(params[:project_id])
+    lps = LocalProjectsSpecialists.where(local_project_id: local_project.id, specialist_id: params[:specialist_id])
+    if lps.present? && lps.first.destroy
+      respond_with status: :ok
+    else
+      respond_with errors: { local_projects_specialist: 'Unable to remove collaborator' }
+    end
+  end
+
   private
 
   def find_project
-    @local_project = current_business.local_projects.find(params[:id])
+    @local_project = @current_someone.local_projects.find(params[:id])
   end
 
   def process_hide(lproject)

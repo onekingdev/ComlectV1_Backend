@@ -11,7 +11,7 @@ class Business::AnnualReportsPolicy < ApplicationPolicy
   end
 
   def create?
-    annual_report_available? && team?
+    business? || (annual_report_available? && team?)
   end
 
   def update?
@@ -23,6 +23,6 @@ class Business::AnnualReportsPolicy < ApplicationPolicy
   end
 
   def clone?
-    annual_report_available? && team?
+    (annual_report_available? && team?) || business?
   end
 end

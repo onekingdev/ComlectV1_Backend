@@ -1,8 +1,8 @@
 <template lang="pug">
   .page
-    .page-header.p-x-40.p-t-30
+    .page-header.p-x-40.p-t-30(v-if="plan === 'free'")
       EmptyPlan
-    .page-header
+    .page-header(:class="plan === 'free' ? 'p-t-10' : ''")
       h2.page-header__title
         b Welcome,&nbsp;
         | {{currentSpecialist}}
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import Calendar from './Calendar'
 import UpcomingTasks from '@/specialist/dashboard/UpcomingTasks'
 import EmptyPlan from '@/specialist/settings/components/subscriptions/components/EmptyPlan'
@@ -56,10 +57,15 @@ export default {
     EmptyPlan,
   },
   computed: {
+    ...mapGetters({
+      roles: 'roles/roles',
+      role: 'roles/currentRole',
+      plan: 'roles/currentPlan',
+      currentAccount: 'roles/currentAccount',
+    }),
     pdfUrl: () => pdfUrl,
     currentSpecialist() {
-      // @TODO Must be fetched from API
-      const accountInfo = this.$store.getters.getUser
+      const accountInfo = this.currentAccount
       return accountInfo ? `${accountInfo.first_name} ${accountInfo.last_name}` : ''
     }
   }

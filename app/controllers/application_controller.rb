@@ -90,8 +90,8 @@ class ApplicationController < ActionController::Base
 
   def authorize_action(policy = nil)
     if current_user.specialist
-      if params[:business_id]
-        authorize params[:business_id], policy_class: policy if policy
+      if request.headers['HTTP_BUSINESS_ID']
+        authorize request.headers['HTTP_BUSINESS_ID'].to_i, policy_class: policy if policy
       else
         respond_with status: :unprocessable_entity
       end
@@ -112,8 +112,8 @@ class ApplicationController < ActionController::Base
 
     if current_user.business
       business = current_user.business
-    elsif current_user.specialist && params[:business_id]
-      business_role = current_user.specialist.specialists_business_roles.find_by(business_id: params[:business_id])
+    elsif current_user.specialist && request.headers['HTTP_BUSINESS_ID']
+      business_role = current_user.specialist.seat? ? current_user.specialist.team : current_user.specialist.specialists_business_roles.find_by(business_id: request.headers['HTTP_BUSINESS_ID'].to_i)
       if business_role
         business = business_role.business
       else
@@ -178,7 +178,7 @@ class ApplicationController < ActionController::Base
   def require_specialist!
     return if user_signed_in? && current_specialist
     return authenticate_user! unless user_signed_in?
-    render 'forbidden', status: :forbidden, locals: { message: 'Only specialist accounts can access this page' }
+    respond_with error: 'Only specialist accounts can access this page'
   end
 
   def employee?

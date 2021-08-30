@@ -16,6 +16,12 @@ axios.interceptors.request.use((request) => {
       request.headers.Authorization = `${accessToken}`
       // request.headers.AccessToken = accessToken
   }
+  const businessId = window.localStorage.getItem('app.business_id')
+  if (businessId && (typeof businessId !== "undefined")) {
+    if (request.url.indexOf("/reminders") !== 0) {
+      request.headers.business_id = JSON.parse(businessId)
+    }
+  }
 
   const jwtToken = window.localStorage.getItem('app.currentUser.token')
   if (jwtToken) {

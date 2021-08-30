@@ -1027,7 +1027,6 @@ input, button, select, optgroup, textarea {
 .btn {
   @include font-bold-14;
   text-transform: capitalize;
-  white-space: nowrap;
 
   &:hover,
   &:focus,
@@ -1044,6 +1043,10 @@ input, button, select, optgroup, textarea {
 
   &.no-capitalize {
     text-transform: none;
+  }
+
+  &.no-wrap{
+    white-space: nowrap;
   }
 }
 
@@ -2683,7 +2686,9 @@ table.table {
       border-left: solid 5px $green;
 
       &::before {
-        background: url("./complete.svg") center no-repeat;
+        background: asset_url("complete.svg") center no-repeat;
+        background-color: $green;
+        border-radius: 50%;
       }
     }
   }
@@ -2694,7 +2699,9 @@ table.table {
       border-left: solid 5px $red;
 
       &::before {
-        background: url("./error_20.svg") center no-repeat;
+        background: asset_url("error_20.svg") center no-repeat;
+        background-color: $red;
+        border-radius: 50%;
       }
     }
   }
@@ -3687,7 +3694,9 @@ select.custom-select {
   min-height: inherit;
   min-width: 53.125rem; //850px
   height: 100%;
-  border-radius: 0;
+  border: 0 !important;
+  border-right: solid 1px $gray-1 !important;
+  border-radius: 0 !important;
 
   @media (max-width: 1250px) {
     min-width: auto;
@@ -3767,6 +3776,10 @@ select.custom-select {
   padding: 2.5rem;
   font-size: 1rem;
   border-bottom: solid 1px #DCDEE4;
+
+  dt {
+    color: $black !important;
+  }
 
   @media (max-width: 800px) {
     padding: 1.5em;

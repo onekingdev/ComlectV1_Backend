@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import AuthGuard from './auth-guard'
+import AuthGuard from './auth-guard'
 
 // COMMON
 import PageNotFound from '@/common/PageNotFound'
@@ -66,6 +66,8 @@ export default new Router({
   routes: [
     //NOT FOUND
     { path: "*", component: PageNotFound },
+
+    //ROLES AND PERMISSIONS
     { path: "/access-denied", component: AccessDenied },
     { path: "/payment-required", component: PaymentRequired },
 
@@ -100,21 +102,20 @@ export default new Router({
     { path: '/business/project_posts/:id(\\d+)', name: 'project-post-view', props: route => ({ projectId: +route.params.id }), component: ShowPostPage },
     { path: '/business/project_posts/:id(\\d+)/edit', name: 'project-post-edit', props: route => ({ projectId: +route.params.id }), component: PostProjectPage },
     { path: '/business/reminders', name: 'tasks', component: Tasks },
-    // { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
-    { path: '/business/compliance_policies', name: 'policies', component: Policies, },
-    { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire },
-    { path: '/business/compliance_policies/:policyId(\\d+)', name: 'policy-current', props: route => ({ policyId: +route.params.policyId, toggleVueEditor: route.params.toggleVueEditor }), component: PolicyCurrentNoSections },
-    { path: '/business/annual_reviews', name: 'annual-reviews', component: AnnualReviews },
-    { path: '/business/annual_reviews/:annualId(\\d+)', name: 'annual-reviews-general', props: route => ({ annualId: +route.params.annualId }), component: AnnualReviewsCurrentGeneral, },
-    { path: '/business/annual_reviews/:annualId(\\d+)/:revcatId(\\d+)', name: 'annual-reviews-review-category', props: route => ({ annualId: +route.params.annualId, revcatId: +route.params.revcatId }), component: AnnualReviewsCurrentReviewCategory },
-    { path: '/business/risks', name: 'risks', component: Risks },
-    { path: '/business/risks/:riskId(\\d+)', name: 'risk-review', props: route => ({ riskId: +route.params.riskId }), component: RiskDetail },
-    { path: '/business/file_folders', name: 'file-folders', component: FileFolders },
-    { path: '/business/exam_management', name: 'exam-management', component: Exams },
-    { path: '/business/exam_management/:examId(\\d+)', name: 'exam-management-current-review', props: route => ({ examId: +route.params.examId }), component: ExamCurrentReview },
-    { path: '/business/reports/risks', name: 'reports-risks', component: ReportsRisks },
-    { path: '/business/reports/organizations', name: 'reports-organizations', component: ReportsOrganizations },
-    { path: '/business/reports/financials', name: 'reports-financials', component: ReportsFinancials },
+    { path: '/business/compliance_policies', name: 'policies', component: Policies, beforeEnter: AuthGuard },
+    { path: '/business/compliance_policies/entire', name: 'policies-entire', props: true, component: PoliciesEntire, beforeEnter: AuthGuard },
+    { path: '/business/compliance_policies/:policyId(\\d+)', name: 'policy-current', props: route => ({ policyId: +route.params.policyId, toggleVueEditor: route.params.toggleVueEditor }), component: PolicyCurrentNoSections, beforeEnter: AuthGuard },
+    { path: '/business/annual_reviews', name: 'annual-reviews', component: AnnualReviews, beforeEnter: AuthGuard },
+    { path: '/business/annual_reviews/:annualId(\\d+)', name: 'annual-reviews-general', props: route => ({ annualId: +route.params.annualId }), component: AnnualReviewsCurrentGeneral, beforeEnter: AuthGuard },
+    { path: '/business/annual_reviews/:annualId(\\d+)/:revcatId(\\d+)', name: 'annual-reviews-review-category', props: route => ({ annualId: +route.params.annualId, revcatId: +route.params.revcatId }), component: AnnualReviewsCurrentReviewCategory, beforeEnter: AuthGuard },
+    { path: '/business/risks', name: 'risks', component: Risks, beforeEnter: AuthGuard },
+    { path: '/business/risks/:riskId(\\d+)', name: 'risk-review', props: route => ({ riskId: +route.params.riskId }), component: RiskDetail, beforeEnter: AuthGuard },
+    { path: '/business/file_folders', name: 'file-folders', component: FileFolders, beforeEnter: AuthGuard },
+    { path: '/business/exam_management', name: 'exam-management', component: Exams, beforeEnter: AuthGuard },
+    { path: '/business/exam_management/:examId(\\d+)', name: 'exam-management-current-review', props: route => ({ examId: +route.params.examId }), component: ExamCurrentReview, beforeEnter: AuthGuard },
+    { path: '/business/reports/risks', name: 'reports-risks', component: ReportsRisks, beforeEnter: AuthGuard },
+    { path: '/business/reports/organizations', name: 'reports-organizations', component: ReportsOrganizations, beforeEnter: AuthGuard },
+    { path: '/business/reports/financials', name: 'reports-financials', component: ReportsFinancials, beforeEnter: AuthGuard },
     { path: '/business/profile', name: 'profile', component: Profile},
     { path: '/business/settings', name: 'settings', component: Settings,
       children:  [
@@ -149,7 +150,7 @@ export default new Router({
     { path: '/specialist/settings/notification-center', name: 'settings-notification-center-specialist', component: SettingsNotificationsS },
     { path: '/job_board', name: 'projects-marketpalce-specialist', component: ProjectsMarketplaceS },
     { path: '/job_board/:initialOpenId(\\d+)', name: 'projects-marketpalce-specialist-view', props: paramsToInts(['initialOpenId']), component: ProjectsMarketplaceS },
-    { path: '/job_board/:projectId(\\d+)/applications/new', name: 'projects-marketplace-create-proposal', props: paramsToInts(['projectId']), component: CreateProposalPage },
+    { path: '/job_board/:projectId(\\d+)/applications/new', name: 'projects-marketplace-create-proposal', props: paramsToInts(['projectId']), component: CreateProposalPage, beforeEnter: AuthGuard },
     { path: '/specialist/my-projects/:id(\\d+)/timesheets', name: 'my-project-timesheet-page', props: paramsToInts(['id']), component: ProjectTimesheetsPage },
     { path: '/specialist/profile', name: 'profile-specialist', component: ProfileS },
   ],

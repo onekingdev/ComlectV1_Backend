@@ -361,7 +361,7 @@
             .then((response) => console.log('getReviews response mounted', response))
             .catch((err) => console.error(err));
 
-          fetch('/api/business/local_projects/', {
+          fetch('/api/local_projects/', {
             method: 'GET',
             headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
             // body: JSON.stringify(this.task)

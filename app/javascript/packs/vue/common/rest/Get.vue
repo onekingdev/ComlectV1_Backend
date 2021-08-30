@@ -19,14 +19,29 @@ export default {
   },
   data() {
     return {
-      slotProps: {}
+      slotProps: {},
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : '',
+      }
     }
   },
   methods: {
+    patchHeader(addr) {
+      if (addr.indexOf("/api/local_projects") != 0) {
+        const business_id = window.localStorage["app.business_id"]
+        if(business_id && (business_id != "undefined")) this.headers.business_id = JSON.parse(business_id)
+      }
+    },
     refetch() {
       Object.keys(this.$attrs)
+        .filter(prop => !!this.$attrs[prop])
+        .map(prop => this.patchHeader(this.$attrs[prop]));
+
+      Object.keys(this.$attrs)
             .filter(prop => !!this.$attrs[prop])
-            .map(prop => fetch(this.$attrs[prop], { headers: {'Accept': 'application/json'}})
+            .map(prop => fetch(this.$attrs[prop], { headers: this.headers })
             .then(response => response.json())
             .then(result => Vue.set(this.slotProps, prop, this.callback(result))))
     }

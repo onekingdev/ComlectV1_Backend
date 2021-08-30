@@ -9,7 +9,8 @@
             p.info-board__subtitle.mb-0 Sign up for our All Access Membership and unlock the compliance job board, enjoy automated billing, and access to client compliance program management tools.
         .d-flex.ml-auto.align-items-center
           //button.btn.btn-default.mr-2 More information
-          button.btn.btn-dark Upgrade Now
+          router-link.btn.btn-dark.no-wrap(:to='`/${userType}/settings`')
+            | Upgrade Now
             b-icon.ml-2(icon="chevron-right")
 </template>
 
@@ -19,7 +20,7 @@
     components: {},
     data() {
       return {
-
+        userType: localStorage.getItem('app.currentUser.userType') ? JSON.parse(localStorage.getItem('app.currentUser.userType')) : ''
       }
     }
   }

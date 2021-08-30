@@ -15,4 +15,9 @@ class CompliancePolicySerializer < ApplicationSerializer
              :versions,
              :archived,
              :reminders
+
+  def status
+    return 'published' if object.untouched && object.versions.present?
+    'draft'
+  end
 end

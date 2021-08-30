@@ -2,7 +2,7 @@
   div
     .row
       .col.mb-2.text-center
-        h2.mb-3 Choose your Membership plan
+        h2.mb-3 Choose your Membership Plan
         p.onboarding__sub-title.m-b-10 Want to skip selecting a plan?
         b-form-group.m-b-40
           b-button(type='button' variant='outline-primary' @click="$emit('openDetails', freePlan)") Continue With Free Plan

@@ -36,7 +36,8 @@
 <script>
 // import { DateTime } from 'luxon'
 import { toEvent, isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass, isRepeat } from '@/common/TaskHelper'
-import TaskModalCreateEdit from '@/common/TaskFormModal'
+// import TaskModalCreateEdit from '@/common/TaskFormModal'
+import TaskModalCreateEdit from '../modals/TaskModalCreateEdit'
 import TaskModalDelete from '../modals/TaskModalDelete'
 
 export default {

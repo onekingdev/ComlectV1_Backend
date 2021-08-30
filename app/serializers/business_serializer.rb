@@ -21,7 +21,8 @@ class BusinessSerializer < ApplicationSerializer
              :website,
              :contact_phone,
              :zipcode,
-             :time_zone
+             :time_zone,
+             :plan
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
 end

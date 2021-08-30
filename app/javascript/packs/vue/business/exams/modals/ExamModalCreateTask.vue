@@ -235,7 +235,7 @@
 
         this.$store.dispatch('annual/getReviews')
 
-        fetch('/api/business/local_projects/', {
+        fetch('/api/local_projects/', {
           method: 'GET',
           headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
           // body: JSON.stringify(this.task)

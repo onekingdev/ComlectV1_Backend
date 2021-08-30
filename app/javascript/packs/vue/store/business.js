@@ -12,6 +12,7 @@ import projects from "./businesModules/projects"
 import risks from "./businesModules/risks";
 // import auth from "./commonModules/auth";
 import shared from "./commonModules/shared";
+import roles from "./commonModules/roles-and-permissions";
 
 Vue.use(Vuex);
 
@@ -85,6 +86,10 @@ const store = new Vuex.Store({
     projects: {
       namespaced: true,
       ...projects,
+    },
+    roles: {
+      namespaced: true,
+      ...roles,
     },
   },
 });

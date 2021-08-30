@@ -15,5 +15,7 @@ class SpecialistSerializer < ApplicationSerializer
     :experience,
     :sub_industries,
     :former_regulator,
-    :specialist_other
+    :specialist_other,
+    :seat_role,
+    :plan
 end

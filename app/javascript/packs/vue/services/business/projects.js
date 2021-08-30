@@ -1,7 +1,7 @@
 import axios from '../../services/axios'
 import store from '../../store/business'
 
-const END_POINT = '/business/local_projects'
+const END_POINT = '/local_projects'
 
 export async function getProjects() {
   return axios

@@ -44,7 +44,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def create
-    cpolicy = current_business.compliance_policies.create(cpolicy_params)
+    cpolicy = current_business.compliance_policies.create(cpolicy_params.merge(untouched: false))
     if cpolicy.errors.any?
       respond_with errors: cpolicy.errors, status: :unprocessable_entity
     else
@@ -65,7 +65,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def update
-    if @cpolicy.update(cpolicy_params)
+    if @cpolicy.update(cpolicy_params.merge(untouched: false))
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
       respond_with errors: @cpolicy.errors, status: :unprocessable_entity

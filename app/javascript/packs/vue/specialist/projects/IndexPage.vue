@@ -1,40 +1,39 @@
 <template lang="pug">
   .container
     .row
-      .col-md-2.px-0.m-t-2
+      .col-md-3.px-0.m-t-2
         .card#sidebarMenu_alt
-          .card-body(style='border-bottom: 0px;')
-            b Filters
+          .card-title.p-x-20(style='border-bottom: 0px;')
+            h3.mb-0 Filters
           .card-body
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_pricing_type)
+            h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_pricing_type)
               | Job Type
               ion-icon(name='chevron-down-outline')
             b-collapse#collapse_pricing_type(visible)
               b-form-checkbox(v-for="(option, i) in pricingTypeOptions" v-model="filter.pricing_type[i]" :key="'p'+i") {{option.label}}
             hr
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
+            h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_experience)
               | Experience Level
               ion-icon(name='chevron-down-outline')
             b-collapse#collapse_experience(visible)
               b-form-checkbox(v-for="(option, i) in experienceOptions" v-model="filter.experience[i]" :key="'e'+i") {{option.label}}
             hr
-            //h3.d-flex.justify-content-between(@click="refetch" role="button" v-b-toggle.collapse_budget)
+            //h5.d-flex.justify-content-between(@click="refetch" role="button" v-b-toggle.collapse_budget)
               | Budget
               ion-icon(name='chevron-down-outline')
             //b-collapse#collapse_budget(visible)
               b-form-checkbox(v-for="(option, i) in budgetOptions" v-model="filter.budget[i]") {{option.label}}
             //hr
-            h3.d-flex.justify-content-between(role="button" v-b-toggle.collapse_duration)
+            h5.d-flex.justify-content-between(role="button" v-b-toggle.collapse_duration)
               | Estimated Duration
               ion-icon(name='chevron-down-outline')
             b-collapse#collapse_duration(visible)
               b-form-checkbox(v-for="(option, i) in durationOptions" v-model="filter.duration[i]" :key="'d'+i") {{option.label}}
 
-      .col-md-10.m-t-2
+      .col-md-9.m-t-2
         .card
-          .card-body
-            .col-md-12
-              h3 Browse Projects
+          .card-title.p-x-20
+            h3.mb-0 Browse Projects
           .card-body
             .col-md-12
               .row.py-2

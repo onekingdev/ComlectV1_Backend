@@ -4,6 +4,8 @@ class LocalProjectSerializer < ApplicationSerializer
   has_many :projects, serializer: ProjectSerializer
   has_one :business, serializer: Specialist::BusinessSerializer
   has_one :visible_project, serializer: ProjectSerializer
+  has_many :specialists, serializer: Business::SpecialistSerializer
+  has_many :collaborators, serializer: Business::SpecialistSerializer
   attributes :id,
              :business_id,
              :title,

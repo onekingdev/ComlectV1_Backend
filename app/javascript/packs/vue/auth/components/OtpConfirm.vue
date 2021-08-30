@@ -74,7 +74,7 @@
               // this.toast('Error', 'Verification code failed. Try again.', true)
               if (response.errors) { }
               if (!response.errors && response.specialist && response.token && this.inviteToken) {
-                const dashboard = '/business'
+                const dashboard = '/specialist'
                 window.location.href = `${dashboard}`;
                 return
               }
@@ -113,7 +113,7 @@
                 // this.toast('Error', 'Verification code failed. Try again.', true)
               }
               if (!response.errors && response.specialist && response.token && this.inviteToken) {
-                const dashboard = '/business'
+                const dashboard = '/specialist'
                 window.location.href = `${dashboard}`;
                 return
               }

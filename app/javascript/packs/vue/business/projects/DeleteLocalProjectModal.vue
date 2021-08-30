@@ -47,7 +47,7 @@ export default {
       return this.hasSpecialist && `${this.hasSpecialist.first_name} ${this.hasSpecialist.last_name}`
     },
     deleteUrl() {
-      return `/api/business/local_projects/${this.project.id}`
+      return `/api/local_projects/${this.project.id}`
     }
   }
 }

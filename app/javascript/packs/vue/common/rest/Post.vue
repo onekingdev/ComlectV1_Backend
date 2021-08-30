@@ -31,6 +31,7 @@ export default {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'business_id': window.localStorage["app.business_id"],
           'Authorization': localStorage.getItem('app.currentUser.token') ? JSON.parse(localStorage.getItem('app.currentUser.token')) : '',
           ...this.headers},
         body: JSON.stringify(this.model)

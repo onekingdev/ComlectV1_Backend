@@ -1,6 +1,6 @@
 <template lang="pug">
   .page
-    Get.d-flex.flex-column.flex-grow-1(:etag="etag" :project="`/api/business/local_projects/${projectId}`" currentBusiness="/api/businesses/current"): template(v-slot="{project,currentBusiness}")
+    Get.d-flex.flex-column.flex-grow-1(:etag="etag" :project="`/api/local_projects/${projectId}`" currentBusiness="/api/businesses/current"): template(v-slot="{project,currentBusiness}")
       CommonHeader(:title="project.title" :sub="currentBusiness.business_name" :breadcrumbs="['Projects', project.title]")
         .d-flex.justify-content-end
           p.m-b-2: ShowOnCalendarToggle(:project="project")
@@ -93,17 +93,17 @@
                 .card(v-if="!showingContract")
                   .card-header.d-flex.justify-content-between
                     h3.m-y-0 Collaborators
-                    Get(:etag="etag" :specialists="`/api/business/specialists`" :callback="getSpecialistsOptions" ): template(v-slot="{specialists}")
+                    Get(:etag="etag" :specialists="`/api/business/team_members/specialists`" :callback="getSpecialistsOptions" ): template(v-slot="{specialists}")
                       button.btn.btn-default.float-right(v-b-modal="'AddCollaboratorModal'") Add Collaborator
                       b-modal#AddCollaboratorModal(title="Add Collaborator" :project="project")
                         p Select a user to add.
                         p
                           strong Note:&nbsp;
                           | An unlimited amount of employees can be added to the project but only one specialist can be actively working on a project at a time.
-                        InputSelect(value="role" :options="specialists") Select User
+                        InputSelect(v-model="id" :options="specialists") Select User
                         template(#modal-footer="{ hide }")
                           button.btn.btn-link(@click="hide") Cancel
-                          Post(:action="hireUrl + '?job_application_id=' + project.id" :model="{role}" @saved="newEtag()")
+                          Post(:action="'/api/local_projects/' + project.id + '/specialists'" :model="{id}" @saved="newEtag()")
                             button.btn.btn-dark Add
                   .card-body
                     .card.p-20(v-for="contract in getContracts(project.projects)" :key="contract.specialist.id")
@@ -184,6 +184,7 @@ export default {
       tab: 0,
       showingContract: null,
       role: '',
+      id: null,
       modalId: null,
       completedTasksOpen: true,
     }

@@ -78,7 +78,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
           body: JSON.stringify({
             name: payload.name
           })
@@ -121,7 +122,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
           body: JSON.stringify({...payload})
         }).then(response => {
           // console.log(response)
@@ -167,7 +169,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
         })
           .then(response => {
           console.log(response)
@@ -205,7 +208,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
         }).then(response => {
           if (!response.ok)
             throw new Error(`Could't publish policy (${response.status})`);
@@ -238,7 +242,8 @@ export default {
         const data = await fetch(`${endpointUrl}`, {
           headers: {
             'Authorization': `${TOKEN}`,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'business_id': window.localStorage["app.business_id"]
           }})
           .then(response => {
             return response.json()
@@ -276,7 +281,8 @@ export default {
         const data = await fetch(`${endpointUrl}${payload.policyId}`, {
           headers: {
           'Authorization': `${TOKEN}`,
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'business_id': window.localStorage["app.business_id"]
           }})
           .then(response => response.json())
           .then(response => {
@@ -306,7 +312,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
           body: JSON.stringify({
             position: payload.position,
           })
@@ -390,7 +397,8 @@ export default {
           method: 'DELETE',
           headers: {
           'Authorization': `${TOKEN}`,
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'business_id': window.localStorage["app.business_id"]
         }})
           .then(response => response.json())
           .then(response => {
@@ -422,7 +430,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'},
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
           body: JSON.stringify({
             archived: payload.archived
           })
@@ -457,7 +466,8 @@ export default {
           headers: {
             'Authorization': `${TOKEN}`,
             'Accept': 'application/json',
-            'Content-Type': 'application/json'}
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]}
         }).then(response => {
           if (!response.ok)  throw new Error(`Could't create Policy Config (${response.status})`)
           return response.json()

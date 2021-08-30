@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get '/squarespace' => 'users/sessions#squarespace'
     get '/squarespace_destroy' => 'users/sessions#squarespace_destroy'
+    get '/verification' => 'users/sessions#new'
   end
 
   root to: 'landing_page#show'
@@ -106,7 +107,7 @@ Rails.application.routes.draw do
     resources :annual_reports, only: %i[new create index update]
     resources :teams, only: %i[new create show edit index update destroy]
     resources :team_members, only: %i[new create edit update destroy]
-    resources :tasks, only: %i[new update create destroy show edit index]
+    resources :reminders, only: %i[index]
     resources :audit_requests, only: %i[index update create new edit show destroy]
     put '/audit_requests' => 'audit_requests#update'
     resource :help, only: :show do
@@ -172,7 +173,7 @@ Rails.application.routes.draw do
     post '/onboarding' => 'onboarding#subscribe'
     get '/' => 'dashboard#show', as: :dashboard
     get '/locked' => 'dashboard#locked'
-    resources :tasks, only: %i[new update create destroy edit show index]
+    resources :reminders, only: %i[index]
     resources :addons, only: %i[index]
     resource :help, only: :show do
       resource :questions
@@ -297,6 +298,8 @@ Rails.application.routes.draw do
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
     post 'local_projects/:project_id/messages' => 'project_messages#create'
+    post 'local_projects/:project_id/specialists' => 'local_projects#add_specialist'
+    delete 'local_projects/:project_id/specialists/:specialist_id' => 'local_projects#remove_specialist'
     resources :direct_messages, path: 'messages/:recipient_id', only: %i[index create]
     get 'messages' => 'direct_messages#show'
     resources :project_ratings, only: %i[index]
@@ -308,6 +311,9 @@ Rails.application.routes.draw do
     get '/reminders/:date_from/:date_to' => 'reminders#by_date'
     get '/overdue_reminders' => 'reminders#overdue'
     post '/reminders' => 'reminders#create'
+
+    resources :local_projects, only: %i[index create show update destroy]
+    put 'local_projects/:id/complete' => 'local_projects#complete'
     namespace :business do
       resources :exams, only: %i[index show create update destroy] do
         resources :exam_requests, path: 'requests', only: %i[create update destroy] do
@@ -323,8 +329,6 @@ Rails.application.routes.draw do
       end
       resources :file_docs, only: %i[create update destroy]
       resource :compliance_policy_configuration, only: %i[show update]
-      resources :local_projects, only: %i[index create show update destroy]
-      put 'local_projects/:id/complete' => 'local_projects#complete'
       resources :projects, only: %i[index show create update destroy] do
         resources :project_messages, path: 'messages', only: %i[index create]
         resources :job_applications, path: 'applications', only: %i[index] do

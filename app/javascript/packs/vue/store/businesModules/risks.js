@@ -57,7 +57,7 @@ export default {
 
       try {
         const endpointUrl = '/api/business/risks'
-        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json'}})
+        const data = await fetch(`${endpointUrl}`, { headers: {'Accept': 'application/json', 'business_id': window.localStorage["app.business_id"]}})
           .then(response => {
             return response.json()
           })
@@ -188,7 +188,7 @@ export default {
 
       try {
         const endpointUrl = '/api/business/risks/'
-        const data = await fetch(`${endpointUrl}${payload.riskId}`, { headers: {'Accept': 'application/json'}})
+        const data = await fetch(`${endpointUrl}${payload.riskId}`, { headers: {'Accept': 'application/json', 'business_id': window.localStorage["app.business_id"]}})
           .then(response => response.json())
           .then(response => {
             commit('updateCurrentRisk', response)

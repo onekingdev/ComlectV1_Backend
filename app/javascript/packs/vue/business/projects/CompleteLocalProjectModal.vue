@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     url() {
-      return '/api/business/local_projects/' + this.project.id + '/complete'
+      return '/api/local_projects/' + this.project.id + '/complete'
     },
     hasSpecialist() {
       return this.project.projects[0] && this.project.projects[0].specialist_id && this.project.projects[0].specialist

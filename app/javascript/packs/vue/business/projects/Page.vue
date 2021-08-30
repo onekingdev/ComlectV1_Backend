@@ -5,7 +5,7 @@
         h2.m-b-10 Projects
         p.page-header__subtitle.mb-0 Plan projects with employees or hire external specialists to help
       .page-header__actions.mt-0.mb-auto
-        router-link.btn.btn-default.m-r-1(to='/business/projects/new') Post Project
+        router-link.btn.btn-default.m-r-1(v-if="role !=='basic'" to='/business/projects/new') Post Project
         LocalProjectModal(@saved="newEtag")
           a.btn.btn-primary New Project
     b-tabs.special-navs(content-class="mt-0 h-100")
@@ -23,11 +23,11 @@
             //    ion-icon.ml-2(name="chevron-down-outline" size="small")
             //  b-dropdown-item 2021
             //  b-dropdown-item 2020
-          Get(projects="/api/business/local_projects/" :etag="etag"): template(v-slot="{projects}")
+          Get(projects="/api/local_projects/" :etag="etag"): template(v-slot="{projects}")
             ProjectTable(:projects="filterProjects(projects)")
       b-tab(title="Contacts")
         .card-body.white-card-body.card-body_full-height
-          Get(contacts="/api/business/local_projects/" :etag="etag" :callback="getContacts"): template(v-slot="{contacts}"): table.table
+          Get(contacts="/api/local_projects/" :etag="etag" :callback="getContacts"): template(v-slot="{contacts}"): table.table
             thead
               tr
                 th Name
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import ProjectTable from './ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
@@ -127,6 +128,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      roles: 'roles/roles',
+      role: 'roles/currentRole',
+      plan: 'roles/currentPlan',
+    }),
     filterStatuses: () => FILTER_STATUSES,
     filteredStatus() {
       return FILTER_STATUSES[this.filterStatus]

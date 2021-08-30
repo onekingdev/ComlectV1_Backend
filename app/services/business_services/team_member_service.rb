@@ -30,11 +30,15 @@ module BusinessServices
     private
 
     def update_team_member
-      if team_member.update(params) && team_member.saved_change_to_email?
-        Notification::Deliver.got_seat_assigned!(
-          team_member.specialist_invitation,
-          :new_employee
-        )
+      if team_member.update(params)
+        specialist = team_member&.specialist_invitation&.specialist
+        specialist&.update_attribute('seat_role', params[:role])
+        if team_member.saved_change_to_email?
+          Notification::Deliver.got_seat_assigned!(
+            team_member.specialist_invitation,
+            :new_employee
+          )
+        end
       else
         @success = false
       end
