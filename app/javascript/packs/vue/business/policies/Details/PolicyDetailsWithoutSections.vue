@@ -95,9 +95,9 @@ import Tiptap from '@/common/Tiptap'
       PoliciesModalRemoveSubsection,
       PoliciesModalPublish
     },
-    created() {
-      this.$store.commit('changeSidebar', 'builder')
-    },
+    // created() {
+    //   this.$store.commit('changeSidebar', 'builder')
+    // },
     data() {
       return {
         leftMenu: true,
@@ -174,6 +174,7 @@ import Tiptap from '@/common/Tiptap'
       },
       closeAndExit () {
         //window.location.href = `${window.location.origin}/business/compliance_policies`
+        this.$store.commit('changeSidebar', 'default')
         this.$router.push(`/business/compliance_policies`)
       },
       archivePolicy(policyId, archiveStatus) {
@@ -182,6 +183,8 @@ import Tiptap from '@/common/Tiptap'
           .then(response => {
             //console.log('response', response)
             this.toast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
+            this.$router.push(`/business/compliance_policies`)
+            this.$store.commit('changeSidebar', 'default')
           })
           .catch(error => {
             console.error(error)
