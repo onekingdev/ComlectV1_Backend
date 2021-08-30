@@ -1,46 +1,52 @@
 <template lang="pug">
-  div
-    .row
-      .col.mb-2.text-center
-        h2.m-b-20 Choose your plan
-        b-form-group.mb-5(v-slot="{ ariaDescribedby }")
-          b-form-radio-group(id="btn-radios-plan"
-          v-model="billingTypeSelected"
-          :options="billingTypeOptions"
-          :aria-describedby="ariaDescribedby"
-          button-variant="outline-primary"
-          size="md"
-          name="radio-btn-outline"
-          buttons)
-    .billing-plans
-      b-card.billing-plan(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]" :key=`index`)
-        b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
-          | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
-        b-card-text(:class="billingTypeSelected === 'annually' ?  'billing-plan__common-info' : ''")
-          h4.billing-plan__name {{ plan.name }}
-          p.billing-plan__descr {{ plan.description }}
-          h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyDiscountFormatted : plan.coastMonthlyFormatted }}
-            span.billing-plan__discount(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")  &nbsp;{{ plan.coastMonthlyFormatted }}
-          p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
-          p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")
-            //span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
-            span.text-success.font-weight-bold &nbsp;{{ plan.coastAnnuallyFormatted }}
-          p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
-        hr
-        ul.list-unstyled.billing-plan__list
-          li.billing-plan__item(v-for="feature in plan.features")
-            b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
-            span(v-html="feature")
-    b-sidebar#BillingPlanSidebar(@hidden="closeSidebar" v-model="isSidebarOpen" backdrop-variant='dark' backdrop left no-header width="60%")
-      .card
-        .card-header.borderless
-          .d-flex.justify-content-between
+  .registration-onboarding.position-relative(:class="{ full: isSidebarOpen }")
+    Overlay(v-if="overlay.active")
+    .container-fluid(v-if="!isSidebarOpen")
+      .row
+        .col-md-9.mx-auto.my-2
+          .card
+            .card-body
+              .row
+                .col.mb-2.text-center
+                  h2.m-b-20 Choose your plan
+                  b-form-group.mb-5(v-slot="{ ariaDescribedby }")
+                    b-form-radio-group(id="btn-radios-plan"
+                    v-model="billingTypeSelected"
+                    :options="billingTypeOptions"
+                    :aria-describedby="ariaDescribedby"
+                    button-variant="outline-primary"
+                    size="md"
+                    name="radio-btn-outline"
+                    buttons)
+              .billing-plans
+                b-card.billing-plan(v-for='(plan, index) in billingPlans' :class="[index === 0 ? 'billing-plan_low' : '', index === 1 ? 'billing-plan_medium' : '', index === 2 ? 'billing-plan_high' : '' ]" :key=`index`)
+                  b-button.m-b-20(type='button' :variant="currentPlan.status && currentPlan.id === index+1 ? 'dark' : 'outline-primary'" @click="openDetails(plan)")
+                    | {{ currentPlan.status && currentPlan.id === index+1 ? 'Current' : 'Select' }} Plan
+                  b-card-text(:class="billingTypeSelected === 'annually' ?  'billing-plan__common-info' : ''")
+                    h4.billing-plan__name {{ plan.name }}
+                    p.billing-plan__descr {{ plan.description }}
+                    h5.billing-plan__coast {{ billingTypeSelected === 'annually' ?  plan.coastMonthlyDiscountFormatted : plan.coastMonthlyFormatted }}
+                      span.billing-plan__discount(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")  &nbsp;{{ plan.coastMonthlyFormatted }}
+                    p.billing-plan__users(v-if="plan.id === 1") {{ plan.users }}
+                    p.billing-plan__users(v-if="plan.id !== 1 && billingTypeSelected === 'annually'")
+                      //span.billing-plan__discount {{ plan.coastMonthlyFormatted }}
+                      span.text-success.font-weight-bold &nbsp;{{ plan.coastAnnuallyFormatted }}
+                    p.billing-plan__users(v-if="plan.id !== 1") {{ billingTypeSelected === 'annually' ?  plan.usersCount + ' free users plus $' + plan.additionalUserAnnually + '/year per person' : plan.usersCount + ' free users plus $' + plan.additionalUserMonthly + '/mo per person' }}
+                  hr
+                  ul.list-unstyled.billing-plan__list
+                    li.billing-plan__item(v-for="feature in plan.features")
+                      b-icon.billing-plan__icon(icon="check-circle-fill" variant="success")
+                      span(v-html="feature")
+    .select-plan(v-if="isSidebarOpen")
+      .card.registration-card
+        .borderless.m-b-40.px-0.pt-0
+          .d-flex.justify-content-between.m-b-40
             b-button(variant="default" @click="isSidebarOpen = false")
               b-icon.mr-2(icon="chevron-left" variant="dark")
               | Back
-          .d-block.m-t-1
-            h2 Time to power up
-            p Review and confirm your subscription
+          .registration-card__header
+            h2.registration-card__main-title Time to power up
+            p.registration-card__main-subtitle Review and confirm your subscription
         BillingDetails(
         :billingTypeSelected="billingTypeSelected"
         :billingTypeOptions="billingTypeOptions"
@@ -49,21 +55,22 @@
         @updateAdditionalUsers="updateAdditionalUsers"
         @complitedPaymentMethod="complitedPaymentMethod"
         )
-    PurchaseSummary(
-    v-if="isSidebarOpen"
-    :billingTypeSelected="billingTypeSelected"
-    :billingTypeOptions="billingTypeOptions"
-    :plan="selectedPlan"
-    :additionalUsers="additionalUsers"
-    @complitePurchaseConfirmed="selectPlanAndComplitePurchase",
-    :disabled="disabled"
-    )
+      PurchaseSummary(
+      v-if="isSidebarOpen"
+      :billingTypeSelected="billingTypeSelected"
+      :billingTypeOptions="billingTypeOptions"
+      :plan="selectedPlan"
+      :additionalUsers="additionalUsers"
+      @complitePurchaseConfirmed="selectPlanAndComplitePurchase",
+      :disabled="disabled"
+      )
 </template>
 
 <script>
-  import { mapActions } from "vuex"
+  import { mapActions, mapGetters } from "vuex"
   import BillingDetails from './BillingDetails'
   import PurchaseSummary from './PurchaseSummary'
+  import Overlay from './Overlay'
 
   import data from './BillingPlansData.json'
 
@@ -71,6 +78,7 @@
     components: {
       BillingDetails,
       PurchaseSummary,
+      Overlay,
     },
     data() {
       return {
@@ -111,9 +119,7 @@
         additionalUsers: 0,
         paymentSourceId: null,
         disabled: true,
-        overlay: false,
-        overlayStatus: '',
-        overlayStatusText: '',
+
         currentPlan: { id: null, status: false }
       }
     },
@@ -121,36 +127,67 @@
       ...mapActions({
         updateSubscribe: 'settings/updateSubscribe',
         updateSeatsSubscribe: 'settings/updateSeatsSubscribe',
+        getStaticCollection: 'settings/getStaticCollection',
       }),
       openDetails(plan) {
         if(plan.id === 1) {
+
+          // OVERLAY
+          this.$store.dispatch('setOverlay', {
+            active: true,
+            message: 'Setting up account',
+            status: ''
+          })
+
           const dataToSend = {
             userType: this.userType,
             planName: 'free',
             paymentSourceId : null,
           }
 
-          this.updateSubscribe(dataToSend)
+          this.$store.dispatch('settings/updateSubscribe', dataToSend)
             .then(response => {
-              this.toast('Success', `Update subscribe successfully finished!`)
               this.currentPlan = { id: 1, status: true }
-              // this.redirect();
-              this.$emit('upgradePlanComplited')
+
+              // OVERLAY
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: 'Setting up account...',
+                status: 'success'
+              })
+
+              setTimeout(() => this.$store.dispatch('setOverlay', {
+                active: false,
+                message: '',
+                status: ''
+              }), 1000)
             })
-            .catch(error =>this.toast('Error', `Something wrong!`, true))
+            .catch(error => {
+              console.error(error)
+
+              // OVERLAY
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: `Something wrong! ${error}`,
+                status: 'error'
+              })
+              setTimeout(() => {
+                this.$store.dispatch('setOverlay', {
+                  active: false,
+                  message: '',
+                  status: ''
+                })
+                this.closeSidebar()
+              }, 2000)
+            })
 
           return
         }
 
-        this.openId = plan.id
-        // history.pushState({}, '', `${'new'}/${id}`)
         this.isSidebarOpen = true
         this.selectedPlan = plan;
       },
       closeSidebar() {
-        this.openId = null
-        // this.project = null
-        // history.pushState({}, '', '')
         this.isSidebarOpen = false
       },
       onBiliingChange(event) {
@@ -167,8 +204,12 @@
         // CLEAR ERRORS
         this.errors = []
 
-        this.overlay = true
-        this.overlayStatusText = 'Setting up account. Subscribing a plan...'
+        // OVERLAY
+        this.$store.dispatch('setOverlay', {
+          active: true,
+          message: 'Setting up account',
+          status: ''
+        })
 
         let planName;
         if (selectedPlan.id === 1) {
@@ -181,94 +222,76 @@
           planName = this.billingTypeSelected === 'annually' ? 'business_tier_annual' : 'business_tier_monthly'
         }
 
-        const dataToSend = {
+        const data = {
           userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
+          planName: planName,
+          payment_source_id : this.paymentSourceId,
         }
+        if (+this.additionalUsers) data.additionalUsers = +this.additionalUsers
+        if (selectedPlan.coupon_id) data.coupon_id = selectedPlan.coupon_id
 
-        this.updateSubscribe(dataToSend)
+        this.$store.dispatch('settings/updateSubscribe', data)
           .then(response => {
             if(response.errors) throw new Error(`Response error!`)
             if(!response.errors) {
-              this.toast('Success', `Update subscribe successfully finished!`)
-              if(+this.additionalUsers > 0) this.paySeats(selectedPlan)
+              // this.toast('Success', `Update subscribe successfully finished!`)
 
               // OVERLAY
-              if(+this.additionalUsers === 0) {
-                this.overlayStatusText = 'Account successfully purchased!'
-                this.overlayStatus = 'success'
-                // this.overlay = false
-                // this.redirect()
-                this.$emit('upgradePlanComplited')
-              }
+              // this.$store.dispatch('setOverlay', {
+              //   active: true,
+              //   message: 'Payment complete! Setting up account...',
+              //   status: 'success'
+              // })
+
+              this.$store.dispatch('setOverlay', {
+                active: true,
+                message: 'Setting up account',
+                status: 'success'
+              })
+
+              setTimeout(() => {
+                this.$store.dispatch('setOverlay', {
+                  active: false,
+                  message: '',
+                  status: ''
+                })
+                this.closeSidebar()
+              }, 1000)
+
+
             }
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Something wrong! ${error}`, true)
 
+            // this.toast('Error', 'Payment failed to process.', true)
             // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
+            this.$store.dispatch('setOverlay', {
+              active: true,
+              message: 'Payment failed to process.',
+              status: 'error'
+            })
+            setTimeout(() => this.$store.dispatch('setOverlay', {
+              active: false,
+              message: '',
+              status: ''
+            }), 3000)
           })
           .finally(() => this.disabled = true)
       },
-      paySeats(selectedPlan) {
-        // const freeUsers = selectedPlan.usersCount;
-        const neededUsers = +this.additionalUsers;
-        // if (neededUsers <= freeUsers) return
-        // const countPayedUsers = neededUsers - freeUsers
-        const countPayedUsers = neededUsers
-
-        this.overlayStatusText = 'Subscribing additional seats...'
-
-        let planName = this.billingTypeSelected === 'annually' ? 'seats_annual' : 'seats_monthly'
-
-        const dataToSend = {
-          userType: this.userType,
-          planName,
-          paymentSourceId : this.paymentSourceId,
-          countPayedUsers,
-        }
-
-        this.updateSeatsSubscribe(dataToSend)
-          .then(response => {
-
-            if(response.errors) {
-              for (const type of Object.keys(response[i].data.errors)) {
-                this.toast('Error', `Something wrong! ${response[i].data.errors[type]}`, true)
-              }
-            }
-
-            if(!response.errors) {
-              this.toast('Success', `Update seat subscribe successfully finished!`)
-
-              // OVERLAY
-              this.overlayStatusText = `Account and ${countPayedUsers} seats successfully purchased!`
-              this.overlayStatus = 'success'
-              // this.overlay = false
-              // this.redirect()
-              this.$emit('upgradePlanComplited')
-            }
-          })
-          .catch(error => {
-            console.error(error)
-            this.toast('Error', `Something wrong! ${error}`, true)
-
-            // OVERLAY
-            this.overlayStatus = 'error'
-            this.overlayStatusText = `Something wrong! ${error}`
-            setTimeout(() => {
-              this.overlay = false
-            }, 3000)
-          })
-          .finally(() => this.disabled = true)
-      },
-    }
+    },
+    computed: {
+      ...mapGetters({
+        overlay: 'overlay',
+      }),
+    },
+    async mounted () {
+      try {
+        await this.getStaticCollection()
+      } catch (error) {
+        console.error(error)
+      }
+    },
   }
 </script>
 

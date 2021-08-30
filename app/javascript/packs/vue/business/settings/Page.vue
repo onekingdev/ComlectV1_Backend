@@ -1,13 +1,9 @@
 <template lang="pug">
   .settings
-    .container-fluid
-      template(v-if='componentUpgrade')
-        .row
-          .col-md-9.mx-auto.my-2
-            .card
-              .card-body
-                component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited" @upgradeBillingComplited="upgradeBillingComplited")
-      .row.p-40.p-y-20(v-if='!componentUpgrade')
+    template(v-if='componentUpgrade')
+        component(v-bind:is="componentUpgrade" @upgradePlanComplited="upgradePlanComplited" @upgradeBillingComplited="upgradeBillingComplited")
+    .container-fluid(v-if='!componentUpgrade')
+      .row.p-40.p-y-20
         .col-md-3
           .panel-default
             ul.settings-nav

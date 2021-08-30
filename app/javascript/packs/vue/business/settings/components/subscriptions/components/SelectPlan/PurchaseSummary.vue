@@ -43,66 +43,71 @@
 </template>
 
 <script>
-export default {
-  props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers', 'disabled'],
-  data() {
-    return {
-
-    }
-  },
-  methods: {
-    calcAdditionalUserCoast(planType, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
-      let finalCoast;
-      if (usersCount <= usersFreeCount) return `+$0`
-      if (planType === 'monthly') {
-        finalCoast = (usersCount-usersFreeCount) * usersCoastMonthly
-      }
-      if (planType === 'annually') {
-        finalCoast = (usersCount-usersFreeCount) * usersCoastAnnually
-      }
-      return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
-    },
-    countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
-      let finalCoast, finalUserCoast = 0;
-      if (planType === 'monthly') {
-        if (usersCount > usersFreeCount) finalUserCoast = (usersCount-usersFreeCount) * usersCoastMonthly
-        finalCoast = coastMonthly + finalUserCoast
-      }
-      if (planType === 'annually') {
-        if (usersCount > usersFreeCount)  finalUserCoast = (usersCount-usersFreeCount) * usersCoastAnnually
-        finalCoast = coastAnnually + finalUserCoast
-      }
-      return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
-    },
-    complitePurchase() {
-      const value = this.planComputed
-      this.$emit('complitePurchaseConfirmed', value)
-    }
-  },
-  computed: {
-    loading() {
-      return this.$store.getters.loading;
-    },
-    planComputed() {
+  import Coupon from '@/auth/components/Coupon'
+  export default {
+    props: ['billingTypeSelected', 'billingTypeOptions', 'plan', 'additionalUsers', 'disabled'],
+    components: { Coupon },
+    data() {
       return {
-        ...this.plan,
-        additionalUserCoast: this.calcAdditionalUserCoast(this.billingTypeSelected, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
-        saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
-        // tax: '$0.00',
-        total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+        loading: false,
+        percent_off: 0,
+        amount_off: null,
+        coupon_id: ''
       }
     },
-  },
-}
-</script>
-
-<style scoped>
-  .purchase-summary {
-    position: absolute;
-    z-index: 1050;
-    right: 5rem;
-    top: 30%;
-    width: 30rem;
-    transform: translateY(-30%);
+    methods: {
+      calcAdditionalUserCoast(planType, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
+        let finalCoast;
+        if (usersCount <= usersFreeCount) return `+$0`
+        if (planType === 'monthly') {
+          finalCoast = (usersCount-usersFreeCount) * usersCoastMonthly
+        }
+        if (planType === 'annually') {
+          finalCoast = (usersCount-usersFreeCount) * usersCoastAnnually
+        }
+        return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
+      },
+      countTotalCoast(planType, coastMonthly, coastAnnually, usersCount, usersFreeCount, usersCoastMonthly, usersCoastAnnually) {
+        let finalCoast, finalUserCoast = 0;
+        let percent_off = this.percent_off
+        let amount_off = this.amount_off
+        if (planType === 'monthly') {
+          if (usersCount > usersFreeCount) finalUserCoast = (usersCount-usersFreeCount) * usersCoastMonthly
+          finalCoast = coastMonthly + finalUserCoast
+        }
+        if (planType === 'annually') {
+          if (usersCount > usersFreeCount)  finalUserCoast = (usersCount-usersFreeCount) * usersCoastAnnually
+          finalCoast = coastAnnually + finalUserCoast
+        }
+        // CACL IF added percent_off
+        if (percent_off && finalCoast !== 'FREE0') finalCoast = (finalCoast - (finalCoast / 100 * percent_off)).toFixed(2)
+        if (amount_off && finalCoast !== 'FREE0') finalCoast = (finalCoast - amount_off).toFixed(2)
+        return finalCoast !== 'FREE0' ? `+$${finalCoast}` : 'FREE'
+      },
+      complitePurchase() {
+        const value = this.planComputed
+        if (this.coupon_id) value.coupon_id = this.coupon_id
+        this.$emit('complitePurchaseConfirmed', value)
+      },
+      addDiscount(value) {
+        this.coupon_id = value.coupon_id
+        this.percent_off = value.percent_off
+        this.amount_off = value.amount_off / 100
+      }
+    },
+    computed: {
+      // loading() {
+      //   return this.$store.getters.loading;
+      // },
+      planComputed() {
+        return {
+          ...this.plan,
+          additionalUserCoast: this.calcAdditionalUserCoast(this.billingTypeSelected, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+          saved: `$${Math.abs(this.plan.coastAnnually - this.plan.coastMonthly * 12)}`,
+          // tax: '$0.00',
+          total: this.countTotalCoast(this.billingTypeSelected, this.plan.coastMonthly, this.plan.coastAnnually, this.additionalUsers, this.plan.usersCount, this.plan.additionalUserMonthly, this.plan.additionalUserAnnually),
+        }
+      },
+    },
   }
-</style>
+</script>

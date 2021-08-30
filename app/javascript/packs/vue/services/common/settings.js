@@ -120,11 +120,20 @@ export async function updateSeatsSubscribe(payload) {
 
 export async function generatePaymentMethod(payload) {
   axios.defaults.timeout = 10000;
-  const { userType, stripeToken } = { ...payload }
+  const { userType, stripeToken, plaid } = { ...payload }
   const endPoint = userType === 'business' ? 'business/payment_settings' : 'specialist/payment_settings/create_card'
-  return await axios.post(`/${endPoint}`, null, { params: {
+  let response
+  if (stripeToken) return await axios.post(`/${endPoint}`, null, { params: {
       stripeToken: stripeToken,
     }})
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
+    })
+    .catch(err => err)
+  if (plaid) response = await axios.post(`/${endPoint}`, plaid)
     .then(response => {
       if (response) {
         return response
@@ -178,6 +187,17 @@ export async function getStaticCollection() {
         return response
       }
       return response
+    })
+    .catch(err => err)
+}
+
+export async function applyCoupon(payload) {
+  return await axios.patch(`/payment_settings/apply_coupon`, payload)
+    .then(response => {
+      if (response) {
+        return response
+      }
+      return false
     })
     .catch(err => err)
 }

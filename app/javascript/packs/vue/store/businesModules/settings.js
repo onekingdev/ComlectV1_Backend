@@ -16,6 +16,7 @@ const mapAuthProviders = {
     getPaymentMethod: jwt.getPaymentMethod,
     deletePaymentMethod: jwt.deletePaymentMethod,
     makePrimaryPaymentMethod: jwt.makePrimaryPaymentMethod,
+    applyCoupon: jwt.applyCoupon,
     getEmployees: jwtEmployee.getEmployees,
     getEmployeesSpecialists: jwtEmployee.getEmployeesSpecialists,
     createEmployee: jwtEmployee.createEmployee,
@@ -29,6 +30,7 @@ const mapAuthProviders = {
 
 // import Settings from "../../models/Settings";
 import { SettingsGeneral, SettingsPaymentMethod } from "../../models/Settings";
+import axios from "../../services/axios";
 
 export default {
   state: {
@@ -838,6 +840,44 @@ export default {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
         throw error
+      }
+    },
+    async applyCoupon({state, commit, rootState}, payload) {
+      commit("clearError", null, {
+        root: true
+      });
+      commit("setLoading", true, {
+        root: true
+      });
+      try {
+        const applyCoupon = mapAuthProviders[rootState.shared.settings.authProvider].applyCoupon
+        const data = applyCoupon(payload)
+          .then((success) => {
+            commit("clearError", null, {
+              root: true
+            });
+            commit("setLoading", false, {
+              root: true
+            });
+            if (success) {
+              const data = success.data
+              return data
+            }
+            if (!success) {
+              commit("setError", success.message, { root: true });
+              console.error('Not success', success)
+            }
+          })
+          .catch(error => error)
+        return data
+      } catch (error) {
+        commit("setError", error.message, {
+          root: true
+        });
+        commit("setLoading", false, {
+          root: true
+        });
+        throw error;
       }
     },
   },
