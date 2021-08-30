@@ -42,6 +42,7 @@
                 DiscussionCard(:project-id="project.local_project_id" :token="accessToken")
       b-tab(title="Tasks")
       b-tab(title="Documents")
+        DocumentList(:project="project")
       b-tab(title="Collaborators")
         .white-card-body.p-y-1
           .container
@@ -99,7 +100,7 @@
                     .col-sm-12
                       PropertiesTable(title="Contract Details" :properties="proposalProps(showingContract)")
                         EditContractModal(v-if="!isContractComplete(showingContract)" :project="showingContract" @saved="newEtag(), tab = 0")
-      b-tab(title="Activity")
+      //- b-tab(title="Activity")
     b-tabs(v-else)
       b-tab(title="Overview")
         .white-card-body.p-y-1
@@ -123,6 +124,7 @@ import { readablePaymentSchedule, fields } from '@/common/ProposalFields'
 import ChangeContractAlerts from '@/common/projects/ChangeContractAlerts'
 import DiscussionCard from '@/common/projects/DiscussionCard'
 import EditContractModal from '@/common/projects/EditContractModal'
+import DocumentList from '@/common/projects/DocumentList'
 import EditProposalModal from '@/specialist/projects/EditProposalModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import { mapGetters } from 'vuex'
@@ -217,6 +219,7 @@ export default {
   components: {
     ChangeContractAlerts,
     DiscussionCard,
+    DocumentList,
     EditContractModal,
     EditProposalModal
   }
