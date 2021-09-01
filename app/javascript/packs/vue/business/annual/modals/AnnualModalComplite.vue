@@ -3,11 +3,10 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplie Section' : 'Complete Section'")
+    b-modal.fade(:id="modalId" :title="'Complete Section'")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-1.ml-3(v-if="!completedStatus" icon="check-circle-fill" width="25" height="25" variant="success")
-          b-icon.mt-1.ml-3(v-if="completedStatus" icon="exclamation-circle-fill" width="25" height="25" variant="danger")
+          b-icon.mt-1.ml-3(icon="check-circle-fill" width="25" height="25" variant="success")
         .col
           p.paragraph.m-b-10 This will mark the category as complete and your progress will be updated.
           p.paragraph.mb-0

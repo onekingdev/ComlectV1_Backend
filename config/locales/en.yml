@@ -117,6 +117,10 @@ en:
           attributes:
             section:
               section_taken: This section is already taken
+        annual_report:
+          attributes:
+            review_start:
+              past: Must be after start date
 
   project_invites:
     message_templates:

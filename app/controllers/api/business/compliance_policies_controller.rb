@@ -36,7 +36,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def destroy
-    if @cpolicy.archived && @cpolicy.destroy
+    if @cpolicy.destroy
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
       head :bad_request
@@ -55,6 +55,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   def publish
     if @cpolicy.src_id.nil?
       draft_cpolicy = @cpolicy.dup
+      draft_cpolicy.untouched = true
       draft_cpolicy.save
       @cpolicy.versions.update_all(src_id: draft_cpolicy.id)
       @cpolicy.update(status: 'published', src_id: draft_cpolicy.id)
@@ -65,7 +66,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def update
-    if @cpolicy.update(cpolicy_params.merge(untouched: false))
+    if @cpolicy.update(cpolicy_params)
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
       respond_with errors: @cpolicy.errors, status: :unprocessable_entity

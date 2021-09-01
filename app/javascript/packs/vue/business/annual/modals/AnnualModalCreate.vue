@@ -18,7 +18,7 @@
           label.form-label Start Date
           DatePicker(v-model="annual_review.review_start" :options="datepickerOptions")
         .col-6
-          label.form-label Due Date
+          label.form-label End Date
           DatePicker(v-model="annual_review.review_end" :options="datepickerOptions")
 
       template(slot="modal-footer")

@@ -67,7 +67,7 @@
                                 ExamModalSelectFiles(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
                                   b-dropdown-item Select Existing
                               ExamModalCreateTask(@saved="createTask(currentRequst.id)" :inline="false")
-                                button.btn.btn-default.m-x-1 Create Task
+                                button.btn.btn-default.m-x-1 New Task
                               b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                 template(#button-content)
                                   b-icon(icon="three-dots")

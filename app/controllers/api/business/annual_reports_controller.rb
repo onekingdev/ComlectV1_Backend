@@ -32,7 +32,7 @@ class Api::Business::AnnualReportsController < ApiController
   def create
     areport = current_business.annual_reports.create(areport_params)
     if areport.errors.any?
-      respond_with errors: areport.errors, status: :unprocessable_entity
+      render json: { errors: areport.errors }, status: :unprocessable_entity
     else
       respond_with areport, serializer: AnnualReportSerializer
     end

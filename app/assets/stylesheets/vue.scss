@@ -1026,7 +1026,7 @@ input, button, select, optgroup, textarea {
 /* ---------- BUTTONS ---------- */
 .btn {
   @include font-bold-14;
-  text-transform: capitalize;
+  //text-transform: capitalize;
 
   &:hover,
   &:focus,
@@ -3011,7 +3011,7 @@ table.table {
 
 .text-right .btn {
   /*min-width: 65px;*/
-  font-weight: $font-weight-bold;
+  //font-weight: $font-weight-bold;
 }
 
 .btn.btn-dark:hover,

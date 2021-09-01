@@ -78,7 +78,8 @@
                 .reviews__card--internal
                   .row
                     .col-md-12
-                      h4 Key Employees Interviewed
+                      h4 
+                        b Key Employees Interviewed
                       p Regulators interview employees to uncover potential discrepancies in a firm's policies and procedures and their day-to-day practicies. It's important to interview those employees responsible for certain key tasks or have access to sensitive client in order to hear about their day-to-day activities in their own words.
                         //a.link(href="#") hiring one of our compilance specialists&nbsp;
                         //| to conduct mock interviews for you to see and learn how to do it on your own!
@@ -117,7 +118,7 @@
                 .d-flex.justify-content-end.m-t-20
                   button.btn.btn-default.m-r-1(@click="saveGeneral") Save
                   AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
-                    button.btn.btn-dark Mark Complete
+                    button.btn.btn-dark Mark as Complete
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")

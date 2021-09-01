@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" title="Delete Account")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          b-icon.mt-2.ml-3(icon="dash-circle-fill" scale="2" variant="danger")
         .col
           p By deleting your account, you will purge all account information.
             br

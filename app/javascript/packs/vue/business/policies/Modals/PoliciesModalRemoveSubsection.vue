@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" title="Remove Subsections")
       .row
         .col-md-1.text-center.px-0
-          b-icon.mt-2.ml-3(icon="exclamation-circle-fill" scale="2" variant="danger")
+          b-icon.mt-2.ml-3(icon="dash-circle-fill" scale="2" variant="danger")
         .col
           p.paragraph.m-b-10 Removing this subsections will permamently delete any items populated withing it.
           p.paragraph.mb-0

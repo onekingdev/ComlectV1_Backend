@@ -5,7 +5,7 @@ class CompliancePolicy < ActiveRecord::Base
   belongs_to :business
   has_many :reminders, as: :linkable
   has_many :versions, -> { order(created_at: :desc) }, class_name: 'CompliancePolicy', foreign_key: :src_id
-  has_and_belongs_to_many :risks
+  has_and_belongs_to_many :risks, dependent: :destroy
   validates :name, presence: true
   include PdfUploader[:pdf]
 

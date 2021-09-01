@@ -8,7 +8,7 @@
               h2 Tasks
               div
                 a.btn.btn-default.m-r-1.d-none Download
-                a.btn.btn-dark Create task
+                a.btn.btn-dark New task
             .reviews__card--internal.borderless
               table.table.task_table
                 thead

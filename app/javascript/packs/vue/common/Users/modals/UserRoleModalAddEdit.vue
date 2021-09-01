@@ -17,7 +17,7 @@
         .col-12.m-b-1
           label.form-label Role
             RoleTypesModalInfo
-              b-icon.ml-2.mb-1(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
+              b-icon.ml-2.mb-1(icon="dash-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
           ComboBox(v-model="form.role" :options="roleOptions" placeholder="Select a role")
           Errors(:errors="errors.role")
       .row

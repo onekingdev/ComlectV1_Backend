@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplie Exam' : 'Complie Exam'")
+    b-modal.fade(:id="modalId" :title="completedStatus ? 'Incomplete Exam' : 'Complete Exam'")
       .row
         .col
           p.paragraph Marking the exam as complete will disable any links to access your requests.

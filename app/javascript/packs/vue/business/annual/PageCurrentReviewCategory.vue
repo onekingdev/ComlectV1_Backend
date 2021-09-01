@@ -39,7 +39,6 @@
                   .d-flex.justify-content-between.align-items-center
                     h3
                       | {{ currentCategory.name }}
-                      b-badge.ml-2(variant="default") {{ currentCategory.review_topics ? currentCategory.review_topics.length : 0 }} Tasks
                     AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory(currentCategory.id)", :inline="false")
                       b-button(variant="light") Delete
                 .reviews__topiclist(v-if="currentCategory.review_topics")
@@ -47,8 +46,7 @@
                     .reviews__card--internal(:key="`${currentCategory.name}-${i}`")
                       .row.m-b-2
                         .col-md-10
-                          label.reviews__topic-label Topic Title
-                          input.reviews__input.reviews__topic-name(v-model="currentTopic.name")
+                          input.reviews__input.reviews__topic-name(v-model="currentTopic.name" placeholder="New Topic")
                         .col-md-2.text-right
                           b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                             template(#button-content)
@@ -56,7 +54,7 @@
                               b-icon.ml-2(icon="chevron-down")
                             b-dropdown-item(@click="addTopicItem(i)") Add Item
                             AnnualModalCreateTask(@saved="createTask(i)" :inline="false")
-                              b-dropdown-item Create Task
+                              b-dropdown-item New Task
                             b-dropdown-item(@click="deleteTopic(i)").delete Delete
                       template(v-for="(topicItem, topicItemIndex) in currentTopic.items")
                         .row(:key="`${currentCategory.name}-${i}-${topicItemIndex}`")
@@ -67,7 +65,7 @@
                               .reviews__checkbox-item.reviews__checkbox-item--false(@click="topicItem.checked = false" :class="{ 'checked': !topicItem.checked }")
                                 b-icon(icon="x")
                           .col-md-10
-                            textarea.reviews__input.reviews__topic-body(v-model="topicItem.body")
+                            textarea.reviews__input.reviews__topic-body(v-model="topicItem.body" placeholder="New Item")
                           .col-md-1.text-right
                             b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                               template(#button-content)
@@ -87,7 +85,7 @@
                     .d-flex.justify-content-end
                       button.btn.btn-default.mr-2(@click="saveCategory") Save
                       AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="currentCategory.complete" :name="currentCategory.name" :inline="false")
-                        button.btn(:class="currentCategory.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentCategory.complete ? 'Incomplete' : 'Complete' }}
+                        button.btn(:class="'btn-dark'") Mark as {{ currentCategory.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")
@@ -181,20 +179,20 @@ export default {
         this.currentCategory.review_topics = [
           {
             items: [],
-            name: "New topic"
+            name: ""
           }
         ]
         return
       }
       this.currentCategory.review_topics.push({
         items: [],
-        name: "New topic"
+        name: ""
       })
     },
     addTopicItem(i) {
       this.currentCategory.review_topics[i].items.push({
         findings: [],
-        body: "New topic",
+        body: "",
         checked: false
       })
     },

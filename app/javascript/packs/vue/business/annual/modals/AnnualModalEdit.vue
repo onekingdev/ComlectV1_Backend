@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" title="Edit Internal Review")
       b-row
         .col
-          label.form-label New review name
+          label.form-label New Name
           input.form-control(v-model="review.name" type="text" placeholder="Enter the name of your review" @keyup.enter="submit" ref="input")
           Errors(:errors="errors.name")
 
@@ -16,7 +16,7 @@
           DatePicker(v-model="review.review_start")
           Errors(:errors="errors.review_start")
         .col-6
-          label.form-label Due Date
+          label.form-label End Date
           DatePicker(v-model="review.review_end")
           Errors(:errors="errors.review_end")
 

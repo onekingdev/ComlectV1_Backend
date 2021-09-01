@@ -7,7 +7,7 @@
         th(@click="sortSelect('role', 'string')")
           | Roles
           RoleTypesModalInfo
-            b-icon.ml-2(icon="exclamation-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
+            b-icon.ml-2(icon="dash-circle-fill" variant="secondary" v-b-tooltip.hover title="Toooooooltip" font-scale="1")
         th(v-if="disabled" @click="sortSelect('role', 'reason')") Reason
           b-icon.ml-2(icon='chevron-expand')
         th(@click="sortSelect('access_person', 'string')") Access Person
