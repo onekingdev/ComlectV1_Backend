@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" :title="taskProp ? taskProp.body : 'New task'" :size="taskProp ? 'xl' : 'md'" @show="getData")
       b-row
         div(:class="taskProp ? 'col-lg-6 pr-2' : 'col'")
-          InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
+          InputText(v-model="task.body" :errors="errors.body") Task Name
 
           //label.m-t-1.form-label Link to
           //ComboBox(V-model="task.link_to" :options="linkToOptions" placeholder="Select projects, internal reviews, or policies to link the task to" @input="inputChangeLinked")
@@ -259,11 +259,11 @@
         try {
           this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state, oidParam, src_id_params })
             .then(response => {
-              this.toast('Success', 'The task has been saved')
+              this.toast('Success', 'Task has been updated.')
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -273,11 +273,11 @@
         const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
         this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
           .then(response => {
-            this.toast('Success', `The task deleted!`)
+            this.toast('Success', `Task has been deleted.`)
             this.$emit('saved')
             this.$bvModal.hide(this.modalId)
           })
-          .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
+          .catch(error => this.toast('Error', `Task has not been deleted. Please try again.`, true))
       },
       async submit(saveOccurence) {
         this.errors = []
@@ -293,13 +293,13 @@
 
           await this.$store.dispatch("reminders/createTask", data)
             .then(response => {
-              this.toast('Success', 'The task has been saved')
+              this.toast('Success', 'Task has been created.')
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
             .catch(error => {
               console.error('error', error)
-              this.toast('Error', `Something wrong! ${error.message}`, true)
+              this.toast('Error', `Task has not been created. Please try again.`, true)
             })
         } catch (error) {
           this.toast('Error', error.message, true)
@@ -342,11 +342,11 @@
               //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
               //   return
               // }
-              this.toast('Success', 'The task has been saved')
+              this.toast('Success', 'Task has been updated.')
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error.message}`))
+            .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -356,8 +356,8 @@
         const file = event.target.files && event.target.files[0]
         if (file) {
           const success = (await uploadFile(this.url, file)).ok
-          const message = success ? 'Document uploaded' : 'Document upload failed'
-          this.toast('Document Upload', message, !success)
+          const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
+          this.toast('Document has been uploaded.', message, !success)
           this.newEtag()
         }
       },
