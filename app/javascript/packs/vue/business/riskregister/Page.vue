@@ -5,7 +5,7 @@
       .page-header__actions
         //a.btn.btn-default.mr-3(href='#') Download
         RisksAddEditModal
-          button.btn.btn-dark Add Risk
+          button.btn.btn-dark New Risk
     .card-body.white-card-body.card-body_full-height
       RisksTable
 
@@ -43,11 +43,11 @@
       //   .dispatch('getRisks')
       //   .then(response => {
       //     console.log('response', response)
-      //     // this.toast('Success', `Policy successfully deleted!`)
+      //     // this.toast('Success', `Policy has been deleted.`)
       //   })
       //   .catch(error => {
       //     console.error(error)
-      //     // this.toast('Error', `Couldn't submit form! ${error}`)
+      //     // this.toast('Error', `Policy has not been deleted.`)
       //   })
     }
   };
