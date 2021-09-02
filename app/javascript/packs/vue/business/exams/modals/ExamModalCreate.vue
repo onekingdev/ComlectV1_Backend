@@ -7,7 +7,7 @@
       .row
         .col-12.m-b-2
           label.form-label Name
-          input.form-control(v-model="exam_management.name" type="text" placeholder="Enter the name of your exam" ref="input" @keyup="onChange")
+          input.form-control(v-model="exam_management.name" type="text" ref="input" @keyup="onChange")
       .row.m-b-2
         .col-6
           label.form-label Start Date
@@ -69,12 +69,12 @@
         try {
           await this.$store.dispatch('exams/createExam', this.exam_management)
             .then(response => {
-              this.toast('Success', `Exam Management successfully created!`)
+              this.toast('Success', `Exam has been created.`)
               // this.$emit('saved')
               this.$bvModal.hide(this.modalId)
               this.resetForm()
             })
-            .catch(error => this.toast('Error', `Something wrong! ${error}`, true) )
+            .catch(error => this.toast('Error', `Exam has not been created.`, true) )
         } catch (error) {
           this.toast('Error', error.message, true)
         }
