@@ -7,7 +7,7 @@
       b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
 
       label.form-label New policy name
-      input.form-control(v-model="policy.name" ref="input" type="text" placeholder="Enter the name of your policy" @keyup.enter="submit" @input="clearErrors")
+      input.form-control(v-model="policy.name" ref="input" type="text" @keyup.enter="submit" @input="clearErrors")
       Errors(:errors="errors")
 
       template(slot="modal-footer")

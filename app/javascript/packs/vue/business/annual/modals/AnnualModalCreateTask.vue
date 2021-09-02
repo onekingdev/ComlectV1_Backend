@@ -9,7 +9,7 @@
           b-row.m-b-2
             .col-12
               label.form-label Task Name
-              input.form-control(v-model="task.body" type="text" placeholder="Enter the name of your task" ref="input")
+              input.form-control(v-model="task.body" type="text" ref="input")
               Errors(:errors="errors.body")
           b-row.m-b-2
             .col-12
@@ -54,7 +54,7 @@
                   .col
                     .card-body.p-3
                       b-form-group
-                        <!--b-form-file(v-model='task.file' :state='Boolean(task.file)' accept="application/pdf" placeholder='Choose a file or drop it here...' drop-placeholder='Drop file here...')-->
+                        <!--b-form-file(v-model='task.file' :state='Boolean(task.file)' accept="application/pdf" placeholder='Choose a file or drop it here.' drop-placeholder='Drop file here...')-->
                         <!--.mt-3 Selected file: {{ task.file ? task.file.name : '' }}-->
                         label
                           a.btn.btn-default Upload File
@@ -183,7 +183,7 @@
             })
           } else if (response.status === 201 || response.status === 200) {
             this.$emit('saved')
-            this.toast('Success', 'The task has been saved')
+            this.toast('Success', 'Task has been updated.')
             this.$bvModal.hide(this.modalId)
             // this.resetTask()
           } else {
@@ -199,7 +199,7 @@
         //       .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
         //     return
         //   }
-        //   this.toast('Success', `Annual Review Successfully created!`)
+        //   this.toast('Success', `Internal review has been created.`)
         //   this.$emit('saved')
         //   this.$bvModal.hide(this.modalId)
         // } catch (error) {
@@ -210,7 +210,7 @@
         const file = event.target.files && event.target.files[0]
         if (file) {
           const success = (await uploadFile(this.url, file)).ok
-          const message = success ? 'Document uploaded' : 'Document upload failed'
+          const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
           this.toast('Document Upload', message, !success)
           this.newEtag()
         }
