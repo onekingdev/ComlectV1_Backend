@@ -7,7 +7,7 @@
       .row
         .col-12.m-b-2
           label.form-label Requested Item
-          input.form-control(v-model="requst.name" type="text" placeholder="Enter the item name" ref="input" @keyup="onChange")
+          input.form-control(v-model="requst.name" type="text" ref="input" @keyup="onChange")
           Errors(:errors="errors.name")
       .row.m-b-2
         .col-12
@@ -74,7 +74,7 @@
             request: this.requst
           })
             .then(response => {
-              this.toast('Success', `Exam Request successfully added!`)
+              this.toast('Success', `Exam request has been added.`)
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
               this.resetForm()
