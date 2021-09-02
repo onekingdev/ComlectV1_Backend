@@ -277,7 +277,7 @@
             this.$emit('saved')
             this.$bvModal.hide(this.modalId)
           })
-          .catch(error => this.toast('Error', `Task has not been deleted. Please try again.`, true))
+          .catch(error => this.toast('Error', `Task has not been deleted.`, true))
       },
       async submit(saveOccurence) {
         this.errors = []
@@ -293,13 +293,13 @@
 
           await this.$store.dispatch("reminders/createTask", data)
             .then(response => {
-              this.toast('Success', 'Task has been created.')
+              this.toast('Success', 'Task has been updated.')
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
             .catch(error => {
               console.error('error', error)
-              this.toast('Error', `Task has not been created. Please try again.`, true)
+              this.toast('Error', `Task has not been updated. Please try again.`, true)
             })
         } catch (error) {
           this.toast('Error', error.message, true)
@@ -337,9 +337,9 @@
           await this.$store.dispatch("reminders/updateTask", data)
             .then(response => {
               // if (response.errors) {
-              //   this.toast('Error', `${response.status}`)
+              //   this.toast('Error', `Task has not been updated. Please try again.`)
               //   Object.keys(response.errors)
-              //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+              //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `Task has not been updated. Please try again.`)))
               //   return
               // }
               this.toast('Success', 'Task has been updated.')
@@ -357,7 +357,7 @@
         if (file) {
           const success = (await uploadFile(this.url, file)).ok
           const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
-          this.toast('Document has been uploaded.', message, !success)
+          this.toast('Document has not been uploaded.', message, !success)
           this.newEtag()
         }
       },

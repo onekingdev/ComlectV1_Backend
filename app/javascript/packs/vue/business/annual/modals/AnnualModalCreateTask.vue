@@ -179,7 +179,7 @@
             response.json().then(errors => {
               this.errors = errors
               Object.keys(this.errors)
-                .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`, true)))
+                .map(prop => this.errors[prop].map(err => this.toast(`Error`, `Action has not been completed. Please try again.`, true)))
             })
           } else if (response.status === 201 || response.status === 200) {
             this.$emit('saved')
@@ -187,7 +187,7 @@
             this.$bvModal.hide(this.modalId)
             // this.resetTask()
           } else {
-            this.toast('Error', 'Couldn\'t submit form', true)
+            this.toast('Error', 'Task has not been updated.', true)
           }
         })
 
@@ -196,7 +196,7 @@
         //   if (response.errors) {
         //     this.toast('Error', `${response.status}`)
         //     Object.keys(response.errors)
-        //       .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+        //       .map(prop => response.errors[prop].map(err => this.toast(`Error`, `Action has not been completed. Please try again.`)))
         //     return
         //   }
         //   this.toast('Success', `Internal review has been created.`)
@@ -211,7 +211,7 @@
         if (file) {
           const success = (await uploadFile(this.url, file)).ok
           const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
-          this.toast('Document Upload', message, !success)
+          this.toast('Document has been uploaded.', message, !success)
           this.newEtag()
         }
       },
