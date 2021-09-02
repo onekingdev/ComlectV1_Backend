@@ -4,7 +4,7 @@
     .policy-actions
       //button.btn.btn.btn-default.mr-3 Download
       PolicyRisksModal(:risks="risksComputed" :policyId="policyId" @saved="savedConfirmed")
-        button.btn.btn-dark Add Risk
+        button.btn.btn-dark New Risk
     .policy-details__body
       table.table
         thead
@@ -105,15 +105,15 @@
           .dispatch('updateRisk', {...dataToSend})
           .then(response => {
             // console.log('response', response)
-            this.toast('Success', 'Changes saved')
+            this.toast('Success', 'Risk has been updated.')
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Couldn't submit form! ${error}`, true)
+            this.toast('Error', `Risk has not been updated. Please try again.`, true)
           })
       },
       savedConfirmed(value){
-        this.toast('Success', 'The risk has been saved')
+        this.toast('Success', 'Risk has been updated.')
         console.log('savedConfirmed value', value)
         //HOOK
         // const index = this.policyById.risks.findIndex(record => record.id === value.id);
@@ -139,11 +139,11 @@
         .dispatch('getRisks')
         .then(response => {
           // console.log('response', response)
-          // this.toast('Success', `Policy successfully deleted!`)
+          // this.toast('Success', `Policy has been deleted.`)
         })
         .catch(error => {
           console.error(error)
-          // this.toast('Error', `Couldn't submit form! ${error}`)
+          // this.toast('Error', `Policy has not been deleted.`)
         })
     }
   }
