@@ -9,7 +9,7 @@
       .row
         .col-12
           label.form-label Name
-          input.form-control(v-model="file_folder.name" type="text" placeholder="Enter the name of your folder" ref="input" v-on:keyup.enter="submit")
+          input.form-control(v-model="file_folder.name" type="text" ref="input" v-on:keyup.enter="submit")
           Errors(:errors="errors.name")
 
       template(slot="modal-footer")
@@ -61,7 +61,7 @@
           return
         }
         if (this.file_folder.name.length <= 3) {
-          // this.errors.push('Name is very short, must be more 3 characters.');
+          // this.errors.push('Name must have more than 3 characters');
           this.error = 'Name must have more than 3 characters.'
           return;
         }
@@ -71,7 +71,7 @@
         try {
           const response = await this.createFolder(this.file_folder)
           if (response.errors) {
-            this.toast('Error', `Folder has not been created. Please try again. ${response.status}`, true)
+            this.toast('Error', `Folder has not been created. Please try again.`, true)
             Object.keys(response.errors)
               .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
             return
