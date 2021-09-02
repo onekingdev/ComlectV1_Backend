@@ -9,7 +9,7 @@
           b-row.m-b-10
             .col-12
               label.form-label Task Name
-              input.form-control(v-model="task.body" type="text" placeholder="Enter the name of your task" ref="input")
+              input.form-control(v-model="task.body" type="text" ref="input")
               Errors(:errors="errors.body")
           b-row.m-b-10
             .col-12
@@ -237,7 +237,7 @@
               this.toast('Success', `Task has been deleted.`)
               this.$bvModal.hide(this.modalId)
             }})
-            .catch(error => this.toast('Error', `Task has not been deleted. Please try again. ${error.message}`))
+            .catch(error => this.toast('Error', `Task has not been deleted. Please try again.`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -270,9 +270,9 @@
           this.$store.dispatch("reminders/updateTask", data)
             .then(response => {
               // if (response.errors) {
-              //   this.toast('Error', `${response.status}`)
+              //   this.toast('Error', `Task has not been updated. Please try again.`)
               //   Object.keys(response.errors)
-              //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
+              //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `Task has not been updated. Please try again.`)))
               //   return
               // }
 
@@ -280,7 +280,7 @@
               this.$emit('saved')
               this.$bvModal.hide(this.modalId)
             })
-            .catch(error => this.toast('Error', `Task has not been updated. Please try again. ${error.message}`))
+            .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
         } catch (error) {
           this.toast('Error', error.message)
           console.error(error)
@@ -322,7 +322,7 @@
         const file = event.target.files && event.target.files[0]
         if (file) {
           const success = (await uploadFile(this.url, file)).ok
-          const message = success ? 'Document has been uploaded' : 'Document has not been uploaded'
+          const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
           this.toast('Document has been uploaded.', message, !success)
           this.newEtag()
         }
