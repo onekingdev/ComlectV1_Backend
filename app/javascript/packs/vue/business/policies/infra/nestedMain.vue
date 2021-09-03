@@ -41,7 +41,7 @@
                 template(#button-content)
                   b-icon(icon="three-dots")
                 //b-dropdown-item(v-if="!el.archived" :href="'/business/compliance_policies/'+el.id") Edit
-                router-link.dropdown-item(:to='`/business/compliance_policies/${el.id}`') Edit
+                router-link.dropdown-item(v-if="!el.archived" :to='`/business/compliance_policies/${el.id}`') Edit
                 b-dropdown-item(v-if="!el.archived" @click="moveUp(el.id)") Move up
                 PoliciesModalArchive(v-if="!el.archived" @saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
                   b-dropdown-item Archive

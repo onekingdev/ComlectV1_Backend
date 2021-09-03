@@ -33,7 +33,7 @@
                 PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
                   b-dropdown-item.delete Delete
 
-            b-tab(title="Details" active)
+            b-tab(title="Detail" active)
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
                 Loading
                 .policy-details(v-if="!loading")
