@@ -180,6 +180,8 @@
           || routeName === "settings"
           || routeName === "settings-notification-center"
         ) this.$store.commit('changeSidebar', 'documents')
+
+        if (routeName === 'policies') this.$store.commit('changeSidebar', 'default')
         // if(routeName !== "file-folders") this.$store.commit('changeSidebar', 'default')
 
       }
