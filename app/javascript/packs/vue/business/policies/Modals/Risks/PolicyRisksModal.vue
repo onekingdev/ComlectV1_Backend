@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @show="newEtag")
+    b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @close="hideModal" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
 
         b-form-group#input-group-1(label='Risk' label-for='select-1')
@@ -34,7 +34,7 @@
               | {{ riskLevelName }}
 
       template(slot="modal-footer")
-        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="hideModal") Cancel
         button.btn.btn-dark(@click="submit") {{ riskId ? 'Save' : 'Add' }}
 </template>
 
@@ -69,7 +69,7 @@ export default {
     return {
       modalId: `modal_${rnd()}`,
       risk: initialrisk(),
-      errors: [],
+      errors: {},
       isActive: false,
       options: [
         { value: null, text: 'New Risk' },
@@ -84,6 +84,10 @@ export default {
     }
   },
   methods: {
+    hideModal() {
+      this.errors = {}
+      this.$bvModal.hide(this.modalId)
+    },
     loadrisk(risk) {
       this.risk = Object.assign({}, this.risk, risk)
       this.onRiskChange()
@@ -96,12 +100,9 @@ export default {
     },
     submit(e) {
       e.preventDefault()
-      this.errors = [];
+      this.errors = {}
       if (!this.risk.name) {
-        this.errors.push([
-          'Field is required.'
-        ]);
-        this.toast('Error', 'Field is required.', true)
+        this.$set(this.errors, 'name', ['Field is required'])
         return;
       }
 
