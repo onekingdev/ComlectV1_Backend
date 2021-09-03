@@ -2,9 +2,7 @@
   div(:class="{'d-inline-block':inline}")
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
-
-    b-modal.fade(:id="modalId" title="New Review")
-      b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
+    b-modal.fade(:id="modalId" @close="hideModal" title="New Review")
       .row.m-b-1(v-if="reviewsOptions && reviewsOptions.length")
         .col-12
           label.form-label Template
@@ -13,16 +11,19 @@
         .col-12
           label.form-label Name
           input.form-control(v-model="annual_review.name" type="text" placeholder="Enter the name of your review" ref="input")
+          Errors(:errors="errors.name")
       .row.m-t-1
         .col-6
           label.form-label Start Date
           DatePicker(v-model="annual_review.review_start" :options="datepickerOptions")
+          Errors(:errors="errors.review_start")
         .col-6
           label.form-label End Date
           DatePicker(v-model="annual_review.review_end" :options="datepickerOptions")
+          Errors(:errors="errors.review_end")
 
       template(slot="modal-footer")
-        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="hideModal") Cancel
         button.btn.btn-dark(@click="submit") Create
 </template>
 
@@ -56,7 +57,7 @@
           review_end: ''
         },
         reviewSelected: null,
-        error: ''
+        errors: {}
       }
     },
     methods: {
@@ -65,12 +66,30 @@
         updateReview: 'annual/updateReview',
         duplicateReview: 'annual/duplicateReview',
       }),
+      hideModal() {
+        this.errors = {}
+        this.$bvModal.hide(this.modalId)
+      },
+      validates() {
+        const fields = ['name', 'review_start', 'review_end']
+        fields.forEach(field => {
+          const errors = []
+          if (!this.annual_review[field]) {
+            errors.push('Required field')
+          }
+          
+          if (errors.length > 0) {
+            this.$set(this.errors, field, errors)
+          } else {
+            if (this.errors[field]) delete this.errors[field]
+          }
+        })
+      },
       async submit(e) {
         e.preventDefault();
-        this.error = ''
+        this.validates()
 
-        if (!this.annual_review.name || !this.annual_review.review_start || !this.annual_review.review_end) {
-          this.error = 'Please check all fields'
+        if (Object.keys(this.errors).length > 0) {
           return
         }
 
@@ -95,7 +114,7 @@
                 .then(response => {
                   this.toast('Success', `Internal review has been created.`)
                   this.$emit('saved')
-                  this.$bvModal.hide(this.modalId)
+                  this.hideModal()
                 })
                 .catch(error => console.error(error))
             })
