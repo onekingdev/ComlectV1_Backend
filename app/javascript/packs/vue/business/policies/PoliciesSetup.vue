@@ -269,4 +269,8 @@
     max-width: 100%;
     max-height: 500px;
   }
+
+  /deep/ .custom-file-label {
+    border-color: black !important;
+  }
 </style>
