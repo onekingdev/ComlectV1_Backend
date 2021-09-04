@@ -154,7 +154,9 @@
           routeName === "settings-security-specialist" ||
           routeName === "settings-subscriptions-specialist" ||
           routeName === "settings-billings-specialist" ||
-          routeName === "settings-notifications-specialist"
+          routeName === "settings-notifications-specialist" ||
+          routeName === "annual-reviews-general" ||
+          routeName === "annual-reviews-review-category"
         ) {
           this.$store.commit('changeSidebar', 'builder')
           // document.querySelector('.sidebar-menu').style.display = "none"
