@@ -6,7 +6,7 @@
         //.policy-history__version v{{ data.id }}
         //.policy-history__version v
         .policy-history__version-info {{ policy.id - 1 === data.id ? 'Current Version' : `Version ${data.id}` }}
-        .policy-history__author Published by ***
+        .policy-history__author Published by {{ userName }}
         .policy-history__date Last updated {{ dateToHuman(data.updated_at) }}
         b-button.btn.policy-history__btn-download(@click="download(policy.id)") Download
       .policy-details__body(v-if="policy.versions && policy.versions.length === 0")
@@ -21,6 +21,20 @@
       return {
 
       }
+    },
+    computed: {
+      userName() {
+        const accountInfo = localStorage.getItem('app.currentUser')
+        const accountInfoParsed = JSON.parse(accountInfo)
+        if (accountInfoParsed) {
+          const fullName = accountInfoParsed.contact_first_name
+            ? `${accountInfoParsed.contact_first_name} ${accountInfoParsed.contact_last_name}`
+            : `${accountInfoParsed.first_name} ${accountInfoParsed.last_name}`
+          return (fullName !== 'undefined undefined') ? fullName : ''
+        }
+
+        return ''
+      },
     },
     methods: {
       dateToHuman (value) {
