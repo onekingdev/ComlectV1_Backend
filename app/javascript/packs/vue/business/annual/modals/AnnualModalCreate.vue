@@ -15,11 +15,11 @@
       .row.m-t-1
         .col-6
           label.form-label Start Date
-          DatePicker(v-model="annual_review.review_start" :options="datepickerOptions")
+          DatePicker(v-model="annual_review.review_start")
           Errors(:errors="errors.review_start")
         .col-6
           label.form-label End Date
-          DatePicker(v-model="annual_review.review_end" :options="datepickerOptions")
+          DatePicker(v-model="annual_review.review_end")
           Errors(:errors="errors.review_end")
 
       template(slot="modal-footer")
@@ -155,11 +155,6 @@
           return { value: review.id, text: review.name }
         })
         return revOpt ? revOpt : []
-      },
-      datepickerOptions() {
-        return {
-          min: new Date().toISOString()
-        }
       },
     },
     watch: {
