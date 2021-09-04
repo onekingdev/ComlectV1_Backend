@@ -128,7 +128,7 @@ import Tiptap from '@/common/Tiptap'
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
             //console.log(response)
-            this.toast('Success', 'Policy succesfully published. Please wait you will be redirected to the new Draft')
+            this.toast('Success', 'Policy has been published.')
             setTimeout(() => {
               //window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
               this.$router.push(`/business/compliance_policies/${response.id}`)
