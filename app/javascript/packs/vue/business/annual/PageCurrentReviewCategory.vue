@@ -40,7 +40,7 @@
                     h3
                       | {{ currentCategory.name }}
                     AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory(currentCategory.id)", :inline="false")
-                      b-button(variant="light") Delete
+                      b-button.btn.btn-default(variant="light") Delete
                 .reviews__topiclist(v-if="currentCategory.review_topics")
                   template(v-for="(currentTopic, i) in currentCategory.review_topics")
                     .reviews__card--internal(:key="`${currentCategory.name}-${i}`")

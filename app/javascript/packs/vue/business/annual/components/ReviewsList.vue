@@ -18,7 +18,7 @@
         b-icon.mr-2(icon='plus-circle-fill')
         | Add Category
       .review__category-add__form(v-else)
-        input.form-control(v-model="category.name" type="text" ref="input" @blur="addCategory")
+        input.form-control(v-model="category.name" type="text" ref="input" @keyup.enter="onCategoryNameChange" @blur="addCategory")
         //button.btn.btn-default(@click="addCategory")
         //  b-icon.mr-2(icon='plus-circle-fill')
         //  | Add Category
@@ -47,11 +47,9 @@ export default {
       createReviewCategory: 'annual/createReviewCategory',
       getCurrentReviewReview: 'annual/getCurrentReview'
     }),
-    onCategoryNameChange(e) {
-      if (e.keyCode === 13) {
-        // ENTER KEY CODE
-        this.addCategory ()
-      }
+    onCategoryNameChange() {
+      this.category.visible = false
+      return
     },
     async addCategory () {
       if (this.category.name.length === 0) {
