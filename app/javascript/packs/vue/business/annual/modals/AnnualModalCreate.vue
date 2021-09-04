@@ -114,7 +114,8 @@
                 .then(response => {
                   this.toast('Success', `Internal review has been created.`)
                   this.$emit('saved')
-                  this.hideModal()
+                  this.$bvModal.hide(this.modalId)
+                  this.$router.push({ name: 'annual-reviews-general', params: { annualId: response.id } })
                 })
                 .catch(error => console.error(error))
             })
@@ -135,7 +136,7 @@
           if (!response.errors) {
             this.toast('Success', `Internal review has been created.`)
             this.$emit('saved')
-            this.$bvModal.hide(this.modalId)
+            this.$router.push({ name: 'annual-reviews-general', params: { annualId: response.id } })
           }
 
         } catch (error) {
