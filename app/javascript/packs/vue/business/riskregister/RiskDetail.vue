@@ -4,14 +4,20 @@
       Loading
     .page-header(v-if="!loading")
       .page-header__title
-        h2: b {{ pageTitle }}&nbsp;
-          span.separator /&nbsp;
-          | {{ riskComputed.name }}
         h2
-          b-badge.mr-2(:variant="badgeVariant(riskComputed.risk_level)") {{ showLevel(riskComputed.risk_level) }}
+          | {{ pageTitle }}
+          span.separator.mx-2 /
           b {{ riskComputed.name }}
+        h2.mt-1
+          b-badge.badge-risk.custom-badge.mr-1(:variant="badgeVariant(riskComputed.risk_level)")
+            b-icon-exclamation-triangle-fill.mr-2
+            | {{ showLevel(riskComputed.risk_level)  }}
+          b.risk-name {{ riskComputed.name }}
       .page-header__actions
-        b-dropdown.bg-white(text='Actions', variant="secondary", right)
+        b-dropdown.actions__dropdown.actions__dropdown_tasks(variant="default", right)
+          template(#button-content)
+            | Actions
+            ion-icon.ml-2(name="chevron-down-outline" size="small")
           RiskModalDelete(@deleteConfirmed="deleteRisk", :riskId="riskComputed.id", :inline="false")
             b-dropdown-item.delete Delete risk
     .card-body.white-card-body.card-body_full-height(v-if="!loading")
@@ -21,7 +27,7 @@
             template(#header)
               h3.mb-0.font-weight-bold Risk Details
               RisksAddEditModal.ml-auto(:riskId="riskComputed.id" :inline="false")
-                button.btn.btn-light Edit
+                button.btn.btn-secondary Edit
             b-card-text
               .row
                 .col-lg-2.col-md-3.col-4.pr-0
@@ -40,7 +46,7 @@
             template(#header)
               h3.mb-0.font-weight-bold Controls
               RiskContols.ml-auto(:riskId="riskComputed.id" :inline="false")
-                button.btn.btn-light {{ !riskComputed.compliance_policies && !riskComputed.compliance_policies.length ? 'Add' : 'Edit' }} Control
+                button.btn.btn-secondary {{ !riskComputed.compliance_policies && !riskComputed.compliance_policies.length ? 'Add' : 'Edit' }} Control
             b-card-text
               PoliciesTable(:riskPolicies="riskComputed.compliance_policies", @deleteControl="updateRisk")
             b-card-text(v-if="!riskComputed.compliance_policies && !riskComputed.compliance_policies.length")
@@ -158,6 +164,15 @@
 </script>
 
 <style scoped>
+  .custom-badge {
+    display: inline-flex !important;
+  }
+
+  .risk-name {
+    position: relative;
+    top: 2px;
+  }
+  
   .no-results {
     display: flex;
     flex-direction: column;
@@ -165,9 +180,11 @@
     justify-content: center;
     min-height: 20rem;
   }
+  
   .no-results__title {
     font-size: 1.3rem;
   }
+  
   .no-results svg {
     margin-bottom: 4rem;
   }

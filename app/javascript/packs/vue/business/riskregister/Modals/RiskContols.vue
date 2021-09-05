@@ -11,9 +11,9 @@
             table.table
               thead
                 tr
-                  th(width="10")
+                  th(width="10") Policy
                     <!--b-form-checkbox(v-model='form.checked[]')-->
-                  th(width="55%") Policy
+                  th(width="55%")
                   th Status
                     b-icon.ml-2(icon='chevron-expand')
                   th.text-right Last modified
@@ -26,18 +26,18 @@
                   td
                     b-form-checkbox(v-model='form.checked[index]' @change="onChange")
                   td
-                    a.link(:href="`/business/compliance_policies/${policy.id}`")
-                      ion-icon.mr-2(name="document-text-outline")
+                    a.link.custom-text(:href="`/business/compliance_policies/${policy.id}`")
+                      img.icon-policy(src='@/assets/policy.svg')
                       | {{ policy.name }}
                   td
-                    b-badge.status(:variant="statusVariant") {{ policy.status }}
+                    b-badge.status(:variant="statusVariant" :class="{ 'status__published': policy.status === 'published' }") {{ policy.status }}
                   td.text-right {{ dateToHuman(policy.updated_at) }}
                   td.text-right {{ dateToHuman(policy.created_at) }}
                   td
                     .actions
-                      b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                      b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                         template(#button-content)
-                          b-icon(icon="three-dots")
+                          b-icon.three-dots(icon="three-dots")
                         b-dropdown-item(:href="`/business/compliance_policies/${policy.id}`") Edit
                         <!--b-dropdown-item-button.delete Delete-->
                 tr(v-if="!policiesComputed.length")
@@ -48,7 +48,7 @@
         .col
           label.m-t-1.form-label.font-weight-bold {{ countSelected }} Items Selected
         .col-justify-content-end
-          button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+          button.btn.btn-link.custom-text(@click="$bvModal.hide(modalId)") Cancel
           button.btn.btn-dark(@click="submit") Add
 </template>
 
@@ -236,7 +236,6 @@
     }
   }
 </script>
-
 <style>
   @media (min-width: 576px) {
     .modal-select-control .modal-dialog {

@@ -14,18 +14,18 @@
       tbody
         tr(v-for="policy in riskPolicies" :key="policy.id")
           td
-            a.link(:href="`/business/compliance_policies/${policy.id}`")
-              ion-icon.mr-2(name="document-text-outline")
+            a.link.custom-text(:href="`/business/compliance_policies/${policy.id}`")
+              img.icon-policy(src='@/assets/policy.svg')
               | {{ policy.name }}
           td
-            b-badge.status(:variant="statusVariant") {{ policy.status }}
+            b-badge.status(:variant="statusVariant" :class="{ 'status__published': policy.status === 'published'}") {{ policy.status }}
           td.text-right {{ dateToHuman(policy.updated_at) }}
           td.text-right {{ dateToHuman(policy.created_at) }}
           td.text-right
             .actions
-              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+              b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                 template(#button-content)
-                  b-icon(icon="three-dots")
+                  b-icon.three-dots(icon="three-dots")
                 <!--b-dropdown-item-button Edit-->
                 b-dropdown-item-button.delete(@click="deleteControl(policy.id)") Delete
 </template>

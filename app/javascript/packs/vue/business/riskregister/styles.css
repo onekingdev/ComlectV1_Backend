@@ -13,8 +13,8 @@
 }
 
 .status__published {
-  color: rgba(100, 206, 171, 1);
-  background-color: rgba(213, 251, 239, 1);
+  color: #1AB27F;
+  background-color:#D5FBEF;
 }
 
 .dropdown-items {
@@ -26,4 +26,23 @@
 .dropdown-items.active {
   display: block;
   cursor: pointer;
+}
+
+.icon-policy {
+  width: 20px;
+  margin-top: -3px;
+  margin-right: 3px;
+}
+
+.three-dots {
+  font-size: 1rem;
+}
+
+.custom-text {
+  color: #2180C2 !important;
+  text-decoration: none !important;
+}
+
+.custom-text:hover {
+  color: #0479FF !important;
 }
