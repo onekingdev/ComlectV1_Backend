@@ -55,7 +55,7 @@ import SettingsS from '@/specialist/settings/Page'
 import SettingsNotificationsS from '@/specialist/notifications/Page'
 import ProjectsMarketplaceS from '@/specialist/projects/IndexPage'
 import ProfileS from '@/specialist/profile/Page'
-import TasksS from '@/specialist/tasks/Page'
+import SpecialistTasksPage from '@/specialist/tasks/Page'
 
 Vue.use(Router)
 
@@ -134,7 +134,7 @@ export default new Router({
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },
-    { path: '/specialist/reminders', name: 'tasks-specialist', component: TasksS },
+    { path: '/specialist/reminders', name: 'tasks-specialist', component: SpecialistTasksPage },
     { path: '/specialist/my-projects', name: 'projects-specialist', component: ProjectsS },
     { path: '/specialist/my-projects/:id(\\d+)', name: 'project-review-specialist', props: paramsToInts(['id']), component: ProjectReviewS },
     { path: '/specialist/settings', name: 'settings-specialist', component: SettingsS,

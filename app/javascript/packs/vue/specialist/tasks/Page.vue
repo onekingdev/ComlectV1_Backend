@@ -4,7 +4,7 @@
       h2.page-header__title Tasks
       .page-header__actions
         a.btn.btn-default.m-r-1.d-none(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
-        TaskModalCreateEdit(@saved="refetch()")
+        TaskFormModal(@saved="refetch()")
           a.btn.btn-dark New Task
     .card-body.white-card-body.card-body_full-height.p-x-40
       .row.mb-3(v-if="!shortTable")
@@ -33,15 +33,15 @@
               b-dropdown-item(@click="perPage = 10") 10
               b-dropdown-item(@click="perPage = 15") 15
               b-dropdown-item(@click="perPage = 20") 20
-      //.row(v-if="!shortTable")
-      //  .col
-      //    .d-flex.align-items-center
-      //      ion-icon.m-r-1(name="chevron-down-outline" size="small")
-      //      b-badge.m-r-1(variant="light") 0
-      //      h3 Compilance Program
+      //- .row(v-if="!shortTable")
+      //-   .col
+      //-     .d-flex.align-items-center
+      //-       ion-icon.m-r-1(name="chevron-down-outline" size="small")
+      //-       b-badge.m-r-1(variant="light") 0
+      //-       h3 Compilance Program
       .row
         .col(:class="shortTable ? 'p-0' : ''")
-          TaskTable.m-b-40(:shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage")
+          TaskTable.m-b-40(:shortTable="shortTable", :tasks="sortedTasks" :perPage="perPage" :currentPage="currentPage" @saved="refetch")
           b-pagination(v-if="!shortTable && sortedTasks.length > perPage" v-model='currentPage' :total-rows='rows' :per-page='perPage' :shortTable="!shortTable",  aria-controls='tasks-table')
       .row.h-100(v-if="loading")
         .col.h-100.text-center
@@ -52,171 +52,56 @@
 </template>
 
 <script>
-  import { mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 
-  import { DateTime } from 'luxon'
-  import { toEvent, isOverdue, splitReminderOccurenceId } from '@/common/TaskHelper'
+import { DateTime } from 'luxon'
+import { isOverdue } from '@/common/TaskHelper'
 
-  import Loading from '@/common/Loading/Loading'
-  import EmptyState from '@/common/EmptyState'
-  import TaskTable from './components/TaskTable'
-  import TaskModalCreateEdit from '@/common/TaskFormModal'
-  // import TaskModalEdit from './modals/TaskModalEdit'
+import Loading from '@/common/Loading/Loading'
+import EmptyState from '@/common/EmptyState'
+import TaskTable from './components/TaskTable'
+import TaskFormModal from '@/common/TaskFormModal'
+// const endpointUrl = '/api/business/reminders/'
+// const overdueEndpointUrl = '/api/business/overdue_reminders'
 
-  // const endpointUrl = '/api/business/reminders/'
-  // const overdueEndpointUrl = '/api/business/overdue_reminders'
+const pdfUrl = '/reminders.csv'
 
-  // const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
-  // console.log(DateTime)
-  // console.log(DateTime.local())
-  // console.log(DateTime.local().minus({years: 10}))
-  // console.log(DateTime.local().minus({years: 10}).toSQLDate())
-  // console.log(DateTime.local().plus({years: 10}).toSQLDate())
-  // console.log(fromTo)
-
-  // const today = () => DateTime.local().toISODate()
-
-  const pdfUrl = '/reminders.csv'
-
-  export default {
-    props: {
-      // etag: Number,
-      shortTable: {
-        type: Boolean,
-        default: false
-      }
-    },
-    components: {
-      Loading,
-      EmptyState,
-      TaskTable,
-      TaskModalCreateEdit,
-      // TaskModalEdit
-    },
-    data() {
-      return {
-        // tasks: [],
-        perPage: 10,
-        currentPage: 1,
-        toggleModal: false,
-        sortedBy: 'all',
-        sortedByLinkedTo: 'all',
-        sortedByNameGeneral: 'All Tasks',
-        sortedByNameAdditional: 'All Links',
-        projects: []
-      }
-    },
-    // created() {
-      // this.refetch()
-    // },
-    methods: {
-      refetch() {
-        console.log('refetch')
-      //   const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
-      //
-      //   fetch(overdueEndpointUrl, { headers: {'Accept': 'application/json'} })
-      //     .then(response => response.json())
-      //     .then(result => {
-      //       console.log('overdue result', result)
-      //       this.tasks = result.tasks
-      //     }).then(fetch(`${endpointUrl}${fromTo}`, { headers: {'Accept': 'application/json'}})
-      //     .then(response => response.json())
-      //     .then(result => {
-      //       console.log('reminders result', result)
-      //       this.tasks = this.tasks.concat(result.tasks)
-      //       this.projects = result.projects
-      //     })
-      //   )
-      //   // .catch(errorCallback)
-      },
-      //
-      // isOverdue,
-      // toggleDone(task) {
-      //   const { taskId, oid } = splitReminderOccurenceId(task.id)
-      //   const oidParam = oid !== null ? `&oid=${oid}` : ''
-      //   var target_state = (!(!!task.done_at)).toString()
-      //   fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
-      //     method: 'POST',
-      //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-      //   }).then(response => this.$emit('saved'))
-      // },
-      //
-      // createTask(i){
-      //   console.log('createTask: ', i)
-      // },
-      // deleteTask(id){
-      //   fetch(`${endpointUrl}${id}`, { method: 'DELETE', headers: {'Accept': 'application/json'} })
-      //     .then(response => response.json())
-      //     .then(response => {
-      //       console.log('result', response)
-      //       this.toast('Success', `Task has been deleted.`)
-      //     })
-      //     .catch(error => this.toast('Error', `${error.message}`, true))
-      // },
-      sortBy (value) {
-        this.sortedBy = value
-        this.sortedByNameGeneral = value
-      },
-      sortByType (value) {
-        this.sortedByLinkedTo = value
-        this.sortedByNameAdditional = value
-      }
-    },
-    computed: {
-      ...mapGetters({
-        tasks: 'reminders/tasks',
-      }),
-      pdfUrl: () => pdfUrl,
-      // taskEvents() {
-      //   return this.tasks.map(toEvent)
-      //     .map(e => ({
-      //       ...e,
-      //       start: DateTime.fromSQL(e.start).toLocaleString(),
-      //       end: DateTime.fromSQL(e.end).toLocaleString(),
-      //       ...splitReminderOccurenceId(e.id)
-      //     }))
-      // },
-      loading() {
-        return this.$store.getters.loading;
-      },
-      rows() {
-        return this.tasks.length
-      },
-      sortedTasks () {
-        const sortedBy = this.sortedBy
-        const sortedByType = this.sortedByLinkedTo
-
-        let result
-
-        if (sortedBy) {
-          if (sortedBy === 'completed')
-            result = this.tasks.filter(task => task.done_at)
-          if (sortedBy === 'overdue')
-            result = this.tasks.filter(task => isOverdue(task))
-          if (sortedBy === 'all')
-            result = this.tasks
-        }
-
-        if (sortedByType) {
-          if (sortedByType === 'LocalProject' || sortedByType === 'CompliancePolicy'|| sortedByType === 'AnnualReport')
-            result = result.filter(task => task.linkable_type === sortedByType)
-          if (sortedByType === 'all')
-            result = result ? result : this.tasks
-        }
-
-        return result ? result : this.tasks
-      },
-    },
-    async mounted () {
+export default {
+  props: {
+    shortTable: {
+      type: Boolean,
+      default: false
+    }
+  },
+  components: {
+    Loading,
+    EmptyState,
+    TaskTable,
+    TaskFormModal,
+  },
+  data() {
+    return {
+      perPage: 10,
+      currentPage: 1,
+      toggleModal: false,
+      sortedBy: 'all',
+      sortedByLinkedTo: 'all',
+      sortedByNameGeneral: 'All Tasks',
+      sortedByNameAdditional: 'All Links',
+      projects: []
+    }
+  },
+  mounted() {
+    this.refetch()
+  },
+  methods: {
+    async refetch () {
       try {
         // await this.$store.dispatch('reminders/getTasks')
 
         const fromTo = DateTime.local().minus({years: 10}).toSQLDate() + '/' + DateTime.local().plus({years: 10}).toSQLDate()
         await this.$store.dispatch('reminders/getTasksByDate', fromTo)
-          .then(response => {
-            console.log('response', response)
-            if (response.projects) this.projects = response.projects
-          })
+          .then(response => this.projects = response.projects || [])
           .catch(error => console.error('error', error))
         //await this.$store.dispatch('reminders/getOverdueTasks')
         //  .then(response => console.log('response Overdue', response))
@@ -225,25 +110,85 @@
         this.toast('Error', error.message, true)
       }
     },
-    // watch: {
-      // etag: {
-      //   handler: function(newVal, outline) {
-      //     this.refetch()
-      //   }
-      // }
-    // }
-    filters: {
-      capitalize: function (value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.charAt(0).toUpperCase() + value.slice(1)
-      },
-      linkableTypeCorrector: function (value) {
-        if (value === 'LocalProject') value = 'Projects'
-        if (value === 'CompliancePolicy') value = 'Policies'
-        if (value === 'AnnualReport') value = 'Internal Review'
-        return value.replace(/[A-Z]/g, ' $&')
-      }
+    // toggleDone(task) {
+    //   const { taskId, oid } = splitReminderOccurenceId(task.id)
+    //   const oidParam = oid !== null ? `&oid=${oid}` : ''
+    //   var target_state = (!(!!task.done_at)).toString()
+    //   fetch(`/api/business/reminders/${taskId}?done=${target_state}${oidParam}`, {
+    //     method: 'POST',
+    //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
+    //   }).then(response => this.$emit('saved'))
+    // },
+    //
+    // createTask(i){
+    //   console.log('createTask: ', i)
+    // },
+    // deleteTask(id){
+    //   fetch(`${endpointUrl}${id}`, { method: 'DELETE', headers: {'Accept': 'application/json'} })
+    //     .then(response => response.json())
+    //     .then(response => {
+    //       console.log('result', response)
+    //       this.toast('Success', `Task has been deleted.`)
+    //     })
+    //     .catch(error => this.toast('Error', `${error.message}`, true))
+    // },
+    sortBy (value) {
+      this.sortedBy = value
+      this.sortedByNameGeneral = value
     },
-  }
+    sortByType (value) {
+      this.sortedByLinkedTo = value
+      this.sortedByNameAdditional = value
+    }
+  },
+  computed: {
+    ...mapGetters({
+      tasks: 'reminders/tasks',
+    }),
+    pdfUrl: () => pdfUrl,
+    loading() {
+      return this.$store.getters.loading;
+    },
+    rows() {
+      return this.tasks.length
+    },
+    sortedTasks () {
+      const sortedBy = this.sortedBy
+      const sortedByType = this.sortedByLinkedTo
+
+      let result
+
+      if (sortedBy) {
+        if (sortedBy === 'completed')
+          result = this.tasks.filter(task => task.done_at)
+        if (sortedBy === 'overdue')
+          result = this.tasks.filter(task => isOverdue(task))
+        if (sortedBy === 'all')
+          result = this.tasks
+      }
+
+      if (sortedByType) {
+        if (sortedByType === 'LocalProject' || sortedByType === 'CompliancePolicy'|| sortedByType === 'AnnualReport')
+          result = result.filter(task => task.linkable_type === sortedByType)
+        if (sortedByType === 'all')
+          result = result ? result : this.tasks
+      }
+
+      return result ? result : this.tasks
+    },
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    },
+    linkableTypeCorrector: function (value) {
+      if (value === 'LocalProject') value = 'Projects'
+      if (value === 'CompliancePolicy') value = 'Policies'
+      if (value === 'AnnualReport') value = 'Internal Review'
+      return value.replace(/[A-Z]/g, ' $&')
+    }
+  },
+}
 </script>

@@ -5,7 +5,7 @@
       .page-header__actions
         //a.btn.btn-default.m-r-1(v-if="!shortTable" :href="pdfUrl" target="_blank") Download
         Download.d-inline-block.m-r-1.d-none(v-if="!shortTable" :pdfUrl="pdfUrl")
-        TaskModalCreateEdit(@saved="refetch()")
+        TaskFormModal(@saved="refetch()")
           a.btn.btn-dark New Task
     .card-body.white-card-body.card-body_full-height.p-x-40
       .row.mb-3(v-if="!shortTable")
@@ -61,8 +61,7 @@
   import Loading from '@/common/Loading/Loading'
   import EmptyState from '@/common/EmptyState'
   import TaskTable from './components/TaskTable'
-  import TaskModalCreateEdit from './modals/TaskModalCreateEdit'
-  // import TaskModalEdit from './modals/TaskModalEdit'
+  import TaskFormModal from '@/common/TaskFormModal'
   import Download from '@/common/Dashboard/components/Download'
 
   import toastMessages from '@/locales/business/en.json'
@@ -95,8 +94,7 @@
       Loading,
       EmptyState,
       TaskTable,
-      TaskModalCreateEdit,
-      // TaskModalEdit,
+      TaskFormModal,
       Download
     },
     data() {

@@ -3,7 +3,7 @@
     .messages.justify-content-center.align-items.center.text-center(v-if="!messages.length")
       h4 No Comments to Display
       p.mb-0 Type in the comment box below to get started
-    .messages(v-if="messages && messages.length")
+    .messages(v-if="messages && messages.length" ref="MessagesContainer")
       .message(v-for="(message, i) in messages" :key="i" class="pb-0")
         .d-flex.align-items-start
           UserAvatar(:user="message.sender")
@@ -43,6 +43,9 @@
       return {
 
       }
+    },
+    created() {
+      this.$emit('created')
     },
     methods: {
       async removeFile(id, fileID) {

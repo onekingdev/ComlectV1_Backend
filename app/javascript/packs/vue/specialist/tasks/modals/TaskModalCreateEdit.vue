@@ -141,311 +141,307 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from "vuex"
-  import { DateTime } from 'luxon'
-  import { VueEditor } from "vue2-editor"
+import { mapGetters, mapActions } from "vuex"
+import { DateTime } from 'luxon'
+import { VueEditor } from "vue2-editor"
 
-  import { splitReminderOccurenceId } from '@/common/TaskHelper'
-  import ComboBox from '@/common/ComboBox'
-  import Messages from '@/common/Messages'
-  import Errors from '@/common/Errors'
+import { splitReminderOccurenceId } from '@/common/TaskHelper'
+import ComboBox from '@/common/ComboBox'
+import Messages from '@/common/Messages'
+import Errors from '@/common/Errors'
 
-  import EtaggerMixin from '@/mixins/EtaggerMixin'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
-  const uploadFile = async function(url, file) {
-    const formData  = new FormData()
-    formData.append('file', file)
-    return await fetch(url, {
-      method: 'POST',
-      body: formData
-    })
-  }
-
-  const checkArray = function (nameArray, linkableTypeName, value) {
-    let tempTask = {}
-    nameArray.forEach(element => {
-      if (element.title === value || element.name === value) {
-        tempTask.linkable_type = linkableTypeName
-        tempTask.linkable_id = element.id
-      }
-    })
-    return tempTask
-  }
-
-  const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
-  const today = new Date();
-  const year = today.getFullYear();
-  const toOption = id => ({ id, label: id })
-  const index = (text, i) => ({ text, value: 1 + i })
-
-  const initialTask = defaults => ({
-    body: null,
-    link_to: null,
-    assignee: null,
-    remind_at: null,
-    end_date: null,
-    end_by: null,
-    year: year,
-    repeats: REPEAT_NONE,
-    repeat_every: null,
-    repeat_on: null,
-    on_type: null,
-    description: "",
-    comment: '',
-    file: null,
-    ...(defaults || {})
+const uploadFile = async function(url, file) {
+  const formData  = new FormData()
+  formData.append('file', file)
+  return await fetch(url, {
+    method: 'POST',
+    body: formData
   })
+}
 
-  const REPEAT_NONE = null,
-    REPEAT_DAILY = 'Daily',
-    REPEAT_WEEKLY = 'Weekly',
-    REPEAT_MONTHLY = 'Monthly',
-    REPEAT_YEARLY = 'Yearly',
-    REPEAT_LABELS = {
-      [REPEAT_NONE]: 'Does not repeat',
-      [REPEAT_DAILY]: 'Daily',
-      [REPEAT_WEEKLY]: 'Weekly',
-      [REPEAT_MONTHLY]: 'Monthly',
-      [REPEAT_YEARLY]: 'Yearly',
-    },
-    REPEAT_OPTIONS = [REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY]
+const checkArray = function (nameArray, linkableTypeName, value) {
+  let tempTask = {}
+  nameArray.forEach(element => {
+    if (element.title === value || element.name === value) {
+      tempTask.linkable_type = linkableTypeName
+      tempTask.linkable_id = element.id
+    }
+  })
+  return tempTask
+}
 
-  export default {
-    mixins: [EtaggerMixin()],
-    props: {
-      inline: {
-        type: Boolean,
-        default: true
-      },
-      id: String,
-      taskProp: {
-        type: Object,
-        required: false
-      },
-      taskId: Number,
-      occurenceId: Number,
-      remindAt: String
-    },
-    components: {
-      VueEditor,
-      ComboBox,
-      Messages,
-      Errors,
-    },
-    data() {
-      return {
-        modalId: this.id || `modal_${rnd()}`,
-        task: initialTask(),
-        errors: [],
-        customToolbar: [
-          ["bold", "italic", "underline"],
-          ["blockquote"],
-          [{ list: "bullet" }],
-          ["link"]
-        ],
-      }
-    },
-    methods: {
-      ...mapActions({
-        // getReviews: 'annual/getReviews',
-        getProjects: 'projects/getProjects'
-      }),
-      toggleDone(task) {
-        const { taskId, oid } = splitReminderOccurenceId(task.id)
-        const oidParam = oid !== null ? `&oid=${oid}` : ''
-        const src_id_params = oid !== null ? `&src_id=${task.id}` : ''
-        let target_state = (!(!!task.done_at)).toString()
+const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+const today = new Date();
+const year = today.getFullYear();
+const toOption = id => ({ id, label: id })
+const index = (text, i) => ({ text, value: 1 + i })
 
-        try {
-          this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state, oidParam, src_id_params })
-            .then(response => {
-              this.toast('Success', 'Task has been updated.')
-              this.$emit('saved')
-              this.$bvModal.hide(this.modalId)
-            })
-            .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
-        } catch (error) {
-          this.toast('Error', error.message)
-          console.error(error)
-        }
-      },
-      deleteTask(task, deleteOccurence){
-        const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
-        this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
+const initialTask = defaults => ({
+  body: null,
+  link_to: null,
+  assignee: null,
+  remind_at: null,
+  end_date: null,
+  end_by: null,
+  year: year,
+  repeats: REPEAT_NONE,
+  repeat_every: null,
+  repeat_on: null,
+  on_type: null,
+  description: "",
+  comment: '',
+  file: null,
+  ...(defaults || {})
+})
+
+const REPEAT_NONE = null,
+  REPEAT_DAILY = 'Daily',
+  REPEAT_WEEKLY = 'Weekly',
+  REPEAT_MONTHLY = 'Monthly',
+  REPEAT_YEARLY = 'Yearly',
+  REPEAT_LABELS = {
+    [REPEAT_NONE]: 'Does not repeat',
+    [REPEAT_DAILY]: 'Daily',
+    [REPEAT_WEEKLY]: 'Weekly',
+    [REPEAT_MONTHLY]: 'Monthly',
+    [REPEAT_YEARLY]: 'Yearly',
+  },
+  REPEAT_OPTIONS = [REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY]
+
+export default {
+  mixins: [EtaggerMixin()],
+  props: {
+    inline: {
+      type: Boolean,
+      default: true
+    },
+    id: String,
+    taskProp: {
+      type: Object,
+      required: false
+    },
+    taskId: Number,
+    occurenceId: Number,
+    remindAt: String
+  },
+  components: {
+    VueEditor,
+    ComboBox,
+    Messages,
+    Errors,
+  },
+  data() {
+    return {
+      modalId: this.id || `modal_${rnd()}`,
+      task: initialTask(),
+      errors: [],
+      customToolbar: [
+        ["bold", "italic", "underline"],
+        ["blockquote"],
+        [{ list: "bullet" }],
+        ["link"]
+      ],
+    }
+  },
+  methods: {
+    ...mapActions({
+      // getReviews: 'annual/getReviews',
+      getProjects: 'projects/getProjects'
+    }),
+    toggleDone(task) {
+      const { taskId, oid } = splitReminderOccurenceId(task.id)
+      const oidParam = oid !== null ? `&oid=${oid}` : ''
+      const src_id_params = oid !== null ? `&src_id=${task.id}` : ''
+      let target_state = (!(!!task.done_at)).toString()
+
+      try {
+        this.$store.dispatch('reminders/updateTaskStatus', { id: taskId, done: target_state, oidParam, src_id_params })
           .then(response => {
-            this.toast('Success', `Task has been deleted.`)
+            this.toast('Success', 'Task has been updated.')
             this.$emit('saved')
             this.$bvModal.hide(this.modalId)
           })
-          .catch(error => this.toast('Error', `Task has not been deleted.`, true))
-      },
-      async submit(saveOccurence) {
-        this.errors = []
-        // const toId = (this.taskId) ? `/${this.taskId}` : ''
-        const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
-
-        try {
-          const data = {
-            ...this.task,
-            occurenceParams
-          }
-          console.log(data)
-
-          await this.$store.dispatch("reminders/createTask", data)
-            .then(response => {
-              this.toast('Success', 'Task has been updated.')
-              this.$emit('saved')
-              this.$bvModal.hide(this.modalId)
-            })
-            .catch(error => {
-              console.error('error', error)
-              this.toast('Error', `Task has not been updated. Please try again.`, true)
-            })
-        } catch (error) {
-          this.toast('Error', error.message, true)
-          console.error('catch error', error)
-        }
-      },
-
-      inputChangeLinked(value) {
-        let tempTask
-        tempTask = checkArray(this.projects, 'LocalProject', value)
-        // tempTask = checkArray(this.policies, 'CompliancePolicy', value)
-        // tempTask = checkArray(this.reviews, 'AnnualReport', value)
-        this.task = {
-          ...this.task,
-          ...tempTask,
-        }
-      },
-
-      async submitUpdate(e) {
-        e.preventDefault();
-
-        this.errors = []
-        const toId = (this.task.id) ? `${this.task.id}` : ''
-
-        try {
-          const data = {
-            id: toId,
-            task: {
-              ...this.task,
-            },
-          }
-
-          console.log(data)
-
-          await this.$store.dispatch("reminders/updateTask", data)
-            .then(response => {
-              // if (response.errors) {
-              //   this.toast('Error', `Task has not been updated. Please try again.`)
-              //   Object.keys(response.errors)
-              //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `Task has not been updated. Please try again.`)))
-              //   return
-              // }
-              this.toast('Success', 'Task has been updated.')
-              this.$emit('saved')
-              this.$bvModal.hide(this.modalId)
-            })
-            .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
-        } catch (error) {
-          this.toast('Error', error.message)
-          console.error(error)
-        }
-      },
-      async onFileChanged(event) {
-        const file = event.target.files && event.target.files[0]
-        if (file) {
-          const success = (await uploadFile(this.url, file)).ok
-          const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
-          this.toast('Document has not been uploaded.', message, !success)
-          this.newEtag()
-        }
-      },
-      getDocumentUrl(document) {
-        return `/uploads/${document.file_data.storage}/${document.file_data.id}`
-      },
-      async getData () {
-        this.task = { ...this.taskProp }
-        try {
-          if(this.taskProp)
-            this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
-
-          // this.$store.dispatch("getPolicies")
-
-          // this.$store.dispatch('annual/getReviews')
-
-          this.$store.dispatch('projects/getProjects')
-
-        } catch (error) {
-          console.error(error)
-          this.toast('Error', error.message, true)
-        }
-      },
-      sendMessage(task) {
-
-        const data = {
-          id: task.id,
-          message: {
-            message: this.task.comment
-          }
-        }
-
-        this.$store.dispatch("reminders/postTaskMessageById", data)
-          .then((response) => console.log('postTaskMessageById response mounted', response))
-          .catch((err) => console.error(err));
+          .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
+      } catch (error) {
+        this.toast('Error', error.message)
+        console.error(error)
       }
     },
-    computed: {
-      ...mapGetters({
-        // reviews: 'annual/reviews',
-        projects: 'projects/projects',
-      }),
-      // policies() {
-      //   return this.$store.getters.policiesList
-      // },
-      daysOfWeek() {
-        return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
-      },
-      months() {
-        return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(index)
-      },
-      repeatsValues() {
-        return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
-      },
-      repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
-      linkToOptions() {
-        return [{...toOption('Projects'), children: this.projects.map(record => ({ id: record.title, label: record.title }))},
-                // {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
-                // {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
-              ]
-      },
-      assigneeOptions() {
-        return ['John', 'Doe', 'Another specialist'].map(toOption)
-      },
-
-      url() {
-        return `/api/reminders/${(this.taskProp.id) ? `${this.taskProp.id}` : ''}/documents`
-        // return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/messages`
-      },
-      datepickerOptions() {
-        return {
-          // min: new Date
-        }
-      },
+    deleteTask(task, deleteOccurence){
+      const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
+      this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
+        .then(response => {
+          this.toast('Success', `Task has been deleted.`)
+          this.$emit('saved')
+          this.$bvModal.hide(this.modalId)
+        })
+        .catch(error => this.toast('Error', `Task has not been deleted.`, true))
     },
-    watch: {
-      'task.remind_at': {
-        handler: function(value, oldVal) {
-          const start = DateTime.fromSQL(value), end = DateTime.fromSQL(this.task.end_date)
-          if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
-            this.task.end_date = value
-          }
+    async submit(saveOccurence) {
+      this.errors = []
+      // const toId = (this.taskId) ? `/${this.taskId}` : ''
+      const occurenceParams = saveOccurence ? `?oid=${this.occurenceId}&src_id=${this.taskId}` : ''
+
+      try {
+        const data = {
+          ...this.task,
+          occurenceParams
+        }
+        console.log(data)
+
+        await this.$store.dispatch("reminders/createTask", data)
+          .then(response => {
+            this.toast('Success', 'Task has been updated.')
+            this.$emit('saved')
+            this.$bvModal.hide(this.modalId)
+          })
+          .catch(error => {
+            console.error('error', error)
+            this.toast('Error', `Task has not been updated. Please try again.`, true)
+          })
+      } catch (error) {
+        this.toast('Error', error.message, true)
+        console.error('catch error', error)
+      }
+    },
+
+    inputChangeLinked(value) {
+      let tempTask
+      tempTask = checkArray(this.projects, 'LocalProject', value)
+      // tempTask = checkArray(this.policies, 'CompliancePolicy', value)
+      // tempTask = checkArray(this.reviews, 'AnnualReport', value)
+      this.task = {
+        ...this.task,
+        ...tempTask,
+      }
+    },
+
+    async submitUpdate(e) {
+      e.preventDefault();
+
+      this.errors = []
+      const toId = (this.task.id) ? `${this.task.id}` : ''
+
+      try {
+        const data = {
+          id: toId,
+          task: {
+            ...this.task,
+          },
+        }
+
+        console.log(data)
+
+        await this.$store.dispatch("reminders/updateTask", data)
+          .then(response => {
+            // if (response.errors) {
+            //   this.toast('Error', `Task has not been updated. Please try again.`)
+            //   Object.keys(response.errors)
+            //     .map(prop => response.errors[prop].map(err => this.toast(`Error`, `Task has not been updated. Please try again.`)))
+            //   return
+            // }
+            this.toast('Success', 'Task has been updated.')
+            this.$emit('saved')
+            this.$bvModal.hide(this.modalId)
+          })
+          .catch(error => this.toast('Error', `Task has not been updated. Please try again.`))
+      } catch (error) {
+        this.toast('Error', error.message)
+        console.error(error)
+      }
+    },
+    async onFileChanged(event) {
+      const file = event.target.files && event.target.files[0]
+      if (file) {
+        const success = (await uploadFile(this.url, file)).ok
+        const message = success ? 'Document has been uploaded.' : 'Document has not been uploaded.'
+        this.toast('Document has not been uploaded.', message, !success)
+        this.newEtag()
+      }
+    },
+    getDocumentUrl(document) {
+      return `/uploads/${document.file_data.storage}/${document.file_data.id}`
+    },
+    async getData () {
+      this.task = { ...this.taskProp }
+      try {
+        if(this.taskProp)
+          this.$store.dispatch("reminders/getTaskMessagesById", { id: this.taskProp.id })
+
+        // this.$store.dispatch("getPolicies")
+
+        // this.$store.dispatch('annual/getReviews')
+
+        this.$store.dispatch('projects/getProjects')
+
+      } catch (error) {
+        console.error(error)
+        this.toast('Error', error.message, true)
+      }
+    },
+    sendMessage(task) {
+
+      const data = {
+        id: task.id,
+        message: {
+          message: this.task.comment
+        }
+      }
+
+      this.$store.dispatch("reminders/postTaskMessageById", data)
+        .then((response) => console.log('postTaskMessageById response mounted', response))
+        .catch((err) => console.error(err));
+    }
+  },
+  computed: {
+    ...mapGetters({
+      // reviews: 'annual/reviews',
+      projects: 'projects/projects',
+    }),
+    // policies() {
+    //   return this.$store.getters.policiesList
+    // },
+    daysOfWeek() {
+      return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(index)
+    },
+    months() {
+      return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(index)
+    },
+    repeatsValues() {
+      return {REPEAT_NONE, REPEAT_DAILY, REPEAT_WEEKLY, REPEAT_MONTHLY, REPEAT_YEARLY}
+    },
+    repeatsOptions: () => REPEAT_OPTIONS.map(value => ({ value, text: REPEAT_LABELS[value] })),
+    linkToOptions() {
+      return [{...toOption('Projects'), children: this.projects.map(record => ({ id: record.title, label: record.title }))},
+              // {...toOption('Internal Reviews'), children: this.reviews.map(record => ({ id: record.name, label: record.name }))},
+              // {...toOption('Policies'), children: this.policies.map(record => ({ id: record.name, label: record.name }))},
+            ]
+    },
+    assigneeOptions() {
+      return ['John', 'Doe', 'Another specialist'].map(toOption)
+    },
+
+    url() {
+      return `/api/reminders/${(this.taskProp.id) ? `${this.taskProp.id}` : ''}/documents`
+      // return `/api/business/reminders/${(this.taskProp.id) ? `/${this.taskProp.id}` : ''}/messages`
+    },
+    datepickerOptions() {
+      return {
+        // min: new Date
+      }
+    },
+  },
+  watch: {
+    'task.remind_at': {
+      handler: function(value, oldVal) {
+        const start = DateTime.fromSQL(value), end = DateTime.fromSQL(this.task.end_date)
+        if (!start.invalid && (end.invalid || (end.startOf('day') < start.startOf('day')))) {
+          this.task.end_date = value
         }
       }
     }
   }
+}
 </script>
-
-<style scoped>
-
-</style>

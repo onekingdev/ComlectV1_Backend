@@ -14,7 +14,7 @@ class Api::ReminderMessagesController < ApiController
     if message.persisted?
       respond_with message, serializer: MessageSerializer
     else
-      render json: { errors: message.errors.to_json }
+      render json: message.errors, status: :unprocessable_entity
     end
   end
 

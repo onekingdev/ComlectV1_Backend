@@ -11,48 +11,47 @@
           .card
             .card-header.d-flex.justify-content-between
               h3.m-y-0 Tasks
-              TaskModalCreateEdit
+              TaskFormModal
                 a.btn.btn-dark New Task
             Tasks(:shortTable="true")
 </template>
 
 <script>
-  import { mapActions, mapGetters } from "vuex"
-  import { DateTime } from 'luxon'
-  import RegulatoryExamsTable from './components/ExamsTable'
-  import Tasks from '@/business/tasks/Page'
-  import TaskModalCreateEdit from '@/common/TaskFormModal';
+import { mapActions, mapGetters } from "vuex"
+import RegulatoryExamsTable from './components/ExamsTable'
+import Tasks from '@/business/tasks/Page'
+import TaskFormModal from '@/common/TaskFormModal';
 
-  export default {
-    components: {
-      TaskModalCreateEdit,
-      RegulatoryExamsTable,
-      Tasks
-    },
-    data() {
-      return {
-        pageTitle: "Exam Management",
-      };
-    },
-    methods: {
-      ...mapActions({
-        getExams: 'exams/getExams',
-      }),
-    },
-    computed: {
-      ...mapGetters({
-        exams: 'exams/exams',
-      }),
-    },
-    async mounted () {
-      try {
-        await this.getExams()
-      } catch (error) {
-        console.error(error)
-        this.toast('Error', error.message, true)
-      }
-    },
-  };
+export default {
+  components: {
+    TaskFormModal,
+    RegulatoryExamsTable,
+    Tasks
+  },
+  data() {
+    return {
+      pageTitle: "Exam Management",
+    };
+  },
+  methods: {
+    ...mapActions({
+      getExams: 'exams/getExams',
+    }),
+  },
+  computed: {
+    ...mapGetters({
+      exams: 'exams/exams',
+    }),
+  },
+  async mounted () {
+    try {
+      await this.getExams()
+    } catch (error) {
+      console.error(error)
+      this.toast('Error', error.message, true)
+    }
+  },
+}
 </script>
 
 <style>

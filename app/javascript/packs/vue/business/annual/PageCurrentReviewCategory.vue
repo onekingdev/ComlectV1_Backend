@@ -53,7 +53,7 @@
                               | Actions
                               b-icon.ml-2(icon="chevron-down")
                             b-dropdown-item(@click="addTopicItem(i)") Add Item
-                            AnnualModalCreateTask(@saved="createTask(i)" :inline="false")
+                            TaskFormModal(@saved="createTask(i)" :inline="false")
                               b-dropdown-item New Task
                             b-dropdown-item(@click="deleteTopic(i)").delete Delete
                       template(v-for="(topicItem, topicItemIndex) in currentTopic.items")
@@ -102,7 +102,7 @@ import AnnualModalComplite from './modals/AnnualModalComplite'
 import AnnualModalEdit from './modals/AnnualModalEdit'
 import AnnualModalDelete from './modals/AnnualModalDelete'
 import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
-import AnnualModalCreateTask from './modals/AnnualModalCreateTask'
+import TaskFormModal from '@/common/TaskFormModal'
 import PageTasks from './PageTasks'
 import PageDocuments from './PageDocuments'
 import PageActivity from './PageActivity'
@@ -116,7 +116,7 @@ export default {
     AnnualModalEdit,
     AnnualModalDelete,
     AnnualModalDeleteCategory,
-    AnnualModalCreateTask,
+    TaskFormModal,
     PageTasks,
     PageDocuments,
     PageActivity

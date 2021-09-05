@@ -3,9 +3,9 @@
     td
       .name
         b-icon.pointer.m-r-1(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
-        //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
-        TaskModalCreateEdit.link(:taskProp="item" @saved="$emit('saved')")
-          span(v-if="!item.done_at" ) {{ item.body }}
+        //- ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
+        TaskFormModal.link(:task-id="item.id" @saved="$emit('saved')")
+          span(v-if="!item.done_at") {{ item.body }}
           s(v-else) {{ item.body }}
     td(v-if="!shortTable")
       .d-flex.align-items-center
@@ -25,26 +25,34 @@
       b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
         template(#button-content)
           b-icon(icon="three-dots")
-        //b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit
-        TaskModalCreateEdit(@editConfirmed="editConfirmed", :taskProp="item", :inline="false")
+        //- b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit
+        TaskFormModal(:task-id="item.id" @saved="$emit('saved')")
           b-dropdown-item Edit
-        //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
-        TaskModalDelete(@deleteConfirmed="deleteTask(item)", :inline="false")
+        //- b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
+        TaskDeleteConfirmModal(@deleteConfirmed="deleteTask(item)" :inline="false")
           b-dropdown-item Delete
 </template>
 
 <script>
-// import { DateTime } from 'luxon'
-import { toEvent, isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass, isRepeat } from '@/common/TaskHelper'
-import TaskModalCreateEdit from '@/common/TaskFormModal'
-import TaskModalDelete from '../modals/TaskModalDelete'
+import { isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass, isRepeat } from '@/common/TaskHelper'
+import TaskFormModal from '@/common/TaskFormModal'
+import TaskDeleteConfirmModal from '@/common/TaskDeleteConfirmModal'
 
 export default {
   name: "TaskItem",
-  props: ['item', 'shortTable'],
+  props: {
+    item: {
+      type: Object,
+      required: true
+    },
+    shortTable: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
-    TaskModalCreateEdit,
-    TaskModalDelete,
+    TaskFormModal,
+    TaskDeleteConfirmModal,
   },
   computed: { },
   methods: {
@@ -66,13 +74,11 @@ export default {
         console.error('error catch in task Item', error)
       }
     },
-    deleteTask(task, deleteOccurence){
-      const occurenceParams = deleteOccurence ? `?oid=${this.occurenceId}` : ''
-      this.$store.dispatch('reminders/deleteTask', { id: task.id, occurenceParams })
+    deleteTask({ id }) {
+      this.$store.dispatch('reminders/deleteTask', { id })
         .then(response => this.toast('Success', `The task deleted!`))
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },
-    editConfirmed() { console.log('editConfirmed') }
   },
   filters: {
     linkableTypeCorrector: function (value) {
@@ -82,7 +88,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>

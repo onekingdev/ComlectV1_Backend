@@ -66,7 +66,7 @@
                                   b-dropdown-item Upload New
                                 ExamModalSelectFiles(:currentExamId="currentExam.id"  :request="currentRequst" :inline="false")
                                   b-dropdown-item Select Existing
-                              ExamModalCreateTask(@saved="createTask(currentRequst.id)" :inline="false")
+                              TaskFormModal(@saved="createTask(currentRequst.id)" :inline="false")
                                 button.btn.btn-default.m-x-1 New Task
                               b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
                                 template(#button-content)
@@ -139,7 +139,7 @@
   import ExamModalEdit from "./modals/ExamModalEdit";
   import ExamModalDelete from "./modals/ExamModalDelete";
   import ExamRequestModalEdit from "./modals/ExamRequestModalEdit";
-  import ExamModalCreateTask from "./modals/ExamModalCreateTask";
+  import TaskFormModal from "@/common/TaskFormModal";
   import ExamModalComplite from "./modals/ExamModalComplite";
   import ExamModalShare from "./modals/ExamModalShare";
   import ExamModalUpload from "./modals/ExamModalUpload";
@@ -159,7 +159,7 @@
       ExamModalUpload,
       ExamModalShare,
       ExamModalComplite,
-      ExamModalCreateTask,
+      TaskFormModal,
       ExamRequestModalEdit,
       ExamRequestModalCreate,
       ExamModalEdit,

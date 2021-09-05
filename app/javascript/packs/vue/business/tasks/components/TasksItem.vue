@@ -4,7 +4,7 @@
       .name
         b-icon.pointer.m-r-1(font-scale="1" :icon="item.done_at ? 'check-circle-fill' : 'check-circle'" @click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }")
         //ion-icon.m-r-1.pointer(@click="toggleDone(item)" v-bind:class="{ done_task: item.done_at }" name='checkmark-circle-outline')
-        TaskModalCreateEdit.link(:taskProp="item" :task-id="item.taskId" :occurence-id="item.oid" @saved="$emit('saved')")
+        TaskFormModal.link(:taskProp="item" :task-id="item.taskId" :occurence-id="item.oid" @saved="$emit('saved')")
           span(v-if="!item.done_at" ) {{ item.body }}
           s(v-else) {{ item.body }}
     td(v-if="!shortTable")
@@ -26,26 +26,24 @@
         template(#button-content)
           b-icon(icon="three-dots")
         //b-dropdown-item(:href="`/reminders/${item.id}`") Edit
-        TaskModalCreateEdit(@editConfirmed="editConfirmed", :taskProp="item", :toastMessages="toastMessages" :inline="false")
+        TaskFormModal(:task-id="item.id" :inline="false")
           b-dropdown-item Edit
         //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
-        TaskModalDelete(@deleteConfirmed="deleteTask(item)", :linkedTo="{ linkable_type: item.linkable_type, linkable_name: item.linkable_name }" :inline="false")
+        TaskDeleteConfirmModal(@deleteConfirmed="deleteTask(item)", :linkedTo="{ linkable_type: item.linkable_type, linkable_name: item.linkable_name }" :inline="false")
           b-dropdown-item Delete
 </template>
 
 <script>
-// import { DateTime } from 'luxon'
-import { toEvent, isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass, isRepeat } from '@/common/TaskHelper'
-// import TaskModalCreateEdit from '@/common/TaskFormModal'
-import TaskModalCreateEdit from '../modals/TaskModalCreateEdit'
-import TaskModalDelete from '../modals/TaskModalDelete'
+import { isOverdue, splitReminderOccurenceId, linkedTo, linkedToClass, isRepeat } from '@/common/TaskHelper'
+import TaskFormModal from '@/common/TaskFormModal'
+import TaskDeleteConfirmModal from '@/common/TaskDeleteConfirmModal'
 
 export default {
   name: "TaskItem",
   props: ['item', 'shortTable', 'toastMessages'],
   components: {
-    TaskModalCreateEdit,
-    TaskModalDelete,
+    TaskFormModal,
+    TaskDeleteConfirmModal,
   },
   computed: { },
   methods: {
@@ -92,7 +90,6 @@ export default {
         .then(response => this.toast('Success', this.toastMessages.success.deleted))
         .catch(error => this.toast('Error', this.toastMessages.errors.deleted, true))
     },
-    editConfirmed() { console.log('editConfirmed') }
   },
   filters: {
     linkableTypeCorrector: function (value) {
@@ -102,7 +99,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-</style>
