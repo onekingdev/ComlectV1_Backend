@@ -270,7 +270,7 @@
       menuLinksFilesBusiness() {
         return [{
           to: '/business/file_folders',
-          label: 'Book and records',
+          label: 'Book and Records',
           exact: true,
           access: ['basic', 'trusted', 'admin']
         }, {

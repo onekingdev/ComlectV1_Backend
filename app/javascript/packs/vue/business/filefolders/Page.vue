@@ -1,24 +1,23 @@
 <template lang="pug">
   .page(@mouseover="mouseOver")
-    .page-header
+    .page-header.grey-border-bottom
       h2.page-header__title {{ pageTitle }}
       .page-header__actions
         button.btn.btn-default(@click="zipping" :disabled="disabled")
           b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
-          b-icon.m-r-1(v-else icon="file-zip" font-scale="1")
-          | Download ZIP
+          | Download
     .card-body.white-card-body.card-body_full-height.p-x-40
       .d-flex.align-items-center.mb-2
         a.btn.btn-default.m-r-1.p-0(v-if="currentFolderId" @click.stop="backToRoot")
           b-icon(icon="arrow-left-square" font-scale="1")
-        h4.m-b-0 All Documents
+        h4.font-16.mb-2 All Documents
           span.separator(v-if="currentFolderName") &nbsp/&nbsp;
           span(v-if="currentFolderName") {{ currentFolderName }}
-      .d-flex
+      .d-flex.mb-2
         input(ref="inputFile" type="file" hidden @change="uploadFile")
         b-button.m-r-1(variant="dark" @click="selectFile") Upload
         FoldersModalCreate
-          b-button(variant="light") New Folder
+          b-button.btn.btn-default(variant="light") New Folder
       .d-block
         Loading
         FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders")

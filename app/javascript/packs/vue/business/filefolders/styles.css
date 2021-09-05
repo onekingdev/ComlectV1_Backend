@@ -62,3 +62,11 @@
   text-transform: none;
   cursor: pointer;
 }
+
+.font-16 {
+  font-size: 16px;
+}
+
+.grey-border-bottom {
+  border-bottom: 1px solid #ccc;
+}
