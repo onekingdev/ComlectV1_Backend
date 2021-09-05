@@ -3,7 +3,7 @@
     .page-header
       h2.page-header__title Policies and Procedures
       .page-header__actions
-        button.btn.btn.btn-default.mr-3.d-none Download
+        button.btn.btn.btn-default.mr-3(@click="download") Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New Policy
     b-tabs.special-navs(content-class="mt-0")
@@ -50,6 +50,17 @@
       };
     },
     methods: {
+      download () {
+        this.$store
+          .dispatch("downloadPolicy", { policyId: null })
+          .then((myBlob) => {
+            this.toast('Success', 'Policies have been downloaded.')
+          })
+          .catch((err) => {
+            // console.log(err)
+            this.toast('Error', err.message, true)
+          });
+      },
       searching (value) {
         this.searchInput = value;
       },

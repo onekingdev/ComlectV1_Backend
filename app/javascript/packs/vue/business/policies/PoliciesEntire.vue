@@ -122,11 +122,9 @@
         this.$store
           .dispatch("downloadPolicy", { policyId: this.policyId })
           .then((myBlob) => {
-            // console.log('response', myBlob)
             this.toast('Success', 'Policy has been downloaded.')
           })
           .catch((err) => {
-            // console.log(err)
             this.toast('Error', err.message, true)
           });
       },

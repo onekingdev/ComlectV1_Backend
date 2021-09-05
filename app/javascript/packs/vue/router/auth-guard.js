@@ -5,6 +5,8 @@ const plans = ['free', 'business', 'team']
 const roles = ['basic', 'trusted', 'admin']
 
 export default function (to, from, next) {
+  //console.log(store.getters['roles/currentPlan']);
+  //next()
   if (store.getters['roles/currentPlan'] === 'free') {
     next(`/access-denied`)
   } else {

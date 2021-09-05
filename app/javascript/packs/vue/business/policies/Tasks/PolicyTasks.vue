@@ -4,7 +4,7 @@
     .policy-actions
       //button.btn.btn.btn-default.mr-3 Download
       PolicyTaskModal(:tasks="tasksComputed" :linkableId="policy.id" linkableType="CompliancePolicy" @saved="savedConfirmed")
-        button.btn.btn-dark Add Task
+        button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") Add Task
     .policy-details__body
       table.table
         thead
@@ -49,6 +49,10 @@
         type: Object,
         required: true
       },
+      currentUserBasic: {
+        type: Boolean,
+        required: true
+      }
     },
     components: {
       Loading,

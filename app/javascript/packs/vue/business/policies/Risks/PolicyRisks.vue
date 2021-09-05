@@ -4,7 +4,7 @@
     .policy-actions
       //button.btn.btn.btn-default.mr-3 Download
       PolicyRisksModal(:risks="risksComputed" :policyId="policyId" @saved="savedConfirmed")
-        button.btn.btn-dark New Risk
+        button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") New Risk
     .policy-details__body
       table.table
         thead
@@ -57,6 +57,14 @@
         type: Number,
         required: true
       },
+      currentUserBasic: {
+        type: Boolean,
+        required: true
+      },
+      policy: {
+        type: Object,
+        required: true
+      }
     },
     components: {
       Loading,

@@ -337,6 +337,8 @@ Rails.application.routes.draw do
         end
         resources :hires, only: %i[create]
       end
+      get '/compliance_policies/download' => 'compliance_policies#download_all'
+      get '/compliance_policies/combined_policy' => 'compliance_policies#combined_policy'
       resources :compliance_policies, only: %i[index show create update destroy]
       get '/compliance_policies/:id/publish' => 'compliance_policies#publish'
       get '/compliance_policies/:id/download' => 'compliance_policies#download'

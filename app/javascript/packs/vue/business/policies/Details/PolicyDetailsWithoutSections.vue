@@ -13,11 +13,11 @@
             .d-flex.align-items-center
               button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
                 b-icon(icon='list')
-              b-badge.mr-3(variant="light") {{ policy.status }}
+              b-badge.mr-3(:variant="statusVariant(policy.status)") {{ policy.status }}
               h3.policy__main-title.m-y-0 {{ policy.title }}
             .d-flex.justify-content-end.align-items-center
               a.link.btn.mr-3(@click="saveDraft") Save Draft
-              button.btn.btn-default.mr-3(@click="download") Download
+              button.btn.btn-default.mr-3(v-if="policy.status != 'draft' && policy.status != 'archived'" @click="download") Download
               PoliciesModalPublish(@publishConfirmed="publishPolicy")
                 button.btn.btn-dark.mr-3 Publish
               button.btn.btn__close(@click="closeAndExit")
@@ -30,7 +30,7 @@
                   b-icon.m-l-1(icon="chevron-down" font-scale="1")
                 PoliciesModalArchive(:archiveStatus="!policy.archived" @archiveConfirmed="archivePolicy(policy.id, !policy.archived)" :inline="false")
                   b-dropdown-item {{ !policy.archived ? 'Archive' : 'Unarchive' }}
-                PoliciesModalDelete(v-if="policy.archived" @deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
+                PoliciesModalDelete(@deleteConfirmed="deletePolicy(policy.id)", :policyId="policy.id",  :inline="false")
                   b-dropdown-item.delete Delete
 
             b-tab(title="Detail" active)
@@ -42,15 +42,17 @@
                     .policy-details-section
                       .policy-details__name Name
                       .d-flex
-                        input.policy-details__input(v-model="policy.title" placeholder="Enter policy name")
+                        div(v-html="policy.title" v-if="currentUserBasic || policy.archived")
+                        input.policy-details__input(v-if="!currentUserBasic && !policy.archived" v-model="policy.title" placeholder="Enter policy name")
                       .policy-details__name Description
-                      Tiptap(v-model="policy.description")
+                      div(v-html="policy.description" v-if="currentUserBasic || policy.archived")
+                      Tiptap(v-model="policy.description" v-if="!currentUserBasic && !policy.archived")
             b-tab(title="Risks" lazy)
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
-                PolicyRisks(:policy="policy" :policyId="policyId")
+                PolicyRisks(:policy="policy" :policyId="policyId" :currentUserBasic="currentUserBasic")
             b-tab(title="Tasks" lazy)
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
-                PolicyTasks(:policy="policy")
+                PolicyTasks(:policy="policy" :currentUserBasic="currentUserBasic")
             b-tab(title="History")
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
                 HistoryPolicy(:policy="policy")
@@ -108,6 +110,21 @@ import Tiptap from '@/common/Tiptap'
       }
     },
     methods: {
+      statusVariant(str_status) {
+        switch(str_status) {
+          case 'published':
+            return 'success'
+            break;
+          case 'archived':
+            return 'danger'
+            break
+          case 'draft':
+            return 'light'
+            break
+          default:
+            return 'light'
+        }
+      },
       saveDraft () {
         this.updatePolicy()
       },
@@ -296,6 +313,9 @@ import Tiptap from '@/common/Tiptap'
             sections: value
           });
         }
+      },
+      currentUserBasic() {
+        return (window.localStorage["app.currentUser.role"] == "basic")
       },
       policyById() {
         const id = this.policyId

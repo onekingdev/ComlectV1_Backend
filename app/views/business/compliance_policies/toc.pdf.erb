@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <style type="text/css">
+        @font-face {
+            font-family: 'Canela';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Medium.otf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Canela Bold';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Bold.otf") %>') format('opentype');
+        }
+        @font-face {
+            font-family: 'Canela Black';
+            src: url('<%= Rails.root.join("public", "fonts", "Canela-Black.otf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'open sans bold';
+            src: url('<%= Rails.root.join("public", "fonts", "OpenSans-Bold.ttf") %>') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'open sans regular';
+            src: url('<%= Rails.root.join("public", "fonts", "OpenSans-Regular.ttf") %>') format('opentype');
+        }
+      body, html, table {
+        font-size: 16px;
+        padding: 0px;
+        margin: 0px;
+        width: 273mm;
+        overflow: hidden;
+        font-family: "Open Sans";
+      }
+
+      p { page-break-inside: avoid; font-size: 14px; word-wrap: break-word; }
+
+      li {
+        padding-bottom: 6px;
+        page-break-inside: avoid;
+        font-size: 14px;
+      }
+      .page {
+        page-break-before:always;
+        width: 273mm;
+        position: relative;
+        clear: both;
+      }
+
+      ul.toc {
+        max-width: 95em;
+        padding: 0;
+        overflow-x: hidden;
+        list-style: none;
+        font-size: 14px;
+      }
+
+      ul.toc li {
+        font-size: 14px;
+      }
+
+      ul.toc li:before {
+        float: left;
+        width: 0;
+        white-space: nowrap;
+        content:
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+        ". . . . . . . . . . . . . . . . . . . . "
+      }
+
+      ul.toc span:first-child {
+        padding-right: 0.33em;
+        background: white
+      }
+
+      ul.toc span + span {
+        float: right;
+        padding-left: 0.33em;
+        background: white
+      }
+
+    </style>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <center><h1 style="font-size: 18px;">Table of Contents</h1></center>
+    <br/>
+    <ul class='toc'>
+      <% toc.each do |line| %>
+        <li><span><%= line[:name] %></span><span><%= line[:page_start] %></span></li>
+      <% end %>
+    </ul>
+  </body>
+</html>

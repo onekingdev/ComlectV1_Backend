@@ -163,8 +163,10 @@ export default {
       commit("setLoading", true);
 
       try {
-        const endpointUrl = '/api/business/compliance_policies/'
-        const data = await fetch(`${endpointUrl}${payload.policyId}/download`, {
+        const src_endpoint = '/api/business/compliance_policies/'
+        const endpointUrl = (payload.policyId == null) ? `${src_endpoint}download` : `${src_endpoint}${payload.policyId}/download`
+
+        const data = await fetch(endpointUrl, {
           method: 'GET',
           headers: {
             'Authorization': `${TOKEN}`,

@@ -31,7 +31,7 @@
           //  router-link.link(v-if="el.id" :to='`/business/compliance_policies/${el.id}`') {{ el.title }}
           //  .link.ml-4(v-else) {{ idxEl + 1 }}. {{ el.title }}
           .table__cell(v-if="!shortTable && el.status")
-            b-badge.status(:variant="statusVariant") {{ el.status }}
+            b-badge.status(:variant="statusVariant(el.status)") {{ el.status }}
           .table__cell.text-right(v-if="!shortTable && el.updated_at") {{ dateToHuman(el.updated_at) }}
           .table__cell.text-right(v-if="!shortTable && el.created_at") {{ dateToHuman(el.created_at) }}
           //.table__cell.text-right(v-if="!shortTable && el.created_at") N/A
@@ -46,7 +46,7 @@
                 PoliciesModalArchive(v-if="!el.archived" @saved="updateList", :policyId="el.id", :archiveStatus="!el.archived" @archiveConfirmed="archivePolicy(el.id, !el.archived)" :inline="false")
                   b-dropdown-item Archive
                 b-dropdown-item(v-if="el.archived" @click="archivePolicy(el.id, !el.archived)") Unarchive
-                PoliciesModalDelete(v-if="el.archived" @saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
+                PoliciesModalDelete(@saved="updateList", :policyId="el.id", @deleteConfirmed="deletePolicy(el.id)" :inline="false")
                   b-dropdown-item.delete Delete
         //.table__row(v-show="el.children && el.children.length === 0 &&  !el.id")
         //  .table__cell.table__cell_name
@@ -127,12 +127,26 @@
         children: [],
         draggedContext: {},
         relatedContext: {},
-        statusVariant: 'light',
         open: true,
         randomNum: 0
       }
     },
     methods: {
+      statusVariant(str_status) {
+        switch(str_status) {
+          case 'published':
+            return 'success'
+            break;
+          case 'archived':
+            return 'danger'
+            break
+          case 'draft':
+            return 'light'
+            break
+          default:
+            return 'light'
+        }
+      },
       updateList () {
         this.$store
           .dispatch("getPolicies")

@@ -9,71 +9,75 @@ class PdfCompliancePolicyWorker
     Rails.env.production? || Rails.env.staging? ? in_path : "#{Rails.root}/public#{in_path}"
   end
 
-  def perform(policy_doc_id)
-    policy_doc = CompliancePolicyDoc.find(policy_doc_id)
-    tgt_compliance_policy = policy_doc.compliance_policy.business.compliance_policies.first
-    tgt_compliance_policy.update(pdf: nil)
-    doc_path = env_path(policy_doc.doc_url.split('?')[0])
-    uploader = PdfUploader.new(:store)
+  def perform(policy_id)
+    cpolicy = CompliancePolicy.find(policy_id)
+    combined_policy_db = cpolicy.business.combined_policy.presence ||
+                         CombinedPolicy.create(business_id: cpolicy.business.id)
+    cpolicy.update(pdf: nil)
+    cpconf = cpolicy.business.compliance_policy_configuration
 
-    file = if Rails.env.production? || Rails.env.staging?
-      URI.parse(doc_path).open
-    else
-      File.open(doc_path)
+    pdf_header = ApplicationController.new.render_to_string pdf: 'compliance_manual_header.pdf',
+                                                            template: 'business/compliance_policies/header.pdf.erb', encoding: 'UTF-8',
+                                                            locals: {
+                                                              last_updated: cpolicy.business.compliance_policies.root_published.collect(&:updated_at).max.in_time_zone(cpolicy.business.time_zone),
+                                                              business: cpolicy.business,
+                                                              logo: env_path(cpconf.logo_url(:original).split('?')[0]),
+                                                              cpolicy: cpolicy,
+                                                              cpconf: cpconf
+                                                            }, margin: { top: 20, bottom: 15, left: 15, right: 15 }
+
+    file_header = Tempfile.new(["compliance_policy_header_#{cpolicy.business.id}", '.pdf'])
+    file_header.binmode
+    file_header.write(pdf_header)
+    file_header.rewind
+
+    toc = []
+    current_page = 1
+    combined_everything = CombinePDF.new
+    combined_everything << CombinePDF.load(file_header.path)
+    file_header.delete
+    combined_policies = CombinePDF.new
+    cpolicy.business.compliance_policies.root_published.each do |published_cpolicy|
+      pdf = ApplicationController.new.render_to_string pdf: 'compliance_manual.pdf',
+                                                       template: 'business/compliance_policies/cpolicy.pdf.erb', encoding: 'UTF-8',
+                                                       locals: { cpolicy: published_cpolicy },
+                                                       margin: { top: 20, bottom: 15, left: 15, right: 15 }
+      file = Tempfile.new(["cpolicy_#{published_cpolicy.id}", '.pdf'])
+      file.binmode
+      file.write(pdf)
+      file.rewind
+      loaded_pdf = CombinePDF.load(file.path)
+      loaded_pdf.number_pages(location: [:bottom], font_size: 8, margin_from_side: 0, margin_from_height: 20, start_at: current_page)
+      loaded_pdf.save file.path
+      uploader = PdfUploader.new(:store)
+      uploaded_file = uploader.upload(file)
+      page_count = loaded_pdf.pages.count
+      combined_policies << loaded_pdf
+      published_cpolicy.update(pdf_data: uploaded_file.to_json, page_count: page_count)
+      toc.push(name: published_cpolicy.name, page_start: current_page, page_end: current_page + page_count)
+      current_page += page_count
+      file.delete
     end
-    uploaded_file = uploader.upload(file)
-    policy_doc.update(pdf_data: uploaded_file.to_json)
-    compliance_policy = policy_doc.compliance_policy
-    compliance_policy.set_last_upload_date
 
-    pdf = ApplicationController.new.render_to_string pdf: 'compliance_manual.pdf',
-                                                     template: 'business/compliance_policies/header.pdf.erb', encoding: 'UTF-8',
-                                                     locals: {
-                                                       last_updated: compliance_policy.last_uploaded,
-                                                       business: policy_doc.compliance_policy.business
-                                                     },
-                                                     margin: {
-                                                       top: 20,
-                                                       bottom: 25,
-                                                       left: 15,
-                                                       right: 15
-                                                     }
-    uploader = PdfUploader.new(:store)
-    file = Tempfile.new(["compliance_manual_header_#{compliance_policy.id}", '.pdf'])
-    file.binmode
-    file.write(pdf)
-    file.rewind
-    merged_pdf = CombinePDF.new
-    merged_pdf << CombinePDF.load(file.path)
-
-    compliance_policy.business.sorted_unban_compliance_policies.each do |cpolicy|
-      begin
-        if cpolicy.compliance_policy_docs.first.present?
-          pdf_path = env_path(cpolicy.compliance_policy_docs.first.pdf_url.split('?')[0])
-          merged_pdf << if Rails.env.production? || Rails.env.staging?
-            CombinePDF.parse(URI.open(pdf_path).read)
-          else
-            CombinePDF.load(pdf_path)
-          end
-        end
-      rescue StandardError
-        if cpolicy.compliance_policy_docs.count > 1
-          cpolicy.compliance_policy_docs.first.destroy
-          # else
-          #   cpolicy.destroy
-        end
-      end
-      cpolicy.calculate_docs
-    end
-    tmp_pdf_file = Tempfile.new(["compliance_manual-#{compliance_policy.id}", '.pdf'])
+    pdf_toc = ApplicationController.new.render_to_string pdf: 'toc.pdf',
+                                                         template: 'business/compliance_policies/toc.pdf.erb', encoding: 'UTF-8',
+                                                         locals: { toc: toc },
+                                                         margin: { top: 20, bottom: 15, left: 15, right: 15 }
+    file_toc = Tempfile.new(["cpolicy_toc_#{cpolicy.business.id}", '.pdf'])
+    file_toc.binmode
+    file_toc.write(pdf_toc)
+    file_toc.rewind
+    combined_everything << CombinePDF.load(file_toc.path)
+    # combined_policies.number_pages(location: [:bottom], font_size: 8, margin_from_side: 0, margin_from_height: 20)
+    combined_everything << combined_policies
+    tmp_pdf_file = Tempfile.new(["combined_policy_#{combined_policy_db.id}", '.pdf'])
     tmp_pdf_path = tmp_pdf_file.path
-    merged_pdf.number_pages(number_format: ' %s ', location: :bottom, font_size: 12,
-                            margin_from_height: 5, start_at: 1, page_range: (1..-1))
-    merged_pdf.save tmp_pdf_path
+    combined_everything.save tmp_pdf_path
     tmp_pdf_file.rewind
+    uploader = PdfUploader.new(:store)
     uploaded_file = uploader.upload(File.new(tmp_pdf_file))
-    tgt_compliance_policy.update(pdf_data: uploaded_file.to_json)
-    tmp_pdf_file.unlink
-    file.delete
+    combined_policy_db.update(file_data: uploaded_file.to_json)
+    tmp_pdf_file.delete
+    file_toc.delete
   end
 end

@@ -624,6 +624,38 @@ ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
 
 
 --
+-- Name: combined_policies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.combined_policies (
+    id bigint NOT NULL,
+    business_id integer,
+    file_data jsonb,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: combined_policies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.combined_policies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: combined_policies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.combined_policies_id_seq OWNED BY public.combined_policies.id;
+
+
+--
 -- Name: compliance_categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -676,7 +708,9 @@ CREATE TABLE public.compliance_policies (
     status character varying DEFAULT 'draft'::character varying,
     sections jsonb,
     archived boolean DEFAULT false,
-    untouched boolean DEFAULT true
+    untouched boolean DEFAULT true,
+    published_by character varying,
+    page_count integer
 );
 
 
@@ -5288,6 +5322,13 @@ ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.char
 
 
 --
+-- Name: combined_policies id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.combined_policies ALTER COLUMN id SET DEFAULT nextval('public.combined_policies_id_seq'::regclass);
+
+
+--
 -- Name: compliance_categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5870,6 +5911,14 @@ ALTER TABLE ONLY public.businesses
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: combined_policies combined_policies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.combined_policies
+    ADD CONSTRAINT combined_policies_pkey PRIMARY KEY (id);
 
 
 --
@@ -8035,6 +8084,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210825181853'),
 ('20210826205423'),
 ('20210829184005'),
-('20210830171338');
+('20210830171338'),
+('20210902170517'),
+('20210903160434'),
+('20210903165008');
 
 

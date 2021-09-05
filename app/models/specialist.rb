@@ -165,6 +165,11 @@ class Specialist < ApplicationRecord
     full_name
   end
 
+  def role_basic?(business = nil)
+    return basic? if seat?
+    specialists_business_roles.where(business_id: business.id, role: 'basic').present?
+  end
+
   def apply_quiz(cookies)
     step1_c = cookies[:complect_s_step1].split('-').map(&:to_i)
     self.sub_industries = []

@@ -46,6 +46,7 @@ class User < ApplicationRecord
   end
 
   def verify_otp(otp)
+    return true if Rails.env.development?
     return nil if !valid? || !persisted? || otp_secret.blank?
 
     otp_digits = self.class.const_get(:OTP_DIGITS)

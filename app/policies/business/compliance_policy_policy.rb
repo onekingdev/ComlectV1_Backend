@@ -9,6 +9,18 @@ class Business::CompliancePolicyPolicy < ApplicationPolicy
     team?
   end
 
+  def destroy?
+    true
+  end
+
+  def download_all?
+    true
+  end
+
+  def combined_policy?
+    true
+  end
+
   def create?
     team?
   end

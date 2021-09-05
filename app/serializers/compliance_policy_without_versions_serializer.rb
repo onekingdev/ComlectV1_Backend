@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class CompliancePolicySerializer < ApplicationSerializer
-  has_many :versions, serializer: CompliancePolicyWithoutVersionsSerializer
+class CompliancePolicyWithoutVersionsSerializer < ApplicationSerializer
   has_many :risks, serializer: RiskSerializer
   attributes :id,
              :name,
@@ -12,19 +11,12 @@ class CompliancePolicySerializer < ApplicationSerializer
              :src_id,
              :status,
              :sections,
-             :versions,
              :archived,
              :reminders,
-             :published_by,
-             :pdf
+             :published_by
 
   def status
-    return 'archived' if object.archived
     return 'published' if object.untouched && object.versions.present?
-    object.status
-  end
-
-  def pdf
-    object.pdf_url
+    'draft'
   end
 end
