@@ -17,7 +17,9 @@
               h3.policy__main-title.m-y-0 {{ policy.title }}
             .d-flex.justify-content-end.align-items-center
               a.link.btn.mr-3(@click="saveDraft") Save Draft
-              button.btn.btn-default.mr-3(v-if="policy.status != 'draft' && policy.status != 'archived'" @click="download") Download
+              span.dowloading(v-if="isDowloading")
+                img(src='@/assets/sm-loading.gif' width="25" height="25")
+              button.btn.btn-default.mr-3(v-if="!isDowloading && policy.status != 'draft' && policy.status != 'archived'" @click="download") Download
               PoliciesModalPublish(@publishConfirmed="publishPolicy")
                 button.btn.btn-dark.mr-3 Publish
               button.btn.btn__close(@click="closeAndExit")
@@ -107,6 +109,7 @@ import Tiptap from '@/common/Tiptap'
         title: "Section Name",
         sections: [],
         count: 0,
+        isDowloading: false,
       }
     },
     methods: {
@@ -129,14 +132,16 @@ import Tiptap from '@/common/Tiptap'
         this.updatePolicy()
       },
       download () {
+        this.isDowloading = true
         this.$store
           .dispatch("downloadPolicy", { policyId: this.policyId })
           .then((myBlob) => {
             //console.log('response', myBlob)
-            this.toast('Success', 'Policy succesfully downloaded.')
+            this.toast('Success', 'Policy has been queued for download.')
           })
           .catch((err) => {
             //console.log(err)
+            this.isDowloading = false
             this.toast('Error', err.message, true)
           });
       },

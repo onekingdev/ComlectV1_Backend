@@ -3,7 +3,9 @@
     .page-header
       h2.page-header__title Policies and Procedures
       .page-header__actions
-        button.btn.btn.btn-default.mr-3(@click="download") Download
+        span.dowloading.list-page(v-if="isDowloading")
+          img(src='@/assets/sm-loading.gif' width="25" height="25")
+        button.btn.btn.btn-default.mr-3(v-else @click="download") Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New Policy
     b-tabs.special-navs(content-class="mt-0")
@@ -47,17 +49,20 @@
         policy: {},
         perPage: 10,
         currentPage: 1,
+        isDowloading: false,
       };
     },
     methods: {
       download () {
+        this.isDowloading = true
         this.$store
           .dispatch("downloadPolicy", { policyId: null })
           .then((myBlob) => {
-            this.toast('Success', 'Policies have been downloaded.')
+            this.toast('Success', 'Policy has been queued for download.')
           })
           .catch((err) => {
             // console.log(err)
+            this.isDowloading = false
             this.toast('Error', err.message, true)
           });
       },

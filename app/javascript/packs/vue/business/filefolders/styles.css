@@ -70,3 +70,12 @@
 .grey-border-bottom {
   border-bottom: 1px solid #ccc;
 }
+
+.dowloading {
+  position: relative;
+  margin-right: 34px;
+}
+
+.dowloading.list-page {
+  top: 6px;
+}

@@ -198,11 +198,12 @@ export default {
                   'business_id': window.localStorage["app.business_id"]},
               }).then(response => response.json())
                 .then(data => {
-                  if (data.file) {
+                  const pdf = data.file || data.pdf
+                  if (pdf) {
                     clearInterval(getPdfUrl)
-                    window.open(data.file)
+                    window.open(pdf, '_self')
                   }
-                  return data.file
+                  return pdf
                 }).catch(err => console.log(err))
               return result
             }, timeRequest)
