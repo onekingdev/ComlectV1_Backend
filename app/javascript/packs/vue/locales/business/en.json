@@ -122,9 +122,9 @@
   },
   "riskregister":{
     "success":{
-      "updated":"The risk has been updated!",
+      "updated":"Risk has been updated.",
       "deleted":"Risk successfully deleted!",
-      "created":"The risk has been saved"
+      "created":"Risk has been created."
     },
     "errors":{
       "filed_required":"Field is required.",

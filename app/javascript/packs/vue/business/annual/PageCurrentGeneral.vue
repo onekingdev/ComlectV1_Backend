@@ -4,8 +4,8 @@
       div
         h2.page-header__breadcrumbs Internal Review&nbsp;
           span.separator /&nbsp;
-          b {{ review ? review.year : '' }} {{ review ? review.name : '' }}
-        h2.page-header__title: b {{ review ? review.year : '' }} {{ review ? review.name : '' }}
+          b  {{ review ? review.name : '' }}
+        h2.page-header__title: b {{ review ? review.name : '' }}
       .page-header__actions
         div
           button.btn.btn-default.mr-3.d-none Download
@@ -122,9 +122,7 @@
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")
-        PageDocuments
-      b-tab(title="Activity")
-        PageActivity
+        PageDocuments   
 </template>
 
 <script>

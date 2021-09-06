@@ -5,7 +5,7 @@
       .page-header__actions
         //a.btn.btn-default.mr-3(href='#') Download
         RisksAddEditModal
-          button.btn.btn-dark New Risk
+          button.btn.btn-dark New  Risk
     .card-body.white-card-body.card-body_full-height
       RisksTable
 

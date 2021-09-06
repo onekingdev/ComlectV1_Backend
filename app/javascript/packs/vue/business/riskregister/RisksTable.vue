@@ -24,9 +24,9 @@
                 b-icon.ml-2(icon='chevron-expand')
               th Likelihood
                 b-icon.ml-2(icon='chevron-expand')
-              th Risk level
+              th Risk Level
                 b-icon.ml-2(icon='chevron-expand')
-              th.text-right Date created
+              th.text-right Date Created
                 b-icon.ml-2(icon='chevron-expand')
               th.text-right(width="35px")
           tbody
@@ -100,7 +100,7 @@
       dateToHuman(value) {
         const date = DateTime.fromJSDate(new Date(value))
         if (!date.invalid) {
-          return date.toFormat('dd/MM/yyyy')
+          return date.toFormat('MM/dd/yyyy')
         }
         if (date.invalid) {
           return value

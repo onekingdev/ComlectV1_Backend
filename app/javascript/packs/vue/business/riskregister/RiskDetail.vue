@@ -113,11 +113,11 @@
           .dispatch('updateRisk', {...this.riskComputed})
           .then(response => {
             console.log('response', response)
-            this.toast('Success', 'The risk has been updated!')
+            this.toast('Success', 'Risk has been updated.!')
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Couldn't submit form! ${error}`)
+            this.toast('Error', `Risk has not been updated. Please try again.! ${error}`)
           })
       }
     },

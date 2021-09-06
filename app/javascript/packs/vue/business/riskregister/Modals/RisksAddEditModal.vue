@@ -123,14 +123,14 @@ export default {
           if (response.errors) {
 
           } else {
-            this.toast('Success', 'The risk has been saved')
+            this.toast('Success', 'Risk has been updated')
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }
         })
         .catch(error => {
           console.error(error)
-          this.toast('Error', `Couldn't submit form! ${error}`, true)
+          this.toast('Error', `Risk has not been created. Please try again. ${error}`, true)
         })
 
       // this.$emit('saved', this.risk)
