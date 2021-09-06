@@ -175,16 +175,37 @@ export default {
             'business_id': window.localStorage["app.business_id"]},
         })
           .then(response => {
-          console.log(response)
           if (!response.ok)
             throw new Error(`Could't download policy (${response.status})`);
           return response.blob()
         })
-          .then(myBlob => {
-            const fileURL = URL.createObjectURL(myBlob);
-            //Open the URL on new Window
-            window.open(fileURL);
-            return myBlob
+          .then(async (myBlob) => {
+            const endpointUrlPolicy = (payload.policyId == null) ? `${src_endpoint}combined_policy` : `${src_endpoint}${payload.policyId}`
+            let retry = 0
+            const timeRequest = 5000 // 5 seconds
+            const getPdfUrl = setInterval(async () => {
+              if (retry > 10) {
+                clearInterval(getPdfUrl)
+                return
+              }
+              retry = retry + 1
+              const result = await fetch(endpointUrlPolicy, {
+                method: 'GET',
+                headers: {
+                  'Authorization': `${TOKEN}`,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'business_id': window.localStorage["app.business_id"]},
+              }).then(response => response.json())
+                .then(data => {
+                  if (data.file) {
+                    clearInterval(getPdfUrl)
+                    window.open(data.file)
+                  }
+                  return data.file
+                }).catch(err => console.log(err))
+              return result
+            }, timeRequest)
         })
         .catch (error => {
           console.error(error)
