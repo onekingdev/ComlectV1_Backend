@@ -10,7 +10,7 @@
         //  b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)
         //  Errors(:errors="errors.risk")
 
-        b-row.m-t-1(no-gutters)
+        b-row(no-gutters)
           .col
             label.form-label Risk Name
             input.form-control(v-model="risk.name" type=text placeholder="Enter the name of your risk")
@@ -26,10 +26,10 @@
               b-form-select#select-3(v-model="risk.likelihood" :errors="errors.likelihood" :options="levelOptions" @change="onRiskChange")
               Errors(:errors="errors.likelihood")
 
-        b-row.m-t-1(no-gutters)
+        b-row(no-gutters)
           .col
-            label.m-t-1.form-label Risk Level
-            p
+            label.form-label Risk Level
+            div
               b-icon.mr-3(icon="exclamation-triangle-fill" scale="1" :variant="badgeVariant")
               | {{ riskLevelName }}
 

@@ -9,13 +9,10 @@
             b-icon.icon-clear(icon='x-circle')
       .col-4(v-if="filteredRisksComputed.length !== 0 && searchInput")
         p Found {{ filteredRisksComputed.length }} {{ filteredRisksComputed.length === 1 ? 'result' : 'results' }}
-    .row.h-100(v-if="!filteredRisksComputed.length && !loading")
-      .col.h-100.text-center
-        EmptyState
     .row
       .col-12
         Loading
-        table.table(v-if="!loading && filteredRisksComputed && filteredRisksComputed.length")
+        table.table
           thead
             tr
               th Name
@@ -29,7 +26,7 @@
               th.text-right Date Created
                 b-icon.ml-2(icon='chevron-expand')
               th.text-right(width="35px")
-          tbody
+          tbody(v-if="!loading && filteredRisksComputed && filteredRisksComputed.length")
             tr(v-for="risk in filteredRisksComputed" :key="risk.id")
               td
                 .d-flex.align-items-center.link.truncate
@@ -57,6 +54,9 @@
                     RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
                       b-dropdown-item-button Edit
                     b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
+    .row(v-if="!filteredRisksComputed.length && !loading")
+      .col.h-100.text-center
+        EmptyState
 
 </template>
 

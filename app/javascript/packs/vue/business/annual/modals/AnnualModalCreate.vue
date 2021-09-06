@@ -77,6 +77,10 @@
           if (!this.annual_review[field]) {
             errors.push('Required field')
           }
+
+          if (field === 'review_end' && this.annual_review.review_start && this.annual_review.review_end) {
+            if (this.annual_review.review_start > this.annual_review.review_end) errors.push('Date must occur after start date')
+          }
           
           if (errors.length > 0) {
             this.$set(this.errors, field, errors)
