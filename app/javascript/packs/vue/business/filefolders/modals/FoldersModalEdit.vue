@@ -3,7 +3,7 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Edit Folder Name")
+    b-modal.fade(:id="modalId" :title="item.file_addr ? 'Edit File Name' : 'Edit Folder Name'")
       b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
 
       .row
