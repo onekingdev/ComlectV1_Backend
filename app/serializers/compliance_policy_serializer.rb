@@ -25,6 +25,7 @@ class CompliancePolicySerializer < ApplicationSerializer
   end
 
   def pdf
+    return object.versions.first.pdf_url if object.status == 'draft' && object.untouched
     object.pdf_url
   end
 end
