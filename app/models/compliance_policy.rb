@@ -5,10 +5,11 @@ class CompliancePolicy < ActiveRecord::Base
   belongs_to :business
   has_many :reminders, as: :linkable
   has_many :published_versions, -> { order(created_at: :desc) }, class_name: 'CompliancePolicy', foreign_key: :src_id
-  has_and_belongs_to_many :risks, dependent: :destroy
+  has_and_belongs_to_many :risks
   belongs_to :source_version, class_name: 'CompliancePolicy', foreign_key: :src_id, optional: true
   validates :name, presence: true
   include PdfUploader[:pdf]
+  before_destroy { risks.clear }
 
   scope :root, -> { where(src_id: nil) }
 
