@@ -77,7 +77,7 @@
       "deleted":"`Policy successfully deleted!",
       "archived":"`Policy successfully archived",
       "updated2":"Changes saved",
-      "saved_risk":"The risk has been saved",
+      "saved_risk":"Risk has been created.",
       "created":"Policy successfully created! You will be redirect...",
       "download":"Policy successfully downloaded.",
       "published":"Policy successfully published. Please wait you will be redirected to the new Draft",

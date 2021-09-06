@@ -123,7 +123,11 @@ export default {
           if (response.errors) {
 
           } else {
-            this.toast('Success', 'Risk has been updated')
+            if (method == 'createRisk') {
+              this.toast('Success', 'Risk has been created.')
+            } else {
+              this.toast('Success', 'Risk has been updated.')
+            }
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }

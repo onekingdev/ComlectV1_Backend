@@ -144,7 +144,7 @@
             if (response.errors) {
 
             } else {
-              this.toast('Success', 'The risk has been saved')
+              this.toast('Success', 'Risk has been created.')
               this.$bvModal.hide(this.modalId)
               this.newEtag()
             }
