@@ -1,43 +1,37 @@
 <template lang="pug">
   div
-    .card-header.d-flex.justify-content-between
-      h3.m-y-0 Regulatory Exams
-      ExamModalCreate(:exams-id="exams.id")
-        button.btn.btn-dark New Exam
-    .card-body.h-100
-      Loading
-      table.table(v-if="!loading")
-        thead(v-if="exams && exams.length")
-          tr
-            th(@click="sortSelect('name', 'string')" width="40%")
-              .d-inline
-                | Name
-                b-icon.ml-2(icon='chevron-expand')
-            th
-              .d-inline
-                | Status
-                b-icon.ml-2(icon='chevron-expand')
-            th(@click="sortSelect('created_at', 'date')").text-right
-              .d-inline
-                | Date created
-                b-icon.ml-2(icon='chevron-expand')
-            th(@click="sortSelect('updated_at', 'date')").text-right
-              .d-inline
-                | Last Modified
-                b-icon.ml-2(icon='chevron-expand')
-            th(width="30px")
-        tbody
-          ExamItem(v-for="item in sortedView" :key="item.id" :item="item")
+    Loading
+    table.table(v-if="!loading")
+      thead(v-if="exams && exams.length")
+        tr
+          th(@click="sortSelect('name', 'string')" width="40%")
+            .d-inline
+              | Name
+              b-icon.ml-2(icon='chevron-expand')
+          th
+            .d-inline
+              | Status
+              b-icon.ml-2(icon='chevron-expand')
+          th(@click="sortSelect('created_at', 'date')").text-right
+            .d-inline
+              | Date created
+              b-icon.ml-2(icon='chevron-expand')
+          th(@click="sortSelect('updated_at', 'date')").text-right
+            .d-inline
+              | Last Modified
+              b-icon.ml-2(icon='chevron-expand')
+          th(width="30px")
+      tbody
+        ExamItem(v-for="item in sortedView" :key="item.id" :item="item")
 
-      .row.h-100(v-if="!loading && exams && !exams.length")
-        .col.h-100.text-center
-          EmptyState
+    .row.h-100(v-if="!loading && exams && !exams.length")
+      .col.h-100.text-center
+        EmptyState
 
 </template>
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import ExamModalCreate from '../modals/ExamModalCreate'
   import ExamItem from "./ExamItem"
 
   export default {
@@ -49,7 +43,6 @@
     },
     components: {
       Loading,
-      ExamModalCreate,
       ExamItem,
     },
     data () {
