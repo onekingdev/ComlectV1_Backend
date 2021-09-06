@@ -9,7 +9,7 @@
       table.table
         thead
           tr
-            th(width="45%") Risk Name
+            th(width="45%") Name
               b-icon.ml-2(icon='chevron-expand')
             th Impact
               b-icon.ml-2(icon='chevron-expand')
