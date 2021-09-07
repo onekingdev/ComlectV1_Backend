@@ -80,7 +80,8 @@ export default {
         { value: 2, text: 'High' },
       ],
       badgeVariant: 'secondary',
-      riskLevelName: '---'
+      riskLevelName: '---',
+      errors: {},
     }
   },
   methods: {
@@ -95,14 +96,9 @@ export default {
     },
     submit(e) {
       e.preventDefault()
-      this.errors = [];
+      this.errors = {}
       if (!this.risk.name) {
-        this.errors.push({
-          name: [
-            'Required field.'
-          ]
-        })
-        this.toast('Error', 'Required field.', true)
+        this.$set(this.errors, 'name', ['Field is required'])
         return
       }
 

@@ -46,3 +46,16 @@
 .custom-text:hover {
   color: #0479FF !important;
 }
+
+.sm-icon {
+  font-size: 15px !important;
+}
+
+.risk-item {
+  display: table-row !important;
+}
+
+.policy-in-risk {
+  position: relative;
+  left: 30px;
+}

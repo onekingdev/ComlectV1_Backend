@@ -27,33 +27,52 @@
                 b-icon.ml-2(icon='chevron-expand')
               th.text-right(width="35px")
           tbody(v-if="!loading && filteredRisksComputed && filteredRisksComputed.length")
-            tr(v-for="risk in filteredRisksComputed" :key="risk.id")
-              td
-                .d-flex.align-items-center.link.truncate
-                  .dropdown-toggle(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
-                    b-icon.m-r-1(icon="chevron-right")
-                  a(:href="`/business/risks/${risk.id}`") {{ risk.name }}
-                .dropdown-items.mb-2(v-if="risk.compliance_policies" :id="`#section-${risk.id}`")
-                  ul.list-unstyled.ml-3
-                    li.mb-2(v-for="policy in risk.compliance_policies" :key="policy.id")
-                      a.link(:href="`/business/compliance_policies/${policy.id}`")
-                        ion-icon.mr-2(name="document-text-outline")
-                        | {{ policy.name }}
-              td {{ showLevel(risk.impact) }}
-              td {{ showLevel(risk.likelihood) }}
-              td
-                b-badge.badge-risk(:variant="badgeVariant(risk.risk_level)")
-                  b-icon-exclamation-triangle-fill.mr-2
-                  | {{ showLevel(risk.risk_level)  }}
-              td.text-right {{ dateToHuman(risk.created_at) }}
-              td.text-right
-                .actions
-                  b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
-                    template(#button-content)
-                      b-icon(icon="three-dots")
-                    RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
-                      b-dropdown-item-button Edit
-                    b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
+            template(v-for="risk in filteredRisksComputed")
+              tr(:key="risk.id")
+                td
+                  .d-flex.align-items-center.link.truncate
+                    .dropdown-toggle(v-if="risk.compliance_policies.length !== 0" :id="`#sectionIcon-${risk.id}`", @click="toogleSections(risk.id)")
+                      b-icon.m-r-1.sm-icon(icon="chevron-right")
+                    a.custom-text(:href="`/business/risks/${risk.id}`") {{ risk.name }}
+                  .dropdown-items.mb-2(v-if="risk.compliance_policies" :id="`#section-${risk.id}`")
+                    ul.list-unstyled.ml-3
+                      li.mb-2(v-for="policy in risk.compliance_policies" :key="policy.id")
+                        a.link.custom-text(:href="`/business/compliance_policies/${policy.id}`")
+                          img.icon-policy(src='@/assets/policy.svg')
+                          | {{ policy.name }}
+                td {{ showLevel(risk.impact) }}
+                td {{ showLevel(risk.likelihood) }}
+                td
+                  b-badge.badge-risk(:variant="badgeVariant(risk.risk_level)")
+                    b-icon-exclamation-triangle-fill.mr-2
+                    | {{ showLevel(risk.risk_level)  }}
+                td.text-right {{ dateToHuman(risk.created_at) }}
+                td.text-right
+                  .actions
+                    b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
+                      template(#button-content)
+                        b-icon.three-dots(icon="three-dots")
+                      RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
+                        b-dropdown-item-button Edit
+                      b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
+              template(v-if="risk.compliance_policies")
+                tr(v-for="policy in risk.compliance_policies" :key="`risk-${risk.id}-${policy.id}`" class="d-none" :class="`risk-${risk.id}`")
+                  td
+                    a.link.custom-text.policy-in-risk(:href="`/business/compliance_policies/${policy.id}`")
+                      img.icon-policy(src='@/assets/policy.svg')
+                      | {{ policy.name }}
+                  td
+                  td
+                  td
+                  td
+                  td.text-right
+                    .actions
+                      b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
+                        template(#button-content)
+                          b-icon.three-dots(icon="three-dots")
+                        RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
+                          b-dropdown-item-button Edit
+                        b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
     .row(v-if="!filteredRisksComputed.length && !loading")
       .col.h-100.text-center
         EmptyState
@@ -126,10 +145,12 @@
         this.$emit('searching', this.searchInput)
       },
       toogleSections(value) {
-        console.log(value)
-        console.log(document.getElementById(`#section-${value}`))
-        document.getElementById(`#section-${value}`).classList.toggle('active');
-        document.getElementById(`#sectionIcon-${value}`).classList.toggle('active');
+        const listPolicy = document.getElementsByClassName(`risk-${value}`)
+        
+        for(let i = 0; i < listPolicy.length; i++) {
+          listPolicy[i].classList.toggle('d-none')
+        }
+        document.getElementById(`#sectionIcon-${value}`).classList.toggle('active')
       },
     },
     computed: {
