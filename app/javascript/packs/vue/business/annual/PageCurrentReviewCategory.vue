@@ -10,9 +10,8 @@
         div
           button.btn.btn-default.mr-3.d-none Download
           button.btn.btn-dark.mr-3(@click="saveGeneral(true)") Save and Exit
-          AnnualModalDelete(@deleteConfirmed="deleteReview(review.id)")
-            button.btn.btn__close
-              b-icon(icon="x")
+          button.btn.btn__close(@click="backToList")
+            b-icon(icon="x")
 
     b-tabs.reviews__tabs(content-class="mt-0")
       template(#tabs-end)
@@ -232,6 +231,9 @@ export default {
         })
         .catch(error => this.toast('Error', `Something wrong! ${error.message}`, true))
     },
+    backToList() {
+      this.$router.push({ name: 'annual-reviews' })
+    }
   },
   async mounted () {
     try {
