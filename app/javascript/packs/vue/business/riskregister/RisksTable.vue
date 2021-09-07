@@ -15,7 +15,7 @@
         table.table
           thead
             tr
-              th Name
+              th(style="width: 100%;") Name
                 b-icon.ml-2(icon='chevron-expand')
               th Impact
                 b-icon.ml-2(icon='chevron-expand')
@@ -43,7 +43,7 @@
                 td {{ showLevel(risk.impact) }}
                 td {{ showLevel(risk.likelihood) }}
                 td
-                  b-badge.badge-risk(:variant="badgeVariant(risk.risk_level)")
+                  b-badge.mr-2.badge-risk(:variant="badgeVariant(risk.risk_level)")
                     b-icon-exclamation-triangle-fill.mr-2
                     | {{ showLevel(risk.risk_level)  }}
                 td.text-right {{ dateToHuman(risk.created_at) }}
