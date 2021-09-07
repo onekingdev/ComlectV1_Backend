@@ -2,82 +2,101 @@
   .policy-details.position-relative
     h3.policy-details__title Tasks
     .policy-actions
-      //button.btn.btn.btn-default.mr-3 Download
-      PolicyTaskModal(:tasks="tasksComputed" :linkableId="policy.id" linkableType="CompliancePolicy" @saved="savedConfirmed")
+      TaskFormModal(:defaults="taskDefaults" @saved="$emit('saved')")
         button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") Add Task
     .policy-details__body
       table.table
         thead
           tr
-            th(width="45%") Task Name
-              b-icon.ml-2(icon='chevron-expand')
-            th Assignee
-              b-icon.ml-2(icon='chevron-expand')
-            th Start Date
-              b-icon.ml-2(icon='chevron-expand')
-            th Due Date
-            th Files
-            th Comments
-              b-icon.ml-2(icon='chevron-expand')
+            th(width="45%")
+              span.pointer(@click="toggleSorting('body')")
+                | Name
+                b-icon.ml-2(icon='chevron-expand')
+            th
+              span.pointer(@click="toggleSorting('assignee_name')")
+                | Assignee
+                b-icon.ml-2(icon='chevron-expand')
+            th
+              span.pointer(@click="toggleSorting('remind_at')")
+                | Start Date
+                b-icon.ml-2(icon='chevron-expand')
+            th
+              span.pointer(@click="toggleSorting('end_date')")
+                | Due Date
+                b-icon.ml-2(icon='chevron-expand')
             th(width="35px")
-        tbody.text-dark(v-if="tasksComputed && tasksComputed.length")
-          tr(v-for="task in tasksComputed" :key="task.id")
+        tbody.text-dark(v-if="tasksSorted && tasksSorted.length")
+          tr(v-for="task in tasksSorted" :key="task.id")
             td {{ task.body }}
-            td ---
-            td {{ task.created_at | asDate }}
+            td {{ task.assignee_name || '' }}
+            td {{ task.remind_at | asDate }}
             td {{ task.end_date | asDate }}
-            td ---
-            td ---
             td.actions
                 b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                   template(#button-content)
                     b-icon(icon="three-dots")
                   b-dropdown-item-button Edit
                   b-dropdown-item-button Delete
-      EmptyState(v-if="!loading && !tasksComputed.length")
+      EmptyState(v-if="!loading && !tasksSorted.length")
 </template>
 
 <script>
-  import Loading from '@/common/Loading/Loading'
-  import PolicyTaskModal from '@/common/TaskFormModal'
-  import EtaggerMixin from '@/mixins/EtaggerMixin'
+import Loading from '@/common/Loading/Loading'
+import TaskFormModal from '@/common/TaskFormModal'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
-  export default {
-    mixins: [EtaggerMixin()],
-    props: {
-      policy: {
-        type: Object,
-        required: true
-      },
-      currentUserBasic: {
-        type: Boolean,
-        required: true
+export default {
+  mixins: [EtaggerMixin()],
+  props: {
+    policy: {
+      type: Object,
+      required: true
+    },
+    currentUserBasic: {
+      type: Boolean,
+      required: true
+    }
+  },
+  data() {
+    return {
+      sortField: null,
+      sortDirection: 1
+    }
+  },
+  methods: {
+    toggleSorting(field, startDescending = false) {
+      const initialDirection = startDescending ? -1 : 1
+      this.sortDirection = this.sortField === field ? -1 * this.sortDirection : initialDirection
+      this.sortField = field
+    },
+  },
+  computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
+    tasksComputed() {
+      return this.policy.reminders || []
+    },
+    tasksSorted() {
+      if (this.sortField) {
+        const compare = (aField, bField) => {
+          const [a, b] = [aField[this.sortField], bField[this.sortField]]
+          return a > b ? this.sortDirection : (a < b ? (this.sortDirection * -1) : 0)
+        }
+        return this.tasksComputed.sort(compare)
       }
+      return this.tasksComputed
     },
-    components: {
-      Loading,
-      PolicyTaskModal
-    },
-    created() {
-      console.log('created', this.policy)
-    },
-    data() {
+    taskDefaults() {
       return {
-
+        linkable_type: 'CompliancePolicy',
+        linkable_id: this.policy.id
       }
-    },
-    methods: {
-      savedConfirmed(value){
-        console.log('savedConfirmed value', value)
-      },
-    },
-    computed: {
-      loading() {
-        return this.$store.getters.loading;
-      },
-      tasksComputed() {
-        return this.policy.reminders || []
-      },
-    },
-  }
+    }
+  },
+  components: {
+    Loading,
+    TaskFormModal
+  },
+}
 </script>

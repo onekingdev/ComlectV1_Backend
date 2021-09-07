@@ -54,7 +54,7 @@
                 PolicyRisks(:policy="policy" :policyId="policyId" :currentUserBasic="currentUserBasic")
             b-tab(title="Tasks" lazy)
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
-                PolicyTasks(:policy="policy" :currentUserBasic="currentUserBasic")
+                PolicyTasks(:policy="policy" :currentUserBasic="currentUserBasic" @saved="updateList")
             b-tab(title="History")
               .card-body.white-card-body.card-body_full-height.policy-details-card.p-0
                 HistoryPolicy(:policy="policy")

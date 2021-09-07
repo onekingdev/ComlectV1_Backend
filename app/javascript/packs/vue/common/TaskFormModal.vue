@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" :title="taskId ? task.body : 'New task'" :size="taskId ? 'xl' : 'md'" @show="resetTask")
       b-row
         div(:class="taskId ? 'col-lg-6 pr-2' : 'col'")
-          InputText(v-model="task.body" :errors="errors.body" placeholder="Enter the name of your task") Task Name
+          InputText(v-model="task.body" :errors="errors.body") Task Name
 
           Get(v-if="isBusiness" v-bind="optionsToFetch"): template(v-slot="{projects,reviews,policies,exams}")
             label.m-t-1.form-label Link to
@@ -280,11 +280,7 @@ export default {
         body: JSON.stringify(this.task)
       }).then(response => {
         if (response.status === 422) {
-          response.json().then(errors => {
-            this.errors = errors
-            Object.keys(this.errors)
-              .map(prop => this.errors[prop].map(err => this.toast(`Error`, `${prop}: ${err}`)))
-          })
+          response.json().then(errors => this.errors = errors.errors)
         } else if (response.status === 201 || response.status === 200) {
           this.$emit('saved')
           this.toast('Success', 'The task has been saved')
