@@ -21,7 +21,7 @@ class PdfCompliancePolicyWorker
                                                             locals: {
                                                               last_updated: cpolicy.business.compliance_policies.root_published.collect(&:updated_at).max.in_time_zone(cpolicy.business.time_zone),
                                                               business: cpolicy.business,
-                                                              logo: env_path(cpconf.logo_url(:original).split('?')[0]),
+                                                              logo: (env_path(cpconf.logo_url(:original).split('?')[0]) if cpconf.logo.present?),
                                                               cpolicy: cpolicy,
                                                               cpconf: cpconf
                                                             }, margin: { top: 20, bottom: 15, left: 15, right: 15 }
