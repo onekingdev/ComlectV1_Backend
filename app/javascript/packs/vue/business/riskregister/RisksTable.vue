@@ -23,7 +23,7 @@
                 b-icon.ml-2(icon='chevron-expand')
               th Risk Level
                 b-icon.ml-2(icon='chevron-expand')
-              th.text-right Date Created
+              th.text-right(style="width: 1%;") Date Created
                 b-icon.ml-2(icon='chevron-expand')
               th.text-right(width="35px")
           tbody(v-if="!loading && filteredRisksComputed && filteredRisksComputed.length")
