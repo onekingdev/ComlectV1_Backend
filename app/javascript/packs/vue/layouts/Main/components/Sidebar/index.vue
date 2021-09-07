@@ -242,7 +242,7 @@
           access: ['basic', 'trusted', 'admin']
         }, {
           to: '/business/annual_reviews',
-          label: 'Internal Review',
+          label: 'Internal Reviews',
           access: ['trusted', 'admin']
         }, {
           to: '/business/risks',
@@ -257,7 +257,7 @@
           exact: true
         }, {
           to: '/specialist/annual_reviews',
-          label: 'Internal Review'
+          label: 'Internal Reviews'
         }, {
           to: '/specialist/risks',
           label: 'Risk Register'
