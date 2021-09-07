@@ -79,3 +79,7 @@
 .dowloading.list-page {
   top: 6px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

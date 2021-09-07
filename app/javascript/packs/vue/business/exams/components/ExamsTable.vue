@@ -14,7 +14,7 @@
               b-icon.ml-2(icon='chevron-expand')
           th(@click="sortSelect('created_at', 'date')").text-right
             .d-inline
-              | Date created
+              | Date Created
               b-icon.ml-2(icon='chevron-expand')
           th(@click="sortSelect('updated_at', 'date')").text-right
             .d-inline

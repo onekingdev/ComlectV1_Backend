@@ -13,7 +13,7 @@
         b-row.m-t-1(no-gutters, v-if="isActive || risk.name")
           .col
             label.form-label Risk Name
-            input.form-control(v-model="risk.name" type=text placeholder="Enter the name of your risk")
+            input.form-control(v-model="risk.name" type=text)
             Errors(:errors="errors.name")
 
         b-row.m-t-1(no-gutters)
@@ -121,10 +121,12 @@ export default {
         .then(response => {
           console.log('response', response)
           if (response.errors) {
-
+            const text = method === 'createRisk' ? 'Risk has not been created. Please try again.' : 'Risk has not been updated. Please try again.'
+            this.toast('Error', text)
           } else {
             this.$emit('saved', response)
-            // this.toast('Success', 'The risk has been saved')
+            const text = method === 'createRisk' ? 'Risk has been created.' : 'Risk has been updated.'
+            this.toast('Success', text)
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }

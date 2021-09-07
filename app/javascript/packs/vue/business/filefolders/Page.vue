@@ -8,9 +8,7 @@
           | Download
     .card-body.white-card-body.card-body_full-height.p-x-40
       .d-flex.align-items-center.mb-2
-        a.btn.btn-default.m-r-1.p-0(v-if="currentFolderId" @click.stop="backToRoot")
-          b-icon(icon="arrow-left-square" font-scale="1")
-        h4.font-16.mb-2 All Documents
+        h4.font-16.mb-2.cursor-pointer(@click="backToRoot") All Documents
           span.separator(v-if="currentFolderName") &nbsp/&nbsp;
           span(v-if="currentFolderName") {{ currentFolderName }}
       .d-flex.mb-2

@@ -121,12 +121,6 @@
           })
       },
       savedConfirmed(value){
-        this.toast('Success', 'Risk has been updated.')
-        console.log('savedConfirmed value', value)
-        //HOOK
-        // const index = this.policyById.risks.findIndex(record => record.id === value.id);
-        // console.log('index', index)
-        // if (index) this.policyById.risks.splice(index, 1, value)
         this.policyById.risks.push(value)
       },
     },

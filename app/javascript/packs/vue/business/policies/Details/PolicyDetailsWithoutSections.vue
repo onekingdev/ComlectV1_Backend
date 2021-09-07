@@ -15,7 +15,7 @@
                 b-icon(icon='list')
               b-badge.mr-3(:variant="statusVariant(policy.status)") {{ policy.status }}
               h3.policy__main-title.m-y-0 {{ policy.title }}
-            .d-flex.justify-content-end.align-items-center
+            .d-flex.justify-content-end.align-items-center(v-if="!policy.archived")
               a.link.btn.mr-3(@click="saveDraft") Save Draft
               span.dowloading(v-if="isDowloading")
                 img(src='@/assets/sm-loading.gif' width="25" height="25")

@@ -6,7 +6,7 @@
     b-modal.fade(:id="modalId" title="New policy")
       b-alert.m-b-20(v-if="error" variant="danger" show) {{ error }}
 
-      label.form-label New policy name
+      label.form-label Policy Name
       input.form-control(v-model="policy.name" ref="input" type="text" @keyup.enter="submit" @input="clearErrors")
       Errors(:errors="errors")
 
