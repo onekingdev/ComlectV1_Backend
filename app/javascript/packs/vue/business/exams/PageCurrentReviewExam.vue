@@ -2,15 +2,13 @@
   .page.exam(v-if="currentExam")
     .page-header.bg-white
       div
-        h3.page-header__breadcrumbs Regulatory Exams&nbsp;
-          span.separator /&nbsp;
-          b {{ currentExam ? currentExam.name : '' }}
+        h3.page-header__breadcrumbs Regulatory Exams
         h2.page-header__title {{ currentExam ? currentExam.name : '' }}
       .page-header__actions
         ExamModalShare.mr-3(v-if="currentExam && plan !=='team'" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="currentExam.complete")
           a.btn.btn-link Share Link
         ExamModalComplite.mr-3(v-if="currentExam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
-          button.btn.btn-default Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
+          button.btn.btn-default Mark as {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
         button.btn.btn-dark.mr-3(v-if="currentExam && !currentExam.complete" @click="saveAndExit") Save and Exit
         button.btn.btn__close(@click="exit")
           b-icon(icon="x")
@@ -31,17 +29,17 @@
             .col-md-9.mx-auto.position-relative
               .card-body.white-card-body.reviews__card(v-if="loading && !currentExam")
                 Loading
-              .card-body.white-card-body.reviews__card(v-if="currentExam")
-                .reviews__card--internal.d-flex.justify-content-between.align-items-center.pt-0.m-b-20
+              .white-card-body.reviews__card(v-if="currentExam")
+                .reviews__card--internal.d-flex.justify-content-between.align-items-center.pt-0.m-b-20.p-4
                   h3 Requests
                   a.btn.btn-default(:href="`/business/exam_management/${currentExam.id}/portal`") View Portal
-                .reviews__topiclist
+                .reviews__topiclist.px-4
                   .d-flex.justify-content-between.m-b-20
                     b-button-group(size="md")
                       b-button(type='button' :variant="filterOption === 'all' ? 'dark' : 'outline-dark'" @click="filterRequest('all')") All
                       b-button(type='button' :variant="filterOption === 'shared' ? 'dark' : 'outline-dark'" @click="filterRequest('shared')") Shared
                     ExamRequestModalCreate(v-if="!currentExam.complete" :examId="currentExam.id")
-                      b-button(variant='default') Add request
+                      b-button(variant='default') Add Request
                   template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExamRequestsFiltered")
                     .reviews__card--internal.exams__card--internal(:key="`${currentExam.name}-${i}`" :class="{ 'completed': currentRequst.complete }")
                       .row.m-b-1
@@ -114,11 +112,11 @@
                   b-button.m-b-2(variant='default')
                     b-icon.mr-2(icon='plus-circle-fill')
                     | Add Request
-                .white-card-body
+                .white-card-body.pb-4.pr-4
                   .d-flex.justify-content-end
                     button.btn.btn-default.mr-2(v-if="!currentExam.complete" @click="saveExam") Save
                     ExamModalComplite(@compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
-                      button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
+                      button.btn(:class="currentExam.complete ? 'btn-default' : 'btn-dark'") Mark as {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks" lazy)
         PageTasks
       b-tab(title="Documents" lazy)
