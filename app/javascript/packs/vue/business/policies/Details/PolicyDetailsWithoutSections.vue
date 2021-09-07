@@ -8,7 +8,7 @@
               button.btn.btn-dark.mb-3.mr-3 New Policy
             .table
               nested-draggable(v-model='policiesComputed', :policiesList="policiesListNested" :shortTable="true")
-        .col.px-0(v-if="policy")
+        .col.col-lg-9.px-0(v-if="policy")
           .policy-topbar
             .d-flex.align-items-center
               button.btn.btn__menu.mr-3(@click="leftMenu = !leftMenu")
@@ -173,10 +173,11 @@ import Tiptap from '@/common/Tiptap'
         this.$store
           .dispatch("updatePolicy", dataToSend)
           .then((response) => {
-            // this.$router.push("/list");
-            //console.log("Policy successfull saved!");
-            this.toast('Success', `Policy successfully updated!`)
-            //console.log('response updatePolicy', response)
+            if (response.id) {
+              this.toast('Success', 'Policy has been updated.')
+            } else {
+              this.toast('Error', 'Policy has not been updated. Please try again.')
+            }
           })
           .catch((error) => {
             //console.log(error)

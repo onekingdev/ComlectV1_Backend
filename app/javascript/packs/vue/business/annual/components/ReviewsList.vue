@@ -70,7 +70,9 @@ export default {
           await this.getCurrentReviewReview(id)
           this.category.name = ''
           this.$router.push(`/business/annual_reviews/${response.annual_report_id}/${response.id}`)
-          this.toast('Success', "New category added")
+          this.toast('Success', "Category has been added.")
+        } else {
+          this.toast('Error', 'Category has not been added. Please try again.')
         }
       } catch (error) {
         this.toast('Error', error.message, true)
