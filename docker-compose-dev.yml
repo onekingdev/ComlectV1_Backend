@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+    # Complect
+    complect:
+        container_name: complect
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        image: complect-app:1.0
+        ports:
+            - 81:3000
+        environment:
+            HOST: 0.0.0.0
+            JOB_WORKER_URL: redis://redis:6379/0
+        volumes:
+            - .:/complect
+            - /complect/node_modules
+        working_dir: /complect
+        command: rails s
+        depends_on:
+            - redis
+            - postgres
+
+    # Redis
+    redis:
+        container_name: redis
+        image: redis
+
+    # Postgres
+    postgres:
+        container_name: postgres
+        build:
+            context: .
+            dockerfile: Dockerfile.db
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: mysecretpassword
+        volumes:
+            - ./postgres/:/var/lib/postgresql/data/

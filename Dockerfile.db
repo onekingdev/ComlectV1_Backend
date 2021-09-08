@@ -1,0 +1,4 @@
+FROM postgres:13.4
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
+  postgis \
+  postgresql-13-postgis-3

@@ -76,3 +76,15 @@ Using bower at `vendor/assets/components`.
 ### Docker on Heroku
 * `heroku container:push web worker -a <Heroku App ID>`
 * `heroku container:release web worker -a <Heroku App ID>`
+
+
+
+## Running project with Docker Compose
+1. Ask about `.env` and `env.local` files
+2. Create empty `postgres` dir in root
+3. Run: `docker-compose -f docker-compose-dev.yml up`
+4. SSH to Complect App container and run:
+	* `rake db:create`
+	* `rake db:migrate`
+	* `rake db:seed`
+5. Navigate to localhost:81 in browser, wait for build (1-3 mins).
