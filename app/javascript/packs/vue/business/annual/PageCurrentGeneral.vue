@@ -119,7 +119,9 @@
                                   //b-dropdown-item(@click="duplicateEntry(annualReviewEmployeeIndex-1)") Duplicate Entry
                                   b-dropdown-item.delete(@click="deleteEntry(annualReviewEmployeeIndex)") Delete
                         b-input-group
-                          b-button(variant='default' @click="addEntry") Add Entry
+                          b-button(variant='default' @click="addEntry")
+                            b-icon.mr-2(icon='plus-circle-fill')
+                            | New Entry
                         //b-input-group
                         //  b-button(variant='primary' class="btn-none" @click="addEntry")
                         //    b-icon.mr-2(icon='plus-circle-fill')
