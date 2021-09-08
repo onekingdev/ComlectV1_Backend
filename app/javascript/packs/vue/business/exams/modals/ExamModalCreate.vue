@@ -83,7 +83,7 @@
     computed: {
       datepickerOptions() {
         return {
-          min: new Date
+          min: new Date().toISOString()
         }
       },
     },

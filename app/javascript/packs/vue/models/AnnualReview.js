@@ -10,14 +10,11 @@ export default class AnnualReview {
     this.material_business_changes = material_business_changes
     this.pdf_url = pdf_url
     if (regulatory_changes && regulatory_changes.length) {
-      this.regulatory_changes = [
-        { change: regulatory_changes[0]?.change },
-        { change: regulatory_changes[1]?.change }
-      ]
+      this.regulatory_changes = regulatory_changes
     } else {
       this.regulatory_changes = [
-        { change: "" },
-        { change: "" }
+        { change: "", timestamp: new Date().getTime() },
+        { change: "", timestamp: new Date().getTime() + 1 }
       ]
     }
 
