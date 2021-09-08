@@ -3,16 +3,16 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Upload file(s)")
+    b-modal.fade(:id="modalId" title="Upload file")
       .row
         .col-12.m-y-1
           label.dropbox.w-100(for="files")
             input.input-file(type="file" id="files" ref="files" multiple @change="selectFile")
             p Drag your file(s) here
               br
-              | or
+              | OR
               br
-              button.btn.btn-default.text-bold Upload File(s)
+              button.btn.btn-default.text-bold Upload
       .row
         .col-12
           .file-card(v-if="files" v-for="(file, key) in files")
