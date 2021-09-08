@@ -56,16 +56,16 @@
                               b-dropdown-item New Task
                             b-dropdown-item(@click="deleteTopic(i)").delete Delete
                       template(v-for="(topicItem, topicItemIndex) in currentTopic.items")
-                        .row(:key="`${currentCategory.name}-${i}-${topicItemIndex}`")
-                          .col-md-1
+                        .row.mb-2(:key="`${currentCategory.name}-${i}-${topicItemIndex}`")
+                          .col-md-2.col-lg-2.col-xl-1
                             .reviews__checkbox.d-flex.justify-content-between
                               .reviews__checkbox-item.reviews__checkbox-item--true(@click="topicItem.checked = true" :class="{ 'checked': topicItem.checked }")
                                 b-icon(icon="check2")
                               .reviews__checkbox-item.reviews__checkbox-item--false(@click="topicItem.checked = false" :class="{ 'checked': !topicItem.checked }")
                                 b-icon(icon="x")
-                          .col-md-10
+                          .col-md-8.col-lg-8.col-xl-10.new-item-text
                             textarea.reviews__input.reviews__topic-body(v-model="topicItem.body" placeholder="New Item")
-                          .col-md-1.text-right
+                          .col-md-2.col-lg-2.col-xl-1.text-right
                             b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                               template(#button-content)
                                 b-icon(icon="three-dots")
@@ -244,3 +244,22 @@ export default {
   },
 }
 </script>
+<style scoped>
+@media only screen and (min-width: 1200px) {
+  .new-item-text {
+    padding-left: 30px !important;
+  }
+}
+
+@media only screen and (min-width: 1700px) {
+  .new-item-text {
+    padding-left: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .new-item-text textarea {
+    margin-top: 10px;
+  }
+}
+</style>
