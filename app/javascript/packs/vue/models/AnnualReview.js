@@ -9,7 +9,7 @@ export default class AnnualReview {
     this.id = id
     this.material_business_changes = material_business_changes
     this.pdf_url = pdf_url
-    if (regulatory_changes.length) {
+    if (regulatory_changes && regulatory_changes.length) {
       this.regulatory_changes = [
         { change: regulatory_changes[0]?.change },
         { change: regulatory_changes[1]?.change }
@@ -21,14 +21,14 @@ export default class AnnualReview {
       ]
     }
 
-    this.review_categories = review_categories
+    this.review_categories = review_categories || []
     this.review_end = review_end
     this.review_start = review_start
     this.updated_at = updated_at
     this.year = year
     this.name = name
-    this.findings = this.findingsCalculate(review_categories)
-    this.progress = review_categories.filter(item => item.complete).length
+    this.findings = this.findingsCalculate(this.review_categories)
+    this.progress = this.review_categories.filter(item => item.complete).length
   }
 
   findingsCalculate(review_categories) {

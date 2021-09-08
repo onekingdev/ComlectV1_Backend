@@ -122,7 +122,7 @@
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")
-        PageDocuments   
+        PageDocuments
 </template>
 
 <script>
@@ -204,13 +204,7 @@ export default {
 
             if (!response.errors) {
               this.toast('Success', "Saved changes to internal review.")
-
-              if(exit) {
-                setTimeout(() => {
-                  //window.location.href = `${window.location.origin}/business/annual_reviews`
-                  this.$router.push(`/business/annual_reviews`)
-                }, 3000)
-              }
+              exit && setTimeout(() => this.$router.push(`/business/annual_reviews`), 3000)
             }
           })
           .catch((error) => console.error(error))
