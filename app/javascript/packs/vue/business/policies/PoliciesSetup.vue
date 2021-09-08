@@ -135,8 +135,8 @@
         // console.log('formData', formData)
 
         this.$store.dispatch('postPolicyConfig', formData)
-          .then(response => this.toast('Success', `Config successfully saved!`) )
-          .catch(error => this.toast('Error', `Something wrong! ${error}`, true) )
+          .then(response => this.toast('Success', `Setup has been updated.`) )
+          .catch(error => this.toast('Error', `Setup has not been updated. Please try again. ${error}`, true) )
 
         // axios.defaults.baseURL = '/api';
         // axios.defaults.headers.common['Authorization'] = 'TOKEN';
