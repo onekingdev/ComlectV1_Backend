@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import tasks from "./specialistModules/tasks"
+import tasks from "./specialistModules/tasks";
 import settings from "./specialistModules/settings";
-import projects from "./specialistModules/projects"
+import projects from "./specialistModules/projects";
+import stripeAccounts from "./specialistModules/stripe_accounts";
+
 import auth from "./commonModules/auth";
 import shared from "./commonModules/shared";
 import roles from "./commonModules/roles-and-permissions";
@@ -47,6 +49,10 @@ const store = new Vuex.Store({
       namespaced: true,
       ...roles,
     },
+    stripe_accounts: {
+      namespaced: true,
+      ...stripeAccounts
+    }
   }
 })
 

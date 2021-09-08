@@ -414,6 +414,8 @@ Rails.application.routes.draw do
       get '/financials/payments' => 'financials#payments'
       get '/financials/revenue' => 'financials#get_revenue_data'
       patch '/financials/annual_revenue' => 'financials#set_annual_revenue'
+
+      resources :billings, only: %i[index create update]
     end
 
     resources :businesses, only: [:create] do

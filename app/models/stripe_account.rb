@@ -2,6 +2,7 @@
 
 class StripeAccount < ApplicationRecord
   belongs_to :specialist, optional: true
+
   has_many :bank_accounts, dependent: :destroy
   has_many :transactions, dependent: :nullify, foreign_key: 'payment_target_id'
 
@@ -13,10 +14,15 @@ class StripeAccount < ApplicationRecord
   attr_accessor :verification_document_data, :verification_document_cache
 
   before_validation :encode_verification_document
+  before_validation :prepare_fields, if: -> { account_type_changed? }
   before_validation :set_ssn_last_4_from_personal_id, if: -> { country == 'US' }
-  after_create :create_managed_account, if: -> { stripe_id.blank? }
-  after_create :verify_account
+  # after_create :create_managed_account, if: -> { stripe_id.blank? }
+  # after_create :verify_account
   after_destroy :delete_stripe_account, if: -> { stripe_id.present? }
+
+  validates :account_type, :country, presence: true
+  validates :business_name, presence: true, if: :company?
+  validates :first_name, :last_name, presence: true, if: :individual?
 
   REQUIRED_FIELDS = {
     additional_owners: { company: %w[AT BE DE DK ES FI FR GB IE IT LU NL NO PT SE SG] },
@@ -228,5 +234,14 @@ class StripeAccount < ApplicationRecord
 
   def translate_stripe_error(error)
     (STRIPE_ERRORS.detect { |regex, _m| regex.match(error) } || [nil, error])[1]
+  end
+
+  def prepare_fields
+    if company?
+      self.last_name = nil
+      self.first_name = nil
+    else
+      self.business_name = nil
+    end
   end
 end
