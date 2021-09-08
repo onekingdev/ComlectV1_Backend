@@ -2,8 +2,8 @@
   .policy-details.position-relative
     h3.policy-details__title Tasks
     .policy-actions
-      TaskFormModal(:defaults="taskDefaults" @saved="$emit('saved')")
-        button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") Add Task
+      TaskFormModal(:defaults="taskDefaults" v-if="!currentUserBasic && !policy.archived" @saved="$emit('saved')")
+        button.btn.btn-dark Add Task
     .policy-details__body
       table.table
         thead
@@ -32,11 +32,11 @@
             td {{ task.remind_at | asDate }}
             td {{ task.end_date | asDate }}
             td.actions
-                b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
-                  template(#button-content)
-                    b-icon(icon="three-dots")
-                  b-dropdown-item-button Edit
-                  b-dropdown-item-button Delete
+              b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
+                template(#button-content)
+                  b-icon(icon="three-dots")
+                b-dropdown-item-button Edit
+                b-dropdown-item-button Delete
       EmptyState(v-if="!loading && !tasksSorted.length")
 </template>
 

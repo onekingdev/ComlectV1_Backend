@@ -120,7 +120,8 @@
                   AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="review.complete" :name="review.name" :inline="false")
                     button.btn(:class="'btn-dark'") Mark as {{ review.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks")
-        PageTasks
+        Get(:reviewModel="`/api/business/annual_reports/${annualId}`" :etag="tasksEtag"): template(v-slot="{ reviewModel }")
+          PageTasks(:review="reviewModel" @saved="newTasksEtag")
       b-tab(title="Documents")
         PageDocuments
 </template>
@@ -135,8 +136,10 @@ import AnnualModalDelete from './modals/AnnualModalDelete'
 import PageTasks from './PageTasks'
 import PageDocuments from './PageDocuments'
 import PageActivity from './PageActivity'
+import EtaggerMixin from '@/mixins/EtaggerMixin'
 
 export default {
+  mixins: [EtaggerMixin('tasksEtag')],
   props: ['annualId'],
   components: {
     ReviewsList,
