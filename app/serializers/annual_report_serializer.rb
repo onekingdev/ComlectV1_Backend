@@ -20,5 +20,6 @@ class AnnualReportSerializer < ApplicationSerializer
              :review_categories,
              :annual_review_employees,
              :regulatory_changes,
-             :reminders
+             :reminders,
+             :complete
 end

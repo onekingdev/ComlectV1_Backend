@@ -1,10 +1,11 @@
 export default class AnnualReview {
-  constructor(annual_review_employees, business_id, created_at, exam_end, exam_start, id, material_business_changes, pdf_url, regulatory_changes, review_categories, review_end, review_start, updated_at, year, name) {
+  constructor(annual_review_employees, business_id, created_at, exam_end, exam_start, id, material_business_changes, pdf_url, regulatory_changes, review_categories, review_end, review_start, updated_at, year, name, complete) {
     this.annual_review_employees = annual_review_employees
     this.business_id = business_id
     this.created_at = created_at
     this.exam_end = exam_end
     this.exam_start = exam_start
+    this.complete = complete
     this.id = id
     this.material_business_changes = material_business_changes
     this.pdf_url = pdf_url

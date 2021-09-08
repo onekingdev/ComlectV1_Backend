@@ -68,7 +68,8 @@ export default {
           data.review_start,
           data.updated_at,
           data.year,
-          data.name
+          data.name,
+          false
         ))
         return data
       } catch (error) {
@@ -104,6 +105,7 @@ export default {
         })
         const data = await response.json()
         const reviews = []
+        console.log(data);
         for (const annualItem of data) {
           reviews.push(new AnnualReview(
             annualItem.annual_review_employees,
@@ -120,7 +122,8 @@ export default {
             annualItem.review_start,
             annualItem.updated_at,
             annualItem.year,
-            annualItem.name
+            annualItem.name,
+            annualItem.complete
           ))
         }
         commit('SET_REVIEWS', reviews)
@@ -175,7 +178,8 @@ export default {
           data.review_start,
           data.updated_at,
           data.year,
-          data.name
+          data.name,
+          data.complete
         ))
         return data
       } catch (error) {

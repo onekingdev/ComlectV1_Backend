@@ -31,6 +31,7 @@
                 :annual-id="annualId"
                 :reviews-categories="review.review_categories"
                 :general="true"
+                :generalComplete="review.complete"
               )
             .col-md-9.m-b-40
               .card-body.white-card-body.reviews__card
@@ -116,8 +117,8 @@
                         //    | Add Entry
                 .d-flex.justify-content-end.m-t-20
                   button.btn.btn-default.m-r-1(@click="saveGeneral") Save
-                  AnnualModalComplite(@compliteConfirmed="markComplete", :inline="false")
-                    button.btn.btn-dark Mark as Complete
+                  AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="review.complete" :name="review.name" :inline="false")
+                    button.btn(:class="'btn-dark'") Mark as {{ review.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")
@@ -224,7 +225,7 @@ export default {
       const review = this.review
       const data = {
         id: review.id,
-        complete: true,
+        complete: !this.review.complete,
       }
       try {
         await this.updateAnnual(data)

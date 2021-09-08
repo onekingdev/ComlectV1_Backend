@@ -65,6 +65,7 @@ class Api::Business::AnnualReportsController < ApiController
       :id,
       :review_start,
       :review_end,
+      :complete,
       :year,
       :name,
       :material_business_changes,

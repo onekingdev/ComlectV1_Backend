@@ -4,6 +4,7 @@
       :annual-id="annualId"
       :current-id="currentId"
       :general="general"
+      :checked="generalComplete"
     )
     template(v-for="reviewCategory in reviewsCategories")
       ReviewLink(
@@ -30,7 +31,7 @@ import ReviewLink from "./ReviewLink";
 
 export default {
   name: "ReviewsList",
-  props: ['annualId', 'reviewsCategories', 'currentId', 'general'],
+  props: ['annualId', 'reviewsCategories', 'currentId', 'general', 'generalComplete'],
   data() {
     return {
       category: {

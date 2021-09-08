@@ -30,7 +30,7 @@ export default {
     },
     general: {
       type: Boolean
-    },
+    }
   },
   computed: {
     url () {

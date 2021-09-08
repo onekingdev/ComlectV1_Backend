@@ -224,7 +224,8 @@ CREATE TABLE public.annual_reports (
     pdf_data jsonb,
     year integer,
     material_business_changes text DEFAULT ''::text,
-    name character varying DEFAULT ''::character varying
+    name character varying DEFAULT ''::character varying,
+    complete boolean DEFAULT false
 );
 
 
@@ -8087,6 +8088,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210830171338'),
 ('20210902170517'),
 ('20210903160434'),
-('20210903165008');
+('20210903165008'),
+('20210907144837');
 
 
