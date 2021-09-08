@@ -44,9 +44,9 @@
                   template(v-for="(currentTopic, i) in currentCategory.review_topics")
                     .reviews__card--internal(:key="`${currentCategory.name}-${i}`")
                       .row.m-b-2
-                        .col-md-10
+                        .col-md-8
                           input.reviews__input.reviews__topic-name(v-model="currentTopic.name" placeholder="New Topic")
-                        .col-md-2.text-right
+                        .col-md-4.text-right
                           b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                             template(#button-content)
                               | Actions

@@ -98,7 +98,7 @@ export default {
       e.preventDefault()
       this.errors = {}
       if (!this.risk.name) {
-        this.$set(this.errors, 'name', ['Field is required'])
+        this.$set(this.errors, 'name', ['Required field'])
         return
       }
 

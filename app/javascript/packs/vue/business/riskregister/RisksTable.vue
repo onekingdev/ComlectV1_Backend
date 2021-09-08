@@ -70,9 +70,7 @@
                       b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
                         template(#button-content)
                           b-icon.three-dots(icon="three-dots")
-                        RisksAddEditModal(:risks="risksComputed" :riskId="risk.id" :inline="false")
-                          b-dropdown-item-button Edit
-                        b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
+                        b-dropdown-item-button.delete(@click="deletePolicy(risk, policy.id)") Unlink
     .row(v-if="!filteredRisksComputed.length && !loading")
       .col.h-100.text-center
         EmptyState
@@ -103,6 +101,23 @@
       }
     },
     methods: {
+      deletePolicy(risk, policyId) {
+        const index = risk.compliance_policies.findIndex(record => record.id === policyId);
+        risk.compliance_policies.splice(index, 1)
+
+        risk.compliance_policy_ids = risk.compliance_policies.map(policy => policy.id)
+
+        this.$store
+          .dispatch('updateRisk', {...risk})
+          .then(response => {
+            console.log('response', response)
+            this.toast('Success', 'Risk has been updated.')
+          })
+          .catch(error => {
+            console.error(error)
+            this.toast('Error', `Risk has not been updated. Please try again. ${error}`)
+          })
+      },
       getRisks(risks) {
         console.log('risks', risks)
         return risks
