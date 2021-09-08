@@ -327,7 +327,7 @@ export default {
             }
           })
           .catch((error) => console.error(error))
-        this.toast('Success', "Internal review marked as complete!")
+        this.toast('Success', `Internal review marked as ${this.review.complete ? 'in' : ''}complete!`)
         await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.toast('Error', error.message, true)
