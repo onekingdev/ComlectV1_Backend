@@ -249,7 +249,7 @@
             this.toast('Success', `Policy has been deleted.`)
           })
           .catch(error => {
-            this.toast('Error', `Policy has not been deleted.`, true)
+            this.toast('Error', `Policy has not been deleted. Please try again.`, true)
           })
       },
 

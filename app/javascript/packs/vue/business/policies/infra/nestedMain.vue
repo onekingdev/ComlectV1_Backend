@@ -383,11 +383,11 @@
           .dispatch('deletePolicyById', { policyId })
           .then(response => {
             //console.log('response', response)
-            this.toast('Success', `Policy successfully deleted!`)
+            this.toast('Success', `Policy has been deleted.`)
           })
           .catch(error => {
             console.error(error)
-            this.toast('Error', `Couldn't submit form! ${error}`, true)
+            this.toast('Error', `Policy has not been deleted. Please try again. ${error}`, true)
           })
       },
       archivePolicy(policyId, archiveStatus) {
