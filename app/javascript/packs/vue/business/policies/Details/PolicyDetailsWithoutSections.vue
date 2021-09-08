@@ -18,7 +18,11 @@
             .d-flex.justify-content-end.align-items-center(v-if="!policy.archived")
               a.link.btn.mr-3(@click="saveDraft") Save Draft
               span.dowloading(v-if="isDowloading")
-                img(src='@/assets/sm-loading.gif' width="25" height="25")
+                .lds-ring.lds-ring-small
+                  div
+                  div
+                  div
+                  div
               button.btn.btn-default.mr-3(v-if="!isDowloading && policy.status != 'draft' && policy.status != 'archived'" @click="download") Download
               PoliciesModalPublish(@publishConfirmed="publishPolicy")
                 button.btn.btn-dark.mr-3 Publish

@@ -4,7 +4,11 @@
       h2.page-header__title Policies and Procedures
       .page-header__actions
         span.dowloading.list-page(v-if="isDowloading")
-          img(src='@/assets/sm-loading.gif' width="25" height="25")
+          .lds-ring.lds-ring-small
+             div
+             div
+             div
+             div
         button.btn.btn.btn-default.mr-3(v-else @click="download") Download
         PoliciesModalCreate(@savedConfirmed="updateList")
           button.btn.btn-dark.float-end New Policy
