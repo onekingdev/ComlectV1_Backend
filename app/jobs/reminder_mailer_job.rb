@@ -6,7 +6,7 @@ class ReminderMailerJob < ApplicationJob
 
   def perform(remindable = nil)
     return process_all if remindable.nil?
-    remindable.update(reminders_mailed_at: Time.zone.now.in_time_zone(remindable.time_zone))
+    remindable.update_attribute('reminders_mailed_at', Time.zone.now.in_time_zone(remindable.time_zone))
     calendar_grid = tasks_calendar_grid(remindable, Time.zone.now.in_time_zone(remindable.time_zone).beginning_of_month
     .to_date)
     mutes = remindable.user.muted_projects
