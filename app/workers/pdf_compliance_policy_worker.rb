@@ -11,6 +11,8 @@ class PdfCompliancePolicyWorker
 
   def perform(policy_id)
     cpolicy = CompliancePolicy.find(policy_id)
+    not_edited = cpolicy.business.compliance_policies.root_published.select { |n| n.edited_at.nil? }
+    not_edited.each { |ne| ne.update_attribute(edited_at: ne.updated_at) }
     combined_policy_db = cpolicy.business.combined_policy.presence ||
                          CombinedPolicy.create(business_id: cpolicy.business.id)
     cpolicy.update(pdf: nil)
@@ -19,7 +21,7 @@ class PdfCompliancePolicyWorker
     pdf_header = ApplicationController.new.render_to_string pdf: 'compliance_manual_header.pdf',
                                                             template: 'business/compliance_policies/header.pdf.erb', encoding: 'UTF-8',
                                                             locals: {
-                                                              last_updated: cpolicy.business.compliance_policies.root_published.collect(&:updated_at).max.in_time_zone(cpolicy.business.time_zone),
+                                                              last_updated: cpolicy.business.compliance_policies.root_published.collect(&:edited_at).max.in_time_zone(cpolicy.business.time_zone),
                                                               business: cpolicy.business,
                                                               logo: (env_path(cpconf.logo_url(:original).split('?')[0]) if cpconf.logo.present?),
                                                               cpolicy: cpolicy,

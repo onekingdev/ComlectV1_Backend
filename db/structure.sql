@@ -711,7 +711,8 @@ CREATE TABLE public.compliance_policies (
     archived boolean DEFAULT false,
     untouched boolean DEFAULT true,
     published_by character varying,
-    page_count integer
+    page_count integer,
+    edited_at timestamp without time zone
 );
 
 
@@ -8089,6 +8090,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210902170517'),
 ('20210903160434'),
 ('20210903165008'),
-('20210907144837');
+('20210907144837'),
+('20210907191719');
 
 

@@ -20,8 +20,10 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def download
     @combined_policy_db.update(file_data: nil)
-    @cpolicy.update(pdf_data: nil)
-    PdfCompliancePolicyWorker.perform_async(@cpolicy.id)
+    if current_business.compliance_policies.root_published.collect(&:id).include?(@cpolicy.id)
+      @cpolicy.update(pdf_data: nil)
+      PdfCompliancePolicyWorker.perform_async(@cpolicy.id)
+    end
     respond_with status: :ok
   end
 
@@ -48,7 +50,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def create
-    cpolicy = current_business.compliance_policies.create(cpolicy_params.merge(untouched: false))
+    cpolicy = current_business.compliance_policies.create(cpolicy_params.merge(untouched: false, edited_at: Time.now.in_time_zone(current_business.time_zone)))
     if cpolicy.errors.any?
       respond_with errors: cpolicy.errors, status: :unprocessable_entity
     else
@@ -62,7 +64,10 @@ class Api::Business::CompliancePoliciesController < ApiController
       draft_cpolicy.untouched = true
       draft_cpolicy.save
       @cpolicy.published_versions.update_all(src_id: draft_cpolicy.id, status: 'published')
-      @cpolicy.update(status: 'published', src_id: draft_cpolicy.id, published_by: current_user.specialist ? current_user.specialist.name : current_business.name)
+      @cpolicy.update(status: 'published',
+                      src_id: draft_cpolicy.id,
+                      published_by: (current_user.specialist ? current_user.specialist.name : current_business.name),
+                      edited_at: Time.now.in_time_zone(current_business.time_zone))
       respond_with draft_cpolicy, serializer: CompliancePolicySerializer
     else
       head :bad_request
@@ -72,7 +77,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   def update
     return respond_with error: 'Cannot edit published policy' if @cpolicy.published?
     return respond_with error: 'Cannot edit archived policy' if @cpolicy.archived?
-    if @cpolicy.update(cpolicy_params.merge(untouched: false))
+    if @cpolicy.update(cpolicy_params.merge(untouched: false, edited_at: Time.now.in_time_zone(current_business.time_zone)))
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
       respond_with errors: @cpolicy.errors, status: :unprocessable_entity

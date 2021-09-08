@@ -50,10 +50,10 @@
         this.$store
           .dispatch("downloadPolicy", { policyId })
           .then((myBlob) => {
-            this.toast('Success', 'Policy succesfully downloaded.')
+            this.toast('Success', 'Policy has been queued for download.')
           })
           .catch((err) => {
-            this.toast('Error', err.message, true)
+            this.toast('Error', "Policy has not been queued for download. Please try again. "+err.message, true)
           });
       },
     }
