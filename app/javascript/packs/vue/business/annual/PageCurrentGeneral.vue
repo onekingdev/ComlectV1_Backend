@@ -127,7 +127,7 @@
                         //    b-icon.mr-2(icon='plus-circle-fill')
                         //    | Add Entry
                 .d-flex.justify-content-end.m-t-20
-                  button.btn.btn-default.m-r-1(@click="saveGeneral") Save
+                  button.btn.btn-default.m-r-1(@click="saveGeneral()") Save
                   AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="review.complete" :name="review.name" :inline="false")
                     button.btn(:class="'btn-dark'") Mark as {{ review.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks")
