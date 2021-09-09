@@ -152,7 +152,7 @@ export default {
       }
       try {
         await this.updateReviewCategory(data)
-        this.toast('Success', "Saved changes to annual review.")
+        this.toast('Success', "Internal review has been saved.")
         await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.toast('Error', error.message, true)
