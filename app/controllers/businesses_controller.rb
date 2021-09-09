@@ -35,7 +35,7 @@ class BusinessesController < ApplicationController
   #                          ':timezones': timezones_json).html_safe,
   #        layout: 'vue_onboarding'
 
-  # render html: content_tag('main-layoyt', '',
+  # render html: content_tag('main-layout', '',
   #                          ':industry-ids': Industry.all.map(&proc { |ind|
   #                                                               { id: ind.id,
   #                                                                 name: ind.name }

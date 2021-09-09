@@ -93,10 +93,6 @@
   export default {
     props: ['examUuid'],
     components: {Loading},
-    created() {
-      const uuid = window.location.pathname.split('/')[2]
-      if(uuid) this.reserveUuid = uuid
-    },
     data() {
       return {
         // userId: '',
@@ -125,7 +121,6 @@
         dismissCountDown: 0,
         showDismissibleAlert: false,
         dashboardLink: '',
-        reserveUuid: ''
       }
     },
     methods: {
@@ -148,7 +143,7 @@
         }
 
         const data = {
-          "uuid": this.examUuid ? this.examUuid : this.reserveUuid,
+          "uuid": this.examUuid,
           "email": this.form.email,
         }
 
@@ -187,7 +182,7 @@
         }
 
         const data = {
-          uuid: this.examUuid ? this.examUuid : this.reserveUuid,
+          uuid: this.examUuid,
           email: this.form.email,
           otp: this.form2.code
         }
@@ -249,7 +244,7 @@
       },
       resendOTP() {
         const data = {
-          "uuid": this.examUuid ? this.examUuid : this.reserveUuid,
+          "uuid": this.examUuid,
           "email": this.form.email,
         }
 

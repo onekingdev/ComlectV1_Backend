@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def new
-    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layout', '').html_safe, layout: 'vue_onboarding'
   end
 
   # GET /resource/sign_up

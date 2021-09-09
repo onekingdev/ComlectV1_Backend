@@ -44,6 +44,8 @@ import Profile from '@/business/profile/Page'
 import Settings from '@/business/settings/Page'
 import SettingsNotifications from '@/business/notifications/Page'
 import SpecialistsMarketplace from '@/business/marketplace/Page'
+import PageAuditorPortalExternalAccess from '@/business/exams/PageAuditorPortalExternalAccess'
+import PageAuditorPortalInternalAccess from '@/business/exams/PageAuditorPortalInternalAccess'
 
 // SPECIALISTS
 import DashboardS from '@/specialist/dashboard/Page'
@@ -130,7 +132,8 @@ export default new Router({
     },
     { path: '/business/settings/notification-center', name: 'settings-notification-center', component: SettingsNotifications },
     { path: '/specialistmarketplace', name: 'specialists-marketplace', component: SpecialistsMarketplace },
-
+    { path: '/exams/:examUuid(.{36})', component: PageAuditorPortalExternalAccess, props: true },
+    { path: '/business/exam_management/:examId(\\d+)/portal', component: PageAuditorPortalInternalAccess, props: paramsToInts(['examId']) },
 
     // SPECIALISTS
     { path: '/specialist', name: 'dashboard-specialist', component: DashboardS },

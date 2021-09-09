@@ -7,7 +7,7 @@ class Projects::TimesheetsController < ApplicationController
   before_action :find_project
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_specialist_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_specialist_layout'
   end
 
   def show

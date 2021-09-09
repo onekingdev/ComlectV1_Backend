@@ -33,7 +33,7 @@
                 .white-card-header
                   .reviews__card--internal.d-flex.justify-content-between.align-items-center.pt-0.m-b-20.p-4
                     h3 Requests
-                    a.btn.btn-default(:href="`/business/exam_management/${currentExam.id}/portal`") View Portal
+                    router-link.btn.btn-default(:to="`/business/exam_management/${currentExam.id}/portal`") View Portal
                 .white-card-body
                   .reviews__topiclist.px-4
                     .d-flex.justify-content-between.m-b-20

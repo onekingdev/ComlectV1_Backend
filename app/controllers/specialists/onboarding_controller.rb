@@ -22,7 +22,7 @@ class Specialists::OnboardingController < ApplicationController
   # end
 
   def index
-    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layout', '').html_safe, layout: 'vue_onboarding'
   end
 
   def subscribe

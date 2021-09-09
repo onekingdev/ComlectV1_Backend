@@ -5,18 +5,18 @@ class Business::AnnualReviewsController < ApplicationController
   before_action :require_business!
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show
-    render html: content_tag('main-layoyt',
+    render html: content_tag('main-layout',
                              '',
                              ':annual-id': params[:id])
       .html_safe, layout: 'vue_business_layout'
   end
 
   def revcat
-    render html: content_tag('main-layoyt',
+    render html: content_tag('main-layout',
                              '',
                              ':annual-id': params[:id],
                              ':revcat-id': params[:revcat])

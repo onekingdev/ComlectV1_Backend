@@ -5,6 +5,6 @@ class Business::SpecialistsController < ApplicationController
   before_action :require_business!
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 end

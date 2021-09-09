@@ -16,7 +16,7 @@ class Business::SettingsController < ApplicationController
     #                          ':contries': ISO3166::Country.all.collect(&:name).to_json,
     #                          ':user-id': current_user.id).html_safe, layout: 'vue_business'
 
-    render html: content_tag('main-layoyt', '',
+    render html: content_tag('main-layout', '',
                              ':states': State.fetch_all_usa.to_json,
                              ':timezones': timezones_array.to_json,
                              ':contries': ISO3166::Country.all.collect(&:name).to_json,

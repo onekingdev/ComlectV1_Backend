@@ -19,13 +19,18 @@
                     p.greeting-text__subtitle Click on the reqeust item below to view their contents and download any document
           .row
             .col
-              ExamReqeustsAuditorPortalExternal
+              ExamReqeustsAuditorPortalExternal(:examUuid="examUuid")
 </template>
 
 <script>
   import ExamReqeustsAuditorPortalExternal from "./components/ExamReqeustsAuditorPortalExternal";
   export default {
-    props: ['examId'],
+    props: {
+      examUuid: {
+        type: String,
+        required: true
+      }
+    },
     components: {ExamReqeustsAuditorPortalExternal},
   }
 </script>

@@ -4,7 +4,7 @@
       .col.text-center.px-0.position-relative
         .header-top.p-y-1
           p.mb-0: b Viewing Auditor's Portal
-            a.link.m-l-1(href="/business/exam_management/") Exit
+            router-link.link.m-l-1(to="/business/exam_management/") Exit
         .bg-black
     .row
       .col
@@ -28,7 +28,12 @@
   import Loading from '@/common/Loading/Loading'
   import ExamReqeustsAuditorPortalInternal from "./components/ExamReqeustsAuditorPortalInternal";
   export default {
-    props: ['examId'],
+    props: {
+      examId: {
+        type: Number,
+        required: true
+      }
+    },
     components: {Loading, ExamReqeustsAuditorPortalInternal},
     computed: {
       ...mapGetters({
@@ -45,7 +50,6 @@
     },
     async mounted () {
       try {
-        if(!this.examId) this.examId = 1;
         await this.getCurrentExam(this.examId)
           .then(response => response)
       } catch (error) {

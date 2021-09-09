@@ -6,15 +6,14 @@ class Business::ExamManagementController < ApplicationController
   before_action :require_business!
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show
-    render html: content_tag('main-layoyt', '', ':exam-id': params[:id].to_i).html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 
   def portal
-    render html: content_tag('business-exam-management-auditor-portal-show-page', '',
-                             ':exam-id': params[:id].to_i).html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layout', '').html_safe, layout: 'vue_onboarding'
   end
 end

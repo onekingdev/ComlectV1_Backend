@@ -13,7 +13,7 @@ class SpecialistsController < ApplicationController
   before_action :fetch_invitation, only: %i[new create]
 
   def index
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 
   def show
@@ -36,7 +36,7 @@ class SpecialistsController < ApplicationController
   # end
 
   def new
-    render html: content_tag('auth-layoyt', '').html_safe, layout: 'vue_onboarding'
+    render html: content_tag('auth-layout', '').html_safe, layout: 'vue_onboarding'
   end
 
   def create
