@@ -19,10 +19,13 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def download
-    @combined_policy_db.update(file_data: nil)
+    @cpolicy = @cpolicy.versions.first if @cpolicy.draft? && @cpolicy.untouched
     if current_business.compliance_policies.root_published.collect(&:id).include?(@cpolicy.id)
+      @combined_policy_db.update(file_data: nil)
       @cpolicy.update(pdf_data: nil)
-      PdfCompliancePolicyWorker.perform_async(@cpolicy.id)
+      PdfCompliancePolicyWorker.perform_async(@cpolicy.id, false)
+    elsif @cpolicy.pdf.nil?
+      PdfCompliancePolicyWorker.perform_async(@cpolicy.id, true)
     end
     respond_with status: :ok
   end
@@ -37,7 +40,7 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def download_all
     @combined_policy_db.update(file_data: nil)
-    PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.id)
+    PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.id, false)
     respond_with status: :ok
   end
 
