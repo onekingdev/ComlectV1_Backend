@@ -64,7 +64,7 @@
                               .reviews__checkbox-item.reviews__checkbox-item--false(@click="topicItem.checked = false" :class="{ 'checked': !topicItem.checked }")
                                 b-icon(icon="x")
                           .col-md-8.col-lg-8.col-xl-10.new-item-text
-                            textarea.reviews__input.reviews__topic-body(v-model="topicItem.body" placeholder="New Item")
+                            textarea-autosize.reviews__input.reviews__topic-body(v-model="topicItem.body" placeholder="New Item")
                           .col-md-2.col-lg-2.col-xl-1.text-right
                             b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                               template(#button-content)

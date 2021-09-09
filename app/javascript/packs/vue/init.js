@@ -33,6 +33,7 @@ import VueApexCharts from 'vue-apexcharts'
 import VueRouter from 'vue-router'
 import Loading from '@/common/Loading/Loading'
 import EmptyState from '@/common/EmptyState'
+import TextareaAutosize from 'vue-textarea-autosize'
 
 const data = () => ({
   isProfileMenuOpen: false
@@ -42,6 +43,7 @@ const init = configuration => {
   Vue.use(BootstrapVue)
   Vue.use(IconsPlugin)
   Vue.use(vueDebounce)
+  Vue.use(TextareaAutosize)
   Vue.use(VueApexCharts)
   Vue.use(VueRouter)
 
