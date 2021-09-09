@@ -10,6 +10,6 @@ class Business::FileFoldersController < ApplicationController
   end
 
   def show
-    render html: content_tag('main-layoyt', '').html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 end
