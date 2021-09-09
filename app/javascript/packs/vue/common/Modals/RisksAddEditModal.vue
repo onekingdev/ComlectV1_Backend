@@ -3,30 +3,30 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @show="newEtag")
+    b-modal.fade(:id="modalId" :title="riskId ? 'Edit risk' : 'New risk'" @close="hideModal" @show="newEtag")
       ModelLoader(:url="riskId ? submitUrl : undefined" :default="initialrisk" :etag="etag" @loaded="loadrisk")
 
-        //b-form-group#input-group-1(label='Risk' label-for='select-1')
-        //  b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)
-        //  Errors(:errors="errors.risk")
+        b-form-group#input-group-1.form-label.mb-3(v-if="showRiskOption" label='Risk' label-for='select-1')
+          b-form-select#select-1(v-model='risk.risks' :options='options' @change="onChange" required)
+          Errors(:errors="errors.risk")
 
         b-row(no-gutters)
           .col
             label.form-label Risk Name
-            input.form-control(v-model="risk.name" type=text placeholder="Enter the name of your risk")
+            input.form-control(v-model="risk.name" type=text)
             Errors(:errors="errors.name")
 
         b-row.m-t-1(no-gutters)
           .col-sm.m-r-1
-            b-form-group#input-group-2(label='Impact' label-for='select-2')
+            b-form-group#input-group-2.form-label(label='Impact' label-for='select-2')
               b-form-select#select-2(v-model="risk.impact" :errors="errors.impact" :options="levelOptions" @change="onRiskChange")
               Errors(:errors="errors.impact")
           .col-sm
-            b-form-group#input-group-3(label='Likelihood' label-for='select-3')
+            b-form-group#input-group-3.form-label(label='Likelihood' label-for='select-3')
               b-form-select#select-3(v-model="risk.likelihood" :errors="errors.likelihood" :options="levelOptions" @change="onRiskChange")
               Errors(:errors="errors.likelihood")
 
-        b-row(no-gutters)
+        b-row.mt-2(no-gutters)
           .col
             label.form-label Risk Level
             div
@@ -34,7 +34,7 @@
               | {{ riskLevelName }}
 
       template(slot="modal-footer")
-        button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
+        button.btn.btn-link(@click="hideModal()") Cancel
         button.btn.btn-dark(@click="submit") {{ riskId ? 'Save' : 'Add' }}
 </template>
 
@@ -55,6 +55,7 @@ const initialrisk = () => ({
 export default {
   mixins: [EtaggerMixin()],
   props: {
+    id: String,
     risks: Array,
     riskId: Number,
     remindAt: String,
@@ -64,12 +65,15 @@ export default {
     },
     risksList: Array,
     policyId: Number,
+    showRiskOption: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
-      modalId: `modal_${rnd()}`,
+      modalId: this.id || `modal_${rnd()}`,
       risk: initialrisk(),
-      errors: [],
       isActive: false,
       options: [
         { value: null, text: 'New Risk' },
@@ -85,14 +89,16 @@ export default {
     }
   },
   methods: {
+    hideModal() {
+      this.errors = {}
+      this.$bvModal.hide(this.modalId)
+    },
     loadrisk(risk) {
-      //console.log('risk', risk)
-      //console.log('this.risk', this.risk)
       this.risk = Object.assign({}, this.risk, risk)
       this.onRiskChange()
 
-      // this.options = [{ value: null, text: 'New Risk' }]
-      // this.options = this.options.concat(this.risksComputedAsOptions)
+      this.options = [{ value: null, text: 'New Risk' }]
+      this.options = this.options.concat(this.risksComputedAsOptions)
     },
     submit(e) {
       e.preventDefault()
@@ -115,15 +121,16 @@ export default {
       this.$store
         .dispatch(method, {...this.risk})
         .then(response => {
-          //console.log('response', response)
           if (response.errors) {
-
+            const text = method === 'createRisk' ? 'Risk has not been created. Please try again.' : 'Risk has not been updated. Please try again.'
+            this.toast('Error', text)
           } else {
             if (method == 'createRisk') {
               this.toast('Success', 'Risk has been created.')
             } else {
               this.toast('Success', 'Risk has been updated.')
             }
+            this.$emit('saved', response)
             this.$bvModal.hide(this.modalId)
             this.newEtag()
           }
@@ -132,26 +139,24 @@ export default {
           console.error(error)
           this.toast('Error', `Risk has not been created. Please try again. ${error}`, true)
         })
-
-      // this.$emit('saved', this.risk)
     },
-    // onChange(event){
-    //   // CATCH RISK NEW OR FROM CREATED
-    //   if (event === null) {
-    //     this.isActive = true
-    //     this.risk = initialrisk()
-    //     this.badgeVariant = 'secondary'
-    //     this.riskLevelName = '---'
-    //     return;
-    //   }
-    //   else  {
-    //     this.isActive = false
-    //   }
-    //
-    //   const resultRisk = this.risks.find(risk => risk.id === event)
-    //   this.risk = resultRisk
-    //   this.onRiskChange()
-    // },
+    onChange(event){
+      // CATCH RISK NEW OR FROM CREATED
+      if (event === null) {
+        this.isActive = true
+        this.risk = initialrisk()
+        this.badgeVariant = 'secondary'
+        this.riskLevelName = '---'
+        return;
+      }
+      else  {
+        this.isActive = false
+      }
+
+      const resultRisk = this.risks.find(risk => risk.id === event)
+      this.risk = resultRisk
+      this.onRiskChange()
+    },
     onRiskChange(){
       const riskLevelNum = this.riskLevel(this.risk.likelihood, this.risk.impact)
       this.riskLevelColor(riskLevelNum)

@@ -14,7 +14,7 @@
 <script>
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import RisksTable from './RisksTable'
-  import RisksAddEditModal from './Modals/RisksAddEditModal'
+  import RisksAddEditModal from '@/common/Modals/RisksAddEditModal'
 
   export default {
     mixins: [EtaggerMixin()],

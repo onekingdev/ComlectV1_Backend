@@ -3,7 +3,7 @@
     h3.policy-details__title Risks
     .policy-actions
       //button.btn.btn.btn-default.mr-3 Download
-      PolicyRisksModal(:risks="risksComputed" :policyId="policyId" @saved="savedConfirmed")
+      PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :showRiskOption="true" @saved="savedConfirmed")
         button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") Add Risk
     .policy-details__body
       table.table
@@ -35,9 +35,9 @@
                 b-dropdown(size="sm" variant="light" class="m-0 p-0" right)
                   template(#button-content)
                     b-icon(icon="three-dots")
-                  PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :riskId="risk.id" :inline="false")
-                    b-dropdown-item-button Edit
+                  b-dropdown-item-button(@click="editRisk(risk.id)") Edit
                   b-dropdown-item-button.delete(@click="deleteRisk(risk.id)") Delete
+      PolicyRisksModal(id="editRiskModal" v-bind="nowEditingRisk" :risks="risksComputed" :policyId="policyId" :inline="false" :showRiskOption="true" @saved="updateRisk")
       Loading
       EmptyState(v-if="!loading && policyById.risks && !policyById.risks.length")
 </template>
@@ -46,7 +46,7 @@
   // @TODO REVIEW STRUCTURE AND REBUILD
 
   import Loading from '@/common/Loading/Loading'
-  import PolicyRisksModal from '../Modals/Risks/PolicyRisksModal'
+  import PolicyRisksModal from '@/common/Modals/RisksAddEditModal'
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import { DateTime } from 'luxon'
 
@@ -73,6 +73,9 @@
     data() {
       return {
         levelOptions: ['Low', 'Medium', 'High'],
+        nowEditingRisk: {
+          riskId: null,
+        }
       }
     },
     methods: {
@@ -97,6 +100,14 @@
         if (date.invalid) {
           return value
         }
+      },
+      editRisk(riskId) {
+        Object.assign(this.nowEditingRisk, { riskId })
+        this.$nextTick(() => this.$bvModal.show('editRiskModal'))
+      },
+      updateRisk(value) {
+        const index = this.policyById.risks.findIndex(risk => risk.id === value.id)
+        if (index > -1) this.$set(this.policyById.risks, index, value)
       },
       deleteRisk(riskId) {
         const riskById = this.$store.getters.riskById(riskId)

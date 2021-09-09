@@ -79,7 +79,7 @@
 
 <script>
   import Loading from '@/common/Loading/Loading'
-  import RisksAddEditModal from './Modals/RisksAddEditModal'
+  import RisksAddEditModal from '@/common/Modals/RisksAddEditModal'
   import EtaggerMixin from '@/mixins/EtaggerMixin'
   import { DateTime } from 'luxon'
 

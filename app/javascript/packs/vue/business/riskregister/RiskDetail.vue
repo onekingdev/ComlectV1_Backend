@@ -61,7 +61,7 @@
 <script>
   import Loading from '@/common/Loading/Loading'
   import RiskModalDelete from "./Modals/RiskModalDelete";
-  import RisksAddEditModal from './Modals/RisksAddEditModal'
+  import RisksAddEditModal from '@/common/Modals/RisksAddEditModal'
   import RiskContols from './Modals/RiskContols'
   import PoliciesTable from './PoliciesTable'
 
