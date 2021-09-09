@@ -4,7 +4,7 @@
     .policy-actions
       //button.btn.btn.btn-default.mr-3 Download
       PolicyRisksModal(:risks="risksComputed" :policyId="policyId" :showRiskOption="true" @saved="savedConfirmed")
-        button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") Add Risk
+        button.btn.btn-dark(v-if="!currentUserBasic && !policy.archived") New Risk
     .policy-details__body
       table.table
         thead

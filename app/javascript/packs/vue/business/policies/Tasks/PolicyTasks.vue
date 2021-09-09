@@ -3,7 +3,7 @@
     h3.policy-details__title Tasks
     .policy-actions
       TaskFormModal(:defaults="taskDefaults" v-if="!currentUserBasic && !policy.archived" @saved="$emit('saved')")
-        button.btn.btn-dark Add Task
+        button.btn.btn-dark New Task
     .policy-details__body
       table.table
         thead
