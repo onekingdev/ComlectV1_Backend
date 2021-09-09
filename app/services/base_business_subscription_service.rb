@@ -173,7 +173,7 @@ class BaseBusinessSubscriptionService < ApplicationService
   end
 
   def free_seat_count
-    new_plan.include?('business_tier_') ? 10 : 3
+    new_plan.include?('business_tier_') ? 9 : 2
   end
 
   def create_seats(subscription, seat_count)
