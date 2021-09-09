@@ -12,7 +12,7 @@ class PdfCompliancePolicyWorker
   def perform(policy_id)
     cpolicy = CompliancePolicy.find(policy_id)
     not_edited = cpolicy.business.compliance_policies.root_published.select { |n| n.edited_at.nil? }
-    not_edited.each { |ne| ne.update_attribute(edited_at: ne.updated_at) }
+    not_edited.each { |ne| ne.update_attribute('edited_at', ne.updated_at) }
     combined_policy_db = cpolicy.business.combined_policy.presence ||
                          CombinedPolicy.create(business_id: cpolicy.business.id)
     cpolicy.update(pdf: nil)
