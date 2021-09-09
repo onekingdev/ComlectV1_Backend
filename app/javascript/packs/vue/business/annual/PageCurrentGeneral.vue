@@ -128,7 +128,8 @@
                         //    | Add Entry
                 .d-flex.justify-content-end.m-t-20
                   button.btn.btn-default.m-r-1(@click="saveGeneral()") Save
-                  AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="review.complete" :name="review.name" :inline="false")
+                  button.btn(v-if="review.complete" :class="'btn-dark'" @click="markComplete") Mark as Incomplete
+                  AnnualModalComplite(v-else @compliteConfirmed="markComplete", :completedStatus="review.complete" :name="review.name" :inline="false")
                     button.btn(:class="'btn-dark'") Mark as {{ review.complete ? 'Incomplete' : 'Complete' }}
       b-tab(title="Tasks")
         Get(:reviewModel="`/api/business/annual_reports/${annualId}`" :etag="tasksEtag"): template(v-slot="{ reviewModel }")
@@ -320,10 +321,6 @@ export default {
                 this.errors = Object.assign(this.errors, { [key]: value })
               }
               return
-            }
-
-            if (!response.errors) {
-              this.toast('Success', "Saved changes to internal review.")
             }
           })
           .catch((error) => console.error(error))

@@ -9,7 +9,7 @@
       .page-header__actions
         div
           button.btn.btn-default.mr-3.d-none Download
-          button.btn.btn-dark.mr-3(@click="saveGeneral(true)") Save and Exit
+          button.btn.btn-dark.mr-3(@click="saveAndExit()") Save and Exit
           button.btn.btn__close(@click="backToList")
             b-icon(icon="x")
 
@@ -83,8 +83,9 @@
                       | New Topic
                     .d-flex.justify-content-end
                       button.btn.btn-default.mr-2(@click="saveCategory") Save
-                      AnnualModalComplite(@compliteConfirmed="markComplete", :completedStatus="currentCategory.complete" :name="currentCategory.name" :inline="false")
-                        button.btn(:class="'btn-dark'") Mark as {{ currentCategory.complete ? 'Incomplete' : 'Complete' }}
+                      button.btn(v-if="currentCategory.complete" :class="'btn-dark'" @click="markComplete") Mark as Incomplete
+                      AnnualModalComplite(v-else @compliteConfirmed="markComplete", :completedStatus="currentCategory.complete" :name="currentCategory.name" :inline="false")
+                        button.btn(:class="'btn-dark'") Mark as complete
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")
@@ -166,7 +167,8 @@ export default {
       }
       try {
         await this.updateReviewCategory(data)
-        this.toast('Success', "Saved changes to annual review.")
+        const text = data.complete ? 'complete' : 'incomplete'
+        this.toast('Success', `Category has been marked as ${text}.`)
         await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.toast('Error', error.message, true)
@@ -219,8 +221,9 @@ export default {
     },
     saveAndExit() {
       this.saveCategory()
-      //window.location.href = `${window.location.origin}/business/annual_reviews/`
-      this.$router.push(`/business/annual_reviews`)
+      setTimeout(() => {
+        this.$router.push(`/business/annual_reviews`)
+      }, 3000)
     },
     deleteReview(reviewId){
       this.$store.dispatch('annual/deleteReview', { id: reviewId })
