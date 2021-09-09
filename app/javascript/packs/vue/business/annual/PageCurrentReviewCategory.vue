@@ -85,7 +85,7 @@
                       button.btn.btn-default.mr-2(@click="saveCategory") Save
                       button.btn(v-if="currentCategory.complete" :class="'btn-dark'" @click="markComplete") Mark as Incomplete
                       AnnualModalComplite(v-else @compliteConfirmed="markComplete", :completedStatus="currentCategory.complete" :name="currentCategory.name" :inline="false")
-                        button.btn(:class="'btn-dark'") Mark as complete
+                        button.btn(:class="'btn-dark'") Mark as Complete
       b-tab(title="Tasks")
         PageTasks
       b-tab(title="Documents")
