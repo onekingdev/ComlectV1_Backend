@@ -5,21 +5,7 @@ class Business::SettingsController < ApplicationController
 
   before_action :require_business!
 
-  # def show
-  #   @user = current_user
-  # end
-
   def show
-    # render html: content_tag('business-settings-page', '',
-    #                          ':states': State.fetch_all_usa.to_json,
-    #                          ':timezones': timezones_json,
-    #                          ':contries': ISO3166::Country.all.collect(&:name).to_json,
-    #                          ':user-id': current_user.id).html_safe, layout: 'vue_business'
-
-    render html: content_tag('main-layout', '',
-                             ':states': State.fetch_all_usa.to_json,
-                             ':timezones': timezones_array.to_json,
-                             ':contries': ISO3166::Country.all.collect(&:name).to_json,
-                             ':user-id': current_user.id).html_safe, layout: 'vue_business_layout'
+    render html: content_tag('main-layout', '').html_safe, layout: 'vue_business_layout'
   end
 end
