@@ -543,7 +543,7 @@ export default {
             });
             if (success) {
               const data = success.data
-              commit('ADD_AUDITOR_CURRENT_EXAM', data)
+              if (!data.errors) commit('ADD_AUDITOR_CURRENT_EXAM', data)
               return data
             }
             if (!success) {

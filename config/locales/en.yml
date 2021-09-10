@@ -56,6 +56,10 @@ en:
         email: Invalid email address
         url: Invalid entry
       models:
+        exam_auditor:
+          attributes:
+            email:
+              taken: 'Email address already invited'
         user:
           attributes:
             email:

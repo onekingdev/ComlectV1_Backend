@@ -6,42 +6,31 @@
     b-modal.fade(:id="modalId" title="Share Exam" hide-footer)
       .row(v-if="!show")
         .col.text-center
-          h4 Exam not complited yet. Are you sure?
+          p Exam is not completed yet. Are you sure want to share link?
           .d-flex.justify-content-center
             button.btn.mr-2(@click="$bvModal.hide(modalId)") No
             button.btn.btn-dark(@click="approveHandle") Yes
       .row(v-if="show")
-        .col-10.m-b-2.pr-0
+        .col-12.m-b-1
           label.form-label Email
-          input.form-control(v-model="exam.email" type="email" placeholder="Enter the email" ref="input" @keyup="onChange")
+          .input-group
+            input.form-control(v-model="exam.email" type="email" ref="input" @keyup="onChange")
+            .input-group-append
+              button.btn.btn-dark(@click="invite") Send
           Errors(:errors="errors.email")
-        .col.pl-0.text-right
-          label.form-label__hidden Send
-          button.btn.btn-dark(@click="invite") Send
       .row
         .col
-          table.table.task_table(v-if="examAuditors && examAuditors.length")
+          table.table(v-if="examAuditors && examAuditors.length")
             thead
               tr
                 th(width="70")
-                  .d-inline
-                    | Name
-                    b-icon.ml-2(icon='chevron-expand')
-                th
+                  .d-inline Invited
                 th.text-right
             tbody
               tr(v-for="auditor in examAuditors" :key="auditor.id")
-                td(width="55")
-                  UserAvatar(:user="specialist")
-                td
-                  p.mb-1: b name {{ auditor.name }}
-                  p.mb-0 {{ auditor.email }}
+                td.auditor-email {{ auditor.email }}
                 td.text-right
-                  b-dropdown.actions.float-right(size="sm" variant="default" class="mt-1 p-0" right)
-                    template(#button-content)
-                      | Actions
-                      b-icon.ml-1(icon="chevron-down")
-                    b-dropdown-item.delete(@click="unIinvite(auditor.id, auditor.email)") Delete
+                  b-icon.remove-btn(icon="x" @click="unIinvite(auditor.id, auditor.email)")
 
       template(slot="modal-footer" footer-class="d-none")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
@@ -52,6 +41,7 @@
   import Errors from '@/common/Errors'
   import UserAvatar from '@/common/UserAvatar'
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
+  const EMAIL_FORMAT = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
   export default {
     props: {
@@ -111,9 +101,14 @@
       },
       async invite(e) {
         e.preventDefault();
-
+        this.errors = {}
         if (!this.exam.email) {
-          this.toast('Error', `Please check all fields!`, true)
+          this.errors = { email: ["Required field"] }
+          return
+        }
+
+        if(!EMAIL_FORMAT.test(this.exam.email)) {
+          this.errors = { email: ["Invalid email address"] }
           return
         }
 
@@ -125,18 +120,15 @@
         try {
           await this.$store.dispatch('exams/sendInvite', data)
             .then(response => {
-              if(response.errors) {
+              if(response.errors && Object.keys(response.errors)) {
                 for (const [key, value] of Object.entries(response.errors)) {
-                  this.toast('Error', `${key}: ${value}`, true)
-                  this.errors = Object.assign(this.errors, { [key]: value })
+                  this.$set(this.errors, key, value)
                 }
               }
 
               if(!response.errors) {
-                this.toast('Success', `Invite successfully sended!`)
-                // this.$emit('saved')
-                // this.$bvModal.hide(this.modalId)
-                // this.resetForm()
+                this.toast('Success', `Invitation has been sent.`)
+                this.exam.email = ''
               }
             })
             .catch(error => console.error(error))
@@ -164,10 +156,7 @@
               }
 
               if(!response.errors) {
-                this.toast('Success', `Invite successfully removed!`)
-                // this.$emit('saved')
-                // this.$bvModal.hide(this.modalId)
-                // this.resetForm()
+                this.toast('Success', `Invitation has been revoked.`)
               }
             })
             .catch(error => console.error(error))
@@ -201,28 +190,33 @@
 </script>
 
 <style scoped>
+  .remove-btn {
+    font-size: 20px;
+    cursor: pointer;
+  }
+
   .form-label__hidden {
     opacity: 0;
   }
 
-  table, tr td {
-    /*border: 1px solid red*/
+  .auditor-email {
+    width: 80% !important;
   }
+
   tbody {
     display: block;
     max-height: 20rem;
     overflow: auto;
   }
+
   thead, tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;/* even columns width , fix width of table too*/
   }
+  
   thead {
     width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
-  }
-  table {
-    /*width: 400px;*/
   }
 
   tbody::-webkit-scrollbar {
@@ -232,9 +226,11 @@
   tbody::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-image: -webkit-gradient(linear, left bottom, left top, from(#a8a8a8), to(#a8a8a8));
-    background-image: linear-gradient(to top, #1B1C29, #2E304F); }
+    background-image: linear-gradient(to top, #1B1C29, #2E304F); 
+  }
 
   tbody::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px; }
+    border-radius: 5px;
+  }
 </style>

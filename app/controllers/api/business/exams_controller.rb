@@ -24,7 +24,7 @@ class Api::Business::ExamsController < ApiController
   end
 
   def invite
-    auditor = @exam.exam_auditors.create(email: params[:email]) if @exam.exam_auditors.where(email: params[:email]).count.zero?
+    auditor = @exam.exam_auditors.create(email: params[:email])
     if auditor.persisted?
       ExamAuditorMailer.invite_auditor(@exam, auditor, current_business).deliver
       respond_with auditor, serializer: ExamAuditorSerializer
