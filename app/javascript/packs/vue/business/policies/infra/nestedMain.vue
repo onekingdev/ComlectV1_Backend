@@ -394,8 +394,8 @@
         this.$store
           .dispatch('archivePolicyById', { policyId, archived: archiveStatus })
           .then(response => {
-            //console.log('response', response)
-            this.toast('Success', `Policy successfully ${archiveStatus ? 'archived' : 'unarchived'}!`)
+            this.$store.commit('updatePolicy', response)
+            this.toast('Success', `Policy has been ${archiveStatus ? 'archived' : 'unarchived'}!`)
           })
           .catch(error => {
             console.error(error)

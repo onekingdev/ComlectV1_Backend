@@ -78,8 +78,9 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def update
-    return respond_with error: 'Cannot edit published policy' if @cpolicy.published?
-    return respond_with error: 'Cannot edit archived policy' if @cpolicy.archived?
+    return respond_with error: 'Cannot edit published policy' if @cpolicy.published? && params[:archived].nil?
+    return respond_with error: 'Cannot edit archived policy' if @cpolicy.archived? && params[:archived].nil?
+
     if @cpolicy.update(cpolicy_params.merge(untouched: false, edited_at: Time.now.in_time_zone(current_business.time_zone)))
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
