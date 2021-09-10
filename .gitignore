@@ -16,7 +16,7 @@
 !/log/.keep
 /tmp
 
-# Ignore local Postgres files, but keep folder
+# Ignore local Postgres files
 /postgres/*
 
 # Ignore locally uploaded files
