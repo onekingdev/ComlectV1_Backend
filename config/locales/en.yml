@@ -251,6 +251,7 @@ en:
       wrong_auditor_email: 'Access has not been granted. Please check the email address.'
       otp_timeout: 'Timeout'
       too_many_fails: 'Access denied. Too many failed attempts.'
+      complete: 'Access denied. Exam has been already completed.'
     otp_secrets:
       otp_sent: 'A one time passcode has been sent to your email.'
     passwords:

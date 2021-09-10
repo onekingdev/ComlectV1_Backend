@@ -7,10 +7,10 @@
       .row
         .col
           p.paragraph Marking the exam as complete will disable any links to access your requests.
-          p.paragraph You currrently have:
+          p.paragraph You currently have:
           p.paragraph
-            span.text-success {{ countCompleted }}&nbsp;
-            | Reqeusts Complited
+            b.text-success {{ countCompleted }}&nbsp;
+            | Requests Completed
           p.paragraph: b Do you want to continue?
 
       Errors(:errors="errors.title")

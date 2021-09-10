@@ -34,6 +34,7 @@ class Api::ExamsController < ApiController
 
   def find_exam
     @exam = Exam.find_by(share_uuid: params[:uuid])
+    return respond_with error: I18n.t('api.exams.complete') if @exam.complete
   end
 
   def find_auditor

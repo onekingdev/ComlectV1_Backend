@@ -5,10 +5,14 @@
         h3.page-header__breadcrumbs Regulatory Exams
         h2.page-header__title {{ currentExam ? currentExam.name : '' }}
       .page-header__actions
-        ExamModalShare.mr-3(v-if="currentExam && plan !=='team'" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="currentExam.complete")
+        ExamModalShare.mr-3(v-if="currentExam && plan !=='team' && !currentExam.complete" :examId="currentExam.id" :examAuditors="currentExam.exam_auditors" :examStatus="currentExam.complete")
           a.btn.btn-link Share Link
-        ExamModalComplite.mr-3(v-if="currentExam" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
-          button.btn.btn-default Mark as {{ currentExam.complete ? 'Incomplete' : 'Complete' }}
+        
+        ExamModalComplite.mr-3(v-if="currentExam && !currentExam.complete" @compliteConfirmed="markCompleteExam", :completedStatus="currentExam.complete", :countCompleted="countCompleted" :inline="false")
+          button.btn.btn-default Mark as Complete
+        button.btn.btn-default(v-else-if="currentExam" @click="markCompleteExam") Mark as Incomplete
+        
+        
         button.btn.btn-dark.mr-3(v-if="currentExam && !currentExam.complete" @click="saveAndExit") Save and Exit
         button.btn.btn__close(@click="exit")
           b-icon(icon="x")
@@ -33,7 +37,7 @@
                 .white-card-header
                   .reviews__card--internal.d-flex.justify-content-between.align-items-center.pt-0.m-b-20.p-4
                     h3 Requests
-                    router-link.btn.btn-default(:to="`/business/exam_management/${currentExam.id}/portal`") View Portal
+                    router-link.btn.btn-default(:to="`/business/exam_management/${currentExam.id}/portal`" v-if="currentExam && !currentExam.complete") View Portal
                 .white-card-body
                   .reviews__topiclist.px-4
                     .d-flex.justify-content-between.m-b-20
@@ -269,7 +273,7 @@
         }
         try {
           await this.updateExam(data)
-            .then(response => this.toast('Success', "Exam has been saved"))
+            .then(response => this.toast('Success', `Exam has been marked as ${!this.currentExam.complete ? 'in' : ''}complete.`))
             .catch(error => this.toast('Error', error.message, true))
         } catch (error) {
           this.toast('Error', error.message, true)
