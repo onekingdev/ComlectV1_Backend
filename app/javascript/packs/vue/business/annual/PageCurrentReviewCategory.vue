@@ -96,7 +96,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex"
-import { VueEditor } from "vue2-editor"
 import ReviewsList from "./components/ReviewsList";
 import AnnualModalComplite from './modals/AnnualModalComplite'
 import AnnualModalEdit from './modals/AnnualModalEdit'
@@ -111,7 +110,6 @@ export default {
   props: ['annualId', 'revcatId'],
   components: {
     ReviewsList,
-    VueEditor,
     AnnualModalComplite,
     AnnualModalEdit,
     AnnualModalDelete,

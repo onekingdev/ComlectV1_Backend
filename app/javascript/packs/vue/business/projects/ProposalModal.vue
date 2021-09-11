@@ -55,7 +55,7 @@
             .col
               .card-body.p-3.position-relative
                 label.form-label Comment
-                VueEditor(v-model="message.comment" :editor-toolbar="customToolbar" placeholder="Make a comment or leave a note...")
+                Tiptap(v-model="message.comment" placeholder="Make a comment or leave a note...")
                 button.btn.btn-dark.save-comment-btn Send
 
     template(#modal-footer="{ ok, cancel, hide }")
@@ -69,7 +69,7 @@ import SpecialistDetails from './SpecialistDetails'
 import { redirectWithToast } from '@/common/Toast'
 import { FIXED_PAYMENT_SCHEDULE_OPTIONS } from '@/common/ProjectInputOptions'
 
-import { VueEditor } from "vue2-editor";
+import Tiptap from '@/common/Tiptap'
 import StarsRating from "@/business/marketplace/components/StarsRating";
 import Messages from '@/common/Messages'
 
@@ -100,12 +100,6 @@ export default {
       messages: [],
       // messages: [{"id":42,"sender":{"first_name":"First","last_name":"Business","photo":null},"recipient":null,"message":"\u003cp\u003ewqewqe\u003c/p\u003e","file_data":null,"created_at":"2021-08-25T06:48:06.742Z"},{"id":41,"sender":{"first_name":"First","last_name":"Business","photo":null},"recipient":null,"message":"\u003cp\u003eqewqeqwe\u003c/p\u003e","file_data":null,"created_at":"2021-08-25T06:39:32.441Z"}],
       errors: {},
-      customToolbar: [
-        ["bold", "italic", "underline"],
-        ["blockquote"],
-        [{ list: "bullet" }],
-        ["link"]
-      ],
       files: null
     }
   },
@@ -116,7 +110,7 @@ export default {
   },
   components: {
     SpecialistDetails,
-    VueEditor,
+    Tiptap,
     StarsRating,
     Messages,
   }

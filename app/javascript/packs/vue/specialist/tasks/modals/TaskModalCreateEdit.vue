@@ -107,7 +107,7 @@
               .col
                 .card-body.p-20.position-relative
                   label.form-label Comment
-                  VueEditor(v-model="task.comment" :editor-toolbar="customToolbar")
+                  Tiptap(v-model="task.comment")
                   button.btn.btn-primary.save-comment-btn(@click="sendMessage(task)") Send
 
       template(v-if="!taskProp" slot="modal-footer")
@@ -143,7 +143,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex"
 import { DateTime } from 'luxon'
-import { VueEditor } from "vue2-editor"
+import Tiptap from '@/common/Tiptap'
 
 import { splitReminderOccurenceId } from '@/common/TaskHelper'
 import ComboBox from '@/common/ComboBox'
@@ -227,7 +227,7 @@ export default {
     remindAt: String
   },
   components: {
-    VueEditor,
+    Tiptap,
     ComboBox,
     Messages,
     Errors,
@@ -237,12 +237,6 @@ export default {
       modalId: this.id || `modal_${rnd()}`,
       task: initialTask(),
       errors: [],
-      customToolbar: [
-        ["bold", "italic", "underline"],
-        ["blockquote"],
-        [{ list: "bullet" }],
-        ["link"]
-      ],
     }
   },
   methods: {

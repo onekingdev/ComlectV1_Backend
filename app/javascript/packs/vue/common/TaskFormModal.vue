@@ -115,7 +115,7 @@
               .col
                 .card-body.p-20.position-relative
                   label.form-label Comment
-                  VueEditor(v-model="message.message" :editor-toolbar="editorToolbar")
+                  Tiptap(v-model="message.message")
                   Errors(:errors="messageErrors.message")
                   Post(:action="`/api/reminders/${taskId}/messages`" :model="{ message }" @errors="messageErrors = $event" @saved="messageSaved")
                     button.btn.btn-primary.save-comment-btn Send
@@ -152,7 +152,7 @@
 import { DateTime } from 'luxon'
 import { splitReminderOccurenceId } from '@/common/TaskHelper'
 import Messages from '@/common/Messages'
-import { VueEditor } from "vue2-editor"
+import Tiptap from '@/common/Tiptap'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
 import TaskDeleteConfirmModal from './TaskDeleteConfirmModal'
 
@@ -355,7 +355,7 @@ export default {
   },
   components: {
     Messages,
-    VueEditor,
+    Tiptap,
     TaskDeleteConfirmModal,
   }
 }

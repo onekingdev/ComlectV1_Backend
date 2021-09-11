@@ -105,7 +105,7 @@
               .col
                 .card-body.p-3.position-relative
                   label.form-label Comment
-                  VueEditor(v-model="message.comment" :editor-toolbar="customToolbar" placeholder="Make a comment or leave a note...")
+                  Tiptap(v-model="message.comment" placeholder="Make a comment or leave a note...")
                   button.btn.btn-dark.save-comment-btn Send
 
       template(slot="modal-footer")
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-  import { VueEditor } from "vue2-editor";
+  import Tiptap from '@/common/Tiptap'
   const rnd = () => Math.random().toFixed(10).toString().replace('.', '')
   export default {
     props: {
@@ -129,7 +129,7 @@
       },
     },
     components: {
-      VueEditor,
+      Tiptap,
     },
     data() {
       return {
@@ -138,12 +138,6 @@
           comment: ''
         },
         errors: {},
-        customToolbar: [
-          ["bold", "italic", "underline"],
-          ["blockquote"],
-          [{ list: "bullet" }],
-          ["link"]
-        ],
         files: null
       }
     },

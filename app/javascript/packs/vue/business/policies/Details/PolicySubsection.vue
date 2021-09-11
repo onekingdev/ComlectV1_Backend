@@ -18,7 +18,7 @@
               b-dropdown-item.delete Delete
       .policy-details__name.mb-0 Description
       .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="section.description ? section.description : description")
-      vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="section.description", @blur="handleBlur")
+      Tiptap.policy-details__text-editor(v-if="toggleVueEditor", v-model="section.description", @blur="handleBlur")
       div(v-if="section.children && section.children.length > 0")
         PolicySubsection(
         v-for="(child, subIndex) in section.children"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { VueEditor } from "vue2-editor";
+  import Tiptap from '@/common/Tiptap'
   import PoliciesModalRemoveSubsection from "../Modals/PoliciesModalRemoveSubsection"
 
   export default {
@@ -57,7 +57,7 @@
       }
     },
     components: {
-      VueEditor,
+      Tiptap,
       PoliciesModalRemoveSubsection,
     },
     data() {

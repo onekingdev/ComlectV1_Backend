@@ -60,7 +60,7 @@
                                 input.policy-details__input(v-model="policy.title")
                               .policy-details__name Description
                               .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
-                              vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
+                              Tiptap.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
                         HistoryPolicy(:policy="policy")
                       // b-tab(title="Risks")
                       //   PolicyRisks(:policyId="policy.id")
@@ -73,7 +73,7 @@
 <script>
   import nestedDraggable from "./infra/nestedMain";
   import rawdisplayer from "./infra/raw-displayer";
-  import { VueEditor } from "vue2-editor";
+  import Tiptap from '@/common/Tiptap'
   import SubsectionPolicy from "./Details/PolicySubsection";
   import HistoryPolicy from "./Details/PolicyHistory";
   import PolicyRisks from "./Risks/PolicyRisks";
@@ -93,7 +93,7 @@
     components: {
       nestedDraggable,
       rawdisplayer,
-      VueEditor,
+      Tiptap,
       SubsectionPolicy,
       HistoryPolicy,
       PolicyRisks,

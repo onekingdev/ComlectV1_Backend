@@ -54,7 +54,7 @@
                                 input.policy-details__input(v-model="policy.title")
                               .policy-details__name Description
                               .policy-details__text-editor(@click="toggleVueEditorHandler", v-if="!toggleVueEditor", v-b-tooltip.hover.left title="Click to edit text", v-html="policy.description ? policy.description : description")
-                              vue-editor.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
+                              Tiptap.policy-details__text-editor(v-if="toggleVueEditor", v-model="policy.description", @blur="handleBlur")
                               button.policy-details__btn.mr-3.btn.btn-default(v-if="policy.sections.length === 0" @click="addSection($event, policy.id)")
                                 b-icon.mr-2(icon='plus-circle-fill')
                                 | Add Section
@@ -73,7 +73,7 @@
 <script>
   import nestedDraggable from "../infra/nestedMain";
   import rawdisplayer from "../infra/raw-displayer";
-  import { VueEditor } from "vue2-editor";
+  import Tiptap from '@/common/Tiptap'
   import SubsectionPolicy from "./PolicySubsection";
   import HistoryPolicy from "./PolicyHistory";
   import PolicyRisks from "../Risks/PolicyRisks";
@@ -87,7 +87,7 @@
     components: {
       nestedDraggable,
       rawdisplayer,
-      VueEditor,
+      Tiptap,
       SubsectionPolicy,
       HistoryPolicy,
       PolicyRisks,
