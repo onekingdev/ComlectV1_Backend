@@ -47,11 +47,11 @@
                   .row
                     .col-6
                       label.form-label Start Date
-                      DatePicker(v-model="review.review_start")
+                      b-form-datepicker(v-model="review.review_start" :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }" locale="en")
                       Errors(:errors="errors.review_start")
                     .col-6
                       label.form-label End Date
-                      DatePicker(v-model="review.review_end")
+                      b-form-datepicker(v-model="review.review_end" :date-format-options="{ year: 'numeric', month: '2-digit', day: '2-digit' }" locale="en")
                       Errors(:errors="errors.review_end")
                 .reviews__card--internal
                   .row
@@ -69,16 +69,17 @@
                         b Material Regulatory Changes
                       p List any regulatory changes that impacted you during the Review Period and how the business responded.
                   .row.mb-3(v-for="(regulatory, index) in regulatoryChangesSplit" :key="index")
-                    .col-5
+                    .custom-col
                       label.form-label Change
                       textarea.form-control(v-model.trim="regulatory[0].change" placeholder="Describe the change")
                       Errors(v-if="errors.regulatory && errors.regulatory[index] && errors.regulatory[index][0]" :errors="errors.regulatory[index][0]")
-                    .col-5
+                    .custom-col
                       label.form-label Response
                       textarea.form-control(v-model.trim="regulatory[1].change" placeholder="Describe the response")
                       Errors(v-if="errors.regulatory && errors.regulatory[index] && errors.regulatory[index][1]" :errors="errors.regulatory[index][1]")
-                    .col-2
-                      b-icon.remove-regulatory(v-if="regulatoryChangesSplit.length > 1" @click="removeRegulatoryChange(regulatory, index)" icon="x")
+                    .delete-col
+                      button.btn.btn__close.float-right.remove-regulatory(v-if="regulatoryChangesSplit.length > 1" @click="removeRegulatoryChange(regulatory, index)")
+                        b-icon(icon="x" font-scale="1")
                   div.mt-3
                     button.btn.btn-default(@click="addRegulatoryChange")
                       b-icon.mr-2(icon='plus-circle-fill')
@@ -113,11 +114,8 @@
                             .col-4
                               b-input-group.m-b-1
                                 b-form-input.mb-2.mr-sm-2.mb-sm-0(v-model="annualReviewEmployee.department"  placeholder='Enter Department')
-                                b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
-                                  template(#button-content)
-                                    b-icon(icon="three-dots")
-                                  //b-dropdown-item(@click="duplicateEntry(annualReviewEmployeeIndex-1)") Duplicate Entry
-                                  b-dropdown-item.delete(@click="deleteEntry(annualReviewEmployeeIndex)") Delete
+                                button.btn.btn__close.float-right(@click="deleteEntry(annualReviewEmployeeIndex)")
+                                  b-icon.remove-employee(icon="x" font-scale="1")
                         b-input-group
                           b-button(variant='default' @click="addEntry")
                             b-icon.mr-2(icon='plus-circle-fill')
@@ -318,7 +316,7 @@ export default {
             }
           })
           .catch((error) => console.error(error))
-        this.toast('Success', `Internal review marked as ${this.review.complete ? 'in' : ''}complete.`)
+        this.toast('Success', `Category has been marked as ${this.review.complete ? 'in' : ''}complete.`)
         await this.getCurrentReviewReview(this.annualId)
       } catch (error) {
         this.toast('Error', error.message, true)
@@ -396,8 +394,18 @@ export default {
   }
 
   .remove-regulatory {
-    cursor: pointer;
-    font-size: 30px;
-    margin-top: 40px;
+    position: relative;
+    top: 35px;
+  }
+
+  .remove-employee {
+    position: relative;
+    top: -3px;
+  }
+
+  .custom-col {
+    width: calc(50% - 21px);
+    padding-left: 15px;
+    padding-right: 15px;
   }
 </style>
