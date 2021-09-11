@@ -4,9 +4,10 @@
 
 1. If you don't have ruby `2.5.7` on your computer:
 
-    * install [rbenv](https://github.com/rbenv/rbenv)
+    * install rvm http://rvm.io/
 
-    * `rbenv install 2.5.7`
+    * `rvm install 2.5.7`
+    * `rvm use --default 2.5.7`
 
     * `gem install bundler`
   
