@@ -43,17 +43,17 @@
                     .col
                       input(v-model='form2.code' type='hidden')
                 b-button.w-100(type='submit' variant='dark' ref="codesubmit") Submit
-    #step3.card-body.white-card-body.reviews__card.px-5(v-if='!loading && currentExam'  :class="step3 ? 'd-block' : 'd-none'")
+    #step3.white-card-body.reviews__card(v-if='!loading && currentExam'  :class="step3 ? 'd-block' : 'd-none'")
       .reviews__card--internal.d-flex.justify-content-between.p-y-1.m-b-2
-        h3 Shared with me
-      .reviews__topiclist
-        template(v-if="currentExam.exam_requests" v-for="(currentRequst, i) in currentExam.exam_requests")
+        h3.px-5 Shared with Me
+      .reviews__topiclist.px-5
+        template(v-if="sharedRequest" v-for="(currentRequst, i) in sharedRequest")
           .reviews__card--internal.exams__card--internal(:key="`${currentExam.name}-${i}`")
             .row.m-b-1
               .col
                 .d-flex.justify-content-between.align-items-center
                   .d-flex
-                    b-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
+                    b-badge.custom-badge.mr-2(v-if="currentRequst.shared" variant="success") {{ currentRequst.shared ? 'Shared' : '' }}
                     .exams__input.exams__topic-name {{ currentRequst.name }}
             .row.m-b-1
               .col
@@ -71,7 +71,7 @@
                   template(v-for="(textItem, textIndex) in currentRequst.text_items")
                     .col-12.exams__text(:key="`${currentRequst.name}-${i}-${textItem}-${textIndex}`")
                       .row
-                        .col.m-b-1 {{ currentRequst.text_items[textIndex].text }}
+                        .col.m-b-1.multiple-line {{ currentRequst.text_items[textIndex].text }}
                 .row
                   template(v-for="(file, fileIndex) in currentRequst.exam_request_files")
                     .col-md-6.m-b-1(:key="`${currentRequst.name}-${i}-${file}-${fileIndex}`")
@@ -250,6 +250,9 @@
       },
     },
     computed: {
+      sharedRequest() {
+        return this.currentExam.exam_requests.filter(item => item.shared === true)
+      },
       loading() {
         return this.$store.getters.loading;
       },
@@ -270,5 +273,14 @@
 <style scoped>
   #step2 ion-icon {
     font-size: 15rem!important;
+  }
+  
+  .multiple-line {
+    white-space: pre-wrap;
+  }
+
+  .custom-badge {
+    height: 26px;
+    padding: 5px 15px;
   }
 </style>

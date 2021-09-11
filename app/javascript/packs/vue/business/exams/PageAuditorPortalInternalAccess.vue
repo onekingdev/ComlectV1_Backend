@@ -4,7 +4,7 @@
       .col.text-center.px-0.position-relative
         .header-top.p-y-1
           p.mb-0: b Viewing Auditor's Portal
-            router-link.link.m-l-1(to="/business/exam_management/") Exit
+            router-link.exit-link.link.m-l-1(:to="exitLink") Exit
         .bg-black
     .row
       .col
@@ -16,7 +16,7 @@
                   ion-icon.greeting__icon(name="search-outline")
                   .greeting-text
                     h1.greeting-text__title Welcome
-                    p.greeting-text__subtitle Click on the reqeust item below to view their contents and download any document
+                    p.greeting-text__subtitle Click on a request item below to view its contents and download documents
           .row
             .col
               Loading
@@ -42,6 +42,9 @@
       loading() {
         return this.$store.getters.loading;
       },
+      exitLink() {
+        return `/business/exam_management/${this.examId}`
+      }
     },
     methods: {
       ...mapActions({
@@ -61,6 +64,10 @@
 
 <style scoped>
   @import "./styles.css";
+
+  .exit-link {
+    font-weight: normal;
+  }
 
   .header-top {
     position: relative;
