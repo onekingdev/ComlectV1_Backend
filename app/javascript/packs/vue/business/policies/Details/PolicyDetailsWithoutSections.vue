@@ -112,6 +112,7 @@ import Tiptap from '@/common/Tiptap'
         sections: [],
         count: 0,
         isDowloading: false,
+        isPublishing: false,
       }
     },
     methods: {
@@ -147,20 +148,23 @@ import Tiptap from '@/common/Tiptap'
             this.toast('Error', err.message, true)
           });
       },
-      publishPolicy () {
+      publishPolicyRequest() {
+        this.isPublishing = false
         this.$store
           .dispatch("publishPolicy", { policyId: this.policyId })
           .then(response => {
-            //console.log(response)
             this.toast('Success', 'Policy has been published.')
             setTimeout(() => {
-              //window.location.href = `${window.location.origin}/business/compliance_policies/${response.id}`
               this.$router.push(`/business/compliance_policies/${response.id}`)
             }, 2000)
           })
           .catch((err) => {
             this.toast('Error', err.message, true)
           });
+      },
+      publishPolicy () {
+        this.isPublishing = true
+        this.saveDraft()
       },
       updatePolicy() {
         const dataToSend = {
@@ -176,6 +180,10 @@ import Tiptap from '@/common/Tiptap'
           .dispatch("updatePolicy", dataToSend)
           .then((response) => {
             if (response.id) {
+              if (this.isPublishing) {
+                this.publishPolicyRequest()
+                return
+              }
               this.toast('Success', 'Policy has been updated.')
             } else {
               this.toast('Error', 'Policy has not been updated. Please try again.')
