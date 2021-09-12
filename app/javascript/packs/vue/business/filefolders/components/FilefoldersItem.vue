@@ -23,20 +23,17 @@
         b-dropdown(size="sm" variant="none" class="m-0 p-0" right)
           template(#button-content)
             b-icon(icon="three-dots")
-          b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be edited!'") Edit
-          FoldersModalEdit(v-else, :item="item", :inline="false")
+          //- b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be edited!'") Edit
+          FoldersModalEdit(:item="item", :inline="false")
             b-dropdown-item Edit
           b-dropdown-item(@click="zipping(item.id, item.name)" :disabled="disabled")
             b-icon.m-r-1(v-if="disabled" icon="arrow-counterclockwise" animation="spin-reverse-pulse" font-scale="1")
             | Download
-          b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be moved!'") Move to
-          FoldersModalMoveTo(v-else @movedConfirmed="moveToFileFolder", :item="item", :inline="false")
+          //- b-dropdown-item(v-if="item.locked" :disabled="item.locked" v-b-tooltip.hover.left="'Cant be moved!'") Move to
+          FoldersModalMoveTo(@movedConfirmed="moveToFileFolder", :item="item", :inline="false")
             b-dropdown-item Move to
-          b-dropdown-item-button.delete(v-if="item.locked" :disabled="item.locked" variant='danger' v-b-tooltip.hover.left="'Cant be deleted!'" )
-            <!--b-icon.mr-1(icon='x-circle' aria-hidden='true')-->
-            | Delete
-          FilefoldersModalDelete(v-else @deleteConfirmed="deleteFileFolderItem(item.id, itemType)" :inline="false")
-            b-dropdown-item(:disabled="item.locked").delete Delete
+          FilefoldersModalDelete(@deleteConfirmed="deleteFileFolderItem(item.id, itemType)" :inline="false")
+            b-dropdown-item.delete Delete
 
 </template>
 

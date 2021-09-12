@@ -6,7 +6,7 @@ class Api::Business::FileFoldersController < ApiController
   before_action :set_folder, only: %i[destroy edit update show download_folder check_zip list_tree]
 
   def index
-    current_business.create_annual_review_folder_if_none
+    # current_business.create_annual_review_folder_if_none
     file_folders = current_business.file_folders.root
     file_docs = current_business.file_docs.root
     render json: { folders: serialize_folders(file_folders), files: serialize_files(file_docs) }
@@ -23,7 +23,7 @@ class Api::Business::FileFoldersController < ApiController
   end
 
   def destroy
-    @file_folder.destroy unless @file_folder.locked?
+    @file_folder.destroy
     if @file_folder.persisted?
       respond_with errors: @file_folder.errors, status: :unprocessable_entity
     else
@@ -32,7 +32,7 @@ class Api::Business::FileFoldersController < ApiController
   end
 
   def update
-    @file_folder.update(file_folder_params) unless @file_folder.locked?
+    @file_folder.update(file_folder_params)
     respond_with @file_folder, serializer: FileFolderSerializer
   end
 

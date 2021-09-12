@@ -72,12 +72,12 @@ export default {
       commit("setLoading", true, { root: true });
       try {
         const response = await axios.patch(`/business/file_folders/${payload.id}`, payload.data)
-        // console.log(response.data)
-        // if (response.data && !payload.parent_id) commit('SET_NEW_FILEFOLDERS', new FileFolders(
-        //   response.data.files,
-        //   response.data.folders,
-        // ))
-        if (response.data) commit('UPDATE_FOLDER', response.data)
+        if (payload.action === 'move') {
+          const deletePayload = { id: response.data.id, itemType: 'folder' }
+          commit('DELETE_FILEFOLDERS', deletePayload)
+        } else {
+          commit('UPDATE_FOLDER', response.data)
+        }
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });
@@ -138,7 +138,14 @@ export default {
           }
         };
         const response = await axios.patch(`/business/file_docs/${payload.id}`, payload.data, config)
-        if (response.data) commit('UPDATE_FILE', response.data)
+        if (response.data) {
+          if (payload.action === 'move') {
+            const deletePayload = { id: response.data.id, itemType: 'file' }
+            commit('DELETE_FILEFOLDERS', deletePayload)
+          } else {
+            commit('UPDATE_FILE', response.data)
+          }
+        }
         return response.data
       } catch (error) {
         commit("setError", error.message, { root: true });

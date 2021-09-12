@@ -90,7 +90,7 @@
           Object.keys(params.file_doc)
             .map(specAttr => formData.append(`file_doc[${specAttr}]`, params.file_doc[specAttr]))
           this.$store
-            .dispatch('filefolders/updateFile', { id: this.item.id, data: formData })
+            .dispatch('filefolders/updateFile', { id: this.item.id, data: formData, action: 'move' })
             .then(response => {
               if(!response.errors) {
                 this.toast('Success', `File has been moved.`)
@@ -112,7 +112,7 @@
         }
 
         try {
-          const response = await this.$store.dispatch('filefolders/updateFolder', { id: this.item.id, data  })
+          const response = await this.$store.dispatch('filefolders/updateFolder', { id: this.item.id, data, action: 'move' })
           if (response.errors) {
             this.toast('Error', `Folder has not been moved. Please try again. ${response.status}`, true)
             Object.keys(response.errors)
