@@ -47,10 +47,6 @@
   background-color: lightgray;
 }
 
-.risks-heatmap__box:not(:last-child) {
-  margin-right: .5rem;
-}
-
 .risks-heatmap__box-name {
   display: flex;
   justify-content: flex-end;

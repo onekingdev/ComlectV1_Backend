@@ -29,9 +29,9 @@
         },
         riskLevelClass(row, col){
           let riskHeatmapArray = [
-            ['risks-heatmap__box_level-low','risks-heatmap__box_level-low','risks-heatmap__box_level-medium'],
-            ['risks-heatmap__box_level-medium','risks-heatmap__box_level-medium','risks-heatmap__box_level-medium'],
-            ['risks-heatmap__box_level-medium','risks-heatmap__box_level-high','risks-heatmap__box_level-high']]
+            ['risks-heatmap__box_level-medium','risks-heatmap__box_level-high','risks-heatmap__box_level-high'],
+            ['risks-heatmap__box_level-low','risks-heatmap__box_level-medium','risks-heatmap__box_level-high'],
+            ['risks-heatmap__box_level-low','risks-heatmap__box_level-low','risks-heatmap__box_level-medium']]
           return riskHeatmapArray[row][col]
         },
       },
