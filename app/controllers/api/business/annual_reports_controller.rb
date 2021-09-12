@@ -13,6 +13,8 @@ class Api::Business::AnnualReportsController < ApiController
       regulatory_changes
       review_categories
     ]
+    new_report.complete = false
+    new_report.completed_at = nil
     new_report.save
     if new_report.errors.any?
       respond_with errors: new_report.errors, status: :unprocessable_entity
@@ -40,6 +42,7 @@ class Api::Business::AnnualReportsController < ApiController
 
   def update
     if @areport.update(areport_params)
+      @areport.update_attribute('completed_at', Time.zone.now.in_time_zone(@areport.business.time_zone)) if areport_params['complete'] == true
       respond_with @areport, serializer: AnnualReportSerializer
     else
       respond_with errors: @areport.errors, status: :unprocessable_entity

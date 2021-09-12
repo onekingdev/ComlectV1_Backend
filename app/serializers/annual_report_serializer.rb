@@ -21,5 +21,6 @@ class AnnualReportSerializer < ApplicationSerializer
              :annual_review_employees,
              :regulatory_changes,
              :reminders,
-             :complete
+             :complete,
+             :completed_at
 end
