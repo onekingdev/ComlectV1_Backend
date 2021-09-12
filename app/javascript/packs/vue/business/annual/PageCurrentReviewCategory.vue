@@ -36,7 +36,7 @@
                   .d-flex.justify-content-between.align-items-center
                     h3
                       | {{ currentCategory.name }}
-                    AnnualModalDeleteCategory.ml-auto(@deleteConfirmed="deleteCategory(currentCategory.id)", :inline="false")
+                    CommonDeleteModal.ml-auto(title="Delete Category" content="This will remove the category from this internal review and all of its associated content." @deleteConfirmed="deleteCategory(currentCategory.id)", :inline="false")
                       b-button.btn.btn-default(variant="light") Delete
                 .reviews__topiclist(v-if="currentCategory.review_topics")
                   template(v-for="(currentTopic, i) in currentCategory.review_topics")
@@ -52,7 +52,8 @@
                             b-dropdown-item(@click="addTopicItem(i)") New Item
                             TaskFormModal(@saved="createTask(i)" :inline="false")
                               b-dropdown-item New Task
-                            b-dropdown-item(@click="deleteTopic(i)").delete Delete
+                            CommonDeleteModal.ml-auto(title="Delete Topic" content="This will remove the topic from this internal review and all of its associated content." @deleteConfirmed="deleteTopic(i)", :inline="false")
+                              b-dropdown-item.delete Delete
                       template(v-for="(topicItem, topicItemIndex) in currentTopic.items")
                         .row.mb-2(:key="`${currentCategory.name}-${i}-${topicItemIndex}`")
                           .col-md-2.col-lg-2.col-xl-1
@@ -68,7 +69,8 @@
                               template(#button-content)
                                 b-icon(icon="three-dots")
                               b-dropdown-item(@click="addFindings(i, topicItemIndex)") Log Finding
-                              b-dropdown-item.delete(@click="deleteTopicItem(i, topicItemIndex)") Delete
+                              CommonDeleteModal.ml-auto(title="Delete Item" content="This will remove the item from this internal review and all of its associated content." @deleteConfirmed="deleteTopicItem(i, topicItemIndex)", :inline="false")
+                                b-dropdown-item.delete Delete
                           .col-md-11.offset-md-1(v-if="topicItem.findings.length")
                             label.form-label Finding
                           template(v-for="(finding, findingIndex) in topicItem.findings")
@@ -100,7 +102,7 @@ import ReviewsList from "./components/ReviewsList";
 import AnnualModalComplite from './modals/AnnualModalComplite'
 import AnnualModalEdit from './modals/AnnualModalEdit'
 import AnnualModalDelete from './modals/AnnualModalDelete'
-import AnnualModalDeleteCategory from './modals/AnnualModalDeleteCategory'
+import CommonDeleteModal from '@/common/Modals/CommonDeleteModal'
 import TaskFormModal from '@/common/TaskFormModal'
 import PageTasks from './PageTasks'
 import PageDocuments from './PageDocuments'
@@ -113,7 +115,7 @@ export default {
     AnnualModalComplite,
     AnnualModalEdit,
     AnnualModalDelete,
-    AnnualModalDeleteCategory,
+    CommonDeleteModal,
     TaskFormModal,
     PageTasks,
     PageDocuments,

@@ -3,16 +3,14 @@
     div(v-b-modal="modalId" :class="{'d-inline-block':inline}")
       slot
 
-    b-modal.fade(:id="modalId" title="Delete Category")
+    b-modal.fade(:id="modalId" :title="title")
       .row
         .col-md-1.text-center.px-0
           b-icon.mt-1.ml-3(icon="dash-circle-fill" width="25" height="25" variant="danger")
         .col
-          p.paragraph.m-b-10 This will remove the category from this internal review and all of its associated content.
+          p.paragraph.m-b-10 {{ content }}
           p.paragraph.mb-0
             b Do you want to continue?
-
-      Errors(:errors="errors.title")
 
       template(slot="modal-footer")
         button.btn.btn-link(@click="$bvModal.hide(modalId)") Cancel
@@ -27,18 +25,25 @@
         type: Boolean,
         default: true
       },
+      title: {
+        type: String,
+        default: '',
+        required: true
+      },
+      content: {
+        type: String,
+        default: '',
+        required: true
+      }
     },
     data() {
       return {
-        modalId: `modal_${rnd()}`,
-        errors: []
+        modalId: `modal_${rnd()}`
       }
     },
     methods: {
       submit(e) {
-        e.preventDefault();
-        this.errors = [];
-
+        e.preventDefault()
         this.$emit('deleteConfirmed')
         this.$bvModal.hide(this.modalId)
       },
