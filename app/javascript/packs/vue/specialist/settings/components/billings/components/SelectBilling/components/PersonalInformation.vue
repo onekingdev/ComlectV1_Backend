@@ -1,7 +1,8 @@
 <template lang="pug">
   div
-    div accountType - {{accountType}}
-    div stripeAccount - {{stripeAccount}}
+    Errors(:errors="errors.base")
+    br(v-if="errors.base")
+
     b-form(@submit="onSubmit")
       #step2.form
         div.d-flex.justify-content-between
@@ -10,87 +11,66 @@
               | Tell us more about your {{ accountType === "company" ? "business" : "self" }}:
             p.onboarding__sub-title We will use this to verify your identity
 
-        .row(v-if="accountType === 'individual'")
+        .row
           .col-sm-6.pr-sm-2
             InputDate(
               required
-              v-model="date_of_birth"
+              v-model="dob"
+              :errors="errors.dob"
               :options="datepickerOptions"
-              :errors="errors.date_of_birth"
+              labelKlass="d-block required"
+              @input="onChangeInput('dob')"
             ) Date of birth
 
-          .col-sm-6.pl-sm-2
+          .col-sm-6.pl-sm-2(v-if="accountType === 'individual'")
             b-form-group#inputB-group-7(
-              label-for="last4ssn"
               label-class="required"
+              label-for="personal_id_number"
               label="Last 4 digits of Security Social Number"
             )
-              b-form-input#last4ssn.form-control(
+              b-form-input#personal_id_number.form-control(
                 type="text"
-                v-model="last4ssn"
+                v-model="personal_id_number"
                 placeholder="Enter last 4 digits of SSN"
-                :class="{'is-invalid': errors.last4ssn}"
+                @input="onChangeInput('personal_id_number')"
+                :class="{'is-invalid': errors.personal_id_number}"
               )
-              Errors(:errors="errors.last4ssn")
+              Errors(:errors="errors.personal_id_number")
 
-        .row(v-if="accountType === 'company'")
-          .col-sm-6.pr-sm-2
+          .col-sm-6.pr-sm-2(v-if="accountType === 'company'")
             b-form-group#inputB-group-7(
-              description="optional"
-              label-for="business_name"
-              label="Business operation name"
+              label="Business tax"
+              label-class="required"
+              label-for="business_tax_id"
             )
-              b-form-input#business_name.form-control(
+              b-form-input#business_tax_id.form-control(
                 type="text"
-                v-model="business_name"
-                placeholder="Doing business as"
-                :class="{'is-invalid': errors.business_name}"
+                placeholder="000000000"
+                v-model="business_tax_id"
+                @input="onChangeInput('business_tax_id')"
+                :class="{'is-invalid': errors.business_tax_id}"
               )
-              Errors(:errors="errors.business_name")
-
-          .col-sm-6.pl-sm-2
-            b-form-group#inputB-group-7(
-              label-for="website"
-              description="Optional"
-              label="Business Website"
-            )
-              b-form-input#website.form-control(
-                type="text"
-                v-model="website"
-                placeholder="Business Website"
-                :class="{'is-invalid': errors.website}"
-              )
-              Errors(:errors="errors.website")
+              Errors(:errors="errors.business_tax_id")
 
         hr
 
         .row
-          .col-xl-9.pr-xl-2
+          .col-xl-12.pr-xl-2
             b-form-group#inputB-group-9(
               label-for="inputB-9"
               label-class="required"
               :label="accountType === 'company' ? 'Business Address' : 'Home Address'"
             )
               vue-google-autocomplete#map(
-                ref="address"
-                v-model="address_1"
+                v-model="address1"
                 placeholder="Address"
                 classname="form-control"
                 v-on:placechanged="getAddressData"
-                :class="{'is-invalid': errors.address_1}"
+                :class="{'is-invalid': errors.address1}"
+                @keypress.enter="$event.preventDefault()"
                 :fields="['address_components', 'adr_address', 'geometry', 'formatted_address', 'name']"
               )
-              Errors(:errors="errors.address_1")
-
-          .col-xl-3.pl-xl-2
-            b-form-group#inputB-group-10(label='Apt/Unit:' label-for='inputB-10')
-              b-form-input#inputB-10(
-                type="text"
-                v-model="apartment"
-                placeholder="Apt/Unit"
-                :class="{'is-invalid': errors.apartment}"
-              )
-              Errors(:errors="errors.apartment")
+              Errors(:errors="errors.address1")
 
         .row
           .col-xl-4.pr-xl-2
@@ -99,26 +79,27 @@
                 type="text"
                 v-model="city"
                 placeholder="City"
+                @input="onChangeInput('city')"
                 :class="{'is-invalid': errors.city}"
               )
               errors(:errors="errors.city")
 
           .col-xl-4.px-xl-2
             b-form-group#inputB-group-13(label="State" label-for="state" label-class="required")
-              div(:class="{'invalid': errors.state}")
-                multiselect#state(
-                  v-model="state"
-                  :show-labels="false"
-                  :options="stateOptions"
-                  placeholder="Select state"
-                )
-                Errors(:errors="errors.state")
+              b-form-input#state(
+                v-model="state"
+                placeholder="Select state"
+                @input="onChangeInput('state')"
+                :class="{'is-invalid': errors.state}"
+              )
+              Errors(:errors="errors.state")
 
           .col-xl-4.pl-xl-2
             b-form-group#inputB-group-11(label="Zip" label-for="zipcode" label-class="required")
-              b-form-input#zip(
+              b-form-input#zipcode(
                 v-model="zipcode"
                 placeholder="Zip"
+                @input="onChangeInput('zipcode')"
                 :class="{'is-invalid': errors.zipcode}"
               )
               Errors(:errors="errors.zipcode")
@@ -130,85 +111,60 @@
             @click="$emit('changeTab', 'account')"
           ) Go back
 
-          b-button.mr-2(
-            v-if="false"
-            type="button"
-            variant="outline-primary"
-            @click="$emit('changeTab', 'account')"
-          ) Skip this step
-
-          b-button(type="submit" variant="dark") Next
+          b-button(v-show="!loading" type="submit" variant="dark") Next
+          b-button(v-show="loading" type="button" :disabled="true")
+            .lds-ring.lds-ring-small
+              div
+              div
+              div
+              div
+            | {{ " Next" }}
 </template>
 
 <script>
-  import Multiselect from "vue-multiselect";
+  import moment from "moment";
   import VueGoogleAutocomplete from "vue-google-autocomplete";
 
   export default {
     name: "PersonalInformation",
     props: ["stripeAccount"],
-    components: {
-      Multiselect,
-      VueGoogleAutocomplete
-    },
+    components: { VueGoogleAutocomplete },
     data() {
       return {
         errors: {},
         stateOptions: [],
+        dob: this.stripeAccount.dob,
         city: this.stripeAccount.city,
         state: this.stripeAccount.state,
         zipcode: this.stripeAccount.zipcode,
-        website: this.stripeAccount.website,
-        last4ssn: this.stripeAccount.last4ssn,
-        apartment: this.stripeAccount.apartment,
-        address_1: this.stripeAccount.address_1,
-        date_of_birth: this.stripeAccount.date_of_birth,
+        address1: this.stripeAccount.address1,
         business_name: this.stripeAccount.business_name,
-        accountType: this.stripeAccount.account_type.value
+        accountType: this.stripeAccount.account_type.value,
+        business_tax_id: this.stripeAccount.business_tax_id,
+        personal_id_number: this.stripeAccount.personal_id_number
       }
     },
     methods: {
-      getAddressData (addressData, placeResultData, id) {
-        const input = document.getElementById(id);
-        const { administrative_area_level_1, locality, postal_code } = addressData;
-
-        this.city = locality;
-        this.zipcode = postal_code;
-        this.address_1 = input.value;
-        this.state = administrative_area_level_1;
-      },
       onSubmit(e) {
         e.preventDefault();
 
         const data = {
           section: "personal",
+          dob: this.dob || "",
           city: this.city || "",
           state: this.state || "",
           id: this.stripeAccount.id,
-          apartment: this.apartment,
           zipcode: this.zipcode || "",
-          address_1: this.address_1 || "",
+          address1: this.address1 || "",
+          personal_id_number: this.personal_id_number || ""
         }
 
-        if (this.accountType === "individual") {
-          data.last4ssn = this.last4ssn || ""
-          data.date_of_birth = this.date_of_birth || ""
+        if (this.accountType === "company") {
+          data.business_tax_id = this.business_tax_id || ""
         }
-
-        console.log("")
-        console.log("data > ", data)
-        console.log("")
 
         this.$store.dispatch("stripe_accounts/updateStripeAccount", data).then((response) => {
-          if (response.errors) {
-            for (const [key, value] of Object.entries(response.errors)) {
-              this.errors = Object.assign({}, this.errors, { [key]: value })
-            }
-          }
-
-          console.log("")
-          console.log("response > ", response)
-          console.log("")
+          this.errors = response.errors || {}
 
           if (!response.error && !response.errors) {
             this.$emit("changeTab", "payout");
@@ -216,68 +172,43 @@
         }).catch(error => {
           this.toast("Error", `Something wrong! ${error.message}`, true);
         });
+      },
+      onChangeInput(key) {
+        if (this.errors[key]) delete this.errors[key]
+      },
+      getAddressData (addressData, placeResultData, id) {
+        const input = document.getElementById(id);
+        const { administrative_area_level_1, locality, postal_code } = addressData;
+
+        this.city = locality;
+        this.zipcode = postal_code;
+        this.address1 = input.value;
+        this.state = administrative_area_level_1;
+
+        const fields = ["city", "zipcode", "address1", "state"]
+
+        fields.forEach((key) => {
+          if (this[key] && this[key].length && this.errors[key]) {
+            delete this.errors[key];
+          }
+        });
       }
     },
     computed: {
       datepickerOptions() {
         return {
-          min: new Date
+          max: moment().subtract(18, "years").format()
         }
       },
+      loading() {
+        return this.$store.getters.loading;
+      }
     }
   }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
-
 <style scoped>
-  .multiselect {
-    min-height: 20px;
-  }
-  .multiselect__placeholder {
-    margin-bottom: 0;
-    padding-top: 0;
-    padding-bottom: 2px;
-  }
-  .multiselect__tags {
-    min-height: 20px;
-    padding: 5px 40px 0 10px;
-    margin-bottom: 0;
-    border-color: #ced4da;
-    border-radius: 0.25rem;
-  }
-  .invalid .multiselect__tags {
-    border-color: #CE1938;
-  }
-  .multiselect__tag {
-    padding: 2px 26px 2px 10px;
-    margin-bottom: 0;
-    color: #0479ff;
-    background: #ecf4ff;
-  }
-  .multiselect__tag-icon:after {
-    color: #0479ff;
-  }
-  .multiselect__option--highlight {
-    color: #0479ff;
-    background: #ecf4ff;
-  }
-  .multiselect__option--highlight::after{
-    background: #0479ff;
-  }
-  .multiselect__tag-icon {
-    line-height: 1.2rem;
-  }
-  .multiselect__tag-icon:hover {
-    color: white;
-    background: #0479ff;
-  }
-  .multiselect__select {
-    height: 30px;
-  }
-  .multiselect__single {
-    margin-bottom: 0;
-    font-size: 1.2rem;
-    line-height: 14px;
+  .btn.btn-dark {
+    width: 76.2px;
   }
 </style>

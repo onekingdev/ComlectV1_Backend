@@ -22,7 +22,7 @@ module SpecialistServices
       if stripe_account.present?
         update_stripe_account
       else
-        create_stripe_account
+        build_stripe_account
       end
 
       unless stripe_account.save
@@ -35,28 +35,29 @@ module SpecialistServices
     private
 
     def update_stripe_account
-      attrs = section == 'personal' ? personal_params : account_params
-      stripe_account.attributes = attrs
+      return if section == 'personal' && handle_personal_params
+      stripe_account.attributes = account_params
     end
 
-    def personal_params
-      if stripe_account.company?
-        business_account_information_params
-      else
-        address_params.tap do |whitelisted|
-          whitelisted['active'] = false
-          whitelisted['disabled_at'] = Time.zone.now
-        end
-      end
+    def handle_personal_params
+      attrs = stripe_account.company? ? business_personal_params : individual_personal_params
+      @stripe_account = StripeAccount::PersonalInformationForm.for(stripe_account, attrs)
     end
 
-    def address_params
+    def business_personal_params
       params.require(:billing).permit(
-        :city, :state, :zipcode, :apartment, :address_1
+        :dob, :business_tax_id,
+        :city, :state, :zipcode, :address1
       )
     end
 
-    def create_stripe_account
+    def individual_personal_params
+      params.require(:billing).permit(
+        :dob, :personal_id_number, :city, :state, :zipcode, :address1
+      )
+    end
+
+    def build_stripe_account
       @stripe_account = specialist.build_stripe_account(account_params)
     end
 

@@ -9,21 +9,12 @@ const mapAuthProviders = {
   }
 };
 
-// stripeAccount: null
-// const state = {
-//   stripeAccount: {
-//     id: 1,
-//     country: "US",
-//     account_type: { value: "individual", name: "Individual" }
-//   }
-// };
-
 const state = {
   stripeAccount: {}
 }
 
 const getters = {
-  stripeAccount: (state) => state.stripeAccount
+  stripeAccount: state => state.stripeAccount
 };
 
 const actions = {
@@ -34,30 +25,41 @@ const actions = {
       try {
         const authProvider = mapAuthProviders[rootState.shared.settings.authProvider]
         const data = authProvider.getStripeAccount()
-          .then((success) => {
+          .then((response) => {
             commit("clearError", null, { root: true });
             commit("setLoading", false, { root: true });
 
-            if (success) {
-              const data = success.data;
-              commit("ADD_STRIPE_ACCOUNT", new StripeAccount(
+            if (response) {
+              const data = response.data;
+              commit("setStripeAccount", new StripeAccount(
                 {
+                  id: data.id,
+                  dob: data.dob,
+                  city: data.city,
+                  state: data.state,
                   country: data.country,
+                  zipcode: data.zipcode,
+                  address1: data.address1,
                   last_name: data.last_name,
                   first_name: data.first_name,
                   account_type: data.account_type,
-                  business_name: data.business_name
+                  business_name: data.business_name,
+                  business_tax_id: data.business_tax_id,
+                  personal_id_number: data.personal_id_number
                 }
               ));
+
               return data;
             }
-            if (!success) {
-              console.error('Not success', success)
-              commit("setError", success.message, { root: true });
+
+            if (!response) {
+              console.error("Not success", response)
+              commit("setError", response.message, { root: true });
             }
           })
           .catch(error => error)
-        return data
+
+        return data;
       } catch (error) {
         commit("setError", error.message, { root: true });
         commit("setLoading", false, { root: true });
@@ -91,7 +93,7 @@ const actions = {
               ));
             }
 
-            return response.data
+            return response.data;
           }
         })
         .catch(error => error)
@@ -120,11 +122,18 @@ const actions = {
               commit("setStripeAccount", new StripeAccount(
                 {
                   id: data.id,
+                  dob: data.dob,
+                  city: data.city,
+                  state: data.state,
                   country: data.country,
+                  zipcode: data.zipcode,
+                  address1: data.address1,
                   last_name: data.last_name,
                   first_name: data.first_name,
                   account_type: data.account_type,
-                  business_name: data.business_name
+                  business_name: data.business_name,
+                  business_tax_id: data.business_tax_id,
+                  personal_id_number: data.personal_id_number
                 }
               ));
             }

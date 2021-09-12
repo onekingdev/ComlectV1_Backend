@@ -11,7 +11,7 @@
                 h4.mb-0 Client Billing
             .row
               .col
-                ClientBilling(@openComponent="openComponent")
+                ClientBilling(@openComponent="openComponent" :stripeAccount="stripeAccount")
           .settings___card--internal.p-y-1
             .row.m-b-20(v-if='!loading')
               .col
@@ -69,7 +69,8 @@
     },
     methods: {
       ...mapActions({
-        getPaymentMethod: 'settings/getPaymentMethod'
+        getPaymentMethod: "settings/getPaymentMethod",
+        getStripeAccount: "stripe_accounts/getStripeAccount"
       }),
       addMethod(value) {
         this.billingMethod = value
@@ -87,7 +88,8 @@
     computed: {
       ...mapGetters({
         loading: 'loading',
-        paymentMethods: 'settings/paymentMethods'
+        paymentMethods: 'settings/paymentMethods',
+        stripeAccount: "stripe_accounts/stripeAccount"
       }),
       invoices() {
         return [
@@ -118,6 +120,10 @@
       } catch (error) {
         console.error(error)
       }
+
+      this.getStripeAccount().then(response => {
+        this.stripeAccount = response;
+      }).catch(error => error);
     }
   };
 </script>

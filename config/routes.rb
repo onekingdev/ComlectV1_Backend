@@ -416,6 +416,7 @@ Rails.application.routes.draw do
       patch '/financials/annual_revenue' => 'financials#set_annual_revenue'
 
       resources :billings, only: %i[index create update]
+      resources :bank_accounts, only: %i[create]
     end
 
     resources :businesses, only: [:create] do

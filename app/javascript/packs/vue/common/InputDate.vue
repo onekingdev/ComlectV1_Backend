@@ -1,8 +1,14 @@
 <template lang="pug">
   div
-    label.form-label
+    label(:class="labelKlass")
       slot
-    DatePicker(:value="value" @input="$emit('input', $event)" :placeholder="placeholder" :options="options")
+
+    DatePicker(
+      :value="value"
+      :options="options"
+      :placeholder="placeholder"
+      @input="$emit('input', $event)"
+    )
     Errors(:errors="errors")
 </template>
 
@@ -12,6 +18,12 @@ export default {
     value: String,
     errors: Array,
     placeholder: String,
+
+    labelKlass: {
+      type: String,
+      default: "form-label"
+    },
+
     options: {
       type: Object,
       default: () => ({})

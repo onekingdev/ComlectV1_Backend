@@ -1,7 +1,8 @@
 <template lang="pug">
   div
-    div account_type - {{account_type}}
-    div stripeAccount - {{stripeAccount}}
+    Errors(:errors="errors.base")
+    br(v-if="errors.base")
+
     b-form(@submit="onSubmit")
       #step1.form.d-block
         .row
@@ -99,14 +100,14 @@
         .row
           .col
             .text-right
-              b-button.mr-2(
-                type="button"
-                v-if="stripeAccount.id"
-                variant="outline-primary"
-                @click="$emit('changeTab', 'personal')"
-              ) Skip this step
-
-              b-button(type="submit" variant="dark") Next
+              b-button(v-show="!loading" type="submit" variant="dark") Next
+              b-button(v-show="loading" type="button" :disabled="true")
+                .lds-ring.lds-ring-small
+                  div
+                  div
+                  div
+                  div
+                | {{ " Next" }}
 </template>
 
 <script>
@@ -179,14 +180,10 @@
 
         const action = this.stripeAccount.id
           ? "stripe_accounts/updateStripeAccount"
-          : "stripe_accounts/createStripeAccount";
+          : "stripe_accounts/createStripeAccount"
 
         this.$store.dispatch(action, data).then((response) => {
-          if (response.errors) {
-            for (const [key, value] of Object.entries(response.errors)) {
-              this.errors = Object.assign({}, this.errors, { [key]: value })
-            }
-          }
+          this.errors = response.errors || {}
 
           if (!response.error && !response.errors) {
             this.$emit("changeTab", "personal");
@@ -195,25 +192,16 @@
           this.toast("Error", `Something wrong! ${error.message}`, true);
         });
       },
-      onChangeInput(id) {
-        const target = document.getElementById(id);
-        target.classList.remove("is-invalid");
-
-        if (target.nextElementSibling) {
-          target.nextElementSibling.classList.remove("d-block");
-        }
+      onChangeInput(key) {
+        if (this.errors[key]) delete this.errors[key]
       },
-      onChangeSelect (_, id) {
-        const target = document.getElementById(id);
-        const mselect = target.closest(".multiselect");
-
-        if (mselect.closest(".invalid")) {
-          mselect.closest(".invalid").classList.remove("invalid");
-        }
-
-        if (mselect.nextElementSibling) {
-          mselect.nextElementSibling.classList.remove("d-block");
-        }
+      onChangeSelect (_, key) {
+        if (this.errors[key]) delete this.errors[key]
+      }
+    },
+    computed: {
+      loading() {
+        return this.$store.getters.loading;
       }
     }
   }
@@ -270,5 +258,9 @@
     margin-bottom: 0;
     font-size: 1.2rem;
     line-height: 14px;
+  }
+
+  .btn.btn-dark {
+    width: 76.2px;
   }
 </style>

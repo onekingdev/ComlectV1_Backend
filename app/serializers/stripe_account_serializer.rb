@@ -3,11 +3,18 @@
 class StripeAccountSerializer < ApplicationSerializer
   attributes \
     :id,
+    :dob,
+    :city,
+    :state,
     :country,
+    :zipcode,
+    :address1,
     :last_name,
     :first_name,
     :account_type,
-    :business_name
+    :business_name,
+    :business_tax_id,
+    :personal_id_number
 
   def country
     country = object.country

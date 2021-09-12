@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import tasks from "./specialistModules/tasks";
 import settings from "./specialistModules/settings";
 import projects from "./specialistModules/projects";
+import bankAccounts from "./specialistModules/bank_accounts";
 import stripeAccounts from "./specialistModules/stripe_accounts";
 
 import auth from "./commonModules/auth";
@@ -52,6 +53,10 @@ const store = new Vuex.Store({
     stripe_accounts: {
       namespaced: true,
       ...stripeAccounts
+    },
+    bank_accounts: {
+      namespaced: true,
+      ...bankAccounts
     }
   }
 })

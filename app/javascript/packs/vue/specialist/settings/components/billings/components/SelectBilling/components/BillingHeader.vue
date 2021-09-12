@@ -4,11 +4,11 @@
 
     hr
     .steps
-      .step(:class="currentTab === 'account' ? 'active' : ''")
+      .step(:class="{'active': currentTab === 'account'}")
         h4.step__name 1. Account information
-      .step(:class="currentTab === 'personal' ? 'active' : ''")
-        h4.step__name 2. Personal Information
-      .step(:class="currentTab === 'payout' ? 'active' : ''")
+      .step(:class="{'active': currentTab === 'personal'}")
+        h4.step__name 2. Personal information
+      .step(:class="{'active': currentTab === 'payout'}")
         h4.step__name 3. Payout type
 </template>
 

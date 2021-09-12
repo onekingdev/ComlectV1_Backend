@@ -64,6 +64,14 @@ en:
           attributes:
             email:
               taken: 'Email is already in use'
+        bank_account:
+          attributes:
+            account_number_confirmation:
+              confirmation: "Doesn't match account number"
+        stripe_account:
+          attributes:
+            dob:
+              over_18: 'You should be over 18 years old'
         business:
           attributes:
             logo:

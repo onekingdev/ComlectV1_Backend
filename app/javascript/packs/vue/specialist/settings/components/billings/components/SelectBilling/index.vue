@@ -2,6 +2,7 @@
   div
     .card-body
       BillingHeader(:currentTab="currentTab")
+
       AccountInformation(
         @changeTab="changeCurrentTab"
         :stripeAccount="stripeAccount"
@@ -11,13 +12,19 @@
       PersonalInformation(
         @changeTab="changeCurrentTab"
         :stripeAccount="stripeAccount"
-        v-if="!loading && stripeAccount && currentTab === 'personal'"
+        v-if="stripeAccount && currentTab === 'personal'"
+      )
+
+      PayoutInformation(
+        @changeTab="changeCurrentTab"
+        v-if="stripeAccount && currentTab === 'payout'"
       )
 </template>
 
 <script>
   import { mapGetters } from "vuex";
   import BillingHeader from "./components/BillingHeader";
+  import PayoutInformation from "./components/PayoutInformation";
   import AccountInformation from "./components/AccountInformation";
   import PersonalInformation from "./components/PersonalInformation";
 
@@ -25,6 +32,7 @@
     name: "index",
     components: {
       BillingHeader,
+      PayoutInformation,
       AccountInformation,
       PersonalInformation
     },
