@@ -2,9 +2,7 @@
   .page.review
     .page-header.bg-white
       div
-        h2.page-header__breadcrumbs Internal Review&nbsp;
-          span.separator /&nbsp;
-          b  {{ review ? review.name : '' }}
+        h2.page-header__breadcrumbs Internal Review
         h2.page-header__title: b {{ review ? review.name : '' }}
       .page-header__actions
         div
