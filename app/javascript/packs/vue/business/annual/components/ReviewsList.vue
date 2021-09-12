@@ -17,7 +17,7 @@
     .review__category-add
       button.btn.btn-default(v-if="!category.visible" @click="category.visible = true")
         b-icon.mr-2(icon='plus-circle-fill')
-        | Add Category
+        | New Category
       .review__category-add__form(v-else)
         input.form-control(v-model="category.name" type="text" ref="input" @keyup.enter="onCategoryNameChange" @blur="addCategory")
         //button.btn.btn-default(@click="addCategory")
