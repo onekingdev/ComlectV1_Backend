@@ -1,0 +1,1066 @@
+<% @annual_report =annual_report if defined?(annual_report) %>
+<% @business =business if defined?(business) %>
+
+<html lang="en">
+
+<head>
+  <style type="text/css">
+
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600;700&family=Varela&display=swap");
+.page {
+  page-break-before:always;
+  width: 273mm;
+  position: relative;
+  clear: both;
+}
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* line 19, node_modules/bootstrap/scss/_reboot.scss */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* line 25, node_modules/bootstrap/scss/_reboot.scss */
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* line 46, node_modules/bootstrap/scss/_reboot.scss */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+}
+
+/* line 92, node_modules/bootstrap/scss/_reboot.scss */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* line 101, node_modules/bootstrap/scss/_reboot.scss */
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* line 156, node_modules/bootstrap/scss/_reboot.scss */
+b,
+strong {
+  font-weight: bolder;
+}
+
+/* line 161, node_modules/bootstrap/scss/_reboot.scss */
+small {
+  font-size: 80%;
+}
+
+/* line 252, node_modules/bootstrap/scss/_reboot.scss */
+img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+/* line 257, node_modules/bootstrap/scss/_reboot.scss */
+svg {
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+/* line 296, node_modules/bootstrap/scss/_reboot.scss */
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+/* line 305, node_modules/bootstrap/scss/_reboot.scss */
+button {
+  border-radius: 0;
+}
+
+/* line 314, node_modules/bootstrap/scss/_reboot.scss */
+/* line 319, node_modules/bootstrap/scss/_reboot.scss */
+input,
+button,
+select,
+optgroup,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* line 386, node_modules/bootstrap/scss/_reboot.scss */
+input[type="radio"],
+input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* line 393, node_modules/bootstrap/scss/_reboot.scss */
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+/* line 7, node_modules/bootstrap/scss/_type.scss */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* line 16, node_modules/bootstrap/scss/_type.scss */
+h1,
+.h1 {
+  font-size: 2.5rem;
+}
+
+/* line 17, node_modules/bootstrap/scss/_type.scss */
+h2,
+.h2 {
+  font-size: 2rem;
+}
+
+/* line 18, node_modules/bootstrap/scss/_type.scss */
+h3,
+.h3 {
+  font-size: 1.75rem;
+}
+
+/* line 19, node_modules/bootstrap/scss/_type.scss */
+h4,
+.h4 {
+  font-size: 1.5rem;
+}
+
+/* line 20, node_modules/bootstrap/scss/_type.scss */
+h5,
+.h5 {
+  font-size: 1.25rem;
+}
+
+/* line 49, node_modules/bootstrap/scss/_grid.scss */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.row::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* line 8, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-md,
+.col-md-auto,
+.col-md-12,
+.col-md-11,
+.col-md-10,
+.col-md-9,
+.col-md-8,
+.col-md-7,
+.col-md-6,
+.col-md-5,
+.col-md-4,
+.col-md-3,
+.col-md-2,
+.col-md-1,
+.col-sm,
+.col-sm-auto,
+.col-sm-12,
+.col-sm-11,
+.col-sm-10,
+.col-sm-9,
+.col-sm-8,
+.col-sm-7,
+.col-sm-6,
+.col-sm-5,
+.col-sm-4,
+.col-sm-3,
+.col-sm-2,
+.col-sm-1,
+.col,
+.col-auto,
+.col-12,
+.col-11,
+.col-10,
+.col-9,
+.col-8,
+.col-7,
+.col-6,
+.col-5,
+.col-4,
+.col-3,
+.col-2,
+.col-1 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  float: left;
+}
+
+/* line 33, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-1 {
+  flex: 0 0 8.3333333333%;
+  max-width: 8.3333333333%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-2 {
+  flex: 0 0 16.6666666667%;
+  max-width: 16.6666666667%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-4 {
+  flex: 0 0 33.3333333333%;
+  max-width: 33.3333333333%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-5 {
+  flex: 0 0 41.6666666667%;
+  max-width: 41.6666666667%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-7 {
+  flex: 0 0 58.3333333333%;
+  max-width: 58.3333333333%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-8 {
+  flex: 0 0 66.6666666667%;
+  max-width: 66.6666666667%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-9 {
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-10 {
+  flex: 0 0 83.3333333333%;
+  max-width: 83.3333333333%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-11 {
+  flex: 0 0 91.6666666667%;
+  max-width: 91.6666666667%;
+}
+
+/* line 53, node_modules/bootstrap/scss/mixins/_grid-framework.scss */
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+/* line 7, node_modules/bootstrap/scss/_forms.scss */
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* line 7, node_modules/bootstrap/scss/_buttons.scss */
+.btn {
+  display: inline-block;
+  font-weight: 400;
+  color: #212529;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+/* line 7, node_modules/bootstrap/scss/_input-group.scss */
+.input-group {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* line 14, node_modules/bootstrap/scss/_input-group.scss */
+.input-group>.form-control,
+.input-group>.form-control-plaintext,
+.input-group>.custom-select,
+.input-group>.custom-file {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+/* line 75, node_modules/bootstrap/scss/_input-group.scss */
+/* line 31, node_modules/bootstrap/scss/_card.scss */
+/* line 45, node_modules/bootstrap/scss/_card.scss */
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 1.25rem;
+}
+
+/* line 7, node_modules/bootstrap/scss/utilities/_float.scss */
+.float-left {
+  float: left !important;
+}
+
+/* line 8, node_modules/bootstrap/scss/utilities/_float.scss */
+.float-right {
+  float: right !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.m-0 {
+  margin: 0 !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mt-0,
+.my-0 {
+  margin-top: 0 !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mr-0,
+.mx-0 {
+  margin-right: 0 !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mb-0,
+.my-0 {
+  margin-bottom: 0 !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.ml-0,
+.mx-0 {
+  margin-left: 0 !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.m-1 {
+  margin: 0.25rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mt-1,
+.my-1 {
+  margin-top: 0.25rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mr-1,
+.mx-1 {
+  margin-right: 0.25rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mb-1,
+.my-1 {
+  margin-bottom: 0.25rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.ml-1,
+.mx-1 {
+  margin-left: 0.25rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.m-2 {
+  margin: 0.5rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mt-2,
+.my-2 {
+  margin-top: 0.5rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mr-2,
+.mx-2 {
+  margin-right: 0.5rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mb-2,
+.my-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.ml-2,
+.mx-2 {
+  margin-left: 0.5rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.m-3 {
+  margin: 1rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mt-3,
+.my-3 {
+  margin-top: 1rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mr-3,
+.mx-3 {
+  margin-right: 1rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mb-3,
+.my-3 {
+  margin-bottom: 1rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.ml-3,
+.mx-3 {
+  margin-left: 1rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.m-4 {
+  margin: 1.5rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mt-4,
+.my-4 {
+  margin-top: 1.5rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mr-4,
+.mx-4 {
+  margin-right: 1.5rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mb-4,
+.my-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.ml-4,
+.mx-4 {
+  margin-left: 1.5rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.m-5 {
+  margin: 3rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mt-5,
+.my-5 {
+  margin-top: 3rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mr-5,
+.mx-5 {
+  margin-right: 3rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.mb-5,
+.my-5 {
+  margin-bottom: 3rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.ml-5,
+.mx-5 {
+  margin-left: 3rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.p-0 {
+  padding: 0 !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pt-0,
+.py-0 {
+  padding-top: 0 !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pr-0,
+.px-0 {
+  padding-right: 0 !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pb-0,
+.py-0 {
+  padding-bottom: 0 !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pl-0,
+.px-0 {
+  padding-left: 0 !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.p-1 {
+  padding: 0.25rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pt-1,
+.py-1 {
+  padding-top: 0.25rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pr-1,
+.px-1 {
+  padding-right: 0.25rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pb-1,
+.py-1 {
+  padding-bottom: 0.25rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pl-1,
+.px-1 {
+  padding-left: 0.25rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.p-2 {
+  padding: 0.5rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pt-2,
+.py-2 {
+  padding-top: 0.5rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pr-2,
+.px-2 {
+  padding-right: 0.5rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pb-2,
+.py-2 {
+  padding-bottom: 0.5rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pl-2,
+.px-2 {
+  padding-left: 0.5rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.p-3 {
+  padding: 1rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pt-3,
+.py-3 {
+  padding-top: 1rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pr-3,
+.px-3 {
+  padding-right: 1rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pb-3,
+.py-3 {
+  padding-bottom: 1rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pl-3,
+.px-3 {
+  padding-left: 1rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.p-4 {
+  padding: 1.5rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pt-4,
+.py-4 {
+  padding-top: 1.5rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pr-4,
+.px-4 {
+  padding-right: 1.5rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pb-4,
+.py-4 {
+  padding-bottom: 1.5rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pl-4,
+.px-4 {
+  padding-left: 1.5rem !important;
+}
+
+/* line 11, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.p-5 {
+  padding: 3rem !important;
+}
+
+/* line 12, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pt-5,
+.py-5 {
+  padding-top: 3rem !important;
+}
+
+/* line 15, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pr-5,
+.px-5 {
+  padding-right: 3rem !important;
+}
+
+/* line 18, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pb-5,
+.py-5 {
+  padding-bottom: 3rem !important;
+}
+
+/* line 21, node_modules/bootstrap/scss/utilities/_spacing.scss */
+.pl-5,
+.px-5 {
+  padding-left: 3rem !important;
+}
+
+/* line 2, app/assets/stylesheets/_vue_utilities.scss */
+.m-y-1 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* line 3, app/assets/stylesheets/_vue_utilities.scss */
+.m-y-2 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* line 4, app/assets/stylesheets/_vue_utilities.scss */
+.m-y-3 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* line 12, app/assets/stylesheets/_vue_utilities.scss */
+.m-t-1 {
+  margin-top: 1rem;
+}
+
+/* line 13, app/assets/stylesheets/_vue_utilities.scss */
+.m-t-2 {
+  margin-top: 2rem;
+}
+
+/* line 14, app/assets/stylesheets/_vue_utilities.scss */
+.m-t-3 {
+  margin-top: 3rem;
+}
+
+/* line 21, app/assets/stylesheets/_vue_utilities.scss */
+.m-b-1 {
+  margin-bottom: 1rem;
+}
+
+.mb-2,
+.my-2 {
+  margin-bottom: 2rem !important;
+}
+
+#app,
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* line 60, app/assets/stylesheets/vue.scss */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Public Sans', sans-serif !important;
+  font-weight: 400;
+}
+
+/* line 78, app/assets/stylesheets/vue.scss */
+html {
+  background-color: #F6F6F8;
+}
+
+/* line 91, app/assets/stylesheets/vue.scss */
+input,
+button,
+select,
+optgroup,
+textarea {
+  font-family: inherit;
+}
+
+/* ---------- BUTTONS ---------- */
+/* line 1028, app/assets/stylesheets/vue.scss */
+.btn {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.btn-group,
+.btn-group-vertical {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.input-group-append {
+  margin-left: -1px;
+}
+
+.btn-group,
+.btn-group-vertical {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* line 1078, app/assets/stylesheets/vue.scss */
+.btn.btn-primary,
+.btn.btn-dark {
+  color: #fff;
+  background-color: #303132;
+  border-color: #303132;
+}
+
+/* line 1091, app/assets/stylesheets/vue.scss */
+.btn.btn-default {
+  border-color: #DCDEE4 !important;
+}
+
+/* line 1095, app/assets/stylesheets/vue.scss */
+.btn.btn-secondary {
+  color: #343a40;
+  background-color: #fff;
+  border-color: #DCDEE4;
+}
+
+/* line 1139, app/assets/stylesheets/vue.scss */
+.reviews__card {
+  border-radius: 4px;
+  border: 1px solid #DCDEE4;
+}
+
+/* line 2865, app/assets/stylesheets/vue.scss */
+.reviews__card--internal {
+  padding: 1.25rem 0;
+  border-top: initial;
+  border-bottom: 1px solid #DCDEE4;
+}
+
+/* line 2874, app/assets/stylesheets/vue.scss */
+.reviews__card--internal h3 {
+  margin-bottom: 0;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+/* line 2880, app/assets/stylesheets/vue.scss */
+.reviews__card--internal h4 {
+  margin-bottom: 0.625rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ---------- FORMS---------- */
+/* line 3007, app/assets/stylesheets/vue.scss */
+.form-label {
+  margin-bottom: 0.3125rem;
+  font-size: 0.875rem;
+  color: #797B7E;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+/* line 3037, app/assets/stylesheets/vue.scss */
+.form-control {
+  padding: 0.4375rem 0.625rem;
+  font-size: 0.875rem;
+  color: #303132;
+  border-color: #DCDEE4;
+}
+
+.content {
+  border: 1px solid #ccc;
+  padding: 5px 12px;
+}
+
+.btn-group,
+.btn-group-vertical {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.width-90 {
+  width: 90% !important;
+}
+
+.datetime-icon {
+  padding: 10px;
+}
+
+/* line 2786, app/assets/stylesheets/vue.scss */
+.reviews__checkbox-item {
+  line-height: 1;
+  padding: 2px 7px;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 200ms ease-in;
+  display: inline-block;
+  width: 32px;
+  margin-right: 15px;
+}
+
+.reviews__checkbox-item--true.checked {
+  color: white;
+  border-color: #1ab27f;
+  background: #1ab27f;
+}
+
+/* line 2809, app/assets/stylesheets/vue.scss */
+.reviews__checkbox-item--false.checked {
+  color: white;
+  border-color: #ce1938;
+  background: #ce1938;
+}
+
+.icon-left {
+  width: 150px;
+}
+
+.new-item-text {
+  width: 80%;
+  margin-left: -48px;
+}
+
+.m-b-2 {
+  margin-bottom: 2rem;
+}
+  </style>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <% @annual_report.review_categories.each do |category| %>
+    <div class="container page">
+      <div class="card-body white-card-body reviews__card" style="border: 0px;">
+        <div class="reviews__card--internal pt-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3><%= category.name %></h3>
+          </div>
+        </div>
+        <div class="reviews__topiclist">
+          <% category.review_topics.each do |topic| %>
+            <div class="reviews__card--internal">
+              <div class="row m-b-2 m-b-2">
+                <div class="col-md-8"><%= topic["name"] %></div>
+              </div>
+              <% topic["items"].each do |item| %>
+                <div class="row mb-2">
+                  <div class="col-md-2 col-lg-2 col-xl-1 icon-left">
+                    <div class="reviews__checkbox d-flex justify-content-between">
+                      <div class="reviews__checkbox-item reviews__checkbox-item--true <%= 'checked' if item['checked'] %>"><svg viewBox="0 0 16 16"
+                          width="1em" height="1em" focusable="false" role="img" aria-label="check2"
+                          xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-check2 b-icon bi">
+                          <g>
+                            <path
+                              d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z">
+                            </path>
+                          </g>
+                        </svg></div>
+                      <div class="reviews__checkbox-item reviews__checkbox-item--false <%= 'checked' if !item['checked'] %>"><svg viewBox="0 0 16 16" width="1em"
+                          height="1em" focusable="false" role="img" aria-label="x" xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor" class="bi-x b-icon bi">
+                          <g>
+                            <path
+                              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                            </path>
+                          </g>
+                        </svg></div>
+                    </div>
+                  </div>
+                  <div class="col-md-8 col-lg-8 col-xl-10 new-item-text">
+                    <%= item['body'] %>
+                    <% if item['findings'].any? %>
+                      <br/><br/>
+                      <p>Findings:</p>
+                    <% end %>
+                    <% item['findings'].each do |finding| %>
+                      <div class="col-md-10 offset-md-1">
+                        <textarea type="text" class="finding-area form-control m-b-1"><%= finding %></textarea>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</body>
+
+</html>

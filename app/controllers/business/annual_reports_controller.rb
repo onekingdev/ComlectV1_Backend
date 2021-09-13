@@ -20,10 +20,10 @@ class Business::AnnualReportsController < ApplicationController
     end
   end
 
-  def show; end
+  # def show; end
 
-  def create
-    @annual_report = current_business.annual_reports.last
+  def show
+    @annual_report = current_business.annual_reports.find(params[:id])
     @business = current_business
     respond_to do |format|
       format.jpg do
@@ -46,27 +46,7 @@ class Business::AnnualReportsController < ApplicationController
         file.rewind
         uploaded_file = uploader.upload(file)
         @annual_report.update(pdf_data: uploaded_file.to_json, year: @annual_report.review_end.year)
-        @annual_review = current_business.annual_reviews.where(year: @annual_report.review_end.year)
-        doc_path = env_path(@annual_report.pdf_url.split('?')[0])
-        @annual_review = if @annual_review.present?
-          @annual_review.first
-        else
-          AnnualReview.create(business_id: current_business.id, year: @annual_report.review_end.year)
-        end
-        pdf_file = if Rails.env.production? || Rails.env.staging?
-          URI.parse(doc_path).open
-        else
-          File.open(doc_path)
-        end
-        uploaded_pdf = uploader.upload(pdf_file)
-        @annual_review.update(file_data: uploaded_pdf.to_json, pdf_data: uploaded_pdf.to_json, processed: true)
         file.delete
-
-        current_business.file_docs.create(
-          name: generate_safe_filename("Annual Compliance Program Review #{@annual_report.exam_start.year}") + '.pdf',
-          file_data: uploaded_pdf.to_json,
-          file_folder_id: current_business.create_annual_review_folder_if_none.id
-        )
         redirect_to @annual_report.pdf_url
       end
     end
@@ -97,19 +77,6 @@ class Business::AnnualReportsController < ApplicationController
   end
 
   private
-
-  def generate_safe_filename(src_name)
-    generated = src_name
-    num = ''
-    while current_business.file_docs.where(
-      file_folder_id: current_business.create_annual_review_folder_if_none.id,
-      name: "#{generated}.pdf"
-    ).count.positive?
-      num = num == '' ? 1 : num + 1
-      generated = "#{src_name}_#{num}"
-    end
-    generated
-  end
 
   def build_annual_report
     @annual_report = AnnualReport.create(business_id: current_business.id)

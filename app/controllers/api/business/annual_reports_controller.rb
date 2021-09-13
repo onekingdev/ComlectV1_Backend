@@ -72,7 +72,7 @@ class Api::Business::AnnualReportsController < ApiController
       :year,
       :name,
       :material_business_changes,
-      regulatory_changes_attributes: %i[id change _destroy],
+      regulatory_changes_attributes: %i[id change response _destroy],
       annual_review_employees_attributes: %i[id name title department _destroy],
       review_categories_attributes: %i[id complete name review_topics]
     )

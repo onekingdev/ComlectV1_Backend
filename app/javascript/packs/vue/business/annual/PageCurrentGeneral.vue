@@ -6,7 +6,7 @@
         h2.page-header__title: b {{ review ? review.name : '' }}
       .page-header__actions
         div
-          button.btn.btn-default.mr-3.d-none Download
+          button.btn.btn-default.mr-3(@click="download_pdf") Download
           button.btn.btn-dark.mr-3(@click="saveGeneral(true)") Save and Exit
           button.btn.btn__close(@click="backToList")
             b-icon(icon="x")
@@ -195,6 +195,9 @@ export default {
       updateAnnual: 'annual/updateReview',
       getCurrentReviewReview: 'annual/getCurrentReview'
     }),
+    download_pdf() {
+      window.location.href="/business/annual_reports/"+this.annualId+".pdf";
+    },
     validateRegulatory() {
       const regulatoryChangesSplitLength = this.regulatoryChangesSplit.length
       for(let i = 0; i <= regulatoryChangesSplitLength - 1; i++) {

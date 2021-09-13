@@ -104,7 +104,7 @@ Rails.application.routes.draw do
     end
     get 'annual_reviews/:id/:revcat', to: 'annual_reviews#revcat'
     resources :annual_reviews, only: %i[new create show destroy index edit update]
-    resources :annual_reports, only: %i[new create index update]
+    resources :annual_reports, only: %i[new create index update show]
     resources :teams, only: %i[new create show edit index update destroy]
     resources :team_members, only: %i[new create edit update destroy]
     resources :reminders, only: %i[index]

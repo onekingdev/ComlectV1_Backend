@@ -4,9 +4,9 @@ class Api::Business::FileFoldersController < ApiController
   before_action :require_business!
   before_action :authorize_action
   before_action :set_folder, only: %i[destroy edit update show download_folder check_zip list_tree]
+  skip_before_action :verify_authenticity_token
 
   def index
-    # current_business.create_annual_review_folder_if_none
     file_folders = current_business.file_folders.root
     file_docs = current_business.file_docs.root
     render json: { folders: serialize_folders(file_folders), files: serialize_files(file_docs) }

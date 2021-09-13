@@ -4299,7 +4299,8 @@ CREATE TABLE public.regulatory_changes (
     annual_report_id integer,
     change text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    response text
 );
 
 
@@ -8093,6 +8094,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210903165008'),
 ('20210907144837'),
 ('20210907191719'),
-('20210912233759');
+('20210912233759'),
+('20210913004031');
 
 
