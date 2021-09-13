@@ -18,7 +18,7 @@ ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 RUN node --version
 RUN npm --version
 
-ENV NODE_OPTIONS=--max_old_space_size=3500
+ENV NODE_OPTIONS=--max_old_space_size=3700
 
 RUN gem install bundler
 
