@@ -406,7 +406,7 @@
           formData.append('specialist[former_regulator]', specialist.former_regulator);
           this.applyData(formData, 'specialist[skill_names][]', specialist.skill_names)
           formData.append('specialist[experience]', specialist.experience);
-          formData.append('specialist[resume]', specialist.resume);
+          if (specialist.resume.lastModifiedDate) formData.append('specialist[resume]', specialist.resume);
 
           if (this.form.specialist.former_regulator) {
             formData.append('specialist[specialist_other]', this.specialist_other ? this.specialist_other.map(record => record.name).join(', ') : [])
