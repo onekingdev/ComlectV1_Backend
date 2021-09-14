@@ -92,7 +92,7 @@ class Api::Business::CompliancePoliciesController < ApiController
     if params[:positions].present?
       params[:positions].each do |item|
         policy = current_business.compliance_policies.find_by(id: item['id'])
-        policy.update_attribute('position', item['position']) if policy
+        policy&.update_attribute('position', item['position'])
       end
       respond_with status: :ok
     else

@@ -38,6 +38,7 @@ class CompliancePolicy < ActiveRecord::Base
   end
 
   private
+
   def update_position
     update(position: id)
   end
