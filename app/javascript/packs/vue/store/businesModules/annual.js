@@ -123,7 +123,8 @@ export default {
             annualItem.updated_at,
             annualItem.year,
             annualItem.name,
-            annualItem.complete
+            annualItem.complete,
+            annualItem.completed_at
           ))
         }
         commit('SET_REVIEWS', reviews)

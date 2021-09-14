@@ -333,12 +333,21 @@ import Tiptap from '@/common/Tiptap'
       currentUserBasic() {
         return (window.localStorage["app.currentUser.role"] == "basic")
       },
+      currentUserAdmin() {
+        return (window.localStorage["app.currentUser.role"] == "admin")
+      },
+      currentUserTrusted() {
+        return (window.localStorage["app.currentUser.role"] == "trusted")
+      },
       policyById() {
         const id = this.policyId
         return this.$store.getters.policyById(id)
       },
       policiesListNested () {
-        return this.$store.getters.policiesListNested
+        const policies = this.$store.getters.policiesListNested.filter(item => item.status !== 'archived')
+        if (this.currentUserAdmin || this.currentUserTrusted) return policies.filter(item => item.status === 'published')
+
+        return policies
       },
     },
     mounted() {

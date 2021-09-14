@@ -411,6 +411,37 @@ export default {
       //
       // console.log(data);
     },
+    async updatePolicyPositions({ commit, getters }, payload) {
+      commit("clearError")
+      try {
+        const data = fetch('/api/business/compliance_policies/update_position', {
+          method: 'POST',
+          headers: {
+            'Authorization': `${TOKEN}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'business_id': window.localStorage["app.business_id"]},
+          body: JSON.stringify({
+            positions: payload.positionChange,
+          })
+        }).then(response => {
+          if (!response.ok)
+            throw new Error(`Could't update policy (${response.status})`);
+          return response.json()
+        }).then(response => {
+          return response
+        }).catch (error => {
+          throw error;
+        }).finally(() => commit("setLoading", false))
+
+        return data;
+
+      } catch (error) {
+        commit("setError", error.message);
+        commit("setLoading", false);
+        throw error;
+      }
+    },
     async deletePolicyById ({commit, getters}, payload) {
       commit("clearError");
       commit("setLoading", true);

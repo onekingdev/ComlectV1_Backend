@@ -279,4 +279,29 @@ RSpec.describe Api::Business::CompliancePoliciesController, type: :controller do
       it { expect(JSON.parse(response.body)['name']).to eq(new_policy_name) }
     end
   end
+
+  describe 'POST update_position' do
+    let(:policy) { create(:compliance_policy, business: Business.last) }
+    let(:new_position) { 1.to_f }
+
+    context 'with invalid params' do
+      before { post :update_position, params: { } }
+      it { expect(JSON.parse(response.body)['status']).to eq('unprocessable_entity') }
+    end
+
+    context 'with valid params' do
+      before do
+        valid_params = {
+          positions: [
+            {id: policy.id, position: new_position},
+          ]
+        }
+        put :update_position, params: valid_params
+      end
+
+      it { expect(response).to be_successful }
+      it { expect(response).to have_http_status(200) }
+      it { expect(policy.position).to eq(new_position) }
+    end
+  end
 end

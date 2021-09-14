@@ -8,8 +8,7 @@
     .card-body.white-card-body.card-body_full-height.p-x-40
       Notifications.m-b-20(:notify="notify")
         a.btn.btn-default(href='https://www.sec.gov/exams', target="_blank") View
-      p Rule 206(4)-7 under the Adviser Act that you conducta review of your compliance program no less than annually. Your last completed internal review was complited on&nbsp;
-        a.link(href="#") 7/24/2020
+      p(v-show="!loading" v-html="noticeText")
       Loading
       ReviewTable(v-if="!loading && reviews.length" :reviews="reviews")
       .row.h-100(v-if="!reviews.length && !loading")
@@ -24,6 +23,7 @@ import Loading from '@/common/Loading/Loading'
 import EmptyState from '@/common/EmptyState'
 import AnnualModalCreate from "./modals/AnnualModalCreate"
 import ReviewTable from "./components/ReviewTable"
+import { DateTime } from 'luxon'
 
 export default {
   components: {
@@ -56,7 +56,31 @@ export default {
     },
     ...mapGetters({
       reviews: 'annual/reviews'
-    })
+    }),
+    recentCompletedReview() {
+      const completedReview = this.reviews.filter(item => item.completed_at && item.complete)
+      const orderCompeletedReview = completedReview.sort((reviewFirst, reviewSecond) => {
+        if (reviewFirst.completed_at > reviewSecond.completed_at) {
+          return -1
+        }
+
+        if (reviewFirst.completed_at < reviewSecond.completed_at) {
+          return 1
+        }
+        
+        return 0
+      })
+      return orderCompeletedReview.length > 0 ? orderCompeletedReview[0] : null
+    },
+    noticeText() {
+      const text = "Rule 206(4)-7 under the Adviser Act requires that you conduct a review of your compliance program no less than annually."
+      if (this.recentCompletedReview) {
+        const date = DateTime.fromISO(this.recentCompletedReview.completed_at).toFormat('MM/dd/yyyy')
+        return `${text} Your last completed internal review was complited on&nbsp; <a class="link" href="/business/annual_reviews/${this.recentCompletedReview.id}"> ${date}</a>`
+      }
+
+      return text
+    }
   },
   async mounted () {
     try {

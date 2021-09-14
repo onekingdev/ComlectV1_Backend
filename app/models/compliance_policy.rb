@@ -18,6 +18,8 @@ class CompliancePolicy < ActiveRecord::Base
     published: 'published'
   }
 
+  after_commit :update_position, on: :create
+
   def self.root_published
     policies_collection = []
     root.where(archived: false).find_each do |cpolicy|
@@ -33,5 +35,10 @@ class CompliancePolicy < ActiveRecord::Base
 
   def published?
     status == 'published'
+  end
+
+  private
+  def update_position
+    update(position: id)
   end
 end

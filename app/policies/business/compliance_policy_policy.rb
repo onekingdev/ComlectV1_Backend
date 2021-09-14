@@ -21,6 +21,10 @@ class Business::CompliancePolicyPolicy < ApplicationPolicy
     true
   end
 
+  def update_position?
+    true
+  end
+
   def create?
     team?
   end

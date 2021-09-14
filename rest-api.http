@@ -143,7 +143,18 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTEwODExM30.whG0wc_9
     "description": "oi m8"
 }
 
-###########3
+POST http://localhost:3000/api/business/compliance_policies/update_position
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImV4cCI6MTYxNTEwODExM30.whG0wc_9ghHz3l5rcRSq045DLx5KTx_dM5oP4-a1aGk
+{
+  positions: [
+    {"id": 59, "position": 56},
+    {"id": 55, "position": 57},
+    {"id": 57, "position": 58},
+    {"id": 58, "position": 59},
+  ]
+}
+###########
 
 POST http://localhost:3000/api/specialist/projects/44/timesheets
 Content-Type: application/json

@@ -11,9 +11,9 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def index
     cpolicies = if current_user.specialist&.role_basic?(current_business)
-      current_business.compliance_policies.root_published
+      current_business.compliance_policies.root_published.order('position desc')
     else
-      current_business.compliance_policies.root
+      current_business.compliance_policies.root.order('position desc')
     end
     respond_with cpolicies, each_serializer: CompliancePolicySerializer
   end
@@ -85,6 +85,18 @@ class Api::Business::CompliancePoliciesController < ApiController
       respond_with @cpolicy, serializer: CompliancePolicySerializer
     else
       respond_with errors: @cpolicy.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update_position
+    if params[:positions].present?
+      params[:positions].each do |item|
+        policy = current_business.compliance_policies.find_by(id: item['id'])
+        policy.update_attribute('position', item['position']) if policy
+      end
+      respond_with status: :ok
+    else
+      respond_with status: :unprocessable_entity
     end
   end
 
