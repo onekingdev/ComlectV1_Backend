@@ -28,7 +28,7 @@
         //b-dropdown-item(:href="`/reminders/${item.id}`") Edit
         TaskFormModal(:task-id="item.id" :inline="false")
           b-dropdown-item Edit
-        //b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
+        //b-dropdown-item {{ item.done_at ? 'Incomplete' : 'Complete' }}
         TaskDeleteConfirmModal(@deleteConfirmed="deleteTask(item)", :linkedTo="{ linkable_type: item.linkable_type, linkable_name: item.linkable_name }" :inline="false")
           b-dropdown-item Delete
 </template>

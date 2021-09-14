@@ -28,7 +28,7 @@
         //- b-dropdown-item(:href="`/business/reminders/${item.id}`") Edit
         TaskFormModal(:task-id="item.id" @saved="$emit('saved')")
           b-dropdown-item Edit
-        //- b-dropdown-item {{ item.done_at ? 'Incomplite' : 'Complite' }}
+        //- b-dropdown-item {{ item.done_at ? 'Incomplete' : 'Complete' }}
         TaskDeleteConfirmModal(@deleteConfirmed="deleteTask(item)" :inline="false")
           b-dropdown-item Delete
 </template>

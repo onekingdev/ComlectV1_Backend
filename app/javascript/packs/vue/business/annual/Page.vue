@@ -76,7 +76,7 @@ export default {
       const text = "Rule 206(4)-7 under the Adviser Act requires that you conduct a review of your compliance program no less than annually."
       if (this.recentCompletedReview) {
         const date = DateTime.fromISO(this.recentCompletedReview.completed_at).toFormat('MM/dd/yyyy')
-        return `${text} Your last completed internal review was complited on&nbsp; <a class="link" href="/business/annual_reviews/${this.recentCompletedReview.id}"> ${date}</a>`
+        return `${text} Your last completed internal review was on&nbsp; <a class="link" href="/business/annual_reviews/${this.recentCompletedReview.id}"> ${date}</a>`
       }
 
       return text
