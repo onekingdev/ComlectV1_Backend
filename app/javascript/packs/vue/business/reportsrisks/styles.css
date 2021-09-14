@@ -29,18 +29,17 @@
   font-size: 1rem;
 }
 .risks-heatmap__box-row {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: .5rem;
   width: 100%;
+  display: flex;
 }
 .risks-heatmap__box {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 0.5rem;
   font-size: 1.3rem;
   font-weight: bold;
-  /*width: 10rem; !*160px*!*/
   width: 25%;
   height: 5rem; /*160px*/
   color: white;
@@ -51,10 +50,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-right: .5rem;
-  /*width: 145px;*/
-  width: 16%;
+  width: 25%;
   font-size: 1rem;
+  margin-right: 15px;
 }
 .risks-heatmap__box_level-high {
   background-color: #ce1938;
