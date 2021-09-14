@@ -208,6 +208,12 @@
       this.randomNum = Math.floor(Math.random() * 100)
       this.policies = this.policiesList
       this.originalPosition = [...this.policiesList].map(item => item.position)
+    },
+    watch: {
+      policiesList: function(newValue) {
+        this.policies = newValue
+        this.originalPosition = [...newValue].map(item => item.position)
+      }
     }
   };
 </script>
