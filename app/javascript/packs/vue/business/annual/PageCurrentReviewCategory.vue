@@ -42,9 +42,9 @@
                   template(v-for="(currentTopic, i) in currentCategory.review_topics")
                     .reviews__card--internal(:key="`${currentCategory.name}-${i}`")
                       .row.m-b-2
-                        .col-md-8
-                          input.reviews__input.reviews__topic-name(v-model="currentTopic.name" placeholder="New Topic")
-                        .col-md-4.text-right
+                        .col-md-9.col-lg-9.col-xl-10
+                          textarea-autosize.reviews__input.reviews__topic-name(v-model="currentTopic.name" :min-height="30" placeholder="New Topic")
+                        .col-md-3.col-lg-3.col-xl-2.text-right.reviews__card--actions
                           b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                             template(#button-content)
                               | Actions
@@ -62,9 +62,9 @@
                                 b-icon(icon="check2")
                               .reviews__checkbox-item.reviews__checkbox-item--false(@click="topicItem.checked = false" :class="{ 'checked': !topicItem.checked }")
                                 b-icon(icon="x")
-                          .col-md-8.col-lg-8.col-xl-10.new-item-text
+                          .col-md-7.col-lg-7.col-xl-9.new-item-text
                             textarea-autosize.reviews__input.reviews__topic-body(v-model="topicItem.body" placeholder="New Item")
-                          .col-md-2.col-lg-2.col-xl-1.text-right
+                          .col-md-3.col-lg-3.col-xl-2.text-right.reviews__card--dropdown
                             b-dropdown(size="xs" variant="light" class="m-0 p-0" right)
                               template(#button-content)
                                 b-icon(icon="three-dots")
@@ -276,6 +276,9 @@ export default {
   }
 
   @media only screen and (max-width: 767px) {
+    .reviews__card--actions, .reviews__card--dropdown {
+      margin-top: 10px;
+    }
     .new-item-text textarea {
       margin-top: 10px;
     }

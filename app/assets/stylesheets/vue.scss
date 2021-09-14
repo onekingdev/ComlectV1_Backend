@@ -2765,6 +2765,7 @@ table.table {
     &-body {
       font-size: 16px;
       font-weight: 500;
+      padding: 2px 7px;
     }
 
     &-label {
@@ -2772,10 +2773,11 @@ table.table {
     }
 
     &-name {
-      padding: .5rem;
+      // padding: .5rem;
+      padding: 2px 7px;
       font-size: 18px;
       font-weight: 500;
-      border-radius: 5px;
+      // border-radius: 5px;
     }
   }
 
