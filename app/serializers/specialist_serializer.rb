@@ -4,7 +4,6 @@ class SpecialistSerializer < ApplicationSerializer
   has_many :skills, serializer: SkillSerializer
   has_many :industries, serializer: IndustrySerializer
   has_many :jurisdictions, serializer: JurisdictionSerializer
-
   attributes \
     :id,
     :username,
@@ -17,5 +16,6 @@ class SpecialistSerializer < ApplicationSerializer
     :former_regulator,
     :specialist_other,
     :seat_role,
-    :plan
+    :plan,
+    :description
 end

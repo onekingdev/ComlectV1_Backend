@@ -2276,7 +2276,8 @@ CREATE TABLE public.specialists (
     reminders_mailed_at timestamp without time zone,
     zero_fee boolean DEFAULT false,
     seat_role integer DEFAULT 0,
-    experience integer DEFAULT 0
+    experience integer DEFAULT 0,
+    description text
 );
 
 
@@ -5226,8 +5227,8 @@ CREATE TABLE public.work_experiences (
     company character varying,
     job_title character varying,
     location character varying,
-    "from" date,
-    "to" date,
+    start_date date,
+    end_date date,
     current boolean DEFAULT false NOT NULL,
     compliance boolean DEFAULT false NOT NULL,
     description character varying,
@@ -7516,10 +7517,10 @@ CREATE INDEX index_work_experiences_on_current ON public.work_experiences USING 
 
 
 --
--- Name: index_work_experiences_on_from; Type: INDEX; Schema: public; Owner: -
+-- Name: index_work_experiences_on_end_date; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_from ON public.work_experiences USING btree ("from");
+CREATE INDEX index_work_experiences_on_end_date ON public.work_experiences USING btree (end_date);
 
 
 --
@@ -7530,10 +7531,10 @@ CREATE INDEX index_work_experiences_on_specialist_id ON public.work_experiences 
 
 
 --
--- Name: index_work_experiences_on_to; Type: INDEX; Schema: public; Owner: -
+-- Name: index_work_experiences_on_start_date; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_work_experiences_on_to ON public.work_experiences USING btree ("to");
+CREATE INDEX index_work_experiences_on_start_date ON public.work_experiences USING btree (start_date);
 
 
 --
@@ -8095,6 +8096,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210907144837'),
 ('20210907191719'),
 ('20210912233759'),
-('20210913004031');
+('20210913004031'),
+('20210914144033'),
+('20210915162525');
 
 

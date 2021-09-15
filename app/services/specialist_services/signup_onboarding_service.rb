@@ -46,7 +46,8 @@ module SpecialistServices
         specialist.industry_ids = params[:industry_ids]
         specialist.former_regulator = params[:former_regulator]
         specialist.experience = params[:experience]
-        specialist.resume = params[:resume]
+        specialist.description = params[:description] if params[:description]
+        specialist.resume = params[:resume] if params[:resume]
       end
 
       if specialist.username.blank?

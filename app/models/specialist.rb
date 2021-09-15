@@ -5,6 +5,7 @@ class Specialist < ApplicationRecord
   belongs_to :team, foreign_key: :team_id, optional: true
 
   belongs_to :rewards_tier, optional: true
+  has_many :work_experiences, dependent: :destroy
 
   # before_save :calculate_years_of_experience
   has_many :ported_businesses

@@ -418,6 +418,7 @@ Rails.application.routes.draw do
 
       resources :billings, only: %i[index create update]
       resources :bank_accounts, only: %i[create]
+      resources :work_experiences, only: %i[create update destroy index]
     end
 
     resources :businesses, only: [:create] do

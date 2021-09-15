@@ -48,6 +48,7 @@ class Api::SpecialistsController < ApiController
       :experience,
       :former_regulator,
       :specialist_other,
+      :description,
       skill_names: [],
       industry_ids: [],
       jurisdiction_ids: [],
