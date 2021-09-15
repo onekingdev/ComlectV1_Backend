@@ -9,7 +9,7 @@
             .settings___card--internal.p-y-1
               .row
                 .col-md-12
-                  h4 Location
+                  h4.semibold-text Location
             .row
               .col-md-6
                 Loading
@@ -27,7 +27,7 @@
                       label="name"
                       placeholder="Select Time Zone")
                       Errors(:errors="errors.time_zone")
-                  b-form-group#input-group-2(label='Country' label-for='select-2' label-class="settings__card--label required")
+                  b-form-group#input-group-2(label='Country' label-for='select-2' label-class="settings__card--label")
                     div(
                     :class="{ 'invalid': errors.country }"
                     )
@@ -105,10 +105,11 @@
             if(response.errors) {
               for (const [key, value] of Object.entries(response.errors)) {
                 this.errors = Object.assign(this.errors, { [key]: value })
+                this.toast('Error', 'Information has not been updated. Please try again.', true)
               }
             }
             if(!response.errors) {
-              this.toast('Success', `Information successfully saved!`)
+              this.toast('Success', 'Information has been updated.')
               this.form = {
                 ...response,
                 time_zone: {
@@ -165,4 +166,9 @@
   }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+  .semibold-text {
+    font-size: 20px;
+    font-weight: 600;
+  }
+</style>
