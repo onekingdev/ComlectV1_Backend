@@ -6,7 +6,9 @@ class FileDocSerializer < ApplicationSerializer
              :file_addr,
              :created_at,
              :updated_at,
-             :name
+             :name,
+             :owner,
+             :size
 
   def file_addr
     object.file_url.split('?')[0]

@@ -9,8 +9,13 @@ class FileDoc < ActiveRecord::Base
   validates :name, uniqueness: { scope: %i[business_id file_folder_id] }
   scope :root, -> { where(file_folder_id: nil) }
   default_scope { order(created_at: :desc) }
+  after_save :update_folder_size
 
   private
+
+  def update_folder_size
+    file_folder.update_size if file_folder.present?
+  end
 
   def folder_belongs_to_business
     return true if file_folder_id.blank?

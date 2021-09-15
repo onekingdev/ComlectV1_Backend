@@ -1197,7 +1197,9 @@ CREATE TABLE public.file_docs (
     file_data jsonb,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    name character varying
+    name character varying,
+    owner character varying,
+    size integer
 );
 
 
@@ -1232,7 +1234,9 @@ CREATE TABLE public.file_folders (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     locked boolean DEFAULT false,
-    zip_data jsonb
+    zip_data jsonb,
+    owner character varying,
+    size integer
 );
 
 
@@ -8098,6 +8102,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210912233759'),
 ('20210913004031'),
 ('20210914144033'),
-('20210915162525');
+('20210915162525'),
+('20210915184549'),
+('20210915191451');
 
 

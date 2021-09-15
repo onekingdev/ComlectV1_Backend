@@ -7,7 +7,9 @@ class FileFolderSerializer < ApplicationSerializer
              :created_at,
              :updated_at,
              :locked,
-             :zip_addr
+             :zip_addr,
+             :owner,
+             :size
 
   def zip_addr
     object.zip_url.nil? ? nil : object.zip_url.split('?')[0]

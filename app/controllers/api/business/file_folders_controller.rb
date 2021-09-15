@@ -15,6 +15,7 @@ class Api::Business::FileFoldersController < ApiController
   def create
     file_folder = FileFolder.new(file_folder_params)
     file_folder.business_id = current_business.id
+    file_folder.owner = current_user.specialist ? current_user.specialist.name : current_business.name
     if file_folder.save
       respond_with file_folder, serializer: FileFolderSerializer, status: :created
     else

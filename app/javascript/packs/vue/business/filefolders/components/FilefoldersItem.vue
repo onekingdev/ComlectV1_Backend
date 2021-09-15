@@ -15,8 +15,7 @@
           | Zipping...
     td.align-middle.text-right {{ item.owner }}
     td.align-middle.text-right
-      div(v-if="itemType === 'folder'") -
-      div(v-else) {{ item.size ? item.size : 0}}
+      div {{ item.size ? item.size : 0 | format_size }}
     td.align-middle.text-right {{ dateToHuman(item.updated_at) }}
     td.text-right
       .actions
@@ -59,6 +58,15 @@ export default {
       },
       zipCounter: 0,
       disabled: false
+    }
+  },
+  filters: {
+    format_size(size) {
+      if (size >= 1000) {
+        return `${(size/1000).toFixed(1)} MB`
+      } else {
+        return `${size} KB`
+      }
     }
   },
   methods: {

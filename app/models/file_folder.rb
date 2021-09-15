@@ -10,6 +10,7 @@ class FileFolder < ActiveRecord::Base
   validates :name, uniqueness: { scope: %i[business_id parent_id] }
   validate :parent_belongs_to_business
   default_scope { order(created_at: :desc) }
+  after_save :update_size
 
   def all_children_recursion
     file_folders.flat_map do |child_ff|
@@ -33,6 +34,12 @@ class FileFolder < ActiveRecord::Base
     FileUtils.rm_rf(directory_name) if File.exist?(directory_name)
     zipfile_name.unlink if File.exist? zipfile_name
     zipfile_name.delete if File.exist? zipfile_name
+  end
+
+  def update_size
+    total = file_folders.collect(&:size).compact.inject(0, :+) + file_docs.collect(&:size).compact.inject(0, :+)
+    update_column('size', total)
+    parent.update_size if parent.present?
   end
 
   private
