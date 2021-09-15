@@ -122,7 +122,7 @@
 </template>
 
 <script>
-  import moment from "moment";
+  import { DateTime } from "luxon";
   import VueGoogleAutocomplete from "vue-google-autocomplete";
 
   export default {
@@ -197,7 +197,7 @@
     computed: {
       datepickerOptions() {
         return {
-          max: moment().subtract(18, "years").format()
+          max: DateTime.local().minus({years: 18}).toSQLDate()
         }
       },
       loading() {
