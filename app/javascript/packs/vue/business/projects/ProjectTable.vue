@@ -1,60 +1,66 @@
 <template lang="pug">
-  table.table.task_table.project-table
-    thead
-      tr
-        th.project-table__name.project-table__name_head
-          span.pointer(@click="toggleSorting('title')")
-            | Name
-            b-icon.ml-2(icon='chevron-expand')
-        th.project-table__assignee.project-table__assignee_head
-          span.pointer(@click="toggleSorting('collaborators_count', true)")
-            | Collaborators
-            b-icon.ml-2(icon='chevron-expand')
-        th.project-table__left.project-table__left_head.text-right
-          span.pointer(@click="toggleSorting('tasks_left', true)")
-            | Tasks Left
-            b-icon.ml-2(icon='chevron-expand')
-        th.project-table__coast.project-table__coast_head.text-right
-          span.pointer(@click="toggleSorting('cost_int', true)")
-            | Cost
-            b-icon.ml-2(icon='chevron-expand')
-        th.project-table__status.project-table__status_head
-          span.pointer(@click="toggleSorting('status_business')")
-            | Status
-            b-icon.ml-2(icon='chevron-expand')
-        th.project-table__start-date.project-table__start-date_head
-          span.pointer(@click="toggleSorting('starts_on_int')")
-            | Start Date
-            b-icon.ml-2(icon='chevron-expand')
-        th.project-table__end-date.project-table__end-date_head.text-right
-          span.pointer(@click="toggleSorting('ends_on_int')")
-            | End Date
-            b-icon.ml-2(icon='chevron-expand')
-    tbody
-      tr(v-for="project in projectsSorted" :key="key(project)")
-        td.project-table__name: router-link.link(:to='`${project.href}`') {{ project.title }}
-        td.project-table__assignee
-          b-avatar-group(size="2em")
-            b-avatar(v-for="(collaborator, i) in projectCollaboratorsAvatars(project)" :key="`${project.id}_${i}`" v-bind="collaborator" variant="light")
-        td.project-table__left.text-right {{ project.tasks_left || '' }}
-        td.project-table__coast.text-right {{ project.cost | usdWhole }}
-        td.project-table__status
-          span.badge(:class="businessProjectBadgeClass(project)") {{ project.status_business | underscoreToCapitalized }}
-        td.project-table__start-date {{ project.starts_on | asDate }}
-        td.project-table__end-date.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
-          b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
-          span.end-date {{ project.ends_on | asDate }}
-      tr(v-if="!projectsSorted.length")
-        td(colspan="7") No projects
+  div
+    table.table.task_table.project-table
+      thead
+        tr
+          th.project-table__name.project-table__name_head
+            span.pointer(@click="toggleSorting('title')")
+              | Name
+              b-icon.ml-2(icon='chevron-expand')
+          th.project-table__assignee.project-table__assignee_head
+            span.pointer(@click="toggleSorting('collaborators_count', true)")
+              | Collaborators
+              b-icon.ml-2(icon='chevron-expand')
+          th.project-table__left.project-table__left_head.text-right
+            span.pointer(@click="toggleSorting('tasks_left', true)")
+              | Tasks Left
+              b-icon.ml-2(icon='chevron-expand')
+          th.project-table__coast.project-table__coast_head.text-right
+            span.pointer(@click="toggleSorting('cost_int', true)")
+              | Cost
+              b-icon.ml-2(icon='chevron-expand')
+          th.project-table__status.project-table__status_head
+            span.pointer(@click="toggleSorting('status_business')")
+              | Status
+              b-icon.ml-2(icon='chevron-expand')
+          th.project-table__start-date.project-table__start-date_head
+            span.pointer(@click="toggleSorting('starts_on_int')")
+              | Start Date
+              b-icon.ml-2(icon='chevron-expand')
+          th.project-table__end-date.project-table__end-date_head.text-right
+            span.pointer(@click="toggleSorting('ends_on_int')")
+              | End Date
+              b-icon.ml-2(icon='chevron-expand')
+      tbody
+        tr(v-for="project in projectsSorted" :key="key(project)")
+          td.project-table__name: router-link.link(:to='`${project.href}`') {{ project.title }}
+          td.project-table__assignee
+            b-avatar-group(size="2em")
+              b-avatar(v-for="(collaborator, i) in projectCollaboratorsAvatars(project)" :key="`${project.id}_${i}`" v-bind="collaborator" variant="light")
+          td.project-table__left.text-right {{ project.tasks_left || '' }}
+          td.project-table__coast.text-right {{ project.cost | usdWhole }}
+          td.project-table__status
+            span.badge(:class="businessProjectBadgeClass(project)") {{ project.status_business | underscoreToCapitalized }}
+          td.project-table__start-date {{ project.starts_on | asDate }}
+          td.project-table__end-date.text-right(class="due-date" :class="{ overdue: isOverdue(project) }")
+            b-icon.mr-2(v-if="isOverdue(project)" icon="exclamation-triangle-fill" variant="warning")
+            span.end-date {{ project.ends_on | asDate }}
+    .row.h-100(v-if="!projectsSorted.length")
+        .col.h-100.text-center
+          EmptyState(name="Tasks")
 </template>
 
 <script>
 import { isOverdue, businessProjectBadgeClass } from '@/common/TaskHelper'
+import EmptyState from '@/common/EmptyState'
 
 const key = project => `${project.id}${project.type ? '-p' : '-l'}`
 const tasks_left = project => project.reminders.filter(r => !r.done_at).length
 
 export default {
+  components: {
+    EmptyState
+  },
   props: {
     projects: {
       type: Array,

@@ -7,7 +7,7 @@
           button.btn.btn.btn-default.mr-3.d-none Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
-        AccessPersonTable(v-if="!loading && accessPersons.length" :users="accessPersons")
+        AccessPersonTable(v-if="!loading" :users="accessPersons")
         Loading
         .row.h-100(v-if="!accessPersons.length && !loading")
           .col.h-100.text-center
@@ -20,7 +20,7 @@
           button.btn.btn.btn-default.mr-3.d-none Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
-        TerminatedEmployees(v-if="!loading && terminatedEmployees.length" :users="terminatedEmployees")
+        TerminatedEmployees(v-if="!loading" :users="terminatedEmployees")
         Loading
         .row.h-100(v-if="!terminatedEmployees.length && !loading")
           .col.h-100.text-center
@@ -33,7 +33,7 @@
           button.btn.btn.btn-default.mr-3.d-none Download
           router-link.btn.link(to="/business/settings/users") View all
       .card-body.white-card-body
-        Resignations(v-if="!loading && resignations.length" :users="resignations")
+        Resignations(v-if="!loading" :users="resignations")
         Loading
         .row.h-100(v-if="!resignations.length && !loading")
           .col.h-100.text-center

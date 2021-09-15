@@ -10,7 +10,7 @@
         a.btn.btn-default(href='https://www.sec.gov/exams', target="_blank") View
       p(v-show="!loading" v-html="noticeText")
       Loading
-      ReviewTable(v-if="!loading && reviews.length" :reviews="reviews")
+      ReviewTable(v-if="!loading" :reviews="reviews")
       .row.h-100(v-if="!reviews.length && !loading")
         .col.h-100.text-center
           EmptyState

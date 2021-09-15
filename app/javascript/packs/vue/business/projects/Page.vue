@@ -27,34 +27,38 @@
             ProjectTable(:projects="filterProjects(projects)")
       b-tab(title="Contacts")
         .card-body.white-card-body.card-body_full-height
-          Get(contacts="/api/local_projects/" :etag="etag" :callback="getContacts"): template(v-slot="{contacts}"): table.table
-            thead
-              tr
-                th Name
-                  b-icon.ml-2(icon='chevron-expand')
-                th Location
-                  b-icon.ml-2(icon='chevron-expand')
-                th Status
-                  b-icon.ml-2(icon='chevron-expand')
-                th(width="140px") Rating
-                  b-icon.ml-2(icon='chevron-expand')
-                th(width="40px")
-            tbody
-              tr(v-for="contact in contacts" :key="contact.id")
-                td {{ contact.name }}
-                td {{ contact.location }}
-                td: .badge.badge-success {{ contact.status }}
-                //td: StarRating(:stars="contact.rating")
-                //td &hellip;
-                td.text-right
-                  .d-flex.justify-content-end
-                    StarsRating(:rate="contact.rating")
-                td(width="40px").text-right
-                  b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
-                    template(#button-content)
-                      b-icon(icon="three-dots")
-                    b-dropdown-item Message
-                    b-dropdown-item Remove Contact
+          Get(contacts="/api/local_projects/" :etag="etag" :callback="getContacts"): template(v-slot="{contacts}"): div
+            table.table
+              thead
+                tr
+                  th Name
+                    b-icon.ml-2(icon='chevron-expand')
+                  th Location
+                    b-icon.ml-2(icon='chevron-expand')
+                  th Status
+                    b-icon.ml-2(icon='chevron-expand')
+                  th(width="140px") Rating
+                    b-icon.ml-2(icon='chevron-expand')
+                  th(width="40px")
+              tbody
+                tr(v-for="contact in contacts" :key="contact.id")
+                  td {{ contact.name }}
+                  td {{ contact.location }}
+                  td: .badge.badge-success {{ contact.status }}
+                  //td: StarRating(:stars="contact.rating")
+                  //td &hellip;
+                  td.text-right
+                    .d-flex.justify-content-end
+                      StarsRating(:rate="contact.rating")
+                  td(width="40px").text-right
+                    b-dropdown(size="xs" variant="none" class="m-0 p-0" right)
+                      template(#button-content)
+                        b-icon(icon="three-dots")
+                      b-dropdown-item Message
+                      b-dropdown-item Remove Contact
+            .row.h-100(v-if="contacts && !contacts.length && !loading")
+              .col.h-100.text-center
+                EmptyState(name="Tasks")
       b-tab.h-100(title="Ratings and Reviews")
         .card-body.white-card-body.card-body_full-height.h-100
           Get.h-100(ratings='/api/project_ratings'): template(v-slot="{ratings}")
@@ -77,6 +81,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import EmptyState from '@/common/EmptyState'
 import ProjectTable from './ProjectTable'
 import LocalProjectModal from './LocalProjectModal'
 import EtaggerMixin from '@/mixins/EtaggerMixin'
@@ -102,7 +107,8 @@ export default {
   components: {
     ProjectTable,
     LocalProjectModal,
-    StarsRating
+    StarsRating,
+    EmptyState
   },
   methods: {
     getContacts(projects) {
