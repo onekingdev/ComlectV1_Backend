@@ -19,11 +19,7 @@
       .d-block
         Loading
         FilefoldersTable(v-if="!loading && filefolders.files && filefolders.folders" :filefolders="filefolders")
-        table.table.reviews-table(v-if="!filefolders.files && !filefolders.folders && !loading")
-          tbody
-            tr
-              td.text-center
-                h3 Documents not exist
+        EmptyState(v-if="!loading && filefolders.files.length < 1 && filefolders.folders.length < 1")
 
 </template>
 
@@ -32,12 +28,14 @@
   import Loading from '@/common/Loading/Loading'
   import FoldersModalCreate from './modals/FoldersModalCreate'
   import FilefoldersTable from './components/FilefoldersTable'
+  import EmptyState from '@/common/EmptyState'
 
   export default {
     components: {
       Loading,
       FoldersModalCreate,
-      FilefoldersTable
+      FilefoldersTable,
+      EmptyState,
     },
     data() {
       return {
