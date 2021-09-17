@@ -11,7 +11,7 @@ class CompliancePolicy < ActiveRecord::Base
   include PdfUploader[:pdf]
   before_destroy { risks.clear }
 
-  scope :root, -> { where(src_id: nil) }
+  scope :root, -> { where(src_id: nil).order('position') }
 
   enum status: {
     draft: 'draft',
@@ -25,7 +25,7 @@ class CompliancePolicy < ActiveRecord::Base
     root.where(archived: false).find_each do |cpolicy|
       policies_collection.push(cpolicy.published_versions.first) if cpolicy.published_versions.present?
     end
-    policies_collection
+    policies_collection.sort_by!(&:position).reverse
   end
 
   def versions

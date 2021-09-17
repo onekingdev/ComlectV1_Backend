@@ -11,9 +11,9 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def index
     cpolicies = if current_user.specialist&.role_basic?(current_business)
-      current_business.compliance_policies.root_published.order('position desc')
+      current_business.compliance_policies.root_published
     else
-      current_business.compliance_policies.root.order('position desc')
+      current_business.compliance_policies.root
     end
     respond_with cpolicies, each_serializer: CompliancePolicySerializer
   end

@@ -42,7 +42,7 @@ class PdfCompliancePolicyWorker
       combined_everything << CombinePDF.load(file_header.path)
       file_header.delete
       combined_policies = CombinePDF.new
-      cpolicy.business.compliance_policies.root_published.order('position desc').each do |published_cpolicy|
+      cpolicy.business.compliance_policies.root_published.each do |published_cpolicy|
         current_page, toc, combined_policies = update_single(published_cpolicy, current_page, toc, combined_policies)
       end
 
