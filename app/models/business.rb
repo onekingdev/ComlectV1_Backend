@@ -262,6 +262,7 @@ class Business < ApplicationRecord
   default_scope -> { joins("INNER JOIN users ON users.id = businesses.user_id AND users.deleted = 'f'") }
 
   include ImageUploader[:logo]
+  include ImageUploader[:photo]
 
   EMPLOYEE_OPTIONS = %w[<10 11-50 51-100 100+].freeze
   RISK_TOLERANCE_OPTIONS = [nil, '', 'Bare minimum', 'Best efforts', 'Best business practices', 'Gold standard'].freeze

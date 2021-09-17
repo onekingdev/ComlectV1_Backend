@@ -22,7 +22,17 @@ class BusinessSerializer < ApplicationSerializer
              :contact_phone,
              :zipcode,
              :time_zone,
-             :plan
+             :plan,
+             :logo,
+             :photo
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
+
+  def logo
+    object.logo_url(:profile)
+  end
+
+  def photo
+    object.photo_url(:profile)
+  end
 end

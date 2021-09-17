@@ -47,13 +47,22 @@ module BusinessServices
     private
 
     def assign_attributes
-      business.assign_attributes(params)
+      business.assign_attributes(params.except(:logo, :photo))
+      if params[:logo].present?
+        business.logo = nil if params[:logo] == 'null'
+        business.logo = params[:logo] if params[:logo].class.to_s == 'ActionDispatch::Http::UploadedFile'
+      end
+
+      if params[:photo].present?
+        business.photo = nil if params[:photo] == 'null'
+        business.photo = params[:photo] if params[:photo].class.to_s == 'ActionDispatch::Http::UploadedFile'
+      end
 
       if business.username.blank?
         business.username = business.generate_username
       end
 
-      business.sub_industries = convert_sub_industries
+      business.sub_industries = convert_sub_industries if params[:sub_industry_ids].present?
     end
 
     def convert_sub_industries

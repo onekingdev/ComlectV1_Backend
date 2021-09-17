@@ -61,6 +61,10 @@ class Api::BusinessesController < ApiController
 
   def onboarding_params
     params.require(:business).permit(
+      :logo,
+      :photo,
+      :crd_number,
+      :contact_first_name, :contact_last_name,
       :business_name, :time_zone, :address_1,
       :apartment, :city, :state, :zipcode, :aum,
       :client_account_cnt, :contact_phone, :website,
