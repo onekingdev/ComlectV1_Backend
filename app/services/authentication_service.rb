@@ -42,14 +42,7 @@ class AuthenticationService < ApplicationService
 
   def user_not_found?
     @user = User.find_first_by_auth_conditions(email: params[:user][:email])
-
-    if user.blank?
-      assign_422_error(I18n.t('api.authentication.invalid'))
-    elsif !user.confirmed?
-      assign_422_error(I18n.t('devise.failure.unconfirmed'))
-    else
-      false
-    end
+    assign_422_error(I18n.t('api.authentication.invalid')) if user.blank?
   end
 
   def password_invalid?
