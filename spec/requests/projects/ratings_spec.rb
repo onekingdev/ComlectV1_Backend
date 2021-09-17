@@ -5,36 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Projects::RatingsController', type: :request do
   include SessionsHelper
 
-  describe 'GET /projects/:project_id/rating/new.js' do
-    let(:business) { project.business }
-    let(:specialist) { create(:specialist, call_booked: true) }
-
-    let(:project) {
-      create(
-        :project_one_off_hourly,
-        :complete,
-        specialist: specialist,
-        solicited_specialist_rating: false
-      )
-    }
-
-    subject { get new_project_rating_path(project), xhr: true }
-
-    before do
-      sign_in specialist.user
-      subject
-    end
-
-    it 'responds with a 200 status code' do
-      expect(response).to have_http_status(:ok)
-    end
-
-    it 'responds with correct body' do
-      expect(response.body).to match(/js-project-rating/)
-    end
-  end
-
-  describe 'POST /projects/:project_id/rating' do
+  describe 'POST /api/projects/:project_id/rating' do
     let(:business) { project.business }
     let(:specialist) { create(:specialist) }
 
@@ -44,9 +15,9 @@ RSpec.describe 'Projects::RatingsController', type: :request do
 
     subject do
       post(
-        project_rating_path(project),
-        params: { rating: { value: 5, review: 'Nice working with him' } },
-        xhr: true
+        api_project_rating_path(project),
+        params: { value: 5, review: 'Nice working with him' },
+        xhr: true, headers: authenticated_header(project.specialist.user)
       )
     end
 
@@ -62,6 +33,7 @@ RSpec.describe 'Projects::RatingsController', type: :request do
 
       it 'creates a rating' do
         subject
+        puts response.body.inspect
         expect(response).to have_http_status(:created)
         expect(project.business.ratings_received.count).to eq(1)
       end
@@ -85,7 +57,7 @@ RSpec.describe 'Projects::RatingsController', type: :request do
 
       context 'business wants notification' do
         before do
-          business.settings(:notifications).update! got_rated: true
+          business.settings(:email_notifications).update! got_rated: true
         end
 
         it 'sends notification to business' do
@@ -95,7 +67,7 @@ RSpec.describe 'Projects::RatingsController', type: :request do
 
       context 'business does not want notification' do
         before do
-          business.settings(:notifications).update! got_rated: false
+          business.settings(:email_notifications).update! got_rated: false
         end
 
         it 'does not send notification to business' do

@@ -16,7 +16,9 @@ RSpec.describe 'Fixed project end scenarios', type: :request do
         business: business,
         fixed_budget: 10_000,
         starts_on: Date.new(2016, 1, 1),
-        ends_on: Date.new(2016, 3, 1)
+        ends_on: Date.new(2016, 3, 1),
+        role_details: 'hey',
+        est_budget: 10_000
       )
     }
 
@@ -41,7 +43,7 @@ RSpec.describe 'Fixed project end scenarios', type: :request do
         project.charges.first.processed!
         end_request # Trigger creation
         sign_in specialist.user
-        put project_end_path(project, confirm: '1', format: 'js')
+        put api_project_end_path(project_id: project.id, id: end_request.id, confirm: '1'), headers: authenticated_header(specialist.user)
         expect(response).to have_http_status(:ok)
         project.reload
       end

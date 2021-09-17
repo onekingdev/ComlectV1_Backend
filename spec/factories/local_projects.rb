@@ -7,6 +7,6 @@ FactoryBot.define do
     description 'MyText'
     starts_on '2021-01-28 08:06:45'
     ends_on '2021-01-28 08:06:45'
-    status 'MyString'
+    status 'draft'
   end
 end
