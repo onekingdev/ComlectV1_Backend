@@ -2179,7 +2179,8 @@ CREATE TABLE public.specialists (
     reminders_mailed_at timestamp without time zone,
     zero_fee boolean DEFAULT false,
     seat_role integer DEFAULT 0,
-    description text
+    description text,
+    name_setting smallint
 );
 
 
@@ -8028,6 +8029,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210915162525'),
 ('20210915184549'),
 ('20210915191451'),
-('20210916024312');
+('20210916024312'),
+('20210916110317');
 
 

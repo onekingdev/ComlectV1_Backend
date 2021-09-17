@@ -43,12 +43,19 @@ class Api::SpecialistsController < ApiController
 
   def onboarding_params
     params.require(:specialist).permit(
+      :first_name,
+      :last_name,
+      :visibility,
       :resume,
+      :photo,
+      :name_setting,
       :time_zone,
       :experience,
       :former_regulator,
       :specialist_other,
       :description,
+      :context,
+      :min_hourly_rate,
       skill_names: [],
       industry_ids: [],
       jurisdiction_ids: [],

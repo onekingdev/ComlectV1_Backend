@@ -95,6 +95,11 @@ class Specialist < ApplicationRecord
     trusted: 2
   }
 
+  enum name_setting: {
+    full_name: 0,
+    first_name_first_letter: 1
+  }
+
   validate if: -> { seat? } do
     errors.add :seat_role unless SEAT_ROLES.include?(seat_role) || seat_role.nil?
   end

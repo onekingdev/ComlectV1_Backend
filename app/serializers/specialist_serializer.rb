@@ -11,11 +11,19 @@ class SpecialistSerializer < ApplicationSerializer
     :last_name,
     :first_name,
     :resume_url,
+    :photo_url,
     :experience,
     :sub_industries,
     :former_regulator,
     :specialist_other,
     :seat_role,
     :plan,
-    :description
+    :description,
+    :visibility,
+    :min_hourly_rate,
+    :name_setting
+
+  def photo_url
+    object.photo_url(:profile)
+  end
 end
