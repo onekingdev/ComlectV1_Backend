@@ -42,7 +42,7 @@ class ApiController < ApplicationController
   end
 
   def user_not_authorized
-    respond_with({ error: 'You are not authorized to perform that action' }, { status: 403 })
+    respond_with  error: 'You are not authorized to perform that action', status: 403
   end
 
   def record_not_found

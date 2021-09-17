@@ -21,15 +21,15 @@ RSpec.describe 'hiring a specialist', type: :request do
 
     context 'when accepting an application' do
       subject(:accept_application) do
-        post api_business_project_hires_path(
+        post business_project_hires_path(
           project,
           job_application_id: job_application.id
-        ), headers: authenticated_header(business.user)
+        ), xhr: true
       end
 
       it 'notifies specialists not hired' do
         accept_application
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:ok)
         notifications = ActionMailer::Base.deliveries.find_all { |m| m.body =~ /their loss/i }
         expect(notifications.size).to eq(5)
       end

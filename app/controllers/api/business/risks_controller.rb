@@ -27,7 +27,7 @@ class Api::Business::RisksController < ApiController
   def create
     risk = current_business.risks.create(risk_params)
     if risk.errors.any?
-      respond_with errors: risk.errors, status: :unprocessable_entity
+      respond_with(risk.errors, status: :unprocessable_entity)
     else
       respond_with risk, serializer: RiskSerializer
     end
@@ -37,7 +37,7 @@ class Api::Business::RisksController < ApiController
     if @risk.update(risk_params)
       respond_with @risk, serializer: RiskSerializer
     else
-      respond_with errors: @risk.errors, status: :unprocessable_entity
+      respond_with(@risk.errors, status: :unprocessable_entity)
     end
   end
 

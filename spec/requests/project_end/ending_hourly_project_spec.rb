@@ -27,7 +27,7 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
       context 'business approves timesheet' do
         before do
           sign_in business.user
-          put api_business_project_timesheet_path(project, timesheet), xhr: true, params: { approve: 1 }, headers: authenticated_header(business.user)
+          put business_project_timesheet_path(project, timesheet), xhr: true, params: { timesheet: { approve: '1' } }
           expect(response).to have_http_status(:ok)
           project.reload
         end
@@ -40,7 +40,7 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
       context 'business disputes timesheet' do
         before do
           sign_in business.user
-          put api_business_project_timesheet_path(project, timesheet), params: { dispute: 1 }, headers: authenticated_header(business.user)
+          put business_project_timesheet_path(project, timesheet), params: { timesheet: { dispute: '1' } }, xhr: true
           expect(response).to have_http_status(:ok)
           sign_out
           sign_in specialist.user
@@ -49,13 +49,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
         it 'specialist can add more timesheets' do
           expect do
             post(
-              api_specialist_project_timesheets_path(project), params: {
+              project_timesheets_path(project), params: {
                 timesheet: {
                   save: '1',
                   time_logs_attributes: [attributes_for(:time_log)]
                 }
               },
-              headers: authenticated_header(specialist.user)
+                                                xhr: true
             )
 
             expect(response).to have_http_status(:created)
@@ -66,13 +66,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
           log = timesheet.time_logs.last
 
           put(
-            api_specialist_project_timesheet_path(project, timesheet), params: {
+            project_timesheet_path(project, timesheet), params: {
               timesheet: {
-                status: 'submitted',
+                submit: '1',
                 time_logs_attributes: [{ id: log.id, hours: 2 }]
               }
             },
-            headers: authenticated_header(specialist.user)
+                                                        xhr: true
           )
 
           expect(response).to have_http_status(:ok)
@@ -102,13 +102,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
 
         expect do
           post(
-            api_specialist_project_timesheets_path(project), params: {
+            project_timesheets_path(project), params: {
               timesheet: {
                 save: '1',
                 time_logs_attributes: [{ description: 'Dummy', hours: 5 }]
               }
             },
-            headers: authenticated_header(specialist.user)
+                                              xhr: true
           )
 
           expect(response).to have_http_status(:forbidden)
@@ -165,13 +165,13 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
         before do
           sign_in business.user
 
-          put api_business_project_timesheet_path(
+          put business_project_timesheet_path(
             project,
             last_timesheet
           ), params: {
-            dispute: 1
+            timesheet: { dispute: '1' }
           },
-          headers: authenticated_header(business.user)
+             xhr: true
           expect(response).to have_http_status(:ok)
 
           sign_out
@@ -189,8 +189,8 @@ RSpec.describe 'Hourly project end scenarios', type: :request do
         before do
           sign_in business.user
 
-          put api_business_project_timesheet_path(project, last_timesheet),
-              params: { approve: 1 }, headers: authenticated_header(business.user)
+          put business_project_timesheet_path(project, last_timesheet),
+              params: { timesheet: { approve: '1' } }, xhr: true
           expect(response).to have_http_status(:ok)
 
           project.reload

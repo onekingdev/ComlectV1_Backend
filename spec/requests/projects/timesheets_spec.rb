@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Projects::TimesheetsController', type: :request do
   include SessionsHelper
 
-  describe 'DELETE /api/projects/:project_id/timesheets/:id' do
+  describe 'DELETE /projects/:project_id/timesheets/:id' do
     let(:specialist) { create(:specialist) }
 
     let(:project) {
@@ -17,10 +17,10 @@ RSpec.describe 'Projects::TimesheetsController', type: :request do
     }
 
     subject {
-      delete api_specialist_project_timesheet_path(
+      delete project_timesheet_path(
         id: timesheet.id,
         project_id: project.id
-      ), headers: authenticated_header(project.specialist.user)
+      )
     }
 
     context 'when authenticated' do
@@ -39,13 +39,17 @@ RSpec.describe 'Projects::TimesheetsController', type: :request do
           )
         }
 
-        it 'returns id on delete' do
+        it 'redirects to the project dashboard' do
           url = project_dashboard_url(
             project_id: project.id,
             anchor: 'project-timesheets'
           )
-          subject
-          expect(json[:id].present?).to be true
+
+          expect(subject).to redirect_to(url)
+        end
+
+        it 'displays a flash message' do
+          expect(flash[:notice]).to eq('Timesheet deleted.')
         end
       end
 
@@ -59,13 +63,17 @@ RSpec.describe 'Projects::TimesheetsController', type: :request do
           )
         }
 
-        it 'forbids to delete' do
+        it 'redirects to the project dashboard' do
           url = project_dashboard_url(
             project_id: project.id,
             anchor: 'project-timesheets'
           )
-          subject
-          expect(response).to have_http_status(403)
+
+          expect(subject).to redirect_to(url)
+        end
+
+        it 'displays a flash message' do
+          expect(flash[:notice]).to eq('Unable to delete timesheet.')
         end
       end
     end

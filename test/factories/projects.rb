@@ -10,7 +10,6 @@ FactoryBot.define do
     description 'Job description'
     minimum_experience Project::MINIMUM_EXPERIENCE.first.last
     duration_type 'custom'
-    local_project
 
     factory :project_one_off do
       type Project.types[:one_off]
