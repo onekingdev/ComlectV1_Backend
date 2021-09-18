@@ -18,6 +18,9 @@ AllCops:
 Rails:
   Enabled: true
 
+Rails/FindEach:
+  Enabled: false
+
 Rails/UnknownEnv:
   Environments:
     - production

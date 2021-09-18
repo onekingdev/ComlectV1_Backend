@@ -46,7 +46,7 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def destroy
     if @cpolicy.destroy
-      respond_with @cpolicy, serializer: CompliancePolicySerializer
+      respond_with status: :ok
     else
       head :bad_request
     end

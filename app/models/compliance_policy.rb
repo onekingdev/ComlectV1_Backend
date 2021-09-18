@@ -22,10 +22,10 @@ class CompliancePolicy < ActiveRecord::Base
 
   def self.root_published
     policies_collection = []
-    root.where(archived: false).find_each do |cpolicy|
+    root.where(archived: false).each do |cpolicy|
       policies_collection.push(cpolicy.published_versions.first) if cpolicy.published_versions.present?
     end
-    policies_collection.sort_by!(&:position).reverse
+    policies_collection
   end
 
   def versions
