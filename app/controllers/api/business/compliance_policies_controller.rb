@@ -69,7 +69,7 @@ class Api::Business::CompliancePoliciesController < ApiController
       @cpolicy.published_versions.update_all(src_id: draft_cpolicy.id, status: 'published')
       @cpolicy.update(status: 'published',
                       src_id: draft_cpolicy.id,
-                      published_by: (current_user.specialist ? current_user.specialist.name : current_business.name),
+                      published_by: (current_user.specialist ? current_user.specialist.name : current_business.contact_full_name),
                       edited_at: Time.now.in_time_zone(current_business.time_zone))
       respond_with draft_cpolicy, serializer: CompliancePolicySerializer
     else
