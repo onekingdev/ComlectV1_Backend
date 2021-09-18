@@ -6,7 +6,13 @@
 <html>
   <head>
     <style type="text/css">
-      @import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600;700&family=Varela&display=swap");
+      //@import url("https://fonts.googleapis.com/css2?family=Public+Sans:wght@100;300;400;600;700&family=Varela&display=swap");
+      @font-face {
+        font-family: 'Public Sans';
+        font-style: normal;
+        font-weight: 300;
+        src: url('<%= Rails.root.join('public', 'fonts', 'PublicSans-Regular.ttf') %>') format('truetype')
+      }
       .page {
         page-break-before:always;
         width: 273mm;
