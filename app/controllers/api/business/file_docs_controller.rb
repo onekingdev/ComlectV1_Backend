@@ -9,7 +9,7 @@ class Api::Business::FileDocsController < ApiController
     file_doc = FileDoc.new(file_doc_params)
     file_doc.size = file_doc_params['file'].size / 1000
     file_doc.business_id = current_business.id
-    file_doc.owner = current_user.specialist ? current_user.specialist.name : current_business.contact_first_name
+    file_doc.owner = current_user.specialist ? current_user.specialist.name : current_business.contact_full_name
     file_doc.name = file_doc_params[:file].original_filename
     if file_doc.save!
       respond_with file_doc, serializer: FileDocSerializer, status: :created
