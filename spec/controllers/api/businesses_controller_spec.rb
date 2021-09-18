@@ -9,7 +9,7 @@ RSpec.describe Api::BusinessesController, type: :controller do
 
   describe 'PUT auto_populate' do
     context 'with empty params' do
-      before { put :auto_populate, params: {} }
+      before { put :auto_populate, as: 'json', params: {} }
 
       it { expect(response).to have_http_status(200) }
       it { expect(JSON.parse(response.body)['errors']['business']['crd_number']).to eq('Required field') }
@@ -18,7 +18,7 @@ RSpec.describe Api::BusinessesController, type: :controller do
     context 'success response' do
       let(:crd_number) { '1111' }
 
-      before { put :auto_populate, params: { crd_number: crd_number } }
+      before { put :auto_populate, as: 'json', params: { crd_number: crd_number } }
 
       it { expect(response).to have_http_status(200) }
       it { expect(JSON.parse(response.body)['crd_number']).to eq(crd_number) }

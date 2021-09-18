@@ -180,6 +180,7 @@ group :test do
   gem 'timecop'
   gem 'webmock'
   gem 'simplecov', require: false
+  gem 'shoulda-matchers', '4.5.1'
 end
 
 gem 'rails_12factor', group: :production

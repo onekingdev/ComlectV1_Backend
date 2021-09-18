@@ -5,7 +5,7 @@ class Api::PaymentSettingsController < ApiController
   skip_before_action :lock_specialist, only: :apply_coupon
 
   def apply_coupon
-    @coupon_code = params[:coupon].strip
+    @coupon_code = params[:coupon]&.strip
 
     if @coupon_code.present? && load_coupon
       render json: {

@@ -15,6 +15,7 @@ FactoryBot.define do
   end
 
   factory :company_stripe_account, parent: :stripe_account do
+    account_type 'company'
     business_name Faker::Company.name
   end
 end

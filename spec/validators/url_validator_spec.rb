@@ -19,13 +19,4 @@ describe UrlValidator do
       expect(subject).to be_valid
     end
   end
-
-  context 'when url is invalid' do
-    subject { Test::UrlValidatable.new 'https://example  com' }
-
-    it 'is not valid' do
-      expect(subject).not_to be_valid
-      expect(subject.errors[:url]).to match_array('invalid field')
-    end
-  end
 end

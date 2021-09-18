@@ -8,29 +8,28 @@ RSpec.describe Api::Specialist::UpgradeController, type: :controller do
   end
 
   describe 'POST subscribe' do
-    context 'without plan name' do
-      before { post :subscribe, params: {} }
+    context 'raises ParameterMissing exception' do
+      let(:error) { ActionController::ParameterMissing }
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.message).to eq('Unprocessable Entity') }
-      it { expect(JSON.parse(response.body)['message']).to eq('Wrong plan name') }
+      it { expect { post(:subscribe, {}) }.to raise_error(error) }
+      it { expect { post(:subscribe, as: 'json', params: { upgrade: {} }) }.to raise_error(error) }
     end
 
-    context 'invalid plan name' do
-      before { post :subscribe, params: { plan: 'invalid-plan' } }
+    context 'fake plan name' do
+      before { post :subscribe, as: 'json', params: { upgrade: { plan: 'invalid-plan' } } }
       it { expect(JSON.parse(response.body)['message']).to eq('Wrong plan name') }
     end
 
     context 'free plan' do
       before do
         Specialist.last.update(dashboard_unlocked: false)
-        post :subscribe, params: { plan: 'free' }
+        post :subscribe, as: 'json', params: { upgrade: { plan: 'free' } }
       end
 
       it { expect(response).to be_successful }
       it { expect(response).to have_http_status(201) }
       it { expect(Specialist.last.dashboard_unlocked).to be_truthy }
-      it { expect(JSON.parse(response.body)['message']).to eq('You have successfully subscribed') }
+      it { expect(JSON.parse(response.body)['message']).to eq('Plan has been upgraded.') }
     end
   end
 end

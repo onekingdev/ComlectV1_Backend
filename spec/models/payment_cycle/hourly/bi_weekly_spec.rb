@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe PaymentCycle::Hourly::BiWeekly, type: :model do
-  include TimesheetSpecHelper
-
   describe 'an hourly project with bi-weekly pay' do
     let(:business) { create(:business, :with_payment_profile) }
     let(:specialist) { create(:specialist) }
