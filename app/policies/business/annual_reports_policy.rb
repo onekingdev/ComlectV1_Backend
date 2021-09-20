@@ -14,6 +14,10 @@ class Business::AnnualReportsPolicy < ApplicationPolicy
     business? || (annual_report_available? && team?)
   end
 
+  def download?
+    team?
+  end
+
   def update?
     team?
   end

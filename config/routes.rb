@@ -99,12 +99,6 @@ Rails.application.routes.draw do
       post :assign
     end
     post '/seats/buy' => 'seats#buy'
-    resources :compliance_policies, only: %i[show index] do
-      get :entire, on: :collection
-    end
-    get 'annual_reviews/:id/:revcat', to: 'annual_reviews#revcat'
-    resources :annual_reviews, only: %i[new create show destroy index edit update]
-    resources :annual_reports, only: %i[new create index update show]
     resources :teams, only: %i[new create show edit index update destroy]
     resources :team_members, only: %i[new create edit update destroy]
     resources :reminders, only: %i[index]
@@ -356,6 +350,7 @@ Rails.application.routes.draw do
         resources :documents, only: %i[index create destroy], controller: 'annual_report_documents'
       end
       get '/annual_reports/:id/clone' => 'annual_reports#clone'
+      get '/annual_reports/:id/download' => 'annual_reports#download'
       scope 'annual_reports/:report_id' do
         resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
       end

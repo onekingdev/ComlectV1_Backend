@@ -5,7 +5,7 @@ class Api::Business::AnnualReportsController < ApiController
   before_action :require_business!
   before_action { authorize_action(Roles::AnnualReportsPolicy) }
   before_action { authorize_business_tier(Business::AnnualReportsPolicy) }
-  before_action :find_areport, only: %i[show update destroy clone]
+  before_action :find_areport, only: %i[show update destroy clone download]
 
   def clone
     new_report = @areport.deep_clone include: %i[
@@ -55,6 +55,11 @@ class Api::Business::AnnualReportsController < ApiController
     else
       head :bad_request
     end
+  end
+
+  def download
+    PdfAnnualReportWorker.perform_async(@areport.id)
+    respond_with status: :ok
   end
 
   private
