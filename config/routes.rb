@@ -294,6 +294,9 @@ Rails.application.routes.draw do
 
       post 'email' => 'email#create'
       patch 'email' => 'email#update'
+
+      post 'verify_change_email' => 'email#verify_change_email'
+      post 'update_login_email'  => 'email#update_login_email'
     end
 
     get 'local_projects/:project_id/messages' => 'project_messages#index'
