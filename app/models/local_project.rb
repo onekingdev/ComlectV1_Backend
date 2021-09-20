@@ -14,7 +14,10 @@ class LocalProject < ApplicationRecord
 
   alias_attribute :name, :title
 
-  validates :title, presence: true
+  validates :title, :starts_on, :ends_on, presence: true
+  validate if: -> { starts_on.present? && ends_on.present? } do
+    errors.add :ends_on, 'Date must occur after start date' if starts_on > ends_on
+  end
 
   enum status: {
     inprogress: 'inprogress',
