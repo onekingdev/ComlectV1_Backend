@@ -61,7 +61,7 @@ CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
 
 SET default_tablespace = '';
 
-SET default_table_access_method = heap;
+-- SET default_table_access_method = heap;
 
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
