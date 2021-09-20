@@ -20,4 +20,4 @@ RUN gem install bundler
 COPY Gemfile* ./
 RUN bundle install
 COPY . .
-RUN rspec spec/
+RUN bundle exec rspec spec/
