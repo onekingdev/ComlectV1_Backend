@@ -15,19 +15,8 @@ RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-RUN node --version
-RUN npm --version
-
-ENV NODE_OPTIONS=--max_old_space_size=4096
-
 RUN gem install bundler
 
 COPY Gemfile* ./
 RUN bundle install
-
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0 && \
-  ln -sf $HOME/.yarn/bin/yarn /usr/local/bin/yarn && \
-  ln -sf $HOME/.yarn/bin/yarnpkg /usr/local/bin/yarnpkg
-
 COPY . .
-RUN bundle exec rake assets:precompile
