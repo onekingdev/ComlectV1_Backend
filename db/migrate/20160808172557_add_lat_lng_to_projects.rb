@@ -8,7 +8,7 @@ class AddLatLngToProjects < ActiveRecord::Migration[6.0]
       # t.column :point, :geography
     end
 
-    add_index :projects, :point, using: :gist
+    # add_index :projects, :point, using: :gist
 
     reversible do |dir|
       dir.up do

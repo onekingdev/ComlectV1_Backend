@@ -6962,13 +6962,6 @@ CREATE INDEX index_projects_on_payment_schedule ON public.projects USING btree (
 
 
 --
--- Name: index_projects_on_point; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_projects_on_point ON public.projects USING gist (point);
-
-
---
 -- Name: index_projects_on_pricing_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7197,13 +7190,6 @@ CREATE INDEX index_specialists_on_former_regulator ON public.specialists USING b
 --
 
 CREATE INDEX index_specialists_on_last_name ON public.specialists USING btree (last_name);
-
-
---
--- Name: index_specialists_on_point; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_specialists_on_point ON public.specialists USING gist (point);
 
 
 --

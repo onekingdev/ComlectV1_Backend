@@ -8,7 +8,7 @@ class AddLatLngToSpecialists < ActiveRecord::Migration[6.0]
       # t.column :point, :geography
     end
 
-    add_index :specialists, :point, using: :gist
+    # add_index :specialists, :point, using: :gist
 
     reversible do |dir|
       dir.up do
