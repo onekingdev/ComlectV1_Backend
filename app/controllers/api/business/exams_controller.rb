@@ -17,7 +17,7 @@ class Api::Business::ExamsController < ApiController
   def create
     exam = current_business.exams.create(exam_params.merge(share_uuid: SecureRandom.uuid))
     if exam.errors.any?
-      respond_with errors: exam.errors, status: :unprocessable_entity
+      respond_with(exam.errors, status: :unprocessable_entity)
     else
       respond_with exam, serializer: ExamSerializer
     end
@@ -47,7 +47,7 @@ class Api::Business::ExamsController < ApiController
     if @exam.update(exam_params)
       respond_with @exam, serializer: ExamSerializer
     else
-      respond_with errors: @exam.errors, status: :unprocessable_entity
+      respond_with(@exam.errors, status: :unprocessable_entity)
     end
   end
 
