@@ -5,7 +5,7 @@ class AddLatLngToSpecialists < ActiveRecord::Migration[6.0]
     change_table :specialists do |t|
       t.decimal :lat, precision: 9, scale: 5
       t.decimal :lng, precision: 9, scale: 5
-      t.column :point, :geography
+      # t.column :point, :geography
     end
 
     add_index :specialists, :point, using: :gist
