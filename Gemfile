@@ -8,6 +8,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 gem 'bootsnap', require: false
+# performance monitoring
+gem 'newrelic_rpm'
 
 # graphs
 gem 'c3-rails'

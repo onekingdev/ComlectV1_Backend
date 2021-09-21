@@ -1362,6 +1362,7 @@ GEM
     multipart-post (2.1.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    newrelic_rpm (7.2.0)
     nio4r (2.5.8)
     nokogiri (1.12.4)
       mini_portile2 (~> 2.6.1)
@@ -1702,6 +1703,7 @@ DEPENDENCIES
   meta_request
   mini_magick
   mocha
+  newrelic_rpm
   otp-jwt
   overcommit
   pagy
