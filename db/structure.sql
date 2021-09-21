@@ -30,24 +30,7 @@ CREATE FUNCTION public.projects_calculate_budget() RETURNS trigger
       END;
       $$;
 
-
---
--- Name: set_point_from_lat_lng(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-      BEGIN
-        NEW.point := ST_SetSRID(ST_Point(NEW.lng, NEW.lat), 4326);
-        RETURN NEW;
-      END;
-      $$;
-
-
 SET default_tablespace = '';
-
-SET default_table_access_method = heap;
 
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
@@ -4425,7 +4408,6 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -7462,28 +7444,14 @@ CREATE UNIQUE INDEX jurisdictions_specialists_unique ON public.jurisdictions_spe
 -- Name: projects calculate_budget; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION public.projects_calculate_budget();
-
-
---
--- Name: projects trigger_projects_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.projects FOR EACH ROW EXECUTE FUNCTION public.set_point_from_lat_lng();
-
-
---
--- Name: specialists trigger_specialists_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
---
-
-CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.specialists FOR EACH ROW EXECUTE FUNCTION public.set_point_from_lat_lng();
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.projects_calculate_budget();
 
 
 --
 -- Name: projects tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --

@@ -11,6 +11,8 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def path_and_url(name, *args)
+      return [] unless r.respond_to?("#{name}_path")
+
       [
         r.public_send("#{name}_path", *args),
         r.public_send("#{name}_url", *args)

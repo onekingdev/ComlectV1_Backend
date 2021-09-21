@@ -10,6 +10,8 @@ FactoryBot.define do
     password 'password'
     confirmed_at Time.now.utc
 
+    jwt_hash { SecureRandom.hex(10) }
+
     before(:create) do |user, evaluator|
       user.email = "#{evaluator.email_prefix}#{user.email}"
     end

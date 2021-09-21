@@ -15,4 +15,14 @@ module ControllerHelper
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in(user)
   end
+
+  def get_specialist_token(user = nil)
+    user = FactoryBot.create(:specialist).user if user.blank?
+    JsonWebToken.encode(sub: user.id, jwt_hash: user.jwt_hash)
+  end
+
+  def get_business_token(user = nil)
+    user = FactoryBot.create(:business).user if user.blank?
+    JsonWebToken.encode(sub: user.id, jwt_hash: user.jwt_hash)
+  end
 end

@@ -12,12 +12,12 @@ class AddLatLngToSpecialists < ActiveRecord::Migration[6.0]
 
     reversible do |dir|
       dir.up do
-        execute '
-          CREATE TRIGGER trigger_specialists_on_lat_lng
-          BEFORE INSERT OR UPDATE OF lat, lng ON specialists
-          FOR EACH ROW
-          EXECUTE PROCEDURE set_point_from_lat_lng()
-        '
+        #execute '
+        #  CREATE TRIGGER trigger_specialists_on_lat_lng
+        #  BEFORE INSERT OR UPDATE OF lat, lng ON specialists
+        #  FOR EACH ROW
+        #  EXECUTE PROCEDURE set_point_from_lat_lng()
+        #'
       end
       dir.down do
         execute 'DROP TRIGGER trigger_specialists_on_lat_lng ON specialists'

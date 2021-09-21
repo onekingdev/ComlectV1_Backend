@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::BusinessesController, type: :controller do
   before(:each) do
-    login_as_business
+    request.headers['Authorization'] = get_business_token
   end
 
   describe 'PUT auto_populate' do

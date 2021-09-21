@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::Business::UpgradeController, type: :controller do
   before(:each) do
-    login_as_business
+    request.headers['Authorization'] = get_business_token
   end
 
   describe 'POST subscribe' do

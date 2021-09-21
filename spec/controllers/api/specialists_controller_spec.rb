@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::SpecialistsController, type: :controller do
   before(:each) do
-    login_as_specialist
+    request.headers['Authorization'] = get_specialist_token
   end
 
   describe 'GET current' do

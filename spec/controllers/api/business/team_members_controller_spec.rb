@@ -6,7 +6,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
   let(:business) { create(:business_with_subscription) }
 
   before(:each) do
-    login_as_business(business.user)
+    request.headers['Authorization'] = get_business_token(business.user)
   end
 
   describe 'GET index' do

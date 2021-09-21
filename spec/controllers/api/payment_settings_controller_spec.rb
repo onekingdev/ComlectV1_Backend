@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::PaymentSettingsController, type: :controller do
   before(:each) do
-    login_as_business
+    request.headers['Authorization'] = get_business_token
   end
 
   describe 'POST apply_coupon' do

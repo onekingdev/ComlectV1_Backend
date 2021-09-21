@@ -59,14 +59,14 @@ environment.loaders.prepend('js', {
     }
 })
 
-environment.config.merge({
+/*environment.config.merge({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, '..', '..', 'app/javascript/packs/vue'),
             'vue$': 'vue/dist/vue.esm.js'
         }
     }
-})
+})*/
 
 environment.plugins.prepend(
   'Environment',
