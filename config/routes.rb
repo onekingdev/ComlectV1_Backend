@@ -44,6 +44,8 @@ Rails.application.routes.draw do
 
   devise_for :users, only: []
 
+  resources :reminders, only: %i[index]
+
   namespace :api do
     get 'static_collection' => 'static_collection#index'
     post 'exams/:uuid' => 'exams#email'
