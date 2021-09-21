@@ -105,6 +105,7 @@ class Business < ApplicationRecord
   serialize :cco
 
   after_create :add_as_employee
+  after_save :update_username_if_blank
 
   def spawn_compliance_policies
     unless compliance_policies_spawned
@@ -522,5 +523,11 @@ class Business < ApplicationRecord
       end
     end
     options
+  end
+
+  private
+
+  def update_username_if_blank
+    update_column('username', generate_username) if username.blank?
   end
 end

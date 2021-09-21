@@ -281,6 +281,7 @@ class Specialist < ApplicationRecord
   delegate :suspended?, to: :user
 
   after_commit :generate_referral_token, on: :create
+  after_save :update_username_if_blank
 
   def to_param
     username
@@ -423,5 +424,11 @@ class Specialist < ApplicationRecord
 
   def default_payment_source
     payment_sources.find_by(primary: true)
+  end
+
+  private
+
+  def update_username_if_blank
+    update_column('username', generate_username) if username.blank?
   end
 end
