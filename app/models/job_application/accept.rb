@@ -4,8 +4,6 @@ class JobApplication::Accept < Draper::Decorator
   decorates JobApplication
   delegate_all
 
-  include NotificationsHelper
-
   def self.call(application)
     ActiveRecord::Base.transaction do
       new(application).tap do |decorated|

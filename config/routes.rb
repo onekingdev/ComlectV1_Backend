@@ -18,7 +18,6 @@ Rails.application.routes.draw do
     Rails.logger.info "ActiveAdmin could not load: #{e.message}"
   end
 
-  root to: 'landing_page#show'
   get 'r/:token' => 'referrals#show', as: :referrals
 
   # BUMP

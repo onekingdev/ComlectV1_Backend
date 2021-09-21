@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   before_action :store_user_location!, if: :storable_location?
   before_action :lock_specialist, if: :current_specialist
   include ::Pundit
-  include ::MixpanelHelper
 
   impersonates :user
 

@@ -4,8 +4,6 @@ class ProjectExtension::Request < Draper::Decorator
   decorates ProjectExtension
   delegate_all
 
-  include NotificationsHelper
-
   def self.process!(project, params, someone = nil)
     return if project.end_requests.any?(&:confirmed?)
 

@@ -73,7 +73,6 @@ gem 'cocoon'
 gem 'country_select'
 gem 'draper' # , '3.0.0.pre1'
 gem 'iso_country_codes'
-gem 'simple_form'
 gem 'slim-rails'
 
 # Misc
@@ -137,7 +136,6 @@ gem 'charlock_holmes'
 gem 'typhoeus'
 # Sitemap
 gem 'fog-aws'
-gem 'sitemap_generator'
 
 group :development, :test do
   # Logging
