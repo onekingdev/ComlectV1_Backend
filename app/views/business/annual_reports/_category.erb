@@ -1012,12 +1012,12 @@ textarea.form-control {
           </div>
         </div>
         <div class="reviews__topiclist">
-          <% category.review_topics.each do |topic| %>
+          <% category.review_topics&.each do |topic| %>
             <div class="reviews__card--internal">
               <div class="row m-b-2 m-b-2">
                 <div class="col-md-8"><%= topic["name"] %></div>
               </div>
-              <% topic["items"].each do |item| %>
+              <% topic["items"]&.each do |item| %>
                 <div class="row mb-2">
                   <div class="col-md-2 col-lg-2 col-xl-1 icon-left">
                     <div class="reviews__checkbox d-flex justify-content-between">

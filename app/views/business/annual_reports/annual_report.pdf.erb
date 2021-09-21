@@ -1,4 +1,6 @@
 <% @annual_report =annual_report if defined?(annual_report) %>
 <% @business =business if defined?(business) %>
 <%= render 'business/annual_reports/report_render' %>
-<%= render 'business/annual_reports/category' %>
+<% unless @annual_report.review_categories.nil? %>
+  <%= render 'business/annual_reports/category' %>
+<% end %>
