@@ -9,12 +9,13 @@ module RemindersFetcher
     attr_accessor :id, :body
   end
 
-  def tasks_calendar_grid2(remindable, first_day, last_day)
+  def tasks_calendar_grid2(remindable, first_day, last_day, not_occurence = false)
     @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
     @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
     @active_projects = remindable.local_projects.where.not(id: remindable.user.hidden_local_projects)
     calendar_grid = populate_recurring_tasks2(@recurring_tasks, first_day, last_day)
-    [(calendar_grid + @grid_tasks).sort_by(&:end_date), @active_projects]
+    tasks = not_occurence ? (@recurring_tasks + @grid_tasks) : (calendar_grid + @grid_tasks)
+    [tasks.sort_by(&:end_date), @active_projects]
   end
 
   def tasks_calendar_grid(remindable, beginning)
