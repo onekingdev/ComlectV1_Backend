@@ -34,10 +34,7 @@ module BusinessServices
         specialist = team_member&.specialist_invitation&.specialist
         specialist&.update_attribute('seat_role', params[:role])
         if team_member.saved_change_to_email?
-          Notification::Deliver.got_seat_assigned!(
-            team_member.specialist_invitation,
-            :new_employee
-          )
+          Notification::Deliver.got_seat_assigned!(team_member.specialist_invitation)
         end
       else
         @success = false
@@ -58,7 +55,7 @@ module BusinessServices
         create_invitation
       end
 
-      Notification::Deliver.got_seat_assigned!(invitation, :new_employee)
+      Notification::Deliver.got_seat_assigned!(invitation)
     rescue => e
       @success = false
       @error = e.message

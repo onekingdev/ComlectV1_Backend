@@ -19,58 +19,55 @@ class Notification::Deliver < Draper::Decorator
       ]
     end
 
-    def forum_comment!(forum_answer)
-      action_path, action_url = path_and_url :forum_question, forum_answer.forum_question.url
+    # def forum_comment!(forum_answer)
+    #   action_path, action_url = path_and_url :forum_question, forum_answer.forum_question.url
 
-      dispatcher = Dispatcher.new(
-        user: forum_answer.user,
-        key: :forum_comment,
-        action_path: action_path,
-        associated: forum_answer
-      )
+    #   dispatcher = Dispatcher.new(
+    #     user: forum_answer.user,
+    #     key: :forum_comment,
+    #     action_path: action_path,
+    #     associated: forum_answer
+    #   )
 
-      dispatcher.deliver_notification!
-      return unless Notification.enabled?(forum_answer.user.business_or_specialist, :new_forum_comments)
-      dispatcher.deliver_mail(action_url)
-    end
+    #   dispatcher.deliver_notification!
+    #   return unless Notification.enabled?(forum_answer.user.business_or_specialist, :new_forum_comments)
+    #   dispatcher.deliver_mail(action_path)
+    # end
 
-    def forum_answer!(forum_answer)
-      action_path, action_url = path_and_url :forum_question, forum_answer.forum_question.url
+    # def forum_answer!(forum_answer)
+    #   action_path, action_url = path_and_url :forum_question, forum_answer.forum_question.url
 
-      dispatcher = Dispatcher.new(
-        user: forum_answer.forum_question.business.user,
-        key: :forum_answer,
-        action_path: action_path,
-        associated: forum_answer,
-        t: { forum_answer: forum_answer.body }
-      )
+    #   dispatcher = Dispatcher.new(
+    #     user: forum_answer.forum_question.business.user,
+    #     key: :forum_answer,
+    #     action_path: action_path,
+    #     associated: forum_answer,
+    #     t: { forum_answer: forum_answer.body }
+    #   )
 
-      dispatcher.deliver_notification!
-      return unless Notification.enabled?(forum_answer.forum_question.business, :new_forum_answers)
-      dispatcher.deliver_mail(action_url)
-    end
+    #   dispatcher.deliver_notification!
+    #   return unless Notification.enabled?(forum_answer.forum_question.business, :new_forum_answers)
+    #   dispatcher.deliver_mail(action_path)
+    # end
 
-    def industry_forum_question!(forum_question, specialist)
-      action_path, action_url = path_and_url :forum_question, forum_question.url
+    # def industry_forum_question!(forum_question, specialist)
+    #   action_path, action_url = path_and_url :forum_question, forum_question.url
 
-      dispatcher = Dispatcher.new(
-        user: specialist.user,
-        key: :industry_forum_question,
-        action_path: action_path,
-        associated: forum_question,
-        t: { forum_question: forum_question.title }
-      )
+    #   dispatcher = Dispatcher.new(
+    #     user: specialist.user,
+    #     key: :industry_forum_question,
+    #     action_path: action_path,
+    #     associated: forum_question,
+    #     t: { forum_question: forum_question.title }
+    #   )
 
-      dispatcher.deliver_notification!
-      return unless Notification.enabled?(specialist, :new_forum_question)
-      dispatcher.deliver_mail(action_url)
-    end
+    #   dispatcher.deliver_notification!
+    #   return unless Notification.enabled?(specialist, :new_forum_question)
+    #   dispatcher.deliver_mail(action_path)
+    # end
 
-    def got_seat_assigned!(invitation, path = :new_specialist)
-      action_path, action_url = path_and_url(
-        path,
-        invite_token: invitation.token
-      )
+    def got_seat_assigned!(invitation)
+      action_path = "/employee/new?invite_token=#{invitation.token}"
 
       dispatcher = Dispatcher.new(
         key: :got_seat_assigned,
@@ -88,41 +85,14 @@ class Notification::Deliver < Draper::Decorator
         dispatcher.action_label,
         dispatcher.initiator_name,
         dispatcher.img_path,
-        action_url,
-        dispatcher.subject
-      )
-    end
-
-    def got_employee_invitation!(invitation, path = :new_specialist)
-      action_path, action_url = path_and_url(
-        path,
-        invite_token: invitation.token
-      )
-
-      dispatcher = Dispatcher.new(
-        key: :got_employee_invitation,
-        action_path: action_path,
-        t: {
-          manager_full_name: (invitation.team&.manager&.full_name || invitation.team&.business&.contact_full_name),
-          team_name: (invitation.team || invitation.team)&.name
-        }
-      )
-
-      NotificationMailer.deliver_later(
-        :notification,
-        invitation.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
+        action_path,
         dispatcher.subject
       )
     end
 
     def got_hired!(application)
       project = application.project
-      action_path, action_url = path_and_url :project_dashboard, project
+      action_path = "/specialist/my-projects/#{project.id}"
       key = project.full_time? ? :got_hired_job : :got_hired_project
 
       dispatcher = Dispatcher.new(
@@ -135,11 +105,11 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def got_assigned!(project)
-      action_path, action_url = path_and_url :project_dashboard, project
+      action_path = "/specialist/my-projects/#{project.id}"
       key = :got_assigned_project
       specialist = project.specialist
       dispatcher = Dispatcher.new(
@@ -152,12 +122,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def not_hired!(application)
       project = application.project
-      action_path, action_url = path_and_url :projects
+      action_path = '/specialist/job_board'
       key = project.full_time? ? :not_hired_job : :not_hired_project
 
       dispatcher = Dispatcher.new(
@@ -171,7 +141,7 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(application.specialist, :not_hired)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def got_rated!(rating)
@@ -183,10 +153,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def specialist_got_autorated!(rating)
-      action_path, action_url = path_and_url(
-        :specialists_dashboard,
-        anchor: 'ratings-reviews'
-      )
+      action_path = '/specialist/my-projects#ratings-reviews'
 
       dispatcher = Dispatcher.new(
         user: rating.specialist.user,
@@ -196,16 +163,13 @@ class Notification::Deliver < Draper::Decorator
       )
       dispatcher.deliver_notification!
       return unless Notification.enabled?(rating.specialist, :got_rated)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def specialist_got_rated!(rating)
       project = rating.project
       specialist = project.specialist
-      action_path, action_url = path_and_url(
-        :specialists_dashboard,
-        anchor: 'ratings-reviews'
-      )
+      action_path = '/specialist/my-projects#ratings-reviews'
 
       dispatcher = Dispatcher.new(
         user: specialist.user,
@@ -217,16 +181,13 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(specialist, :got_rated)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def business_got_rated!(rating)
       project = rating.project
       business = project.business
-      action_path, action_url = path_and_url(
-        :business_dashboard,
-        anchor: 'ratings-reviews'
-      )
+      action_path = '/business/projects#ratings-reviews'
 
       dispatcher = Dispatcher.new(
         user: business.user,
@@ -238,28 +199,26 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(business, :got_rated)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def got_project_message!(message)
       project = message.thread
-      init, rcv, path, action_url = if message.sender == project.business
+      init, rcv, action_path = if message.sender == project.business
         [
-          project.business, message.recipient,
-          *path_and_url(:project_dashboard, project, anchor: 'project-messages')
+          project.business, message.recipient, "/specialist/my-projects/#{project.id}"
         ]
       else
         [
-          message.sender, project.business,
-          *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
+          message.sender, project.business, "/business/projects/#{project.local_project.id}"
         ]
       end
-      path, action_url = *path_and_url(:business_project_dashboard_interview, project, message.sender, anchor: 'project-messages') if message.sender != project.business && project.specialist.blank?
+      action_path = "/business/projects/#{project.local_project.id}" if message.sender != project.business && project.specialist.blank?
 
       dispatcher = Dispatcher.new(
         user: rcv.user,
         key: :got_project_message,
-        action_path: path,
+        action_path: action_path,
         associated: project,
         clear_manually: true,
         initiator: init,
@@ -268,7 +227,7 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(rcv, :got_message)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def project_ended!(project)
@@ -277,8 +236,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_project_ended!(project)
-      action_path, action_url = path_and_url :new_business_project
-
+      action_path = '/business/projects/new'
       dispatcher = Dispatcher.new(
         user: project.business.user,
         key: :business_project_ended,
@@ -288,11 +246,11 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(project.business, :project_ended)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def specialist_project_ended!(project)
-      action_path, action_url = path_and_url :projects
+      action_path = '/specialist/job_board'
 
       dispatcher = Dispatcher.new(
         user: project.specialist.user,
@@ -304,16 +262,12 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(project.specialist, :project_ended)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def specialist_timesheet_disputed!(timesheet)
       project = timesheet.project
-      action_path, action_url = path_and_url(
-        :project_dashboard,
-        project,
-        anchor: 'project-timesheets'
-      )
+      action_path = "/specialist/my-projects/#{project.id}/timesheets"
 
       dispatcher = Dispatcher.new(
         user: timesheet.specialist.user,
@@ -325,52 +279,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
-    end
-
-    def project_question!(question)
-      project = question.project
-      action_path, action_url = path_and_url :business_project, project, anchor: 'q-a'
-      key = project.full_time? ? :job_question : :project_question
-
-      dispatcher = Dispatcher.new(
-        user: question.project.business.user,
-        key: key,
-        action_path: action_path,
-        associated: project,
-        initiator: question.specialist,
-        t: { project_title: project.title }
-      )
-
-      dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
-    end
-
-    def project_answer!(answer)
-      project = answer.project
-      action_path, action_url = path_and_url :project, project, anchor: 'q-a'
-      key = project.full_time? ? :job_answer : :project_answer
-
-      dispatcher = Dispatcher.new(
-        user: answer.question.specialist.user,
-        key: key,
-        action_path: action_path,
-        associated: project,
-        initiator: project.business,
-        t: { project_title: project.title }
-      )
-
-      dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def timesheet_submitted!(timesheet)
       project = timesheet.project
-      action_path, action_url = path_and_url(
-        :business_project_dashboard,
-        project,
-        anchor: 'project-timesheets'
-      )
+      action_path = "/business/projects/#{project.local_project.id}/timesheets"
 
       dispatcher = Dispatcher.new(
         user: timesheet.business.user,
@@ -382,13 +296,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def extend_project!(request)
       project = request.project
-      action_path, action_url = path_and_url :project_dashboard, project
-
+      action_path = "/specialist/my-projects/#{project.id}"
       dispatcher = Dispatcher.new(
         user: project.specialist.user,
         key: :extend_project,
@@ -399,13 +312,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def extension_denied!(extension)
       project = extension.project
-      action_path, action_url = path_and_url :business_project_dashboard, project
-
+      action_path = "/business/projects/#{project.local_project.id}"
       dispatcher = Dispatcher.new(
         user: project.business.user,
         key: :extension_denied,
@@ -415,13 +327,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def extension_accepted!(extension)
       project = extension.project
-      action_path, action_url = path_and_url :business_project_dashboard, project
-
+      action_path = "/business/projects/#{project.local_project.id}"
       dispatcher = Dispatcher.new(
         user: project.business.user,
         key: :extension_accepted,
@@ -432,12 +343,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def end_project!(request)
       project = request.project
-      action_path, action_url = path_and_url :project_dashboard, project
+      action_path = "/specialist/my-projects/#{project.id}"
       key = project.fixed_pricing? ? :end_project_fixed : :end_project_hourly
       key = :end_project_fixed if project.internal?
       dispatcher = Dispatcher.new(
@@ -450,12 +361,12 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher.deliver_notification!
       return unless Notification.enabled?(project.specialist, :project_ended)
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def end_project_denied!(request)
       project = request.project
-      action_path, action_url = path_and_url :business_project_dashboard, project
+      action_path = "/business/projects/#{project.local_project.id}"
 
       dispatcher = Dispatcher.new(
         user: project.business.user,
@@ -466,38 +377,36 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def escalated!(issue)
       project = issue.project
-      rcv, key, path, action_url = if issue.user.specialist
+      rcv, key, action_path = if issue.user.specialist
         [
-          project.business.user, :business_escalated,
-          *path_and_url(:business_project_dashboard, project, anchor: 'project-messages')
+          project.business.user, :business_escalated, "/business/projects/#{project.local_project.id}"
         ]
       elsif issue.user.business
         [
-          project.specialist.user, :specialist_escalated,
-          *path_and_url(:project_dashboard, project, anchor: 'project-messages')
+          project.specialist.user, :specialist_escalated, "/specialist/my-projects/#{project.id}"
         ]
       end
 
       dispatcher = Dispatcher.new(
         user: rcv,
         key: key,
-        action_path: path,
+        action_path: action_path,
         associated: project,
         t: { project_title: project.title }
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def invited_to_project!(invite)
       project = invite.project
-      action_path = r.project_path(project)
+      action_path = "/specialist/my-projects/#{project.id}"
       key = project.full_time? ? :invited_to_job : :invited_to_project
 
       dispatcher = Dispatcher.new(
@@ -512,44 +421,9 @@ class Notification::Deliver < Draper::Decorator
       # No mail notification here
     end
 
-    def invite_business_to_join!(ported, path = :new_business)
-      action_path, action_url = path_and_url(
-        path,
-        invite_token: ported&.token
-      )
-      spec_name = (ported&.specialist&.user&.full_name || 'some specialist')
-      subj = "You've Been Invited to Join Complect"
-      msg = "As your compliance consultant, #{spec_name} has requested you create a free profile on "\
-            'Complect to automate your fee billing and invoicing process. You will also have access to '\
-            'additional, optional tech solutions to help manage your compliance program! To create your '\
-            'profile, please sign up directly via the link below'
-      dispatcher = Dispatcher.new(
-        key: :got_employee_invitation,
-        action_path: action_path,
-        t: {
-          manager_full_name: spec_name,
-          team_name: 'No team name'
-        }
-      )
-
-      NotificationMailer.deliver_later(
-        :notification,
-        ported.email,
-        msg,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_url,
-        subj
-      )
-    end
-
     def project_application!(application)
       project = application.project
-      action_path, action_url = path_and_url(
-        :business_project_job_applications,
-        project
-      )
+      action_path = "/business/project_posts/#{project.id}"
       key = project.full_time? ? :job_application : :project_application
 
       dispatcher = Dispatcher.new(
@@ -562,14 +436,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def application_declined(application)
       project = application.project
-      action_path, action_url = path_and_url(
-        :specialists_projects
-      )
+      action_path = '/specialist/job_board'
 
       dispatcher = Dispatcher.new(
         user: project.business.user,
@@ -580,12 +452,12 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def end_project_accepted!(request)
       project = request.project
-      action_path, action_url = path_and_url :business_project_dashboard, project
+      action_path = "/business/projects/#{project.local_project.id}"
 
       dispatcher = Dispatcher.new(
         user: project.business.user,
@@ -597,14 +469,11 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def start_date_lapsed!(project)
-      action_path, action_url = path_and_url(
-        :business_dashboard,
-        anchor: 'projects-drafts'
-      )
+      action_path = '/business/projects#draft'
 
       dispatcher = Dispatcher.new(
         user: project.business.user,
@@ -614,7 +483,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def starts_in_48!(project)
@@ -632,7 +501,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def specialist_project_starting_soon!(project)
-      action_path, action_url = path_and_url :project_dashboard, project
+      action_path = "/specialist/my-projects/#{project.id}"
 
       dispatcher = Dispatcher.new(
         user: project.specialist.user,
@@ -643,11 +512,11 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def business_project_starting_soon!(project)
-      action_path, action_url = path_and_url :business_project_dashboard, project
+      action_path = "/business/projects/#{project.local_project.id}"
 
       dispatcher = Dispatcher.new(
         user: project.business.user,
@@ -658,41 +527,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
-    end
-
-    def apply_to_favorited!(favorite)
-      project = favorite.favorited
-      action_path, action_url = path_and_url :project, project
-
-      dispatcher = Dispatcher.new(
-        user: favorite.owner.user,
-        key: :apply_to_favorited,
-        action_path: action_path,
-        associated: project,
-        t: { project_title: project.title }
-      )
-
-      dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
-    end
-
-    def pending_project_starting_soon!(project)
-      action_path, action_url = path_and_url(
-        :business_project_job_applications,
-        project
-      )
-
-      dispatcher = Dispatcher.new(
-        user: project.business.user,
-        key: :pending_project_starting_soon,
-        action_path: action_path,
-        associated: project,
-        t: { project_title: project.title }
-      )
-
-      dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def ends_in_24!(project)
@@ -701,10 +536,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_ends_in_24!(project)
-      action_path, action_url = path_and_url(
-        :business_project_dashboard,
-        project
-      )
+      action_path = "/business/projects/#{project.local_project.id}"
 
       key = project.fixed_pricing? ? :business_fixed_project_ends : :business_hourly_project_ends
 
@@ -717,11 +549,11 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def specialist_ends_in_24!(project)
-      action_path, action_url = path_and_url :project_dashboard, project
+      action_path = "/specialist/my-projects/#{project.id}"
       key = project.fixed_pricing? ? :specialist_fixed_project_ends : :specialist_hourly_project_ends
 
       dispatcher = Dispatcher.new(
@@ -732,67 +564,63 @@ class Notification::Deliver < Draper::Decorator
         t: { project_title: project.title }
       )
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def verification_missing!(user)
       return unless user.specialist
 
-      key, path, action_url = [
-        :specialist_verification_missing,
-        *path_and_url(:edit_specialists_settings_payment)
-      ]
+      key = :specialist_verification_missing
+      action_path = '/specialist/settings/billings'
 
       dispatcher = Dispatcher.new(
         user: user,
         key: key,
-        action_path: path,
+        action_path: action_path,
         associated: user
       )
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def payment_issue!(user)
-      key, path, action_url = if user.specialist
+      key, action_path = if user.specialist
         [
           :specialist_payment_issue,
-          *path_and_url(:specialists_settings_payment)
+          '/specialist/settings/billings'
         ]
       elsif user.business
         [
           :business_payment_issue,
-          *path_and_url(:business_settings_payment_index)
+          '/business/settings/billings'
         ]
       end
 
       dispatcher = Dispatcher.new(
         user: user,
         key: key,
-        action_path: path,
+        action_path: action_path,
         associated: user
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def payout_issue!(user)
       return unless user.specialist
 
-      key, path, action_url = [
-        :specialist_payout_issue,
-        *path_and_url(:specialists_settings_payment)
-      ]
+      key = :specialist_payout_issue
+      action_path = '/specialist/settings/billings'
 
       dispatcher = Dispatcher.new(
         user: user,
         key: key,
-        action_path: path,
+        action_path: action_path,
         associated: user
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def transaction_processed!(transaction)
@@ -801,10 +629,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_transaction_processed!(transaction)
-      action_path, action_url = path_and_url(
-        :business_financials,
-        anchor: 'charges-processed'
-      )
+      action_path = '/business/reports/financials#completed'
 
       dispatcher = Dispatcher.new(
         user: transaction.business.user,
@@ -819,17 +644,14 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
 
     def specialist_transaction_processed!(transaction)
       # Don't notify specialist of processed full-time fees
       return if transaction.project.full_time?
 
-      action_path, action_url = path_and_url(
-        :specialists_financials,
-        anchor: 'payments-processed'
-      )
+      action_path = '/specialist/reports/financials#completed'
 
       dispatcher = Dispatcher.new(
         user: transaction.specialist.user,
@@ -844,7 +666,7 @@ class Notification::Deliver < Draper::Decorator
       )
 
       dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_url)
+      dispatcher.deliver_mail(action_path)
     end
   end
 
@@ -869,7 +691,7 @@ class Notification::Deliver < Draper::Decorator
     end
     # rubocop:enable Metrics/ParameterLists
 
-    def deliver_mail(action_url)
+    def deliver_mail(action_path)
       NotificationMailer.deliver_later(
         :notification,
         user.email,
@@ -877,7 +699,7 @@ class Notification::Deliver < Draper::Decorator
         action_label,
         initiator_name,
         img_path,
-        action_url,
+        "#{ENV.fetch('FRONTEND_URL')}#{action_path}",
         subject
       )
     end
