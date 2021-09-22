@@ -24,7 +24,8 @@ class BusinessSerializer < ApplicationSerializer
              :time_zone,
              :plan,
              :logo,
-             :photo
+             :photo,
+             :user_email
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
 
@@ -34,5 +35,9 @@ class BusinessSerializer < ApplicationSerializer
 
   def photo
     object.photo_url(:profile)
+  end
+
+  def user_email
+    object.user.email
   end
 end
