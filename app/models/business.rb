@@ -525,6 +525,10 @@ class Business < ApplicationRecord
     options
   end
 
+  def available_seat
+    seats.available.first
+  end
+
   private
 
   def update_username_if_blank

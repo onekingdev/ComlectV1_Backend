@@ -2,11 +2,10 @@
 
 class Api::Business::UpgradeController < ApiController
   before_action :require_business!
-  skip_before_action :verify_authenticity_token
 
   def subscribe
-    service = StripeBusinessSubscriptionService.call(
-      current_business, payment_source, turnkey_params
+    service = BusinessServices::StripeSubscriptionService.call(
+      current_business, payment_source, upgrade_params
     )
 
     if service.success?
@@ -28,7 +27,7 @@ class Api::Business::UpgradeController < ApiController
     current_business.payment_profile&.default_payment_source
   end
 
-  def turnkey_params
+  def upgrade_params
     params.require(:upgrade).permit(:plan, :seats_count, :payment_source_id, :coupon_id)
   end
 
