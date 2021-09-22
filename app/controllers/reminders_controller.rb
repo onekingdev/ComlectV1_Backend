@@ -16,7 +16,7 @@ class RemindersController < ApplicationController
           tgt_from_date = Date.parse(params[:from_date])
           tgt_to_date = Date.parse(params[:to_date])
         end
-        csv_a.push(['Name', 'Linked to', 'Assignee', 'Start Date', 'End Date', 'Completion Date', 'Description', 'Attachments'])
+        csv_a.push(['Name', 'Linked to', 'Assignee', 'Start Date', 'End Date', 'Completion Date', 'Description', 'Attachments', 'Comments'])
         reminders = Reminder.get_all_reminders(@remindable, tgt_from_date, tgt_to_date, params[:skip_projects].present?)
         if reminders.count.positive?
           reminders.each do |reminder|
@@ -28,7 +28,8 @@ class RemindersController < ApplicationController
                          (reminder&.end_date&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y')),
                          (reminder&.done_at&.in_time_zone(@remindable.time_zone)&.strftime('%b %-d, %Y') if reminder.done_at.present?),
                          (reminder&.description if reminder.class.name != 'Project'),
-                         reminder.messages&.where&.not(file_data: nil)&.count || 0
+                         reminder.messages&.where&.not(file_data: nil)&.count || 0,
+                         reminder.messages&.where(file_data: nil)&.count || 0
                        ])
           end
         end
