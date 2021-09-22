@@ -276,7 +276,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       before do
         expect(TeamMember.count).to eq(2)
-        expect(Notification::Deliver).to receive(:got_seat_assigned!).with(specialist_invitation, :new_employee) { true }
+        expect(Notification::Deliver).to receive(:got_seat_assigned!).with(specialist_invitation) { true }
         patch :update, as: 'json', params: { id: team_member.id, team_member: params }
       end
 
