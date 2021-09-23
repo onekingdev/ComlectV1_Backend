@@ -184,8 +184,6 @@ Rails.application.routes.draw do
           get :available_seat_count
         end
       end
-
-      resources :invoices, only: %i[index]
     end
 
     namespace :specialist do
@@ -244,6 +242,8 @@ Rails.application.routes.draw do
     resource :specialist, only: %i[update] do
       patch '/' => 'specialists#update', as: :update
     end
+
+    resources :invoices, only: %i[index]
     resources :otp_secrets, only: [:create]
   end
 end
