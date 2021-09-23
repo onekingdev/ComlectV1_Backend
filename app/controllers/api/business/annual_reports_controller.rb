@@ -8,11 +8,16 @@ class Api::Business::AnnualReportsController < ApiController
   before_action :find_areport, only: %i[show update destroy clone download]
 
   def clone
-    new_report = @areport.deep_clone include: %i[
-      annual_review_employees
-      regulatory_changes
-      review_categories
-    ]
+    new_report = @areport.deep_clone include: %i[review_categories]
+    new_report.review_categories&.each do |category|
+      category.complete = false
+      category.review_topics&.each_with_index do |topic, topic_index|
+        topic['items']&.each_with_index do |_item, item_index|
+          category.review_topics[topic_index]['items'][item_index]['findings'] = []
+        end
+      end
+    end
+    new_report.material_business_changes = ''
     new_report.complete = false
     new_report.completed_at = nil
     new_report.save
