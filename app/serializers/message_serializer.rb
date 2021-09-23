@@ -7,6 +7,11 @@ class MessageSerializer < ApplicationSerializer
              :sender,
              :recipient,
              :message,
-             :file_data,
+             :file_url,
+             :file_name,
              :created_at
+
+  def file_name
+    object.file.present? ? object.file_name : nil
+  end
 end
