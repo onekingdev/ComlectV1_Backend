@@ -184,6 +184,8 @@ Rails.application.routes.draw do
           get :available_seat_count
         end
       end
+
+      resources :invoices, only: %i[index]
     end
 
     namespace :specialist do

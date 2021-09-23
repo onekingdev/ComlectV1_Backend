@@ -48,6 +48,8 @@ class Specialist < ApplicationRecord
   has_many :specialists_business_roles
   has_many :manageable_businesses, through: :specialists_business_roles, class_name: 'Business', source: :business
   has_many :subscriptions, foreign_key: :specialist_id
+  has_many :invoices
+
   validate if: -> { time_zone.present? } do
     errors.add :time_zone unless ActiveSupport::TimeZone.all.collect(&:name).include?(time_zone)
   end

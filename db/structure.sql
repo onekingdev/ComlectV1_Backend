@@ -1878,6 +1878,48 @@ CREATE TABLE public.industries_specialists (
 
 
 --
+-- Name: invoices; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.invoices (
+    id bigint NOT NULL,
+    date timestamp without time zone,
+    currency character varying,
+    price integer,
+    stripe_invoice_id character varying,
+    invoice_pdf character varying,
+    stripe_charge_id character varying,
+    stripe_customer_id character varying,
+    name character varying,
+    hosted_invoice_url character varying,
+    invoice_type character varying DEFAULT 'plan'::character varying,
+    business_id bigint,
+    specialist_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: invoices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.invoices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: invoices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.invoices_id_seq OWNED BY public.invoices.id;
+
+
+--
 -- Name: job_applications; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5363,6 +5405,13 @@ ALTER TABLE ONLY public.industries ALTER COLUMN id SET DEFAULT nextval('public.i
 
 
 --
+-- Name: invoices id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoices ALTER COLUMN id SET DEFAULT nextval('public.invoices_id_seq'::regclass);
+
+
+--
 -- Name: job_applications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -5979,6 +6028,14 @@ ALTER TABLE ONLY public.industries
 
 
 --
+-- Name: invoices invoices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invoices
+    ADD CONSTRAINT invoices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: job_applications job_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6585,6 +6642,20 @@ CREATE INDEX index_forum_subscriptions_on_business_id ON public.forum_subscripti
 --
 
 CREATE UNIQUE INDEX index_industries_projects_on_industry_id_and_project_id ON public.industries_projects USING btree (industry_id, project_id);
+
+
+--
+-- Name: index_invoices_on_business_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invoices_on_business_id ON public.invoices USING btree (business_id);
+
+
+--
+-- Name: index_invoices_on_specialist_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invoices_on_specialist_id ON public.invoices USING btree (specialist_id);
 
 
 --
@@ -7970,6 +8041,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210915191451'),
 ('20210916024312'),
 ('20210916110317'),
-('20210922164840');
+('20210922164840'),
+('20210923010408');
 
 
