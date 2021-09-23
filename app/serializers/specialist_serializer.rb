@@ -21,9 +21,14 @@ class SpecialistSerializer < ApplicationSerializer
     :description,
     :visibility,
     :min_hourly_rate,
-    :name_setting
+    :name_setting,
+    :user_email
 
   def photo_url
     object.photo_url(:profile)
+  end
+
+  def user_email
+    object.user.email
   end
 end
