@@ -25,12 +25,12 @@ en:
       action_label: View Review
     got_project_message:
       subject: You received a message
-      message: %{user_firstname} posted a comment to %{project_title} discussion board.  
+      message: "%{user_firstname} posted a comment to %{project_title} discussion board."
       action_label: View Project
     forum_comment:
-      subject: %{user_firstname} commented on your forum answer
-      message: %{user_firstname} has posted a comment in response to your answer in the Q&A Forum.
-      message_mail: %{user_firstname} has posted a comment in response to your answer in the Q&A Forum.
+      subject: "%{user_firstname} commented on your forum answer"
+      message: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum."
+      message_mail: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum."
       action_label: View Response
 
     # sent to specialist
