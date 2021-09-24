@@ -18,7 +18,7 @@ class NotificationMailer < ApplicationMailer
       template_id: template_by_initiator(@initiator_name),
       template_model: {
         subject: @subject,
-        message_html: simple_format(@message),
+        message_html: @message.html_safe,
         message_text: @message,
         action: {
           action_label: @action_label,
