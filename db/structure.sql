@@ -7114,6 +7114,13 @@ CREATE UNIQUE INDEX index_referrals_on_referrable_id_and_referrable_type ON publ
 
 
 --
+-- Name: index_risks_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_risks_on_name ON public.risks USING btree (name);
+
+
+--
 -- Name: index_seats_on_business_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -8042,6 +8049,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210916024312'),
 ('20210916110317'),
 ('20210922164840'),
-('20210923010408');
+('20210923010408'),
+('20210924010455');
 
 
