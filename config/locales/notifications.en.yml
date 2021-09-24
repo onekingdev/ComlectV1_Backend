@@ -20,25 +20,25 @@ en:
   notification_messages:
     # sent to both
     got_rated:
-      subject: You Have Been Rated and Reviewed
-      message: You've just been rated and reviewed. See what was said about you.
-      action_label: Go to Main Dashboard
+      subject: Read %{user_firstname}'s review
+      message: You have been rated and reviewed by %{user_firstname}. This has been posted to your Complect profile.
+      action_label: View Review
     got_project_message:
-      subject: You've Received a Message
-      message: There's a message waiting for you.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: You received a message
+      message: %{user_firstname} posted a comment to %{project_title} discussion board.  
+      action_label: View Project
     forum_comment:
-      subject: Someone Commented on Your Answer
-      message: Check out the latest comment to your answer to a question in the Q&A Forum
-      message_mail: Check out the latest comment to your answer to a question in the Q&A Forum
-      action_label: View
+      subject: %{user_firstname} commented on your forum answer
+      message: %{user_firstname} has posted a comment in response to your answer in the Q&A Forum.
+      message_mail: %{user_firstname} has posted a comment in response to your answer in the Q&A Forum.
+      action_label: View Response
 
     # sent to specialist
     industry_forum_question:
-      subject: New Question Posted in the Forum
-      message: New question posted in the forum waiting for your answer
-      message_mail: "New question posted in the forum waiting for your answer"
-      action_label: View
+      subject: New question has been posted in the forum
+      message: There is a new question in the Q&A Forum. Help the community by posting an answer.
+      message_mail: "There is a new question in the Q&A Forum. Help the community by posting an answer."
+      action_label: View Question
     got_seat_assigned:
       subject: You've been invited to join a team on Complect
       message_mail: "%{company_name} has purchased a seat for you on Complect. Please sign up directly via the link below to link up to your firm's account."

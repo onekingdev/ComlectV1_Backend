@@ -159,7 +159,8 @@ class Notification::Deliver < Draper::Decorator
         user: rating.specialist.user,
         key: :got_rated,
         action_path: action_path,
-        associated: rating
+        associated: rating,
+        t: { user_firstname: rating.rater.first_name }
       )
       dispatcher.deliver_notification!
       return unless Notification.enabled?(rating.specialist, :got_rated)
@@ -176,7 +177,8 @@ class Notification::Deliver < Draper::Decorator
         key: :got_rated,
         action_path: action_path,
         associated: rating,
-        initiator: project.business
+        initiator: project.business,
+        t: { user_firstname: rating.rater.first_name }
       )
 
       dispatcher.deliver_notification!
@@ -194,7 +196,8 @@ class Notification::Deliver < Draper::Decorator
         key: :got_rated,
         action_path: action_path,
         associated: rating,
-        initiator: project.specialist
+        initiator: project.specialist,
+        t: { user_firstname: rating.rater.first_name }
       )
 
       dispatcher.deliver_notification!
@@ -222,7 +225,7 @@ class Notification::Deliver < Draper::Decorator
         associated: project,
         clear_manually: true,
         initiator: init,
-        t: { project_title: project.title }
+        t: { project_title: project.title, user_firstname: message.sender.first_name }
       )
 
       dispatcher.deliver_notification!

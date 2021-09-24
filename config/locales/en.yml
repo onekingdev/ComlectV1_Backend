@@ -3,9 +3,9 @@ en:
 
   date:
     formats:
-      pickadate: "%Y/%m/%d"
-      pickadate_p: "%Y-%m-%d"
-      short_ord: "%@d %b %Y"
+      pickadate: "%m/%d/%Y"
+      pickadate_p: "%m-%d-%Y"
+      short_ord: "%b %@d %Y"
   activerecord:
     attributes:
       compliance_category:
@@ -59,7 +59,7 @@ en:
         exam_auditor:
           attributes:
             email:
-              taken: 'Email address already invited'
+              taken: 'Email is already in use'
         user:
           attributes:
             email:
@@ -67,11 +67,11 @@ en:
         bank_account:
           attributes:
             account_number_confirmation:
-              confirmation: "Doesn't match account number"
+              confirmation: "Account number does not match"
         stripe_account:
           attributes:
             dob:
-              over_18: 'You should be over 18 years old'
+              over_18: 'You must be over 18 years old'
         business:
           attributes:
             logo:
@@ -80,7 +80,7 @@ en:
         project:
           attributes:
             base:
-              no_payment: "We do not have a valid <a target='_blank' href='/business/settings/billing'>payment method</a> on file for you. Please add a payment method before you can post a project."
+              no_payment: "There is no valid <a target='_blank' href='/business/settings/billing'>payment method</a> linked to your account. Please add a payment method in order to post a job."
             location_type:
               inclusion: Please make a selection
             estimated_days:
@@ -101,11 +101,11 @@ en:
         job_application:
           attributes:
             prerequisites:
-              no_experience: You do not have enough compliance experience to apply
-              no_jurisdiction: You do not have the required jurisdiction expertise to apply
-              no_industry: You do not have the required industry expertise to apply
-              no_regulator: You do not have the required former regulator experience to apply
-              no_payment_info: Please add a verified bank account to proceed
+              no_experience: Proposal has not been submitted. You do not have the requisite compliance experience to apply.
+              no_jurisdiction: Proposal has not been submitted. You do not have the requisite jurisdiction expertise to apply.
+              no_industry: Proposal has not been submitted. You do not have the requisite industry expertise to apply.
+              no_regulator: Proposal has not been submitted. You do not have the requisite former regulator experience to apply.
+              no_payment_info: Proposal has not been submitted. Please add a bank account to receive your payments.
             starts_on:
               past: Start date cannot be in the past
         specialist:
@@ -208,7 +208,7 @@ en:
     code_of_ethics_and_insider_trading: Code of Ethics & Insider Trading
 
   api:
-    not_found: "Record not found"
+    not_found: "Record has not been found."
     business:
       exam_request_files:
         unable_to_delete: 'Document has not been deleted.'
@@ -221,13 +221,13 @@ en:
         compression_queued: 'Download has been initiated.'
       payment_settings:
         destroy:
-          not_found: 'Payment method not found.'
+          not_found: 'Payment method has not been found.'
           payment_source_deattached: 'Payment method has been deleted.'
       projects:
-        project_has_specialist: 'Project has not been deleted. Please terminate any active contracts.'
+        project_has_specialist: 'Project has not been deleted. Please terminate the active contract in this project first.'
       seats:
-        invalid_employee: 'User has not been added. Try again.'
-        employee_not_in_team: 'User cannot be added. This email is already in use.'
+        invalid_employee: 'User has not been added. Please try again.'
+        employee_not_in_team: 'User has not been added. This email is already in use.'
       team_members:
         no_available_seats: 'User has not been added. Please purchase an additional seat.'
     settings:
@@ -236,7 +236,7 @@ en:
     specialist:
       payment_settings:
         destroy:
-          not_found: 'Payment method not found.'
+          not_found: 'Payment method has not been found.'
           payment_source_deattached: 'Payment method has been deleted.'
       upgrade:
         subscribe_success: 'Plan has been upgraded.'
@@ -250,31 +250,31 @@ en:
     businesses:
       confirm_otp: 'A one time passcode has been sent to your email.'
     direct_messages:
-      empty_message: "Message has not been sent. Please complete missing fields."
+      empty_message: "Message has not been sent. Please complete required fields."
     documents:
       cannot_destroy: 'Document has not been deleted.'
-      not_owner: 'Document has not been deleted. You do not have the requisite permissions.'
+      not_owner: 'Document has not been deleted. You do not have the requisite permissions to delete the file.'
     email_confirmation:
       confirmed: 'Email address has been confirmed.'
       invalid_otp: 'Invalid 6 digit code'
-      already_confirmed: 'You have already confirmed email'
+      already_confirmed: 'Email address has already been confirmed.'
       otp_sent: 'A one time passcode has been sent to your email.'
     exams:
       wrong_auditor_email: 'Access has not been granted. Please check the email address.'
-      otp_timeout: 'Timeout'
-      too_many_fails: 'Access denied. Too many failed attempts.'
-      complete: 'Access denied. Exam has been already completed.'
+      otp_timeout: 'Verification code has expired.'
+      too_many_fails: 'Access denied. There have been too many failed attempts.'
+      complete: 'Access revoked. Exam has been marked as complete.'
     otp_secrets:
       otp_sent: 'A one time passcode has been sent to your email.'
     passwords:
       reset_email: 'Password reset email has been sent.'
     project_ends:
-      requested: 'Contract termination request has been sent.'
-      request_failure: 'Contract termination request has not been sent. Try again.'
-      confirmed: 'Contract termination request has been approved.'
-      confirm_from_other_side: 'Contract termination must be approved by both parties'
+      requested: 'Contract early termination request has been sent.'
+      request_failure: 'Contract early termination request has not been sent. Please try again.'
+      confirmed: 'Contract early termination request has been approved.'
+      confirm_from_other_side: 'Contract early termination must be approved by both parties.'
     project_extensions:
       processed: 'Contract extension request has been sent.'
-      confirm_from_other_side: 'Contract extension must be approved by both parties'
+      confirm_from_other_side: 'Contract extension must be approved by both parties.'
     specialists:
       confirm_otp: 'A one time passcode has been sent to your email.'
