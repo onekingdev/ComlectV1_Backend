@@ -215,7 +215,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(response).to have_http_status(404) }
       it { expect(response.message).to eq('Not Found') }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'with empty params' do
@@ -296,7 +296,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(response).to have_http_status(404) }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'return team member successfully' do
@@ -335,7 +335,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(response).to have_http_status(404) }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'archive team member' do
@@ -378,7 +378,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(response).to have_http_status(404) }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'there is no available seat' do

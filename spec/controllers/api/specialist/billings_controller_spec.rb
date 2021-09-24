@@ -112,7 +112,7 @@ RSpec.describe Api::Specialist::BillingsController, type: :controller do
       before { patch :update, as: 'json', params: { id: 0 } }
 
       it { expect(response).to have_http_status(404) }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record not found') }
+      it { expect(JSON.parse(response.body)['error']).to eq('Record has not been found.') }
     end
 
     context 'update individual account information section' do

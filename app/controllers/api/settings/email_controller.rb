@@ -15,7 +15,7 @@ class Api::Settings::EmailController < ApiController
     user = User.find_by(email: params[:user][:email])
     if user
       respond_with(
-        errors: { not_found: 'Email is already in use' },
+        errors: { not_found: 'Email is used for other account!' },
         status: :unprocessable_entity
       ) and return
     end
