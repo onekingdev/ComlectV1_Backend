@@ -10,8 +10,10 @@ class ExamAuditorMailer < ApplicationMailer
       to: @auditor.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        action_label: 'Log In',
-        action_url: "#{ENV.fetch('FRONTEND_URL')}/#{generate_exam_url(@exam)}",
+        action: {
+          action_label: 'Log In',
+          action_url: "#{ENV.fetch('FRONTEND_URL')}/#{generate_exam_url(@exam)}"
+        },
         subject: "You've been invited to view #{@business.business_name}'s files",
         message_html: "#{@business.business_name} has invited you to access their secure portal. Log in with your invited email address to view their shared documents."
       }
