@@ -2,7 +2,7 @@
 
 class Api::ReminderMessagesController < ApiController
   before_action :require_someone!
-  before_action :find_reminder
+  before_action :find_reminder, except: :destroy
   skip_before_action :verify_authenticity_token
 
   def index
@@ -15,6 +15,15 @@ class Api::ReminderMessagesController < ApiController
       respond_with message, serializer: MessageSerializer
     else
       render json: message.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    message = @current_someone.messages.find(params[:message_id])
+    if message.destroy
+      render json: nil, status: :no_content
+    else
+      render json: { error: 'Cannot delete message' }, status: :unprocessable_entity
     end
   end
 

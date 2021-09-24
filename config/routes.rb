@@ -107,6 +107,7 @@ Rails.application.routes.draw do
     post '/reminders/:id' => 'reminders#update'
     get '/reminders/:id/messages' => '/api/reminder_messages#index'
     post '/reminders/:id/messages' => '/api/reminder_messages#create'
+    delete '/reminders/messages/:message_id' => '/api/reminder_messages#destroy'
     get '/reminders/:date_from/:date_to' => 'reminders#by_date'
     get '/overdue_reminders' => 'reminders#overdue'
     post '/reminders' => 'reminders#create'
