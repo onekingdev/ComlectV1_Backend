@@ -9,7 +9,7 @@ class EscalatedProjectMailer < ApplicationMailer
     mail to: 'help@complect.com',
          template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
          template_model: {
-           subject: "The project \"#{@project.title}\" has been escalated",
+           subject: "Project \"#{@project.title}\" has been escalated",
            message_html: render('message_to_support.html'),
            message_text: render('message_to_support.text')
          }
@@ -21,7 +21,7 @@ class EscalatedProjectMailer < ApplicationMailer
     mail to: @user.email,
          template_id: ENV.fetch('POSTMARK_PERSONAL_TEMPLATE_ID'),
          template_model: {
-           subject: "The project \"#{@project.title}\" has been escalated",
+           subject: "Project \"#{@project.title}\" has been escalated",
            message_html: render('message_to_user.html'),
            message_text: render('message_to_user.text')
          }

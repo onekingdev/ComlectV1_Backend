@@ -12,7 +12,7 @@ class MessageMailer < ApplicationMailer
       reply_to: thread_address(thread, from),
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'A message regarding your application on Complect',
+        subject: "You've received a message",
         message_html: render('first_contact.html'),
         message_text: render('first_contact.text')
       }
@@ -46,7 +46,7 @@ class MessageMailer < ApplicationMailer
   end
 
   def subject(_from)
-    'You received a message on Complect'
+    'You received a message'
   end
 
   def party_name(party)

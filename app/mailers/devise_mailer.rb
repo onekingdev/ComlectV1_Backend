@@ -12,7 +12,7 @@ class DeviseMailer < ApplicationMailer
       to: @resource.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Email change confirmation',
+        subject: 'Your email login has been changed',
         message_html: render('confirmation_instructions.html')
       }
     )
@@ -25,7 +25,7 @@ class DeviseMailer < ApplicationMailer
       to: @resource.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Reset password instructions',
+        subject: 'Reset your password',
         message_html: render('reset_password_instructions.html'),
         message_text: render('reset_password_instructions.text')
       }

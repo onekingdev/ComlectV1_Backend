@@ -8,12 +8,12 @@ class ExamAuditorMailer < ApplicationMailer
 
     mail(
       to: @auditor.email,
-      template_id: ENV.fetch('POSTMARK_PERSONAL_TEMPLATE_ID'),
+      template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: "#{@business.business_name} Portal Access",
-        message_html: "Welcome! You’ve been invited to #{@business.business_name}’s
-         exam management portal. Please click the link below to access the documents that have been
-         shared with you. <br><br><a href='#{generate_exam_url(@exam)}'>#{generate_exam_url(@exam)}</a>"
+        action_label: 'Log In',
+        action_url: "#{ENV.fetch('FRONTEND_URL')}/#{generate_exam_url(@exam)}",
+        subject: "You've been invited to view #{@business.business_name}'s files",
+        message_html: "#{@business.business_name} has invited you to access their secure portal. Log in with your invited email address to view their shared documents."
       }
     )
   end
@@ -23,10 +23,10 @@ class ExamAuditorMailer < ApplicationMailer
 
     mail(
       to: @auditor.email,
-      template_id: ENV.fetch('POSTMARK_PERSONAL_TEMPLATE_ID'),
+      template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Portal Access Key',
-        message_html: "This key will expire in 5 minutes: #{@auditor.otp}"
+        subject: 'Your verification code',
+        message_html: "Below is your one time verification code. This code will expire in 5 minutes. <p>#{@auditor.otp}</p>If you did not request this, please ignore this email."
       }
     )
   end
@@ -34,7 +34,7 @@ class ExamAuditorMailer < ApplicationMailer
   def generate_exam_url(exam)
     environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
     return "https://app.complect.com/exams/#{exam.share_uuid}" if environment == 'production'
-    "https://staging.complect.com/exams/#{exam.share_uuid}"
+    "https://demo.complect.com/exams/#{exam.share_uuid}"
   end
 
   def verify_email(user, otp_code)
@@ -44,7 +44,7 @@ class ExamAuditorMailer < ApplicationMailer
     mail(
       to: @user.email,
       template_model: {
-        subject: 'Confirm your email',
+        subject: 'Your verification code',
         message_html: render_to_string(template: 'business_mailer/verify_email')
       }
     )

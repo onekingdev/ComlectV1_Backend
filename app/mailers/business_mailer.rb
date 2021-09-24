@@ -8,7 +8,7 @@ class BusinessMailer < ApplicationMailer
       to: @business.user.email,
       template_id: ENV.fetch('POSTMARK_PERSONAL_TEMPLATE_ID'),
       template_model: {
-        subject: 'Welcome to Complect!',
+        subject: 'Welcome to Complect',
         message_html: render_to_string(template: 'business_mailer/welcome')
       }
     )
@@ -21,7 +21,7 @@ class BusinessMailer < ApplicationMailer
     mail(
       to: @user.email,
       template_model: {
-        subject: 'Confirm your email',
+        subject: 'Your verification code',
         message_html: render_to_string(template: 'business_mailer/verify_email')
       }
     )
