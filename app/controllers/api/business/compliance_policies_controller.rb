@@ -40,8 +40,12 @@ class Api::Business::CompliancePoliciesController < ApiController
 
   def download_all
     @combined_policy_db.update(file_data: nil)
-    PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.id, false)
-    respond_with status: :ok
+    if current_business.compliance_policies.root_published.count.positive?
+      PdfCompliancePolicyWorker.perform_async(current_business.compliance_policies.first.id, false)
+      respond_with status: :ok
+    else
+      respond_with({ error: 'Compliance Manual has not been queued for download. There are no published policies.' }, { status: :unprocessable_entity })
+    end
   end
 
   def destroy
