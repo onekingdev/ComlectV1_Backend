@@ -50,7 +50,8 @@ Rails.application.routes.draw do
     get 'static_collection' => 'static_collection#index'
     post 'exams/:uuid' => 'exams#email'
     patch 'exams/:uuid' => 'exams#show'
-
+    get 'notifications/read_all' => 'notifications#read_all'
+    resources :notifications, only: %i[index show]
     resources :skills, only: :index
     resources :users, only: [] do
       collection do

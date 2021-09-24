@@ -4,6 +4,8 @@ class Notification < ApplicationRecord
   belongs_to :user
   belongs_to :associated, polymorphic: true, optional: true
 
+  default_scope { order(created_at: :desc) }
+
   scope :unread, -> { where(read_at: nil).order(created_at: :desc) }
   scope :with_key, ->(key) { where(key: key) }
   scope :associated_with, ->(associated) { where(associated: associated) }
