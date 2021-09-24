@@ -20,8 +20,10 @@ class NotificationMailer < ApplicationMailer
         subject: @subject,
         message_html: simple_format(@message),
         message_text: @message,
-        action_label: @action_label,
-        action_url: @action_url,
+        action: {
+          action_label: @action_label,
+          action_url: @action_url
+        },
         initiator: @initiator_name,
         img_path: @img_path
       }
