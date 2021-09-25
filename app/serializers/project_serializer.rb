@@ -37,7 +37,6 @@ class ProjectSerializer < ApplicationSerializer
              :calculated_budget,
              :lat,
              :lng,
-             :point,
              :specialist_id,
              :job_applications_count,
              :published_at,
