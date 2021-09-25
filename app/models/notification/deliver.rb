@@ -222,7 +222,7 @@ class Notification::Deliver < Draper::Decorator
     def business_project_ended!(project)
       action_path = '/business/projects/new'
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :business_project_ended,
         action_path: action_path,
         associated: project
@@ -303,7 +303,7 @@ class Notification::Deliver < Draper::Decorator
       project = extension.project
       action_path = "/business/projects/#{project.local_project.id}"
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :extension_denied,
         action_path: action_path,
         associated: project,
@@ -318,7 +318,7 @@ class Notification::Deliver < Draper::Decorator
       project = extension.project
       action_path = "/business/projects/#{project.local_project.id}"
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :extension_accepted,
         action_path: action_path,
         associated: project,
@@ -353,7 +353,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = "/business/projects/#{project.local_project.id}"
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :end_project_denied,
         action_path: action_path,
         associated: project,
@@ -368,7 +368,7 @@ class Notification::Deliver < Draper::Decorator
       project = issue.project
       rcv, key, action_path = if issue.user.specialist
         [
-          project.business.user, :business_escalated, "/business/projects/#{project.local_project.id}"
+          project.local_project.owner.user, :business_escalated, "/business/projects/#{project.local_project.id}"
         ]
       elsif issue.user.business
         [
@@ -411,7 +411,7 @@ class Notification::Deliver < Draper::Decorator
       key = project.full_time? ? :job_application : :project_application
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: key,
         action_path: action_path,
         associated: project,
@@ -428,7 +428,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = '/specialist/job_board'
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: application.specialist.user,
         key: :job_application_declined,
         action_path: action_path,
         associated: project,
@@ -444,7 +444,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = "/business/projects/#{project.local_project.id}"
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :end_project_accepted,
         action_path: action_path,
         associated: project,
@@ -460,7 +460,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = '/business/projects#draft'
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :start_date_lapsed,
         action_path: action_path,
         associated: project
@@ -503,7 +503,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = "/business/projects/#{project.local_project.id}"
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: :business_project_starting_soon,
         action_path: action_path,
         associated: project,
@@ -525,7 +525,7 @@ class Notification::Deliver < Draper::Decorator
       key = project.fixed_pricing? ? :business_fixed_project_ends : :business_hourly_project_ends
 
       dispatcher = Dispatcher.new(
-        user: project.business.user,
+        user: project.local_project.owner.user,
         key: key,
         action_path: action_path,
         associated: project,
@@ -616,7 +616,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = '/business/reports/financials#completed'
 
       dispatcher = Dispatcher.new(
-        user: transaction.business.user,
+        user: transaction.project.local_project.owner.user,
         key: :business_transaction_processed,
         action_path: action_path,
         associated: transaction,
