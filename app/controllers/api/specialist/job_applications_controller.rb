@@ -18,7 +18,11 @@ class Api::Specialist::JobApplicationsController < ApiController
 
   def update
     job_application = JobApplication::Form.where(specialist_id: current_specialist.id, id: params[:id]).first
-    if @project.rfp? && job_application.update(job_application_params)
+    is_document_empty = job_application_params[:document] == 'null'
+    params = is_document_empty ? job_application_params.except(:document) : job_application_params
+    job_application.document = nil if is_document_empty
+    job_application.assign_attributes(params)
+    if @project.rfp? && job_application.save
       respond_with job_application, serializer: Specialist::JobApplicationSerializer
     else
       render json: job_application.errors, status: :unprocessable_entity
