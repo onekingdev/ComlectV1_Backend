@@ -2039,7 +2039,9 @@ CREATE TABLE public.local_projects (
     ends_on date,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    status character varying DEFAULT 'inprogress'::character varying
+    status character varying DEFAULT 'inprogress'::character varying,
+    last_read_message_id integer DEFAULT 0,
+    has_unread_messages boolean DEFAULT false
 );
 
 
@@ -2069,7 +2071,8 @@ ALTER SEQUENCE public.local_projects_id_seq OWNED BY public.local_projects.id;
 CREATE TABLE public.local_projects_specialists (
     id bigint NOT NULL,
     local_project_id bigint NOT NULL,
-    specialist_id bigint NOT NULL
+    specialist_id bigint NOT NULL,
+    last_read_message_id integer DEFAULT 0
 );
 
 
@@ -8050,6 +8053,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210916110317'),
 ('20210922164840'),
 ('20210923010408'),
-('20210924010455');
+('20210924010455'),
+('20210925145059');
 
 

@@ -196,32 +196,22 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_mail(action_path)
     end
 
-    def got_project_message!(message)
-      # project = message.thread
-      # init, action_path = if message.sender == project.business
-      #   [
-      #     project.business, "/specialist/my-projects/#{project.id}"
-      #   ]
-      # else
-      #   [
-      #     message.sender, "/business/projects/#{project.local_project.id}"
-      #   ]
-      # end
-      # action_path = "/business/projects/#{project.local_project.id}" if message.sender != project.business && project.specialist.blank?
+    def got_project_message!(recipient, project, sender)
+      action_path = '/specialist/my-projects'
+      action_path = "/business/projects/#{project.id}" if recipient.business || (recipient.specialist&.seat?)
 
-      # dispatcher = Dispatcher.new(
-      #   user: rcv.user,
-      #   key: :got_project_message,
-      #   action_path: action_path,
-      #   associated: project,
-      #   clear_manually: true,
-      #   initiator: init,
-      #   t: { project_title: project.title, user_firstname: message.sender.first_name }
-      # )
+      dispatcher = Dispatcher.new(
+        user: recipient,
+        key: :got_project_message,
+        action_path: action_path,
+        associated: project,
+        initiator: sender,
+        t: { project_title: project.title, user_firstname: sender.first_name }
+      )
 
-      # dispatcher.deliver_notification!
+      dispatcher.deliver_notification!
+      dispatcher.deliver_mail(action_path)
       # return unless Notification.enabled?(rcv, :got_message)
-      # dispatcher.deliver_mail(action_path)
     end
 
     def project_ended!(project)
