@@ -9,6 +9,11 @@ class Api::Business::SpecialistsController < ApiController
     respond_with specialists, each_serializer: ::Business::SpecialistSerializer
   end
 
+  def show
+    specialist = Specialist.find_by(id: params[:id])
+    respond_with specialist, serializer: ::Business::SpecialistSerializer
+  end
+
   private
 
   def search_params

@@ -149,7 +149,7 @@ Rails.application.routes.draw do
         resources :timesheets, except: %i[new edit], controller: 'timesheets'
       end
       resources :specialist_roles, only: :update
-      resources :specialists, only: :index
+      resources :specialists, only: %i[show index]
       resources :annual_reports, only: %i[index show create update destroy] do
         resources :documents, only: %i[index create destroy], controller: 'annual_report_documents'
       end

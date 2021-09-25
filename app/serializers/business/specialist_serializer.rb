@@ -5,6 +5,7 @@ class Business::SpecialistSerializer < ApplicationSerializer
   has_many :jurisdictions, serializer: JurisdictionSerializer
   has_many :industries, serializer: IndustrySerializer
   has_many :specialists_business_roles
+  has_many :work_experiences
   attributes :id,
              :photo,
              :first_name,
@@ -21,7 +22,11 @@ class Business::SpecialistSerializer < ApplicationSerializer
              :experience,
              :min_hourly_rate,
              :location,
-             :seat_role
+             :seat_role,
+             :city,
+             :state,
+             :description,
+             :specialist_other
 
   def photo
     object.photo_url(:thumb)
