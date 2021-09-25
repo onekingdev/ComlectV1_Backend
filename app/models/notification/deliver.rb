@@ -70,6 +70,7 @@ class Notification::Deliver < Draper::Decorator
       action_path = "/employee/new?invite_token=#{invitation.token}"
 
       dispatcher = Dispatcher.new(
+        user: invitation.team_member,
         key: :got_seat_assigned,
         action_path: action_path,
         t: {
@@ -77,17 +78,7 @@ class Notification::Deliver < Draper::Decorator
         }
       )
 
-      team_member = invitation.team_member
-      NotificationMailer.deliver_later(
-        :notification,
-        team_member.email,
-        dispatcher.message_mail,
-        dispatcher.action_label,
-        dispatcher.initiator_name,
-        dispatcher.img_path,
-        action_path,
-        dispatcher.subject
-      )
+      dispatcher.deliver_mail(action_path)
     end
 
     def got_hired!(application)
@@ -206,31 +197,31 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def got_project_message!(message)
-      project = message.thread
-      init, rcv, action_path = if message.sender == project.business
-        [
-          project.business, message.recipient, "/specialist/my-projects/#{project.id}"
-        ]
-      else
-        [
-          message.sender, project.business, "/business/projects/#{project.local_project.id}"
-        ]
-      end
-      action_path = "/business/projects/#{project.local_project.id}" if message.sender != project.business && project.specialist.blank?
+      # project = message.thread
+      # init, action_path = if message.sender == project.business
+      #   [
+      #     project.business, "/specialist/my-projects/#{project.id}"
+      #   ]
+      # else
+      #   [
+      #     message.sender, "/business/projects/#{project.local_project.id}"
+      #   ]
+      # end
+      # action_path = "/business/projects/#{project.local_project.id}" if message.sender != project.business && project.specialist.blank?
 
-      dispatcher = Dispatcher.new(
-        user: rcv.user,
-        key: :got_project_message,
-        action_path: action_path,
-        associated: project,
-        clear_manually: true,
-        initiator: init,
-        t: { project_title: project.title, user_firstname: message.sender.first_name }
-      )
+      # dispatcher = Dispatcher.new(
+      #   user: rcv.user,
+      #   key: :got_project_message,
+      #   action_path: action_path,
+      #   associated: project,
+      #   clear_manually: true,
+      #   initiator: init,
+      #   t: { project_title: project.title, user_firstname: message.sender.first_name }
+      # )
 
-      dispatcher.deliver_notification!
-      return unless Notification.enabled?(rcv, :got_message)
-      dispatcher.deliver_mail(action_path)
+      # dispatcher.deliver_notification!
+      # return unless Notification.enabled?(rcv, :got_message)
+      # dispatcher.deliver_mail(action_path)
     end
 
     def project_ended!(project)
