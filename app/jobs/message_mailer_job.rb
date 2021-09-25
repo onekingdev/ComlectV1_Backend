@@ -23,7 +23,7 @@ class MessageMailerJob < ApplicationJob
       # check business
       if local_project.last_read_message_id < last_msg_id
         local_project.update_column('last_read_message_id', last_msg_id)
-        Notification::Deliver.got_project_message!(local_project.business.user, local_project, last_msg_sender) if last_msg_sender != local_project.business
+        Notification::Deliver.got_project_message!(local_project.owner.user, local_project, last_msg_sender) if last_msg_sender != local_project.owner
       end
       LocalProjectsSpecialist.where(local_project_id: local_project.id).each do |lspecialist|
         if lspecialist.last_read_message_id < last_msg_id

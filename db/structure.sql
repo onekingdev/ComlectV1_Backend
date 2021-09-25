@@ -2041,7 +2041,9 @@ CREATE TABLE public.local_projects (
     updated_at timestamp(6) without time zone NOT NULL,
     status character varying DEFAULT 'inprogress'::character varying,
     last_read_message_id integer DEFAULT 0,
-    has_unread_messages boolean DEFAULT false
+    has_unread_messages boolean DEFAULT false,
+    owner_type character varying,
+    owner_id integer
 );
 
 
@@ -8054,6 +8056,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210922164840'),
 ('20210923010408'),
 ('20210924010455'),
-('20210925145059');
+('20210925145059'),
+('20210925231223');
 
 
