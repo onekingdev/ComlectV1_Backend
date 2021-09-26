@@ -6,18 +6,18 @@ RSpec.describe JobApplication::Accept, type: :model do
   describe '.call' do
     let(:specialist) { create :specialist }
 
-    let(:job_application) {
+    let(:job_application) do
       create(
         :job_application,
         project: project,
         specialist: specialist
       )
-    }
+    end
 
     before { JobApplication::Accept.(job_application) }
 
     context 'when asap duration' do
-      let(:project) { create(:project_one_off_hourly, :asap_duration, estimated_days: 5) }
+      let(:project) { create(:asap_project_one_off_hourly, estimated_days: 5) }
 
       it 'sets the start and end date' do
         project.reload

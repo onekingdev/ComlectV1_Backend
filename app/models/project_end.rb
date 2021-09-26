@@ -18,22 +18,20 @@ class ProjectEnd < ApplicationRecord
 
   def confirm!
     self.class.transaction do
-      update_attribute :status, self.class.statuses[:confirmed]
+      update_attribute(:status, self.class.statuses[:confirmed])
       trigger_project_end
     end
   end
 
   def deny!
-    update_attribute :status, self.class.statuses[:denied]
+    update_attribute(:status, self.class.statuses[:denied])
   end
 
   private
 
   def trigger_project_end
-    project.update_attribute(
-      :ends_on,
-      Time.zone.now.in_time_zone(project.business.tz)
-    )
+    project.update_attribute(:ends_on, Time.zone.now.in_time_zone(project.business.tz))
+
     if project.internal?
       project.complete!
     else

@@ -32,6 +32,18 @@ FactoryBot.define do
         fixed_budget 10_000
         payment_schedule 'monthly'
       end
+
+      after(:create) do |project|
+        local_project = create(
+          :local_project,
+          ends_on: project.ends_on,
+          starts_on: project.starts_on,
+          owner_id: project.business.id,
+          business_id: project.business.id
+        )
+
+        project.update_attribute('local_project_id', local_project.id)
+      end
     end
 
     factory :project_full_time do
@@ -96,5 +108,20 @@ FactoryBot.define do
     trait :business_fee_free do
       business_fee_free true
     end
+  end
+
+  factory :asap_project_one_off_hourly, parent: :project do
+    type Project.types[:one_off]
+    location_type Project.location_types[:remote]
+    key_deliverables 'Key deliverables'
+    payment_schedule 'monthly'
+    estimated_hours 50
+
+    pricing_type 'hourly'
+    hourly_rate 100
+    duration_type 'asap'
+    estimated_days 30
+    starts_on nil
+    ends_on nil
   end
 end
