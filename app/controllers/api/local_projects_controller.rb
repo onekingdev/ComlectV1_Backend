@@ -17,16 +17,19 @@ class Api::LocalProjectsController < ApiController
   end
 
   def create
-    return render json: { error: 'Able to create project only through business' } if @current_someone.class.name.include?('Specialist')
+    if @current_someone.class.name.include?('Specialist')
+      return render json: { error: 'Able to create project only through business' }
+    end
+
     local_project = @current_someone.local_projects.build(local_project_params)
-    # local_project.status = 'draft' if params[:draft].present?
-    local_project.owner = current_user.specialist || @current_someone
+    local_project.business_id = @current_someone.id
+
     if local_project.save
       LocalProjectsSpecialist.create(local_project_id: local_project.id, specialist_id: current_user.specialist.id) if current_user.specialist
       process_hide(local_project)
       render json: local_project, status: :created
     else
-      render json: local_project.errors, status: :unprocessable_entity
+      respond_with local_project
     end
   end
 
