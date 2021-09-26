@@ -209,6 +209,9 @@ en:
 
   api:
     not_found: "Record has not been found."
+    local_projects:
+      create:
+        mistmusch: 'Able to create project only through business'
     business:
       exam_request_files:
         unable_to_delete: 'Document has not been deleted.'

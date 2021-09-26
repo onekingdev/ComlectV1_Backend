@@ -18,7 +18,10 @@ class Api::LocalProjectsController < ApiController
 
   def create
     if @current_someone.class.name.include?('Specialist')
-      return render json: { error: 'Able to create project only through business' }
+      render(
+        json: { error: t('.mistmusch') },
+        status: :unprocessable_entity
+      ) and return
     end
 
     local_project = @current_someone.local_projects.build(local_project_params)
