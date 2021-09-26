@@ -51,7 +51,7 @@ class Api::Specialist::TimesheetsController < ApiController
   def timesheet_params
     params.require(:timesheet).permit(
       :status,
-      time_logs_attributes: %i[id description hours date]
+      time_logs_attributes: %i[id description hours date _destroy]
     )
   end
 
