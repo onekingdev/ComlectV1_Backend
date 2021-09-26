@@ -62,4 +62,17 @@ class ProjectSerializer < ApplicationSerializer
              :industries,
              :specialist,
              :business
+
+  def current_user
+    scope
+  end
+
+  def status
+    return 'Complete' if object.complete?
+    output_status = object.starts_on > Time.zone.now ? 'Not Started' : 'In Progress'
+    return output_status if object.specialist_id
+    output_status = 'Draft' if current_user.specialist && current_user.specialist.job_applications.where(project_id: object.id, status: 'draft').present?
+    output_status = 'Pending' if current_user.specialist && current_user.specialist.job_applications.where(project_id: object.id, status: 'published').present?
+    output_status
+  end
 end

@@ -26,4 +26,12 @@ class LocalProjectSerializer < ApplicationSerializer
   def hide_on_calendar
     current_user.hidden_local_projects.include?(object.id)
   end
+
+  def status_business
+    return 'Complete' if object.complete?
+    output_status = object.starts_on > Time.zone.now ? 'Not Started' : 'In Progress'
+    output_status = 'Pending' if object.projects.where(specialist_id: nil, status: 'published').present?
+    output_status = 'Draft' if object.projects.where(specialist_id: nil, status: 'draft').present?
+    output_status
+  end
 end
