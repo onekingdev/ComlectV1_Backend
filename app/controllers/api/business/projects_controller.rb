@@ -18,7 +18,7 @@ class Api::Business::ProjectsController < ApiController
       @project = build_local_project(@project) unless @project.local_project_id
       respond_with @project, serializer: ProjectSerializer
     else
-      render json: @project.errors, status: :unprocessable_entity
+      respond_with @project
     end
   end
 
@@ -53,7 +53,7 @@ class Api::Business::ProjectsController < ApiController
 
   def build_local_project(project)
     local_project_params = project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
-    local_project = LocalProject.create(local_project_params)
+    local_project = current_business.local_projects.create(local_project_params)
     project.update_attribute('local_project_id', local_project.id)
     project
   end

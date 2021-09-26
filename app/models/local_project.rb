@@ -2,15 +2,18 @@
 
 class LocalProject < ApplicationRecord
   attr_accessor :hide_on_calendar
-  has_many :projects
+
   belongs_to :business
+  belongs_to :owner, polymorphic: true, optional: true
+
+  has_many :projects
   has_one :visible_project, -> { order(id: :desc).where(specialist_id: nil).limit(1) }, class_name: 'Project'
   has_many :collaborators, source: :specialist, through: :projects, class_name: 'Specialist'
   has_many :reminders, as: :linkable
-  has_and_belongs_to_many :specialists
-  belongs_to :owner, polymorphic: true, optional: true
   has_many :messages, as: :thread
   has_many :documents, as: :uploadable
+
+  has_and_belongs_to_many :specialists
 
   alias_attribute :name, :title
 

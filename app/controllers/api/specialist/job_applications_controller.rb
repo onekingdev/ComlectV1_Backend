@@ -35,6 +35,7 @@ class Api::Specialist::JobApplicationsController < ApiController
       @project,
       job_application_params
     )
+
     if job_application.persisted?
       render json: job_application, status: :created
     else

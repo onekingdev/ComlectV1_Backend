@@ -35,7 +35,7 @@ class JobApplication::Form < JobApplication
     application = new(params.merge(specialist: specialist, project: project))
 
     if application.save && !application.draft?
-      Favorite.remove! specialist, project
+      Favorite.remove!(specialist, project)
       Notification::Deliver.project_application!(application) if project.interview?
       JobApplication::Accept.call(application) if project.auto_match?
     end
