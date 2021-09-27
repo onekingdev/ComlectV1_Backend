@@ -26,7 +26,8 @@ class Business::SpecialistSerializer < ApplicationSerializer
              :city,
              :state,
              :description,
-             :specialist_other
+             :specialist_other,
+             :plan
 
   def photo
     object.photo_url(:thumb)
