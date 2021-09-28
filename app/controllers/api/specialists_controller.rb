@@ -9,6 +9,7 @@ class Api::SpecialistsController < ApiController
     specialist = @invitation.present? ? Specialist::Form.signup(signup_params.merge(invitation: @invitation, dashboard_unlocked: true)) : Specialist.new(signup_params)
 
     if @invitation.present? ? (specialist.save(context: :employee) && @invitation&.accepted!(specialist)) : specialist.save
+      specialist.update_column('seat_role', @invitation.team_member.role) if @invitation.present?
       BusinessMailer.verify_email(specialist.user, specialist.user.otp).deliver_later
       render json: { userid: specialist.user_id, message: I18n.t('api.specialists.confirm_otp') }.to_json
     else
