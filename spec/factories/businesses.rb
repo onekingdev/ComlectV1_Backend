@@ -59,52 +59,7 @@ FactoryBot.define do
       )
 
       payment_source = profile.payment_sources.first
-      create(
-        :subscription,
-        quantity: 1,
-        kind_of: 'ccc',
-        amount: 0.15e6,
-        interval: 'year',
-        currency: 'usd',
-        title: 'Team Plan',
-        business: business,
-        plan: 'team_tier_annual',
-        payment_source: payment_source,
-        stripe_subscription_id: 'stripe_sub_id',
-        next_payment_date: Time.zone.now + 1.year
-      )
-    end
-  end
-
-  factory :business_with_team_annual_subscription, parent: :business do
-    after(:create) do |business|
-      profile = business&.payment_profile || create(:payment_profile, business: business)
-
-      profile.payment_sources.first.update(
-        primary: true,
-        brand: 'Visa',
-        last4: '4242',
-        exp_month: 12,
-        exp_year: 2022,
-        validated: true,
-        stripe_id: 'stripe_id'
-      )
-
-      payment_source = profile.payment_sources.first
-      create(
-        :subscription,
-        quantity: 1,
-        kind_of: 'ccc',
-        amount: 0.15e6,
-        interval: 'year',
-        currency: 'usd',
-        title: 'Team Plan',
-        business: business,
-        plan: 'team_tier_annual',
-        payment_source: payment_source,
-        stripe_subscription_id: 'stripe_sub_id',
-        next_payment_date: Time.zone.now + 1.year
-      )
+      create(:subscription, business: business, payment_source: payment_source)
     end
   end
 end

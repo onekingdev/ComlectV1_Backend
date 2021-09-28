@@ -247,6 +247,5 @@ Rails.application.routes.draw do
 
     resources :invoices, only: %i[index]
     resources :otp_secrets, only: [:create]
-    resources :subscriptions, only: %i[index]
   end
 end

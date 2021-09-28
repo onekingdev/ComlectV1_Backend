@@ -11,19 +11,6 @@ class Subscription < ActiveRecord::Base
     5 => 'business_tier_annual'
   }.freeze
 
-  PLAN_NAMES = {
-    'free' => 'Free Plan',
-    'specialist_pro' => 'Pro Plan',
-    'team_tier_annual' => 'Team Plan',
-    'team_tier_monthly' => 'Team Plan',
-    'business_tier_annual' => 'Business Plan',
-    'business_tier_monthly' => 'Business Plan'
-  }.freeze
-
-  CURRENCIES = {
-    'usd' => '$'
-  }.freeze
-
   belongs_to :business, optional: true
   belongs_to :specialist, optional: true
   belongs_to :payment_source, optional: true
@@ -31,8 +18,6 @@ class Subscription < ActiveRecord::Base
   belongs_to :specialist_payment_source,
     class_name: 'Specialist::PaymentSource',
     foreign_key: :specialist_payment_source_id, optional: true
-
-  has_many :seats
 
   enum plan: %w[
     seats_monthly
@@ -96,13 +81,5 @@ class Subscription < ActiveRecord::Base
         description: 'On-boarding fee'
       )
     end
-  end
-
-  def price_interval
-    "#{CURRENCIES[currency]}#{price}/#{interval}" if amount.present?
-  end
-
-  def price
-    (amount / 100).to_i if amount.present?
   end
 end
