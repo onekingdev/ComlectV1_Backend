@@ -47,7 +47,7 @@ class Api::BusinessesController < ApiController
       current_business.update_attribute(:crd_number, crd_number)
     end
 
-    respond_with current_business.business, serializer: BusinessSerializer
+    respond_with current_business, serializer: BusinessSerializer
   end
 
   private

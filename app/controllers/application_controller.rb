@@ -126,13 +126,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_business
 
   def define_current_business(business = nil)
-    @_current_business = ::Business::Decorator.decorate(business || current_user.business)
+    @_current_business = business || current_user.business
   end
 
   def current_specialist
     return @_current_specialist if @_current_specialist
     return nil if !user_signed_in? || current_user.specialist.nil?
-    @_current_specialist = ::Specialist::Decorator.decorate(current_user.specialist)
+    @_current_specialist = current_user.specialist
   end
   helper_method :current_specialist
 

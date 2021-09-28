@@ -11,7 +11,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    owner? && record.job_applications.empty? || (user.is_a?(AdminUser) && admin_can_update?)
+    record.job_applications.empty? || (user.is_a?(AdminUser) && admin_can_update?)
   end
 
   def share?
@@ -31,19 +31,15 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def destroy?
-    owner? && !(record.full_time? && record.specialist_id.present?)
+    !(record.full_time? && record.specialist_id.present?)
   end
 
   def postable?
-    owner? && (record.draft? || record.review?)
+    record.draft? || record.review?
   end
 
   def post?
-    postable? && user.payment_info?
-  end
-
-  def owner?
-    record.business.user_id == user.id
+    postable? && record.business.user.payment_info?
   end
 
   class Scope < Scope

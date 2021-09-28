@@ -26,7 +26,7 @@ class Api::LocalProjectsController < ApiController
 
     local_project = @current_someone.local_projects.build(local_project_params)
     local_project.business_id = @current_someone.id
-
+    local_project.owner = current_user.specialist || local_project.business
     if local_project.save
       LocalProjectsSpecialist.create(local_project_id: local_project.id, specialist_id: current_user.specialist.id) if current_user.specialist
       process_hide(local_project)

@@ -53,13 +53,17 @@ class Api::Business::ProjectsController < ApiController
 
   def build_local_project(project)
     local_project_params = project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
-    local_project = current_business.local_projects.create(local_project_params)
+    local_project = current_business.local_projects.new
+    local_project.assign_attributes(local_project_params)
+    local_project.owner = current_user.specialist || local_project.business
+    local_project.save!
+    LocalProjectsSpecialist.create(local_project_id: local_project.id, specialist_id: current_user.specialist.id) if current_user.specialist
     project.update_attribute('local_project_id', local_project.id)
     project
   end
 
   def build_project
-    @project = Project::Form.new(business: current_user.business).tap do |project|
+    @project = Project::Form.new(business: current_business).tap do |project|
       project.assign_attributes project_params
     end
   end

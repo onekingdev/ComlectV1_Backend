@@ -21,7 +21,8 @@ class LocalProjectSerializer < ApplicationSerializer
              :visible_project,
              :collaborators,
              :hide_on_calendar,
-             :reminders
+             :reminders,
+             :owner
 
   def hide_on_calendar
     current_user.hidden_local_projects.include?(object.id)
@@ -33,5 +34,10 @@ class LocalProjectSerializer < ApplicationSerializer
     output_status = 'Pending' if object.projects.where(specialist_id: nil, status: 'published').present?
     output_status = 'Draft' if object.projects.where(specialist_id: nil, status: 'draft').present?
     output_status
+  end
+
+  def owner
+    return Business::SpecialistSerializer.new(object.owner).serializable_hash if object.owner.class.name.include?('Specialist')
+    return Specialist::BusinessSerializer.new(object.owner).serializable_hash if object.owner.class.name.include?('Business')
   end
 end
