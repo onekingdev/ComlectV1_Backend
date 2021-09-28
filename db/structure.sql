@@ -4783,7 +4783,11 @@ CREATE TABLE public.subscriptions (
     status integer DEFAULT 0,
     specialist_id bigint,
     specialist_payment_source_id bigint,
-    quantity integer
+    quantity integer,
+    amount numeric,
+    "interval" character varying,
+    currency character varying,
+    next_payment_date timestamp without time zone
 );
 
 
@@ -8057,6 +8061,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210923010408'),
 ('20210924010455'),
 ('20210925145059'),
-('20210925231223');
+('20210925231223'),
+('20210927215950');
 
 
