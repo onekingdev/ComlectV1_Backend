@@ -8,5 +8,10 @@ class DocumentSerializer < ApplicationSerializer
              :uploadable_id,
              :file_data,
              :created_at,
-             :updated_at
+             :updated_at,
+             :url,
+             :owner_name
+  def url
+    object.file_url
+  end
 end

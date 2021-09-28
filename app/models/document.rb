@@ -7,11 +7,9 @@ class Document < ApplicationRecord
   validates :file_data, presence: true
   belongs_to :specialist, optional: true # recipient if uploaded by business @ interview
 
+  delegate :name, to: :owner, prefix: true
+
   def file_name
     file_data['metadata']['filename']
-  end
-
-  def owner_name
-    owner.to_s
   end
 end

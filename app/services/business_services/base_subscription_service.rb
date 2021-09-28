@@ -66,8 +66,8 @@ module BusinessServices
         kind_of: :ccc,
         plan: new_plan,
         auto_renew: true,
-        title: new_plan.titleize,
-        business_id: business.id
+        business_id: business.id,
+        title: Subscription::PLAN_NAMES[new_plan]
       )
 
       create_seats(subscription, 1)
@@ -136,9 +136,9 @@ module BusinessServices
         kind_of: :ccc,
         plan: new_plan,
         auto_renew: true,
-        title: new_plan.titleize,
+        business_id: business.id,
         payment_source: payment_source,
-        business_id: business.id
+        title: Subscription::PLAN_NAMES[new_plan]
       )
 
       subscriptions.push(@primary_subscription)
@@ -180,9 +180,14 @@ module BusinessServices
           quantity: subscription.quantity
         )
 
+        cancel_at = stripe_subscription.cancel_at
         subscription.update(
+          interval: stripe_subscription.plan.interval,
+          currency: stripe_subscription.plan.currency,
           stripe_subscription_id: stripe_subscription.id,
-          billing_period_ends: stripe_subscription.cancel_at
+          amount: stripe_subscription.plan.amount_decimal,
+          billing_period_ends: cancel_at ? Time.zone.at(cancel_at) : nil,
+          next_payment_date: Time.zone.at(stripe_subscription.current_period_end)
         )
 
         next unless add_seats

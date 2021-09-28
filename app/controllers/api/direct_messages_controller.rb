@@ -26,7 +26,7 @@ class Api::DirectMessagesController < ApiController
        @current_someone.id]
     end
 
-    messages = Message.business_specialist(bid, sid).direct.includes(:sender, :recipient).page(params[:page]).per(20)
+    messages = Message.order('id asc').business_specialist(bid, sid).direct.includes(:sender, :recipient).page(params[:page]).per(20)
     respond_with messages, each_serializer: MessageSerializer
   end
 
