@@ -11,7 +11,7 @@ class Api::Business::ExamsController < ApiController
   end
 
   def show
-    respond_with @exam, serializer: ExamSerializer
+    respond_with @exam, serializer: ExamWRemindersSerializer
   end
 
   def create

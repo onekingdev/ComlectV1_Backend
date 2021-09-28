@@ -13,7 +13,7 @@ class Api::LocalProjectsController < ApiController
   end
 
   def show
-    respond_with @local_project, serializer: LocalProjectSerializer
+    respond_with @local_project, serializer: LocalProjectWRemindersSerializer
   end
 
   def create

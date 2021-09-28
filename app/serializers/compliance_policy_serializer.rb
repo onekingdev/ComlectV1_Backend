@@ -3,7 +3,6 @@
 class CompliancePolicySerializer < ApplicationSerializer
   has_many :versions, serializer: CompliancePolicyWithoutVersionsSerializer
   has_many :risks, serializer: RiskSerializer
-  has_many :reminders, serializer: ReminderSerializer
   attributes :id,
              :name,
              :created_at,

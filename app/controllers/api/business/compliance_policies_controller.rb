@@ -15,7 +15,7 @@ class Api::Business::CompliancePoliciesController < ApiController
     else
       current_business.compliance_policies.root
     end
-    respond_with cpolicies, each_serializer: CompliancePolicySerializer
+    respond_with cpolicies, each_serializer: CompliancePolicyWRemindersSerializer
   end
 
   def download
@@ -35,7 +35,7 @@ class Api::Business::CompliancePoliciesController < ApiController
   end
 
   def show
-    respond_with @cpolicy, serializer: CompliancePolicySerializer
+    respond_with @cpolicy, serializer: CompliancePolicyWRemindersSerializer
   end
 
   def download_all

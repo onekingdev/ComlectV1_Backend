@@ -33,7 +33,7 @@ class Api::Business::AnnualReportsController < ApiController
   end
 
   def show
-    respond_with @areport, serializer: AnnualReportSerializer
+    respond_with @areport, serializer: AnnualReportWRemindersSerializer
   end
 
   def create
