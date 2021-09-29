@@ -28,201 +28,164 @@ en:
       message: "%{user_firstname} posted a comment to %{project_title} discussion board."
       action_label: View Project
     forum_comment:
-      subject: "%{user_firstname} commented on your forum answer"
-      message: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum."
-      message_mail: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum."
+      subject: "Read %{user_firstname}'s comment on the Q&A Forum"
+      message: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum"
+      message_mail: "%{user_firstname} posted a comment in response to your answer in the Q&A Forum."
       action_label: View Response
 
     # sent to specialist
     industry_forum_question:
-      subject: New question has been posted in the forum
-      message: There is a new question in the Q&A Forum. Help the community by posting an answer.
-      message_mail: "There is a new question in the Q&A Forum. Help the community by posting an answer."
-      action_label: View Question
+      subject: "New question has been posted in the Q&A Forum"
+      message: "New question has been posted in the Q&A Forum"
+      message_mail: "There is a new question in the Q&A Forum. Show off your skills to potential clients by sharing an answer."
+      action_label: View Forum
     got_seat_assigned:
-      subject: You've been invited to join a team on Complect
-      message_mail: "%{company_name} has purchased a seat for you on Complect. Please sign up directly via the link below to link up to your firm's account."
-      action_label: Sign up
+      subject: "%{company_name} has added you to their team"
+      message_mail: "%{company_name} would like you to join their team on Complect! Help the business stay on top of its compliance program by integrating the firm's responsibilities into your own day to day activities through Complect! To get started, create an account through this invitation."
+      action_label: Create Account
     got_employee_invitation:
-      subject: You've been invited to join a team on Complect
-      message_mail: "%{manager_full_name} has requested you join their consulting team on Complect. To create your profile and have it linked with this team, please sign up directly via the link below."
-      action_label: Sign up
+      subject: "%{manager_full_name} has added you to their team"
+      message_mail: "%{manager_full_name} would like you to join their consulting team on Complect. To get started, create an account through this invitation."
+      action_label: Create Account
     got_hired_project:
-      subject: You've been Selected for a Project!
-      message: Congrats! You've been hired. Click here to visit the project dashboard to get started.
-      message_mail: Congrats! You've been hired. Click the link to visit the project dashboard to get started.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Your proposal was accepted
+      message: Your proposal was accepted
+      message_mail: "Congratulations! %{company_name} has accepted the terms of your proposal. A payment schedule has been established and you are ready to enjoy automated invoicing, so you can focus on providing top notch service."
+      action_label: View Project
     got_assigned_project:
-      subject: You have been assigned a project
-      message: Congrats! You've been assigned a project on Complect.
-      message_mail: Congrats! You've been assigned a project on Complect.
-      action_label: Click on the link to get started %{project_title}
-    got_hired_job:
-      subject: You Got the Job!
-      message: Congrats! You've been hired for the %{project_title} role. Reach out to the business with any questions or concerns.
-      action_label: Go to %{project_title} Detailed Job Page
+      subject: You have been added as a collaborator on a project
+      message: "You have been added as a collaborator on %{project_title} project"
+      message_mail: "You are now a collaborator on the %{project_title} project. Check out the project details to get started."
+      action_label: View Project
     not_hired_project:
-      subject: You Were Not Hired
-      message: It's their loss! You were not selected for project %{project_title}, but apply to more and increase your odds of landing that perfect engagement.
-      action_label: Browse Projects
-    not_hired_job:
-      subject: You Were Not Hired
-      message: It's their loss! You were not selected for the %{project_title} role, but apply to more and increase your odds of landing that perfect job.
-      action_label: Browse Projects
+      subject: Your proposal was declined
+      message: "%{company_name} has declined the terms of your proposal. It's their loss! Continue browsing more job opportunities on our Job Board."
+      action_label: Job Board
     timesheet_disputed:
-      subject: Disputed Timesheet
-      message: Your timesheet has been disputed. Please edit accordingly and re-submit to be paid promptly!
-      action_label: Go to %{project_title} Project Dashboard
-    project_answer:
-      subject: Project Question Answered
-      message: I've responded to your project question.
-      action_label: Go to %{project_title} Detailed Project Page
-    job_answer:
-      subject: Job Question Answered
-      message: I've responded to your question about the job.
-      action_label: Go to %{project_title} Detailed Job Page
+      subject: Your timesheet was denied
+      message: "%{company_name} has denied your timesheet. Please reach out %{project_owner} to clarify the necessary edits and be paid promptly."
+      action_label: View Project
     specialist_transaction_processed:
-      subject: You've Been Paid!
-      message: You've just been paid %{payment_amount}. You can check the invoice in your detailed financials section.
-      action_label: Go to Financials Page
+      subject: Your payment has been received
+      message: "%{company_name} has paid your latest invoice in the amount of %{payment_amount}. The invoice and receipt are available for your review through your Complect account."
+      action_label: View Billing
     extend_project:
-      subject: Project Extension Request
-      message: More time has been requested to complete the project. Please confirm the extension request within one business day before the request expires.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract modification request for %{project_title}"
+      message: "%{company_name} has requested to modify your original contract terms. Please review and confirm or deny this request."
+      action_label: View Project
     end_project_fixed:
-      subject: Project Early Termination Request
-      message: "%{business_name} has requested to end your project. If this doesn't sound right, deny it within one business day otherwise the project will automatically end."
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract early completion request for %{project_title}"
+      message: "%{company_name} has requested to end your contract for %{project_title} project early. Please review and confirm or deny this request."
+      action_label: View Project
     end_project_hourly:
-      subject: Project Early Termination Request
-      message: "%{business_name} has requested to end your project. If this doesn't sound right, deny it within one business day otherwise the project will automatically end. This is an hourly project, so you will only have one business day to submit any outstanding timesheets."
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract early completion request for %{project_title}"
+      message: "%{company_name} has requested to end your contract for %{project_title} project early. Please review and confirm or deny this request. If you choose to end this contract early, please remember to submit any outstanding timesheets and get them approved before."
+      action_label: View Project
     specialist_project_starting_soon:
-      subject: Your Project is Starting Soon
-      message: "Don't forget your project %{project_title} starts in 48 hours. Message the business to set up a kick off call if you've not had one yet."
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Contract starts in 48 hours
+      message: "This is a friendly reminder that %{project_title} project will start in 48 hours. If you have not already been in contact with the project lead, please consider reaching out to kick off the engagement."
+      action_label: View Project
     specialist_fixed_project_ends:
-      subject: Your Project Is Ending Soon
-      message: Project %{project_title} ends in 24 hours, so make sure you are on track for a successful on-time completion. Having issues? Don't hesitate to escalate them to us.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Contract ends in 24 hours
+      message: This is a friendly reminder that %{project_title} project will end in 24 hours. Please make sure you are on track for a successful on-time completion. Need more time? Consider a request to modify the due date on your contract. 
+      action_label: View Project
     specialist_hourly_project_ends:
-      subject: Your Project Is Ending Soon
-      message: Project %{project_title} ends in 24 hours. Please be aware that once the project ends, you will only have one business day to submit any outstanding timesheets.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Contract ends in 24 hours
+      message: "This is a friendly reminder that %{project_title} project will end in 24 hours. Please make sure you are on track for a successful on-time completion. Need more time? Consider a request to modify the due date on your contract."
+      action_label: View Project
     specialist_escalated:
-      subject: "Urgent: Escalated Issue"
-      message: Oh no! It appears there is an urgent issue with your project. Have you spoken with the business recently?
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "There is an issue with %{project_title} Project"
+      message: Complect has received notification of an issue with your project. You may consider reaching out to %{business_name} to resolve this with the project lead directly. Otherwise, we will be in contact shortly to collect any additional materials as part of our arbitration and review process.
+      action_label: View Project
     specialist_project_ended:
-      subject: Your Project Has Ended
-      message: Hooray! Your project %{project_title} has ended. Hungry for more work? Let us help you find the perfect role today!
-      action_label: Browse Projects
+      subject: Contract has been completed
+      message: "Congratulations on the successful completion of your %{project_title} project. The contract has ended and you will be receiving payment shortly. Hungry for more work? Browse our Job Board to find another project."
+      action_label: Job Board
     invited_to_project:
-      subject: You've Been Invited to a Project
-      message: I've invited you to my project. Click here to check out the details.
-      message_mail: I've invited you to my project. Click the link to check out the details.
-      action_label: Go to %{project_title} Detailed Project Page
-    invited_to_job:
-      subject: You've Been Invited to a Job
-      message: I've invited you to my job. Click here to check out the details.
-      message_mail: I've invited you to my job. Click the link to check out the details.
-      action_label: Go to %{project_title} Detailed Job Page
+      subject: "You've Been Invited to a Project"
+      message: "I've invited you to my project. Click here to check out the details."
+      message_mail: "I've invited you to my project. Click the link to check out the details."
+      action_label: "Go to %{project_title} Detailed Project Page"
     specialist_verification_missing:
-      subject: "Urgent: Issue With Your Bank Details"
-      message: Oh no! It looks like Stripe is having trouble verifying your bank account. Please review and update your information to ensure you can continue to get paid without a hitch.
-      action_label: Go to Payment Settings
+      subject: "Attention Required -- there is an issue with your bank details"
+      message: Stripe, our payment processor, is having trouble verifying your identity as part of their AML/KYC review. Please review the personal information you provided closely and update as appropriate. If there are no errors in the information you provided, then please contact us directly at help@complect.com to provide additional verification documents.
+      action_label: View Billing
     specialist_payment_issue:
-      subject: "Urgent: Issue with Your Bank Details"
-      message: Oh no! There was an issue verifying your bank account. Please review and update your bank details to ensure your project can continue without a hitch.
-      action_label: Go to Account Settings
+      subject: "Attention Required -- there is an issue with your bank details"
+      message: Stripe, our payment processor, is having trouble verifying your bank account details. This could be due to mismatched account number and name on the account. Please review your bank details closely and update as appropriate. If there are no errors in the information you provided, then please contact us directly at help@complect.com to resolve this issue.
+      action_label: View Billing
     specialist_payout_issue:
-      subject: "Urgent: Issue with Your Bank Details"
-      message: Oh no! There was an issue transferring funds to your bank account. Please review and update your bank details.
-      action_label: Go to Account Settings
+      subject: "Attention Required -- there is an issue with your payment transfer"
+      message: Stripe, our payment processor, is having trouble transferring funds to your receiving bank account. This account could be closed and you have not provided updated bank details. Please review your bank details closely and update as appropriate. If there are no errors in the information you provided, then please contact us directly at help@complect.com to resolve this issue.
+      action_label: View Billing
     apply_to_favorited:
       subject: "Apply Today: the Project Starts Soon!"
-      message: Project %{project_title} that you favorited starts in 48 hours. Make sure you throw your hat in the ring and apply in time!
-      action_label: Go to %{project_title} Detailed Project Page
+      message: "Project %{project_title} that you favorited starts in 48 hours. Make sure you throw your hat in the ring and apply in time!"
+      action_label: "Go to %{project_title} Detailed Project Page"
 
     # sent to business
     forum_answer:
-      subject: Your question has been answered
-      message: One of our specialists has answered your question
-      message_mail: One of our specialists has answered your question
-      action_label: View
-    project_question:
-      subject: Question about Your Project
-      message: I've submitted a question to your project.
-      action_label: Go to %{project_title} Detailed Project View
-    job_question:
-      subject: Question about Your Job
-      message: I've submitted a question about your job opening.
-      action_label: Go to %{project_title} Detailed Job View
+      subject: New answer has been posted to the Q&A Forum
+      message: New answer has been posted to the Q&A Forum
+      message_mail: There is a new answer to your question in the Q&A Forum.
+      action_label: View Forum
     project_application:
-      subject: You Have a New Applicant!
-      message: Someone new has applied to your project. Head to your dashboard to check them out.
-      action_label: Go to %{project_title} Applicant Pool
-    job_application:
-      subject: You Have a New Applicant!
-      message: Someone new has applied to your job. Head to your dashboard to check them out.
-      action_label: Go to %{project_title} Applicant Pool
-    job_application_declined:
-      subject: Your proposal has been declined.
-      message: Your proposal for project %{project_title} has been declined.
-      action_label: Browse more projects
+      subject: "New proposal for %{project_title} project"
+      message: "A specialist has submitted a proposal for your %{project_title} project. This is just the starting point. Are the proposed terms not quite right? Talk it out with the applicant. All proposals are modifiable by the applicant up to the moment you accept the proposal. After that, contract terms are only modifiable by mutual consent of both parties. When you're ready, you can approve or deny the proposal."
+      action_label: Applicant Pool
     timesheet_submitted:
-      subject: You've Received a Timesheet for Review
-      message: A timesheet has been submitted. Please review within one business day or the timesheet will be deemed accepted.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: New timesheet for your review
+      message: "A timesheet has been submitted for %{project_title} project. Please review and approve or deny the timesheet."
+      action_label: View Project
     business_project_starting_soon:
-      subject: Your Project is Starting Soon
-      message: "Don't forget your project %{project_title} starts in less than 48 hours. Message the specialist to set up a kick off call if you've not had one yet."
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Contract starts in 48 hours
+      message: "This is a friendly reminder that %{project_title} project will start in 48 hours. If you have not already been in contact with the specialist, please consider reaching out to kick off the engagement."
+      action_label: View Project 
     pending_project_starting_soon:
-      subject: Your Project is Starting Soon
-      message: "Yikes! It's less than 48 hours till project %{project_title} is due to start. Select a specialist soon!"
-      action_label: Go to %{project_title} Applicant Pool
+      subject: Job posting starts in 48 hours -- select a specialist
+      message: "This is a friendly reminder that %{project_title} project is scheduled to start in 48 hours, but you not hired a specialist. Take a look at your applicant pool to accept a proposal."
+      action_label: Applicant Pool
     extension_denied:
-      subject: "Project Extension Request: Denied"
-      message: Oh no! Your project extension was denied. Consider reaching out to your specialist to find out why.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract modification request for was denied"
+      message: "Your request to modify the original contract terms for %{project_title} project was denied. You may consider reaching out to the specialist to negotiate agreeable alternatives. Remember you may escalate any contract performance issues to us for arbitration at any time."
+      action_label: View Project
     extension_accepted:
-      subject: "Project Extension Request: Approved"
-      message: Congrats! Your project has been extended per your request.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract modification request was approved"
+      message: "Congratulations! Your request to modify the original contract terms for %{project_title} project was approved."
+      action_label: View Project
     end_project_denied:
-      subject: "Project Early Termination Request: Denied"
-      message: Oh no! Your project termination was denied. Consider reaching out to your specialist to find out why.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract early completion request denied"
+      message: "Your request to complete the contract early for %{project_title} project was denied. You may consider reaching out to the specialist to negotiate agreeable alternatives. Remember you may escalate any contract performance issues to us for arbitration at any time."
+      action_label: View Project
     end_project_accepted:
-      subject: "Project Early Termination Request: Approved"
-      message: Congrats! Your project has been ended early per your request.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "Contract early completion request approved"
+      message: "Congratulations! Your request to complete the contract early for %{project_title} project was approved."
+      action_label: View Project
     business_project_ended:
-      subject: Your Project has Ended
-      message: Congrats on the completion of your project! Post another one to get more work off your plate.
-      action_label: Post a Project
+      subject: Contract has been completed
+      message: "Congratulations on the successful completion of your %{project_title} project. The contract has ended and you will be receiving an invoice which will be automatically paid for with the primary payment method you have on file. Post another job to get more work off your plate."
+      action_label: Post Job
     business_fixed_project_ends:
-      subject: Your Project Is Ending Soon
-      message: Project %{project_title} ends in 24 hours, so make sure you are on track for a successful on-time completion or extend the project. Having issues? Don't hesitate to escalate them to us.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Contract ends in 24 hours
+      message: "This is a friendly reminder that %{project_title} project will end in 24 hours. Please make sure you are on track for a successful on-time completion. Need more time? Consider a request to modify the due date on your contract."
+      action_label: View Project
     business_hourly_project_ends:
-      subject: Your Project Is Ending Soon
-      message: Project %{project_title} ends in 24 hours. Please be aware that once the project ends, you will have only 2 business days to confirm or dispute any outstanding timesheets.
-      action_label: Go to %{project_title} Project Dashboard
+      subject: Contract ends in 24 hours
+      message: "This is a friendly reminder that %{project_title} project will end in 24 hours. Please make sure you are on track for a successful on-time completion. Need more time? Consider a request to modify the due date on your contract."
+      action_label: View Project
     business_escalated:
-      subject: "Urgent: Escalated Issue"
-      message: Oh no! It appears there is an urgent issue with your project. Have you spoken with your specialist recently?
-      action_label: Go to %{project_title} Project Dashboard
+      subject: "There is an issue with %{project_title} Project"
+      message: Complect has received notification of an issue with your project. You may consider reaching out to the specialist to resolve this with them directly. Otherwise, we will be in contact shortly to collect any additional materials as part of our arbitration and review process.
+      action_label: View Project
     start_date_lapsed:
-      subject: Start Date Has Lapsed
-      message: Bummer, your start date has lapsed, so we went ahead and moved your listing to the Drafts tab of your dashboard.
-      action_label: Go to Main Dashboard
+      subject: Job posting start date has lapsed
+      message: The job posting start date has lapsed, so we have removed this posting from the Job Board and reverted it back to draft status for you. Feel free to modify the start and due dates and resubmit to post it on the Job Board again.
+      action_label: Log In
     business_payment_issue:
-      subject: "Urgent: Issue with Your Payment Details"
-      message: Oh no! There was an issue verifying your payment details. Please review and update them to ensure your project can continue without a hitch.
-      action_label: Go to Account Settings
+      subject: "Attention Required -- there is an issue with your payment details"
+      message: Stripe, our payment processor, is having trouble processing your payment. This could be due to an expired payment method or a closed account. Please review your bank details closely and update as appropriate. If there are no errors in the information you provided, then please contact us directly at help@complect.com to resolve this issue.
+      action_label: View Billing
     business_transaction_processed:
-      subject: Your Payment Has Been Sent
-      message: You've just made a payment of %{payment_amount}. You can check the invoice in your detailed financials section.
-      action_label: Go to Financials Page
+      subject: Your payment has been sent
+      message: You have made a payment for %{project_title} in the amount of %{payment_amount}. The invoice and receipt are available for your review through your Complect account.
+      action_label: View Billing

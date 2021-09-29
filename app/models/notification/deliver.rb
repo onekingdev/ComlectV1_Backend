@@ -84,7 +84,7 @@ class Notification::Deliver < Draper::Decorator
     def got_hired!(application)
       project = application.project
       action_path = "/specialist/my-projects/#{project.id}"
-      key = project.full_time? ? :got_hired_job : :got_hired_project
+      key = :got_hired_project
 
       dispatcher = Dispatcher.new(
         user: application.specialist.user,
@@ -92,7 +92,7 @@ class Notification::Deliver < Draper::Decorator
         action_path: action_path,
         associated: project,
         initiator: project.business,
-        t: { project_title: project.title }
+        t: { project_title: project.title, company_name: project.business.business_name }
       )
 
       dispatcher.deliver_notification!
@@ -259,7 +259,7 @@ class Notification::Deliver < Draper::Decorator
         action_path: action_path,
         associated: project,
         initiator: project.business,
-        t: { project_title: project.title }
+        t: { project_title: project.title, project_owner: project.local_project.owner.name, company_name: project.business.business_name }
       )
 
       dispatcher.deliver_notification!
@@ -292,7 +292,7 @@ class Notification::Deliver < Draper::Decorator
         action_path: action_path,
         associated: project,
         initiator: project.business,
-        t: { project_title: project.title }
+        t: { project_title: project.title, project_owner: project.local_project.owner.name, company_name: project.business.business_name }
       )
 
       dispatcher.deliver_notification!
@@ -307,7 +307,7 @@ class Notification::Deliver < Draper::Decorator
         key: :extension_denied,
         action_path: action_path,
         associated: project,
-        t: { project_title: project.title }
+        t: { project_title: project.title, project_owner: project.local_project.owner.name }
       )
 
       dispatcher.deliver_notification!
@@ -323,7 +323,7 @@ class Notification::Deliver < Draper::Decorator
         action_path: action_path,
         associated: project,
         initiator: project.specialist,
-        t: { project_title: project.title }
+        t: { project_title: project.title, project_owner: project.local_project.owner.name }
       )
 
       dispatcher.deliver_notification!
@@ -340,7 +340,7 @@ class Notification::Deliver < Draper::Decorator
         key: key,
         action_path: action_path,
         associated: project,
-        t: { business_name: project.business.business_name, project_title: project.title }
+        t: { company_name: project.business.business_name, project_title: project.title, project_owner: project.local_project.owner.name }
       )
 
       dispatcher.deliver_notification!
@@ -381,7 +381,7 @@ class Notification::Deliver < Draper::Decorator
         key: key,
         action_path: action_path,
         associated: project,
-        t: { project_title: project.title }
+        t: { project_title: project.title, business_name: project.business.business_name }
       )
 
       dispatcher.deliver_notification!
@@ -492,7 +492,7 @@ class Notification::Deliver < Draper::Decorator
         key: :specialist_project_starting_soon,
         action_path: action_path,
         associated: project,
-        t: { project_title: project.title }
+        t: { project_title: project.title, business_name: project.business.business_name }
       )
 
       dispatcher.deliver_notification!
@@ -613,7 +613,7 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def business_transaction_processed!(transaction)
-      action_path = '/business/reports/financials#completed'
+      action_path = '/business/settings/billings'
 
       dispatcher = Dispatcher.new(
         user: transaction.project.local_project.owner.user,
@@ -635,7 +635,7 @@ class Notification::Deliver < Draper::Decorator
       # Don't notify specialist of processed full-time fees
       return if transaction.project.full_time?
 
-      action_path = '/specialist/reports/financials#completed'
+      action_path = '/specialist/settings/billings'
 
       dispatcher = Dispatcher.new(
         user: transaction.specialist.user,
@@ -645,7 +645,7 @@ class Notification::Deliver < Draper::Decorator
         t: {
           payment_amount: ActionController::Base.helpers.number_to_currency(
             transaction.specialist_total
-          )
+          ), company_name: project.business.business_name
         }
       )
 
