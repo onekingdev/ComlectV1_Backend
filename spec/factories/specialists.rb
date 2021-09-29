@@ -24,7 +24,7 @@ FactoryBot.define do
     trait :credit do
       credits_in_cents 6000
     end
-    #
+
     # trait :gold_rewards do
     #   association :rewards_tier, factory: %i[rewards_tier gold]
     # end
@@ -48,5 +48,26 @@ FactoryBot.define do
     # trait :platinum_honors_rewards_override do
     #   association :rewards_tier_override, factory: %i[rewards_tier platinum_honors]
     # end
+  end
+
+  factory :specialist_with_pro_subscription, parent: :specialist do
+    after(:create) do |specialist|
+      payment_source = create(:specialist_payment_source_primary, specialist: specialist)
+
+      create(
+        :subscription,
+        quantity: 1,
+        kind_of: 'ccc',
+        amount: 0.4e5,
+        interval: 'year',
+        currency: 'usd',
+        title: 'Pro Plan',
+        plan: 'specialist_pro',
+        specialist: specialist,
+        stripe_subscription_id: 'stripe_sub_id',
+        specialist_payment_source: payment_source,
+        next_payment_date: Time.zone.now + 1.year
+      )
+    end
   end
 end

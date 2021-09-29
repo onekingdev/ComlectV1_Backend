@@ -32,6 +32,6 @@ class Api::Business::UpgradeController < ApiController
   end
 
   def serialize_subs(subs)
-    subs.map(&proc { |psub| SubscriptionSerializer.new(psub).serializable_hash })
+    subs.map(&proc { |psub| Business::SubscriptionSerializer.new(psub).serializable_hash })
   end
 end

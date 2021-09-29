@@ -428,6 +428,14 @@ class Specialist < ApplicationRecord
     payment_sources.find_by(primary: true)
   end
 
+  def specialist?
+    true
+  end
+
+  def business?
+    false
+  end
+
   private
 
   def update_username_if_blank

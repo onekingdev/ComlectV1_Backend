@@ -529,6 +529,14 @@ class Business < ApplicationRecord
     seats.available.first
   end
 
+  def specialist?
+    false
+  end
+
+  def business?
+    true
+  end
+
   private
 
   def update_username_if_blank

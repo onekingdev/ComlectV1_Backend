@@ -6,26 +6,26 @@ RSpec.describe Business do
   describe '#referral_token' do
     let!(:business) { create(:business) }
 
-    let!(:token1) {
+    let!(:token1) do
       ReferralToken::Generate.new(
         referrer: business,
         amount_in_cents: 1000
       ).call
-    }
+    end
 
-    let!(:token2) {
+    let!(:token2) do
       ReferralToken::Generate.new(
         referrer: business,
         amount_in_cents: 2000
       ).call
-    }
+    end
 
-    let!(:token3) {
+    let!(:token3) do
       ReferralToken::Generate.new(
         referrer: business,
         amount_in_cents: 3000
       ).call
-    }
+    end
 
     it 'returns the latest token' do
       token = business.referral_token
@@ -82,38 +82,13 @@ RSpec.describe Business do
     end
   end
 
-  # describe '#rewards_tier' do
-  #   context 'with no rewards tier set' do
-  #     let!(:default_tier) { create(:rewards_tier) }
-  #     let!(:business) { create(:business, rewards_tier: nil) }
-  #
-  #     it 'returns the correct tier' do
-  #       expect(business.rewards_tier.name).to eq 'None'
-  #     end
-  #   end
-  #
-  #   context 'with override greater than current tier' do
-  #     let(:business) { create(:business, :gold_rewards, :platinum_rewards_override) }
-  #
-  #     it 'returns the correct tier' do
-  #       expect(business.rewards_tier.name).to eq 'Platinum'
-  #     end
-  #   end
-  #
-  #   context 'with override less than current tier' do
-  #     let(:business) { create(:business, :platinum_rewards, :gold_rewards_override) }
-  #
-  #     it 'returns the correct tier' do
-  #       expect(business.rewards_tier.name).to eq 'Platinum'
-  #     end
-  #   end
-  #
-  #   context 'without override' do
-  #     let(:business) { create(:business, :platinum_honors_rewards) }
-  #
-  #     it 'returns the correct tier' do
-  #       expect(business.rewards_tier.name).to eq 'Platinum Honors'
-  #     end
-  #   end
-  # end
+  describe '#business?' do
+    let(:business) { create(:business) }
+    it { expect(business.business?).to be_truthy }
+  end
+
+  describe '#specialist?' do
+    let(:business) { create(:business) }
+    it { expect(business.specialist?).to be_falsey }
+  end
 end

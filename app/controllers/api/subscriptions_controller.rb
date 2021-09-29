@@ -5,6 +5,7 @@ class Api::SubscriptionsController < ApiController
 
   def index
     subscriptions = @current_someone.subscriptions
-    respond_with subscriptions, each_serializer: SubscriptionSerializer
+    mod = @current_someone.business? ? Business : Specialist
+    respond_with subscriptions, each_serializer: mod::SubscriptionSerializer
   end
 end
