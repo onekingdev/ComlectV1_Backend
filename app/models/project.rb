@@ -484,11 +484,11 @@ class Project < ApplicationRecord
   end
 
   def new_project_notification
-    environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
-    environment = 'staging' if Rails.env.development?
-    if !admin_notified && !draft? && environment == 'production'
+    # environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
+    # environment = 'staging' if Rails.env.development?
+    if !admin_notified && !draft? && Rails.env.production?
       ProjectMailer.notify_admin_on_creation(self).deliver_later
-      update(admin_notified: true)
+      update_column('admin_notified', true)
       save!
     end
   end
