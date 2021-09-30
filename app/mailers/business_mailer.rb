@@ -22,7 +22,7 @@ class BusinessMailer < ApplicationMailer
       to: @user.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Your verification code',
+        subject: 'Complect verification code',
         message_html: render_to_string(template: 'business_mailer/verify_email')
       }
     )

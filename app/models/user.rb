@@ -42,7 +42,11 @@ class User < ApplicationRecord
   include OTP::ActiveRecord
 
   def email_otp
-    OTP::Mailer.otp(email, otp, self).deliver
+    VerificationMailer.send_otp(email, otp).deliver_later
+    # self, {
+    #  template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
+    #  template_model: { subject: "Verify your login", message_html: render_to_string('otp/mailer/otp.html.slim') }
+    # }).deliver
   end
 
   def verify_otp(otp)

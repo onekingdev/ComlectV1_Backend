@@ -27,8 +27,8 @@ class ExamAuditorMailer < ApplicationMailer
       to: @auditor.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Your verification code',
-        message_html: "Below is your one time verification code. This code will expire in 5 minutes. <p>#{@auditor.otp}</p>If you did not request this, please ignore this email."
+        subject: 'Complect verification code',
+        message_html: "Thank you for verifying your identity. Your verification code is: <p><center>#{@auditor.otp}</p> <p>Your account security is our top priority. If you did not request this code, please ignore this email.</p>"
       }
     )
   end
@@ -47,7 +47,7 @@ class ExamAuditorMailer < ApplicationMailer
       to: @user.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Your verification code',
+        subject: 'Complect verification code',
         message_html: render_to_string(template: 'business_mailer/verify_email')
       }
     )

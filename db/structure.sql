@@ -5797,6 +5797,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
 -- Name: articles articles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8063,5 +8071,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210925145059'),
 ('20210925231223'),
 ('20210927215950');
+
+
+INSERT INTO schema_migrations (version) VALUES ('20201210160135');
 
 
