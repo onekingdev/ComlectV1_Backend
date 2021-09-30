@@ -8,7 +8,7 @@ class VerificationMailer < ApplicationMailer
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
         subject: 'Verify your login',
-        message_html: render_to_string(template: 'otp/mailer/otp.html.slim')
+        message_html: "Verify your login<p>Below your one time passcode:</p><p><strong>#{otp}</strong></p><p>Sincerely, <br/>Complect Team</p>"
       }
     )
   end
