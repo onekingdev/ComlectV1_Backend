@@ -10,7 +10,7 @@ class Business < ApplicationRecord
   has_many :exams
   has_many :risks
   has_many :forum_questions
-  has_many :local_projects, as: :owner
+  has_many :local_projects
   has_many :projects
   has_many :job_applications, through: :projects
   has_many :charges, through: :projects

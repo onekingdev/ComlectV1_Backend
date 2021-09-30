@@ -5,10 +5,15 @@ class Api::LocalProjectsController < ApiController
   # before_action :authorize_action
   before_action :find_project, only: %i[show update destroy complete]
   before_action :ongoing_contracts, only: %i[destroy complete]
+  before_action :find_project2, only: %i[add_specialist remove_specialist toggle_business]
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def index
-    projects = @current_someone.local_projects.includes(projects: %i[industries skills jurisdictions end_request extension timesheets])
+    projects = if @current_someone.class.name.include?('Business')
+      @current_someone.local_projects.where(business_is_collaborator: true).or(@current_someone.local_projects.where(owner: @current_someone)).includes(projects: %i[industries skills jurisdictions end_request extension timesheets])
+    else
+      @current_someone.local_projects.includes(projects: %i[industries skills jurisdictions end_request extension timesheets])
+    end
     respond_with projects, each_serializer: LocalProjectSerializer
   end
 
@@ -64,8 +69,7 @@ class Api::LocalProjectsController < ApiController
   end
 
   def add_specialist
-    local_project = @current_someone.local_projects.find(params[:project_id])
-    lps = LocalProjectsSpecialist.new(local_project_id: local_project.id, specialist_id: params[:id])
+    lps = LocalProjectsSpecialist.new(local_project_id: @local_project.id, specialist_id: params[:id])
     if lps.save
       respond_with lps
     else
@@ -74,8 +78,7 @@ class Api::LocalProjectsController < ApiController
   end
 
   def remove_specialist
-    local_project = @current_someone.local_projects.find(params[:project_id])
-    lps = LocalProjectsSpecialists.where(local_project_id: local_project.id, specialist_id: params[:specialist_id])
+    lps = LocalProjectsSpecialists.where(local_project_id: @local_project.id, specialist_id: params[:specialist_id])
     if lps.present? && lps.first.destroy
       respond_with status: :ok
     else
@@ -83,7 +86,19 @@ class Api::LocalProjectsController < ApiController
     end
   end
 
+  def toggle_business
+    if @local_project.update_attribute('business_is_collaborator', !@local_project.business_is_collaborator)
+      respond_with @local_project, serializer: LocalProjectSerializer
+    else
+      respond_with errors: { local_project: 'Unable to remove business from collaborators' }
+    end
+  end
+
   private
+
+  def find_project2
+    @local_project = @current_someone.local_projects.find(params[:project_id])
+  end
 
   def find_project
     @local_project = @current_someone.local_projects.find(params[:id])

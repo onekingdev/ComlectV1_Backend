@@ -100,6 +100,8 @@ Rails.application.routes.draw do
     post 'local_projects/:project_id/messages' => 'project_messages#create'
     post 'local_projects/:project_id/specialists' => 'local_projects#add_specialist'
     delete 'local_projects/:project_id/specialists/:specialist_id' => 'local_projects#remove_specialist'
+    post 'local_projects/:project_id/toggle_business' => 'local_projects#toggle_business'
+
     resources :direct_messages, path: 'messages/:recipient_id', only: %i[index create]
     get 'messages' => 'direct_messages#show'
     resources :project_ratings, only: %i[index]

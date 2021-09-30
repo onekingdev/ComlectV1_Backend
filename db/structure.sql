@@ -2043,7 +2043,8 @@ CREATE TABLE public.local_projects (
     last_read_message_id integer DEFAULT 0,
     has_unread_messages boolean DEFAULT false,
     owner_type character varying,
-    owner_id integer
+    owner_id integer,
+    business_is_collaborator boolean DEFAULT false
 );
 
 
@@ -8070,7 +8071,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210924010455'),
 ('20210925145059'),
 ('20210925231223'),
-('20210927215950');
+('20210927215950'),
+('20210929204307');
 
 
 INSERT INTO schema_migrations (version) VALUES ('20201210160135');

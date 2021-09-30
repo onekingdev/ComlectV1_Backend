@@ -22,7 +22,8 @@ class LocalProjectSerializer < ApplicationSerializer
              :collaborators,
              :hide_on_calendar,
              :reminders,
-             :owner
+             :owner,
+             :business_is_collaborator
 
   def hide_on_calendar
     current_user.hidden_local_projects.include?(object.id)
