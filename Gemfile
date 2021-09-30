@@ -93,7 +93,7 @@ gem 'js_cookie_rails'
 gem 'postmark-rails'
 
 # Mailchimp
-gem 'gibbon'
+# gem 'gibbon'
 
 # Image uploads
 gem 'aws-sdk' # , '~> 2.3.12'

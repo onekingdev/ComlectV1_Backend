@@ -1253,9 +1253,6 @@ GEM
     fugit (1.4.1)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
-    gibbon (3.3.4)
-      faraday (>= 0.16.0)
-      multi_json (>= 1.11.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     haml (5.2.1)
@@ -1678,7 +1675,6 @@ DEPENDENCIES
   fog-aws
   font_assets
   foreman
-  gibbon
   ice_cube
   image_processing
   imagesLoaded_rails
