@@ -27,7 +27,7 @@ class ExamAuditorMailer < ApplicationMailer
       to: @auditor.email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Complect verification code',
+        subject: 'Your verification code',
         message_html: "Thank you for verifying your identity. Your verification code is: <p><center>#{@auditor.otp}</p> <p>Your account security is our top priority. If you did not request this code, please ignore this email.</p>"
       }
     )
