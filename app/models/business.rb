@@ -44,7 +44,6 @@ class Business < ApplicationRecord
   has_many :subscriptions
   has_many :file_folders
   has_many :file_docs
-  has_many :specialists_business_roles
 
   has_one :forum_subscription
   has_one :tos_agreement, through: :user

@@ -215,7 +215,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(response).to have_http_status(404) }
       it { expect(response.message).to eq('Not Found') }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record has not been found.') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'with empty params' do
@@ -296,7 +296,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(response).to have_http_status(404) }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record has not been found.') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'return team member successfully' do
@@ -335,7 +335,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(response).to have_http_status(404) }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record has not been found.') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'archive team member' do
@@ -378,7 +378,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
       it { expect(response).to have_http_status(404) }
       it { expect(JSON.parse(response.body)['errors']).to be_nil }
-      it { expect(JSON.parse(response.body)['error']).to eq('Record has not been found.') }
+      it { expect(JSON.parse(response.body)['error']).to eq("Record has not been found.") }
     end
 
     context 'there is no available seat' do
@@ -452,30 +452,30 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
 
   describe 'GET specialists' do
     context 'return empty array' do
+      let!(:specialist) { create(:specialist) }
+
       before { get :specialists, as: 'json' }
 
+      it { expect(Specialist.count).to eq(1) }
       it { expect(response).to have_http_status(200) }
       it { expect(JSON.parse(response.body)).to eq([]) }
       it { expect(assigns(:_current_business)).to be_present }
     end
 
     context 'successfully response' do
-      let(:specialist) { create(:specialist) }
+      let!(:team_member) { create(:team_member_specialist) }
 
-      let!(:specialists_business_role) do
-        create(:specialists_business_role, business: Business.last, specialist: specialist)
+      before do
+        get :specialists, as: 'json'
       end
 
-      before { get :specialists, as: 'json' }
-
       it { expect(response).to have_http_status(200) }
-
       it { expect(JSON.parse(response.body)).to be_present }
-      it { expect(JSON.parse(response.body)[0]['last_name']).to eq(specialist.last_name) }
-      it { expect(JSON.parse(response.body)[0]['first_name']).to eq(specialist.first_name) }
-      it { expect(JSON.parse(response.body)[0]['username']).to eq(specialist.username) }
-      it { expect(JSON.parse(response.body)[0]['role']).to eq('basic') }
-      it { expect(JSON.parse(response.body)[0]['status']).to eq('active') }
+      it { expect(JSON.parse(response.body)[0]['error']).to be_nil }
+      it { expect(JSON.parse(response.body)[0]['errors']).to be_nil }
+      it { expect(JSON.parse(response.body)[0]['last_name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['first_name']).to be_present }
+      it { expect(JSON.parse(response.body)[0]['former_regulator']).not_to be_nil }
     end
   end
 end
