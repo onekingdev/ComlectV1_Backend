@@ -61,15 +61,10 @@ class ProjectSerializer < ApplicationSerializer
              :jurisdictions,
              :industries,
              :specialist,
-             :business,
-             :processed_amount
+             :business
 
   def current_user
     scope
-  end
-
-  def processed_amount
-    object.charges.collect(&:specialist_amount_in_cents).compact.sum / 100.0
   end
 
   def status
