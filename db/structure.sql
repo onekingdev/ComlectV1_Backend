@@ -4457,6 +4457,7 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -4630,7 +4631,8 @@ CREATE TABLE public.specialists_business_roles (
     id bigint NOT NULL,
     business_id bigint NOT NULL,
     specialist_id bigint NOT NULL,
-    role integer DEFAULT 0
+    role integer DEFAULT 0,
+    status character varying DEFAULT 'active'::character varying
 );
 
 
@@ -8064,6 +8066,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210925145059'),
 ('20210925231223'),
 ('20210927215950'),
-('20210929204307');
+('20210930184629');
 
 
