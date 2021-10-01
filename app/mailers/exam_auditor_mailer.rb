@@ -34,7 +34,9 @@ class ExamAuditorMailer < ApplicationMailer
   end
 
   def generate_exam_url(exam)
-    "exams/#{exam.share_uuid}"
+    environment = ENV['STRIPE_PUBLISHABLE_KEY'].start_with?('pk_test') ? 'staging' : 'production'
+    return "https://app.complect.com/exams/#{exam.share_uuid}" if environment == 'production'
+    "https://demo.complect.com/exams/#{exam.share_uuid}"
   end
 
   def verify_email(user, otp_code)

@@ -7,7 +7,7 @@ class VerificationMailer < ApplicationMailer
       to: email,
       template_id: ENV.fetch('POSTMARK_TEMPLATE_ID'),
       template_model: {
-        subject: 'Verify your login',
+        subject: 'Your verification code',
         html_body: render_to_string(template: 'otp/mailer/otp.html.slim')
       }
     )
