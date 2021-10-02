@@ -17,8 +17,9 @@ ActiveAdmin.register User do
   end
 
   member_action :impersonate, method: :post do
-    impersonate_user resource
-    redirect_to resource_path(resource), notice: 'Impersonating this user'
+    render inline: "<marquee><pre>Paste the code below into frontend tab inspector at: Application -> Storage -> Local Storage -> https://app.complect.com/ -> app.currentUser.token</pre></marquee><br/><input style='width: 100%' value='#{JsonWebToken.encode(sub: resource.id, jwt_hash: resource.jwt_hash)}'>"
+    # impersonate_user resource
+    # redirect_to resource_path(resource), notice: 'Impersonating this user'
   end
 
   collection_action :stop_impersonating, method: :post do

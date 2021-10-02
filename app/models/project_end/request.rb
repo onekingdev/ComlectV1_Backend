@@ -4,7 +4,7 @@ class ProjectEnd::Request < Draper::Decorator
   decorates ProjectEnd
   delegate_all
 
-  def self.process!(project, someone = nil, specialist_id = nil)
+  def self.process!(project, someone = nil)
     return if project.end_requests.any?(&:confirmed?)
 
     # Delete previous request if any
@@ -12,12 +12,11 @@ class ProjectEnd::Request < Draper::Decorator
     expires_at = BufferDate.for(project.business.tz.now, time_zone: project.business.tz)
     obj = new(create!(project: project, expires_at: expires_at, requester: someone.class.name))
 
-    if someone&.specialist? || specialist_id.present?
-      SpecialistsBusinessRole.find_by(
-        business_id: project.business.id,
-        specialist_id: specialist_id || someone.id
-      ).update(status: 'inactive')
-    end
+    hired_specialist = SpecialistsBusinessRole.find_by(
+      business_id: project.business.id,
+      specialist_id: project.specialist_id
+    )
+    hired_specialist.update(status: 'inactive') if hired_specialist.present?
 
     obj.tap do |request|
       if someone.class.name.include?('Business')
