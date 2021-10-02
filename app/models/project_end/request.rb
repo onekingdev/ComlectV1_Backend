@@ -12,10 +12,11 @@ class ProjectEnd::Request < Draper::Decorator
     expires_at = BufferDate.for(project.business.tz.now, time_zone: project.business.tz)
     obj = new(create!(project: project, expires_at: expires_at, requester: someone.class.name))
 
-    SpecialistsBusinessRole.find_by(
+    hired_specialist = SpecialistsBusinessRole.find_by(
       business_id: project.business.id,
       specialist_id: project.specialist_id
-    ).update(status: 'inactive')
+    )
+    hired_specialist.update(status: 'inactive') if hired_specialist.present?
 
     obj.tap do |request|
       if someone.class.name.include?('Business')
