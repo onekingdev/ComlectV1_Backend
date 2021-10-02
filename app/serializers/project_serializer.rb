@@ -15,6 +15,7 @@ class ProjectSerializer < ApplicationSerializer
              :business_id,
              :type,
              :status,
+             :status_business,
              :title,
              :location_type,
              :location,
@@ -70,6 +71,10 @@ class ProjectSerializer < ApplicationSerializer
 
   def processed_amount
     object.charges.collect(&:specialist_amount_in_cents).compact.sum / 100.0
+  end
+
+  def status_business
+    object.status
   end
 
   def status
