@@ -23,6 +23,10 @@ class Reminder < ActiveRecord::Base
     errors.add :linkable_id, :invalid if linkable.business != remindable
   end
 
+  validate if: -> { assignee.present? } do
+    errors.add :assignee_id, :invalid if assignee&.team&.business != remindable
+  end
+
   def start_time
     remind_at
   end
