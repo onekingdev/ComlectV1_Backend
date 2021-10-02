@@ -14,8 +14,4 @@ class Business::SpecialistBusinessRoleSerializer < ApplicationSerializer
   def photo
     object.specialist.photo_url(:thumb)
   end
-
-  def specialist_id
-    object.specialist.id
-  end
 end

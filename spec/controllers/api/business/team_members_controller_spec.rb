@@ -476,6 +476,7 @@ RSpec.describe Api::Business::TeamMembersController, type: :controller do
       it { expect(JSON.parse(response.body)[0]['username']).to eq(specialist.username) }
       it { expect(JSON.parse(response.body)[0]['role']).to eq('basic') }
       it { expect(JSON.parse(response.body)[0]['status']).to eq('active') }
+      it { expect(JSON.parse(response.body)[0]['specialist_id']).to eq(specialist.id) }
     end
   end
 end
