@@ -31,6 +31,6 @@ RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0 && 
 
 COPY . .
 
-RUN bundle exec rake assets:precompile
+# RUN bundle exec rake assets:precompile
 
 CMD bundle exec puma -C config/puma.rb

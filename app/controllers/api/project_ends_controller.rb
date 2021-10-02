@@ -9,7 +9,7 @@ class Api::ProjectEndsController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def create
-    if ProjectEnd::Request.process!(@project, @current_someone)
+    if ProjectEnd::Request.process!(@project, @current_someone, params[:specialist_id])
       render json: { success: I18n.t('api.project_ends.requested'), project: @project }
     else
       render json: { error: I18n.t('api.project_ends.request_failure') }

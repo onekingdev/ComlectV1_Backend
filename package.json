@@ -4,12 +4,13 @@
   },
   "dependencies": {
     "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
     "@fullcalendar/bootstrap": "^5.5.0",
     "@fullcalendar/core": "^5.5.0",
     "@fullcalendar/daygrid": "^5.5.0",
     "@fullcalendar/interaction": "^5.5.0",
     "@fullcalendar/vue": "^5.5.0",
-    "@rails/webpacker": "5.2.1",
+    "@rails/webpacker": "^3.5.5",
     "@riophae/vue-treeselect": "^0.4.0",
     "@tiptap/extension-highlight": "^2.0.0-beta.15",
     "@tiptap/extension-task-item": "^2.0.0-beta.17",
@@ -19,6 +20,7 @@
     "@vue-stripe/vue-stripe": "^4.1.8",
     "apexcharts": "^3.27.3",
     "axios": "^0.21.1",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-runtime": "^6.23.0",
     "bootstrap-vue": "^2.21.2",
     "dotenv": "^10.0.0",
@@ -55,6 +57,6 @@
     "eslint-plugin-vue": "^7.7.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^6.0.7",
-    "webpack-dev-server": "^4.3.0"
+    "webpack-dev-server": "^3.1.11"
   }
 }
