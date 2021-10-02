@@ -8,9 +8,14 @@ class Business::SpecialistBusinessRoleSerializer < ApplicationSerializer
     :status,
     :username,
     :last_name,
-    :first_name
+    :first_name,
+    :specialist_id
 
   def photo
     object.specialist.photo_url(:thumb)
+  end
+
+  def specialist_id
+    object.specialist.id
   end
 end
