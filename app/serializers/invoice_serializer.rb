@@ -13,7 +13,7 @@ class InvoiceSerializer < ApplicationSerializer
     :hosted_invoice_url
 
   def date
-    object.date.strftime('%d/%m/%Y')
+    object.date.strftime('%m/%d/%Y')
   end
 
   def price_in_cents
