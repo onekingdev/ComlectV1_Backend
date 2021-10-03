@@ -54,7 +54,7 @@ class TrialPlanService < ApplicationService
   def assign_trial_plan_for_business
     seats = source.seats
     payment_source = source.payment_profile&.default_payment_source
-    stripe_customer ||= source.payment_profile&.stripe_customer
+    stripe_customer_id = source.payment_profile&.stripe_customer_id
 
     subscription = Subscription.create(
       plan: plan,
@@ -71,7 +71,7 @@ class TrialPlanService < ApplicationService
       next_payment_date: Time.zone.at(trial_end)
     )
 
-    subscribe(subscription, stripe_customer) unless local
+    subscribe(subscription, stripe_customer_id) unless local
     seats.each { |seat| seat.update_attribute(:subscription_id, subscription.id) }
 
     if seats.size < free_seat_count
@@ -80,10 +80,10 @@ class TrialPlanService < ApplicationService
     end
   end
 
-  def subscribe(subscription, stripe_customer)
+  def subscribe(subscription, stripe_customer_id)
     stripe_subscription = Subscription.subscribe(
       subscription.plan,
-      stripe_customer,
+      stripe_customer_id,
       trial_end: trial_end,
       cancel_at_period_end: false,
       quantity: subscription.quantity
