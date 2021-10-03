@@ -4791,7 +4791,8 @@ CREATE TABLE public.subscriptions (
     "interval" character varying,
     currency character varying,
     next_payment_date timestamp without time zone,
-    trial_end timestamp without time zone
+    trial_end timestamp without time zone,
+    local boolean DEFAULT false
 );
 
 
@@ -8069,6 +8070,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210927215950'),
 ('20210929204307'),
 ('20210930184629'),
-('20211002151215');
+('20211002151215'),
+('20211003173909');
 
 

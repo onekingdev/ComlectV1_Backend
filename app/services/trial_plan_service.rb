@@ -3,15 +3,21 @@
 # Close existing subscription and assign new trial subscription
 
 class TrialPlanService < ApplicationService
-  attr_reader :source, :plan, :trial_end, :error
+  attr_reader :source, :plan, :trial_end, :error, :local
 
   # source: business || specialist
   # plan: 'business_tier_annual' or other
   # trial_end: 1643587200 Unix timestamp (https://www.unixtimestamp.com/)
-  def initialize(source:, plan:, trial_end:)
+
+  # local: true, creates plan locally only in our db for trial period
+  # This case is good choice for user who does not have payment info
+  # WARN: active subscription will be closed in stripe and in our db
+
+  def initialize(source:, plan:, trial_end:, local:)
     @source = source
     @plan = plan
     @trial_end = trial_end
+    @local = local
 
     @success = true
   end
@@ -20,7 +26,7 @@ class TrialPlanService < ApplicationService
     cancel_subscriptions
 
     assign_trial_plan_for_business if source.business?
-    # assign_trial_plan_for_specialist if source.specialist?
+    assign_trial_plan_for_specialist if source.specialist?
   rescue => e
     @success = false
     @error = e.message
@@ -53,15 +59,19 @@ class TrialPlanService < ApplicationService
     subscription = Subscription.create(
       plan: plan,
       quantity: 1,
+      local: local,
       kind_of: :ccc,
+      currency: 'usd',
       auto_renew: true,
+      interval: 'year',
       business_id: source.id,
       payment_source: payment_source,
       trial_end: Time.zone.at(trial_end),
-      title: Subscription::PLAN_NAMES[plan]
+      title: Subscription::PLAN_NAMES[plan],
+      next_payment_date: Time.zone.at(trial_end)
     )
 
-    subscribe(subscription, stripe_customer)
+    subscribe(subscription, stripe_customer) unless local
     seats.each { |seat| seat.update_attribute(:subscription_id, subscription.id) }
 
     if seats.size < free_seat_count
@@ -106,5 +116,24 @@ class TrialPlanService < ApplicationService
         subscription_id: subscription.id
       )
     end
+  end
+
+  def assign_trial_plan_for_specialist
+    payment_source = source.default_payment_source
+
+    Subscription.create(
+      plan: plan,
+      quantity: 1,
+      local: local,
+      kind_of: :ccc,
+      currency: 'usd',
+      interval: 'year',
+      auto_renew: true,
+      specialist_id: source.id,
+      trial_end: Time.zone.at(trial_end),
+      title: Subscription::PLAN_NAMES[plan],
+      next_payment_date: Time.zone.at(trial_end),
+      specialist_payment_source_id: payment_source
+    )
   end
 end
