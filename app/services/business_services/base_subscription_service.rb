@@ -2,9 +2,6 @@
 
 module BusinessServices
   class BaseSubscriptionService < ApplicationService
-    FREE_TEAM_SEAT_COUNT = 3
-    FREE_BUSINESS_SEAT_COUNT = 10
-
     attr_accessor :subscriptions
 
     attr_reader \
@@ -208,7 +205,11 @@ module BusinessServices
     end
 
     def free_seat_count
-      new_plan.include?('business_tier_') ? FREE_BUSINESS_SEAT_COUNT : FREE_TEAM_SEAT_COUNT
+      if new_plan.include?('business_tier_')
+        Seat::FREE_BUSINESS_SEAT_COUNT
+      else
+        Seat::FREE_TEAM_SEAT_COUNT
+      end
     end
 
     def create_seats(subscription, seat_count)

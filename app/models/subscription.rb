@@ -13,11 +13,11 @@ class Subscription < ActiveRecord::Base
 
   PLAN_NAMES = {
     'free' => 'Free Plan',
-    'specialist_pro' => 'Pro Plan',
     'team_tier_annual' => 'Team Plan',
     'team_tier_monthly' => 'Team Plan',
     'business_tier_annual' => 'Business Plan',
-    'business_tier_monthly' => 'Business Plan'
+    'business_tier_monthly' => 'Business Plan',
+    'specialist_pro' => 'All Access Membership'
   }.freeze
 
   CURRENCIES = {
@@ -83,6 +83,14 @@ class Subscription < ActiveRecord::Base
       if options[:period_ends].present?
         params[:cancel_at] = options[:period_ends]
         params[:proration_behavior] = :none
+      end
+
+      if options[:trial_end].present?
+        params[:trial_end] = options[:trial_end]
+      end
+
+      if options[:cancel_at_period_end].present?
+        params[:cancel_at_period_end] = options[:cancel_at_period_end]
       end
 
       Stripe::Subscription.create(params)

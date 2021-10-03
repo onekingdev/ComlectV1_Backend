@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Seat < ActiveRecord::Base
+  FREE_TEAM_SEAT_COUNT = 3
+  FREE_BUSINESS_SEAT_COUNT = 10
+
   belongs_to :business
   belongs_to :subscription
   belongs_to :team_member, dependent: :destroy, optional: true

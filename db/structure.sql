@@ -4457,6 +4457,7 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -4789,7 +4790,8 @@ CREATE TABLE public.subscriptions (
     amount numeric,
     "interval" character varying,
     currency character varying,
-    next_payment_date timestamp without time zone
+    next_payment_date timestamp without time zone,
+    trial_end timestamp without time zone
 );
 
 
@@ -8066,6 +8068,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210925231223'),
 ('20210927215950'),
 ('20210929204307'),
-('20210930184629');
+('20210930184629'),
+('20211002151215');
 
 

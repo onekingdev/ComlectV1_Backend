@@ -9,6 +9,7 @@ class SubscriptionSerializer < ApplicationSerializer
     :kind_of,
     :interval,
     :currency,
+    :trial_end,
     :created_at,
     :updated_at,
     :price_interval,
@@ -21,5 +22,9 @@ class SubscriptionSerializer < ApplicationSerializer
 
   def amount_in_cents
     object.amount.to_i
+  end
+
+  def trial_end
+    object.trial_end.strftime('%B %d, %Y') if object.trial_end.present?
   end
 end
