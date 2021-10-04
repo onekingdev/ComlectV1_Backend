@@ -623,7 +623,8 @@ class Notification::Deliver < Draper::Decorator
         t: {
           payment_amount: ActionController::Base.helpers.number_to_currency(
             transaction.amount
-          )
+          ),
+          project_title: transaction.project.title
         }
       )
 
