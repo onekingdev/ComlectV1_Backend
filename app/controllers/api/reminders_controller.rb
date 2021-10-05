@@ -5,7 +5,6 @@ class Api::RemindersController < ApiController
   include RemindersFetcher
 
   before_action :require_someone!
-  before_action :set_reminder, only: %i[show destroy update]
   # before_action :authorize_action
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
@@ -35,10 +34,12 @@ class Api::RemindersController < ApiController
   end
 
   def show
+    @reminder = @current_someone.reminders.find(params[:id])
     render json: @reminder, status: :ok
   end
 
   def destroy
+    @reminder = @current_someone.reminders.find(params[:id])
     if params[:oid]
       @reminder.update(skip_occurencies: @reminder.skip_occurencies + [params[:oid].to_i])
     else
@@ -47,6 +48,7 @@ class Api::RemindersController < ApiController
   end
 
   def update
+    @reminder = @current_someone.reminders.find(params[:id])
     change_reminder_state if params[:done].present?
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
@@ -60,12 +62,6 @@ class Api::RemindersController < ApiController
   end
 
   private
-
-  def set_reminder
-    reminder = Reminder.find(params[:id])
-    @reminder = reminder and return if reminder.linkable_type == 'LocalProject'
-    @reminder = @current_someone.reminders.find(params[:id])
-  end
 
   def reminder_params
     params.permit(:body, :remind_at, :end_date, :repeats, :end_by, :repeat_every,

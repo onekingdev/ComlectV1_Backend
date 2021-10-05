@@ -60,6 +60,7 @@ module BusinessServices
     def create_free_subscription
       subscription = Subscription.create(
         quantity: 1,
+        local: true,
         kind_of: :ccc,
         plan: new_plan,
         auto_renew: true,

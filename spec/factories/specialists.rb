@@ -6,7 +6,6 @@ FactoryBot.define do
     association :rewards_tier
     industries { [create(:industry)] }
     jurisdictions { [create(:jurisdiction)] }
-    payment_sources { [create(:specialist_payment_source)] }
     experience { 1 }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
@@ -50,6 +49,21 @@ FactoryBot.define do
     # end
   end
 
+  factory :specialist_with_free_subscription, parent: :specialist do
+    after(:create) do |specialist|
+      create(
+        :subscription,
+        local: true,
+        quantity: 1,
+        plan: 'free',
+        kind_of: :ccc,
+        auto_renew: true,
+        specialist_id: specialist.id,
+        title: Subscription::PLAN_NAMES['free']
+      )
+    end
+  end
+
   factory :specialist_with_pro_subscription, parent: :specialist do
     after(:create) do |specialist|
       payment_source = create(:specialist_payment_source_primary, specialist: specialist)
@@ -61,13 +75,25 @@ FactoryBot.define do
         amount: 0.4e5,
         interval: 'year',
         currency: 'usd',
-        title: 'Pro Plan',
         plan: 'specialist_pro',
         specialist: specialist,
         stripe_subscription_id: 'stripe_sub_id',
         specialist_payment_source: payment_source,
-        next_payment_date: Time.zone.now + 1.year
+        next_payment_date: Time.zone.now + 1.year,
+        title: Subscription::PLAN_NAMES['specialist_pro']
       )
+    end
+  end
+
+  factory :specialist_with_payment_source, parent: :specialist do
+    after(:create) do |specialist|
+      create(:specialist_payment_source, specialist: specialist)
+    end
+  end
+
+  factory :specialist_with_primary_payment_source, parent: :specialist do
+    after(:create) do |specialist|
+      create(:specialist_payment_source_primary, specialist: specialist)
     end
   end
 end

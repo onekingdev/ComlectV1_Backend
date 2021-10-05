@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
     return if params['controller'] == 'api/specialists'
     return if params['controller'] == 'api/specialist/payment_settings'
     return if params['controller'] == 'users/sessions'
-    return if params['controller'] == 'api/specialist/upgrade'
+    return if params['controller'] == 'api/specialist/upgrades'
     return if params['controller'] == 'api/skills'
     return if params['controller'] == 'api/static_collection'
     return if params['controller'] == 'specialists'

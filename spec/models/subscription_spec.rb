@@ -25,12 +25,18 @@ RSpec.describe Subscription, type: :model do
     it { should have_db_column(:specialist_id).of_type(:integer) }
     it { should have_db_column(:specialist_payment_source_id).of_type(:integer) }
     it { should have_db_column(:quantity).of_type(:integer) }
+    it { should have_db_column(:amount).of_type(:decimal) }
+    it { should have_db_column(:interval).of_type(:string) }
+    it { should have_db_column(:currency).of_type(:string) }
+    it { should have_db_column(:next_payment_date).of_type(:datetime) }
+    it { should have_db_column(:trial_end).of_type(:datetime) }
+    it { should have_db_column(:local).of_type(:boolean).with_options(default: false) }
   end
 
   # constants
   # =========
 
-  describe 'SPECIALIST_PLANS' do
+  describe 'constants' do
     let(:plans) do
       {
         1 => 'free',
@@ -41,8 +47,20 @@ RSpec.describe Subscription, type: :model do
       }
     end
 
+    let(:plan_names) do
+      {
+        'free' => 'Free Plan',
+        'team_tier_annual' => 'Team Plan',
+        'team_tier_monthly' => 'Team Plan',
+        'business_tier_annual' => 'Business Plan',
+        'business_tier_monthly' => 'Business Plan',
+        'specialist_pro' => 'All Access Membership'
+      }
+    end
+
     it { expect(klass::SPECIALIST_PLANS).to eq(%w[specialist_pro free]) }
     it { expect(klass::BUSINESS_PLANS).to eq(plans) }
+    it { expect(klass::PLAN_NAMES).to eq(plan_names) }
   end
 
   # associations
@@ -59,6 +77,8 @@ RSpec.describe Subscription, type: :model do
         .with_foreign_key(:specialist_payment_source_id)
         .optional
     end
+
+    it { should have_many(:seats) }
   end
 
   # enums

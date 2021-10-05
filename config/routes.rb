@@ -208,8 +208,6 @@ Rails.application.routes.draw do
       post '/payment_settings/create_bank' => 'payment_settings#create_bank'
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
 
-      post '/upgrade/subscribe' => 'upgrade#subscribe'
-      delete '/upgrade/cancel' => 'upgrade#cancel'
       get '/favorites' => 'favorites#index'
       patch '/favorites' => 'favorites#update'
       post '/share_project' => 'share_project#create'
@@ -220,6 +218,7 @@ Rails.application.routes.draw do
       get '/financials/revenue' => 'financials#get_revenue_data'
       patch '/financials/annual_revenue' => 'financials#set_annual_revenue'
 
+      resources :upgrades, only: %i[create]
       resources :billings, only: %i[index create update]
       resources :bank_accounts, only: %i[create]
       resources :work_experiences, only: %i[create update destroy index]

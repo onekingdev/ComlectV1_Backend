@@ -59,11 +59,11 @@ RSpec.describe Api::SubscriptionsController, type: :controller do
         it { expect(JSON.parse(response.body)[0]['last4']).to eq('4242') }
         it { expect(JSON.parse(response.body)[0]['currency']).to eq('usd') }
         it { expect(JSON.parse(response.body)[0]['interval']).to eq('year') }
-        it { expect(JSON.parse(response.body)[0]['title']).to eq('Pro Plan') }
         it { expect(JSON.parse(response.body)[0]['plan']).to eq('specialist_pro') }
         it { expect(JSON.parse(response.body)[0]['amount_in_cents']).to eq(40_000) }
         it { expect(JSON.parse(response.body)[0]['next_payment_date']).to be_present }
         it { expect(JSON.parse(response.body)[0]['price_interval']).to eq('$400/year') }
+        it { expect(JSON.parse(response.body)[0]['title']).to eq('All Access Membership') }
       end
     end
   end

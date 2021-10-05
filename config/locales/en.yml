@@ -242,8 +242,9 @@ en:
         destroy:
           not_found: 'Payment method has not been found.'
           payment_source_deattached: 'Payment method has been deleted.'
-      upgrade:
-        subscribe_success: 'Plan has been upgraded.'
+      upgrades:
+        create:
+          notice: "Plan has been downgraded to '%{plan_name}'."
         no_subscription_to_cancel: 'Plan has not been cancelled. There are no active subscriptions'
         cancelled: 'Plan has been cancelled.'
     authentication:

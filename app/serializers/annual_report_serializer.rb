@@ -4,7 +4,6 @@ class AnnualReportSerializer < ApplicationSerializer
   has_many :review_categories, serializer: ReviewCategorySerializer
   has_many :annual_review_employees, serializer: AnnualReviewEmployeeSerializer
   has_many :regulatory_changes, serializer: RegulatoryChangeSerializer
-  has_many :reminders, serializer: ReminderSerializer
 
   attributes :id,
              :exam_start,
@@ -21,6 +20,7 @@ class AnnualReportSerializer < ApplicationSerializer
              :review_categories,
              :annual_review_employees,
              :regulatory_changes,
+             :reminders,
              :complete,
              :completed_at
 end

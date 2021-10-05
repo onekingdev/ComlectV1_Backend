@@ -113,4 +113,14 @@ class Subscription < ActiveRecord::Base
   def price
     (amount / 100).to_i if amount.present?
   end
+
+  def cancel!
+    Stripe::CancelSubscription.call(stripe_subscription_id)
+    update(status: 'canceled')
+  rescue Stripe::StripeError => e
+    # check if subscription was canceled before
+    if e.message.include?('No such subscription')
+      update(status: 'canceled')
+    end
+  end
 end

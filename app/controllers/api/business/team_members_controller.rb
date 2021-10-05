@@ -5,8 +5,7 @@ class Api::Business::TeamMembersController < ApiController
   before_action :load_team_member, only: %i[destroy archive unarchive]
 
   def index
-    business = params[:business_id].present? ? Business.find(params[:business_id]) : current_business
-    team_members = business.team_members
+    team_members = current_business.team_members
     respond_with team_members, each_serializer: ::TeamMemberSerializer
   end
 
@@ -71,8 +70,7 @@ class Api::Business::TeamMembersController < ApiController
   end
 
   def specialists
-    business = params[:business_id].present? ? Business.find(params[:business_id]) : current_business
-    specialists = business.specialists_business_roles.includes(:specialist)
+    specialists = current_business.specialists_business_roles.includes(:specialist)
     respond_with specialists, each_serializer: Business::SpecialistBusinessRoleSerializer
   end
 
