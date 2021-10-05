@@ -5,16 +5,24 @@ class Api::DirectMessagesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def show
-    @threads = Message.direct.threads_for(@current_someone)
-    all_threads = []
-    @threads.each do |thread|
-      all_threads.push(thread)
+    messages = Message.where(sender: @current_someone).where.not(recipient: nil)
+      .or(Message.where(recipient: @current_someone).where.not(recipient: nil))
+      .direct.order('id asc').select(:recipient_id, :read_by_recipient, :message, :recipient_type, :sender_id, :sender_type)
+
+    recipients = {}
+
+    messages.each do |msg|
+      im_sender = msg.sender_type == (@current_someone.class.name.include?('Business') ? 'Business' : 'Specialist')
+      tgt_recipient_id = im_sender ? msg.recipient_id : msg.sender_id
+      recipients[tgt_recipient_id] = { total: 0, unread: 0, last: '' } unless recipients.key?(tgt_recipient_id)
+      recipients[tgt_recipient_id][:total] += 1
+      recipients[tgt_recipient_id][:unread] += 1 if !im_sender && !msg.read_by_recipient
+      recipients[tgt_recipient_id][:last] = msg.message
     end
-    if all_threads
-      respond_with threads: all_threads
-    else
-      respond_with errors: 'no_threads'
-    end
+
+    recipients_db = @current_someone.class.name.include?('Business') ? serialize_specialists(Specialist.where(id: recipients.keys)) : serialize_businesses(Business.where(id: recipients.keys))
+
+    render json: { chats: recipients, recipients: recipients_db }.to_json
   end
 
   def index
@@ -27,6 +35,11 @@ class Api::DirectMessagesController < ApiController
     end
 
     messages = Message.order('id asc').business_specialist(bid, sid).direct.includes(:sender, :recipient).page(params[:page]).per(20)
+    mark_read_ids = []
+    messages.each do |msg|
+      mark_read_ids.push msg.id if msg.sender != @current_someone
+    end
+    Message.where(id: mark_read_ids).update_all(read_by_recipient: true)
     respond_with messages, each_serializer: MessageSerializer
   end
 
@@ -51,6 +64,14 @@ class Api::DirectMessagesController < ApiController
   end
 
   private
+
+  def serialize_specialists(specialists)
+    specialists.map(&proc { |specialist| Business::SpecialistSerializer.new(specialist).serializable_hash })
+  end
+
+  def serialize_businesses(businesses)
+    businesses.map(&proc { |business| Specialist::BusinessSerializer.new(business).serializable_hash })
+  end
 
   def message_params
     params.require(:message).permit(:message, :file)
