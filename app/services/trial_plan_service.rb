@@ -42,6 +42,11 @@ class TrialPlanService < ApplicationService
     subscriptions = source.subscriptions.active
 
     subscriptions.each do |subscription|
+      if subscription.plan == 'free'
+        subscription.update(status: 'canceled')
+        next
+      end
+
       cancel(subscription)
     end
   end
@@ -49,6 +54,11 @@ class TrialPlanService < ApplicationService
   def cancel(subscription)
     Stripe::CancelSubscription.call(subscription.stripe_subscription_id)
     subscription.update(status: 'canceled')
+  rescue Stripe::StripeError => e
+    # check if subscription was canceled before
+    if e.message.include?('No such subscription')
+      subscription.update(status: 'canceled')
+    end
   end
 
   def assign_trial_plan_for_business
