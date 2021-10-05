@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 # Close existing subscription and assign new trial subscription
-#
-# Examples
-# TrialPlanService.call(local: true, source: business, trial_end: 1_643_666_400, plan: 'business_tier_annual')
-# TrialPlanService.call(local: true, source: specialist, plan: 'specialist_pro', trial_end: 1_643_666_400)
 
 class TrialPlanService < ApplicationService
   attr_reader :source, :plan, :trial_end, :error, :local
@@ -46,7 +42,11 @@ class TrialPlanService < ApplicationService
     subscriptions = source.subscriptions.active
 
     subscriptions.each do |subscription|
-      next if subscription.plan == 'free'
+      if subscription.plan == 'free'
+        subscription.update(status: 'canceled')
+        next
+      end
+
       cancel(subscription)
     end
   end
