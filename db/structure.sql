@@ -4707,7 +4707,9 @@ CREATE TABLE public.stripe_accounts (
     status_detail character varying,
     verification_document text,
     secret_key character varying,
-    publishable_key character varying
+    publishable_key character varying,
+    last4 character varying,
+    bank_name character varying
 );
 
 
@@ -8071,6 +8073,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210929204307'),
 ('20210930184629'),
 ('20211002151215'),
-('20211003173909');
+('20211003173909'),
+('20211005200100');
 
 
