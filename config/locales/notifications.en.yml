@@ -146,7 +146,7 @@ en:
       message: "This is a friendly reminder that %{project_title} project is scheduled to start in 48 hours, but you not hired a specialist. Take a look at your applicant pool to accept a proposal."
       action_label: Applicant Pool
     extension_denied:
-      subject: "Contract modification request for was denied"
+      subject: "Contract modification request was denied"
       message: "Your request to modify the original contract terms for %{project_title} project was denied. You may consider reaching out to the specialist to negotiate agreeable alternatives. Remember you may escalate any contract performance issues to us for arbitration at any time."
       action_label: View Project
     extension_accepted:

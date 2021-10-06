@@ -63,9 +63,7 @@ class ProjectSerializer < ApplicationSerializer
              :industries,
              :specialist,
              :business,
-             :processed_amount,
-             :deny_end_request,
-             :modify_contract
+             :processed_amount
 
   def current_user
     scope
@@ -77,14 +75,6 @@ class ProjectSerializer < ApplicationSerializer
 
   def status_business
     object.status
-  end
-
-  def deny_end_request
-    object.end_requests.denied
-  end
-
-  def modify_contract
-    object.extensions.last
   end
 
   def status

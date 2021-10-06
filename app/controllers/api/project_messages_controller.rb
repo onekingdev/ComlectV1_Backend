@@ -20,7 +20,7 @@ class Api::ProjectMessagesController < ApiController
   end
 
   def create
-    message = Message::Create.call(@project, message_params.merge(sender: (current_user.specialist || @current_someone), recipient: nil), @current_someone, nil)
+    message = Message::Create.call(@project, message_params.merge(sender: @current_someone, recipient: nil), @current_someone, nil)
     @project.update_column('has_unread_messages', true)
     if message.persisted?
       respond_with message, serializer: MessageSerializer
