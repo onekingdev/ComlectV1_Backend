@@ -6,7 +6,12 @@ class Api::Specialist::BillingsController < ApiController
 
   def index
     stripe_account = current_specialist.stripe_account
-    respond_with stripe_account, serializer: StripeAccountSerializer
+
+    if stripe_account.present?
+      respond_with stripe_account, serializer: StripeAccountSerializer
+    else
+      render json: {}, status: :ok
+    end
   end
 
   def create
