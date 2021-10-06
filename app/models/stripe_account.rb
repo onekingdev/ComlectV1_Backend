@@ -69,11 +69,7 @@ class StripeAccount < ApplicationRecord
   end
 
   def update_status_from_stripe(account)
-    bank = account.external_accounts&.data&.last
-
     update_columns(
-      last4: bank&.last4,
-      bank_name: bank&.bank_name,
       status: status_from_account(account),
       status_detail: fields_needed_message(account).presence
     )
