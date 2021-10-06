@@ -13,13 +13,12 @@ class Api::Business::ProjectsController < ApiController
       @project = build_local_project(@project) unless @project.local_project_id
       respond_with @project, serializer: ProjectSerializer
     elsif policy(@project).post? && @project.validate
-      return no_payment_error unless @project.user.payment_info?
       @project.post!
       @project.new_project_notification
       @project = build_local_project(@project) unless @project.local_project_id
       respond_with @project, serializer: ProjectSerializer
     else
-      render json: @project.errors, status: :unprocessable_entity
+      respond_with @project
     end
   end
 
@@ -30,10 +29,7 @@ class Api::Business::ProjectsController < ApiController
       @project.assign_attributes project_params
       @project.save(validate: false)
     elsif @project.update(project_params)
-      if project_params[:status] != 'draft' || src_status == 'published'
-        return no_payment_error unless @project.user.payment_info?
-        @project.post!
-      end
+      @project.post! if project_params[:status] != 'draft' || src_status == 'published'
       respond_with @project, serializer: ProjectSerializer
     else
       render json: @project.errors, status: :unprocessable_entity
@@ -54,10 +50,6 @@ class Api::Business::ProjectsController < ApiController
   end
 
   private
-
-  def no_payment_error
-    render json: { 'errors': [t('activerecord.errors.models.project.attributes.base.no_payment_alt')] }, status: :unprocessable_entity
-  end
 
   def build_local_project(project)
     local_project_params = project.attributes.slice('business_id', 'title', 'description', 'starts_on', 'ends_on')
