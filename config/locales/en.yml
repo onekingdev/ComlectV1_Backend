@@ -81,6 +81,7 @@ en:
           attributes:
             base:
               no_payment: "There is no valid <a target='_blank' href='/business/settings/billing'>payment method</a> linked to your account. Please add a payment method in order to post a job."
+              no_payment_alt: Job posting cannot be created. Please add a payment method in order to post a job.
             location_type:
               inclusion: Please make a selection
             estimated_days:

@@ -41,7 +41,7 @@ en:
       action_label: View Forum
     got_seat_assigned:
       subject: "%{company_name} has added you to their team"
-      message_mail: "%{company_name} would like you to join their team on Complect! Help the business stay on top of its compliance program by integrating the firm's responsibilities into your own day to day activities through Complect! To get started, create an account through this invitation."
+      message_mail: "%{company_name} would like you to join their team on Complect! <p> Help the business stay on top of its compliance program by integrating the firm's responsibilities into your own day to day activities! </p> <p> To get started, create an account through this invitation. </p>"
       action_label: Create Account
     got_employee_invitation:
       subject: "%{manager_full_name} has added you to their team"

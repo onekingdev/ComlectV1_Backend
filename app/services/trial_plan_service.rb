@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 # Close existing subscription and assign new trial subscription
+#
+# Examples
+# TrialPlanService.call(local: true, source: business, trial_end: 1_643_666_400, plan: 'business_tier_annual')
+# TrialPlanService.call(local: true, source: specialist, plan: 'specialist_pro', trial_end: 1_643_666_400)
 
 class TrialPlanService < ApplicationService
   attr_reader :source, :plan, :trial_end, :error, :local
@@ -42,6 +46,11 @@ class TrialPlanService < ApplicationService
     subscriptions = source.subscriptions.active
 
     subscriptions.each do |subscription|
+      if subscription.plan == 'free'
+        subscription.update(status: 'canceled')
+        next
+      end
+
       cancel(subscription)
     end
   end
@@ -49,6 +58,11 @@ class TrialPlanService < ApplicationService
   def cancel(subscription)
     Stripe::CancelSubscription.call(subscription.stripe_subscription_id)
     subscription.update(status: 'canceled')
+  rescue Stripe::StripeError => e
+    # check if subscription was canceled before
+    if e.message.include?('No such subscription')
+      subscription.update(status: 'canceled')
+    end
   end
 
   def assign_trial_plan_for_business

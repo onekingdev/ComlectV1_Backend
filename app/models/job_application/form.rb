@@ -78,7 +78,7 @@ class JobApplication::Form < JobApplication
 
   def payment_info?
     return true if project.full_time? # No payment info required for full time roles
-    specialist.manager.stripe_account&.verified?
+    specialist.stripe_account&.verified?
   end
 
   def assign_pricing_type_fields
