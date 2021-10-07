@@ -6,6 +6,6 @@ class SenderRecipientSerializer < ApplicationSerializer
              :photo
 
   def photo
-    object.class.name.include?('Business') ? object.logo_url(:thumb) : object&.photo_url(:thumb)
+    object.photo_url(:thumb)
   end
 end

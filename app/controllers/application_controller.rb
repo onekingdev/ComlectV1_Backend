@@ -197,6 +197,9 @@ class ApplicationController < ActionController::Base
   end
   helper_method :seat?
 
+  def filter_mirror
+    @sender = current_specialist || @current_someone
+  end
   # def redirect_to_employee
   #   return unless current_specialist
   #   return unless current_specialist.dashboard_unlocked
