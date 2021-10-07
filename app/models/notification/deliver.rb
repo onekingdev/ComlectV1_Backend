@@ -429,10 +429,10 @@ class Notification::Deliver < Draper::Decorator
 
       dispatcher = Dispatcher.new(
         user: application.specialist.user,
-        key: :job_application_declined,
+        key: :not_hired_project,
         action_path: action_path,
         associated: project,
-        t: { project_title: project.title }
+        t: { company_name: application.project.business.business_name }
       )
 
       dispatcher.deliver_notification!
