@@ -6,7 +6,6 @@ class LocalProjectSerializer < ApplicationSerializer
   has_one :visible_project, serializer: ProjectSerializer
   has_many :specialists, serializer: Business::SpecialistSerializer
   has_many :collaborators, serializer: Business::SpecialistSerializer
-  has_many :reminders, serializer: ReminderSerializer
   attributes :id,
              :business_id,
              :title,
@@ -22,6 +21,7 @@ class LocalProjectSerializer < ApplicationSerializer
              :visible_project,
              :collaborators,
              :hide_on_calendar,
+             :reminders,
              :owner,
              :business_is_collaborator
 

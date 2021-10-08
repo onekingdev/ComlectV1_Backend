@@ -19,9 +19,9 @@ class Reminder < ActiveRecord::Base
   validates :remind_at, presence: true
   validates :end_date, presence: true
 
-  validate if: -> { linkable.present? } do
-    errors.add :linkable_id, :invalid if linkable.business != remindable
-  end
+  # validate if: -> { linkable.present? } do
+  #   errors.add :linkable_id, :invalid if linkable.business != remindable ||
+  # end
 
   def start_time
     remind_at
