@@ -86,7 +86,10 @@ class Api::RemindersController < ApiController
 
   def assignee_team_member
     specialists = Specialist.joins(specialist_invitations: :team_member).where(team_members: { active: true }, specialist_invitations: { team_id: @business.team.id })
-    respond_with specialists, each_serializer: ::Business::SpecialistSerializer
+    business = [{ id: @business.id, type: @business.class.to_s, first_name: @business.contact_first_name, last_name: @business.contact_last_name }]
+    specialists_data = specialists.map { |item| { id: item.id, first_name: item.first_name, last_name: item.last_name } }
+    data = business + specialists_data
+    render json: data.to_json
   end
 
   private

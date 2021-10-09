@@ -164,7 +164,7 @@ Rails.application.routes.draw do
         resources :review_categories, path: 'review_categories', only: %i[index create update destroy]
       end
       resources :ratings, only: %i[index]
-      post '/upgrade/subscribe' => 'upgrade#subscribe'
+
       resources :payment_settings, only: %i[create update destroy index]
       put '/payment_settings/make_primary/:id' => 'payment_settings#make_primary'
       get '/favorites' => 'favorites#index'
@@ -174,6 +174,8 @@ Rails.application.routes.draw do
       get '/financials/payments' => 'financials#payments'
       get '/financials/budget' => 'financials#get_budget_data'
       patch '/financials/annual_budget' => 'financials#set_annual_budget'
+
+      resources :upgrades, only: %i[create]
 
       resources :team_members, only: %i[index create update destroy] do
         collection do

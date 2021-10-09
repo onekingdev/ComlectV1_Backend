@@ -24,4 +24,8 @@ class Roles::CompliancePolicyPolicy < ApplicationPolicy
   def publish?
     not_basic?
   end
+
+  def update_position?
+    true
+  end
 end
