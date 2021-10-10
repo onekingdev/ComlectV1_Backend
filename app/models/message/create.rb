@@ -6,14 +6,7 @@ class Message::Create < Draper::Decorator
 
   def self.call(project, attributes, sender, recipient)
     if project.nil?
-      if sender.class.name.include?('Specialist') && recipient.class.name.include?('Business')
-        if Message.business_specialist(recipient.id, sender.id).direct.count.positive? ||
-           sender.applied_projects.collect(&:business_id).include?(recipient.id)
-          create_msg(attributes)
-        end
-      else
-        create_msg(attributes)
-      end
+      create_msg(attributes)
     elsif recipient.nil?
       create_msg(attributes.merge(thread: project))
     end
