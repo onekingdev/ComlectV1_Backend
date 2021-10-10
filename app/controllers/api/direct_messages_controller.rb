@@ -57,7 +57,7 @@ class Api::DirectMessagesController < ApiController
       Business.find(params[:recipient_id])
     end
 
-    message = Message::Create.call(nil, message_params.merge(sender: @sender, recipient: recipient), recipient)
+    message = Message::Create.call(nil, message_params.merge(sender: @sender, recipient: recipient), @sender, recipient)
     if !message.nil?
       respond_with message, serializer: MessageSerializer
     else
