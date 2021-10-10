@@ -131,7 +131,7 @@ en:
       action_label: View Forum
     project_application:
       subject: "New proposal for %{project_title} project"
-      message: "A specialist has submitted a proposal for your %{project_title} project. <p> This is just the starting point. Are the proposed terms not quite right? Talk it out with the applicant. </p> <p> All proposals are modifiable by the applicant up to the moment you accept the proposal. After that, contract terms are only modifiable by mutual consent of both parties. When you're ready, you can approve or deny the proposal. </p>"
+      message: "A specialist has submitted a proposal for your %{project_title} project. <p> This is just the starting point. Are the proposed terms not quite right? Talk it out with the applicant. All proposals are modifiable by the applicant up to the moment you accept the proposal. After that, contract terms are only modifiable by mutual consent of both parties. When you're ready, you can approve or deny the proposal. </p>"
       action_label: Applicant Pool
     timesheet_submitted:
       subject: New timesheet for your review
