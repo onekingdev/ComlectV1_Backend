@@ -29,7 +29,8 @@ class PdfCompliancePolicyWorker
                                                                 logo: (env_path(cpconf.logo_url(:original).split('?')[0]) if cpconf.logo.present?),
                                                                 cpolicy: cpolicy,
                                                                 cpconf: cpconf
-                                                              }, margin: { top: 20, bottom: 15, left: 15, right: 15 }
+                                                              }, margin: { top: 20, bottom: 15, left: 15, right: 15 },
+                                                              page_width: '8.5in', page_height: '11in'
 
       file_header = Tempfile.new(["compliance_policy_header_#{cpolicy.business.id}", '.pdf'])
       file_header.binmode
@@ -49,7 +50,8 @@ class PdfCompliancePolicyWorker
       pdf_toc = ApplicationController.new.render_to_string pdf: 'toc.pdf',
                                                            template: 'business/compliance_policies/toc.pdf.erb', encoding: 'UTF-8',
                                                            locals: { toc: toc },
-                                                           margin: { top: 20, bottom: 15, left: 15, right: 15 }
+                                                           margin: { top: 20, bottom: 15, left: 15, right: 15 },
+                                                           page_width: '8.5in', page_height: '11in'
       file_toc = Tempfile.new(["cpolicy_toc_#{cpolicy.business.id}", '.pdf'])
       file_toc.binmode
       file_toc.write(pdf_toc)
@@ -75,7 +77,8 @@ class PdfCompliancePolicyWorker
     pdf = ApplicationController.new.render_to_string pdf: 'compliance_manual.pdf',
                                                      template: 'business/compliance_policies/cpolicy.pdf.erb', encoding: 'UTF-8',
                                                      locals: { cpolicy: published_cpolicy },
-                                                     margin: { top: 20, bottom: 15, left: 15, right: 15 }
+                                                     margin: { top: 20, bottom: 15, left: 15, right: 15 },
+                                                     page_width: '8.5in', page_height: '11in'
     file = Tempfile.new(["cpolicy_#{published_cpolicy.id}", '.pdf'])
     file.binmode
     file.write(pdf)

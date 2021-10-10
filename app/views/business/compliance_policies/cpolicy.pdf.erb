@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
     <style type="text/css">
       body, html, table {
-        font-size: 14px;
+        font-size: 19px;
         padding: 0px;
         margin: 0px;
         width: 273mm;
@@ -13,11 +13,11 @@
         font-family: 'Public Sans', sans-serif;
       }
 
-      p { page-break-inside: avoid; font-size: 14px; word-wrap: break-word; }
+      p { page-break-inside: avoid; font-size: 19px; word-wrap: break-word; }
 
       li {
         page-break-inside: avoid;
-        font-size: 14px;
+        font-size: 19px;
       }
       .page {
         page-break-before:always;
@@ -30,7 +30,7 @@
   </head>
   <body>
     <center>
-      <h1 style="font-size: 18px; margin-bottom: 0px; padding-bottom: 0px;"><%= cpolicy.name %></h1>
+      <h1 style="font-size: 23px; margin-bottom: 0px; padding-bottom: 0px; font-weight: bold; margin-bottom: 20px; text-shadow: 1px 0 0 currentColor;"><%= cpolicy.name %></h1>
       <p style="margin-top: 0px; padding-top: 0px;">Last updated: <%= cpolicy.updated_at.strftime("%B %d, %Y") %></p>
     </center>
     <hr>

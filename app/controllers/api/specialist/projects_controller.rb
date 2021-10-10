@@ -21,7 +21,7 @@ class Api::Specialist::ProjectsController < ApiController
   end
 
   def local
-    respond_with @project.local_project, serializer: LocalProjectSerializer
+    respond_with @project.local_project, serializer: LocalProjectWRemindersSerializer
   end
 
   def calendar_hide

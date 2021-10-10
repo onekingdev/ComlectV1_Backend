@@ -966,9 +966,9 @@
   </head>
   <body>
     <div class="container page">
-      <center style="padding-top: 300px;">
+      <center style="padding-top: 500px;">
         <h1 style="padding-bottom: 0px; margin-bottom: 0px;"><big><%= @annual_report.business.name %></big></h1>
-        <h2 style="padding-top: 0px; margin-top: 0px; font-size: 22px;"><%= @annual_report.name %></h2>
+        <h2 style="padding-top: 0px; margin-top: 30px;"><%= @annual_report.name %></h2>
         <% if @annual_report.completed_at %>
           <h3 style="font-weight: 400;">Date completed: <%= @annual_report.completed_at.strftime("%B %d, %Y") %></h3>
         <% end %>

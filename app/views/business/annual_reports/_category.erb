@@ -12,6 +12,7 @@
   width: 273mm;
   position: relative;
   clear: both;
+  padding: 50px;
 }
 :root {
   --blue: #007bff;
@@ -1049,7 +1050,7 @@ textarea.form-control {
                     <% end %>
                     <% item['findings'].each do |finding| %>
                       <div class="col-md-10 offset-md-1">
-                        <textarea type="text" class="finding-area form-control m-b-1"><%= finding %></textarea>
+                        <div class="finding-area form-control m-b-1"><pre><%= finding %></pre></div>
                       </div>
                     <% end %>
                   </div>

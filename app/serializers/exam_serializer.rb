@@ -3,6 +3,7 @@
 class ExamSerializer < ApplicationSerializer
   has_many :exam_requests, serializer: ExamRequestSerializer
   has_many :exam_auditors, serializer: ExamAuditorSerializer
+  has_many :reminders, serializer: ReminderSerializer
   attributes :id,
              :name,
              :starts_on,
@@ -11,6 +12,5 @@ class ExamSerializer < ApplicationSerializer
              :created_at,
              :updated_at,
              :exam_requests,
-             :complete,
-             :reminders
+             :complete
 end

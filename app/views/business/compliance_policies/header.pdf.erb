@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans&display=swap" rel="stylesheet">
     <style type="text/css">
       body, html, table {
-        font-size: 12px;
+        font-size: 17px;
         padding: 0px;
         margin: 0px;
         width: 273mm;
@@ -13,7 +13,7 @@
         font-family: 'Public Sans', sans-serif;
       }
 
-      p { page-break-inside: avoid; font-size: 12px; word-wrap: break-word; }
+      p { page-break-inside: avoid; font-size: 17px; word-wrap: break-word; }
       .page {
         page-break-before:always;
         width: 273mm;
@@ -29,8 +29,8 @@
         <h3><%= image_tag(logo, height: "300px") if logo.present? %></h3>
         <br/>
         <br/>
-        <h1 style="padding-bottom: 0px; margin-bottom: 0px;"><big><%= cpolicy.business.name %></big></h1>
-        <h2 style="padding-top: 0px; margin-top: 0px; font-size: 22px;">Compliance Manual</h2>
+        <h1 style="padding-bottom: 0px; margin-bottom: 0px;"><big><big><%= cpolicy.business.name %></big></big></h1>
+        <h2 style="padding-top: 0px; margin-top: 0px; font-size: 27px;">Compliance Manual</h2>
         <h3 style="font-weight: 400;">Last updated: <%= last_updated.strftime("%B %d, %Y") %></h3>
         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <% if cpconf.address %>
