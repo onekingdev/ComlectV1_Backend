@@ -6,11 +6,12 @@ class Api::ReminderMessagesController < ApiController
   skip_before_action :verify_authenticity_token
 
   def index
-    respond_with @reminder.messages.includes(:sender, :recipient).page(params[:page]).per(20), each_serializer: MessageSerializer
+    respond_with @reminder.messages.order('id asc').includes(:sender, :recipient).page(params[:page]).per(20), each_serializer: MessageSerializer
   end
 
   def create
-    message = Message::Create.call(@reminder, message_params.merge(sender: @current_someone, recipient: nil), nil)
+    sender = params[:team_member] ? current_specialist : @current_someone
+    message = Message::Create.call(@reminder, message_params.merge(sender: sender, recipient: nil), nil)
     if message.persisted?
       respond_with message, serializer: MessageSerializer
     else
@@ -30,9 +31,7 @@ class Api::ReminderMessagesController < ApiController
   private
 
   def find_reminder
-    reminder = Reminder.find(params[:id])
-    @reminder = reminder and return if reminder.linkable_type == 'LocalProject'
-    @reminder = @current_someone.reminders.find(params[:id])
+    @reminder = Reminder.find(params[:id])
   end
 
   def message_params

@@ -10,6 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
+
+
+--
 -- Name: projects_calculate_budget(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -31,7 +45,23 @@ CREATE FUNCTION public.projects_calculate_budget() RETURNS trigger
       $$;
 
 
+--
+-- Name: set_point_from_lat_lng(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.set_point_from_lat_lng() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        NEW.point := ST_SetSRID(ST_Point(NEW.lng, NEW.lat), 4326);
+        RETURN NEW;
+      END;
+      $$;
+
+
 SET default_tablespace = '';
+
+SET default_table_access_method = heap;
 
 --
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
@@ -1157,6 +1187,7 @@ CREATE TABLE public.projects (
     calculated_budget numeric,
     lat numeric(9,5),
     lng numeric(9,5),
+    point public.geography,
     specialist_id bigint,
     job_applications_count integer DEFAULT 0 NOT NULL,
     published_at timestamp without time zone,
@@ -2161,6 +2192,7 @@ CREATE TABLE public.specialists (
     updated_at timestamp(6) without time zone NOT NULL,
     lat numeric(9,5),
     lng numeric(9,5),
+    point public.geography,
     ratings_count integer DEFAULT 0 NOT NULL,
     ratings_total integer DEFAULT 0 NOT NULL,
     ratings_average double precision,
@@ -4269,7 +4301,8 @@ CREATE TABLE public.reminders (
     linkable_id integer,
     linkable_type character varying,
     assignee_type character varying,
-    assignee_id integer
+    assignee_id integer,
+    business_id integer
 );
 
 
@@ -7032,6 +7065,13 @@ CREATE INDEX index_projects_on_payment_schedule ON public.projects USING btree (
 
 
 --
+-- Name: index_projects_on_point; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_projects_on_point ON public.projects USING gist (point);
+
+
+--
 -- Name: index_projects_on_pricing_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7267,6 +7307,13 @@ CREATE INDEX index_specialists_on_former_regulator ON public.specialists USING b
 --
 
 CREATE INDEX index_specialists_on_last_name ON public.specialists USING btree (last_name);
+
+
+--
+-- Name: index_specialists_on_point; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_specialists_on_point ON public.specialists USING gist (point);
 
 
 --
@@ -7539,14 +7586,28 @@ CREATE UNIQUE INDEX jurisdictions_specialists_unique ON public.jurisdictions_spe
 -- Name: projects calculate_budget; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.projects_calculate_budget();
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION public.projects_calculate_budget();
+
+
+--
+-- Name: projects trigger_projects_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_projects_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.projects FOR EACH ROW EXECUTE FUNCTION public.set_point_from_lat_lng();
+
+
+--
+-- Name: specialists trigger_specialists_on_lat_lng; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_specialists_on_lat_lng BEFORE INSERT OR UPDATE OF lat, lng ON public.specialists FOR EACH ROW EXECUTE FUNCTION public.set_point_from_lat_lng();
 
 
 --
 -- Name: projects tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --
@@ -8074,6 +8135,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210930184629'),
 ('20211002151215'),
 ('20211003173909'),
-('20211005200100');
+('20211005200100'),
+('20211011131645');
 
 

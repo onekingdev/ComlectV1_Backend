@@ -608,13 +608,12 @@ class Notification::Deliver < Draper::Decorator
     end
 
     def transaction_processed!(transaction)
-      business_transaction_processed! transaction if transaction.business&.user
-      specialist_transaction_processed! transaction if transaction.specialist&.user
+      business_transaction_processed!(transaction) if transaction.business&.user
+      specialist_transaction_processed!(transaction) if transaction.specialist&.user
     end
 
     def business_transaction_processed!(transaction)
       action_path = '/business/settings/billings'
-
       dispatcher = Dispatcher.new(
         user: transaction.project.local_project.owner.user,
         key: :business_transaction_processed,
@@ -646,7 +645,7 @@ class Notification::Deliver < Draper::Decorator
         t: {
           payment_amount: ActionController::Base.helpers.number_to_currency(
             transaction.specialist_total
-          ), company_name: project.business.business_name
+          ), company_name: transaction.project.business.business_name
         }
       )
 
