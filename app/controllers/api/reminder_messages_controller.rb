@@ -30,9 +30,7 @@ class Api::ReminderMessagesController < ApiController
   private
 
   def find_reminder
-    reminder = Reminder.find(params[:id])
-    @reminder = reminder and return if reminder.linkable_type == 'LocalProject'
-    @reminder = @current_someone.reminders.find(params[:id])
+    @reminder = Reminder.find(params[:id])
   end
 
   def message_params

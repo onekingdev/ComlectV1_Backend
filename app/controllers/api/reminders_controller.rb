@@ -61,9 +61,6 @@ class Api::RemindersController < ApiController
   end
 
   def linkto_resources
-    
-    # binding.pry
-    
     case params[:type]
     when 'local_projects'
       local_projects = @business.local_projects.select(:id, :title, :business_id)
@@ -81,17 +78,14 @@ class Api::RemindersController < ApiController
       render json: []
     end
   end
-  
+
   def assignee_specialist
     specialists = @business.hired_specialists
     respond_with specialists, each_serializer: ::Business::SpecialistSerializer
   end
 
   def assignee_team_member
-    # specialists = @current_someone.team.team_members.active
-    # active_specialist_ids = Specialist::Invitation.where(team: @current_someone.te)
-    # Specialist.joins(:specialist_invitations).where(team_id: )
-    specialists = Specialist.joins(specialist_invitations: :team_member).where(team_members: {active: true}, specialist_invitations: {team_id: @business.team.id})
+    specialists = Specialist.joins(specialist_invitations: :team_member).where(team_members: { active: true }, specialist_invitations: { team_id: @business.team.id })
     respond_with specialists, each_serializer: ::Business::SpecialistSerializer
   end
 
