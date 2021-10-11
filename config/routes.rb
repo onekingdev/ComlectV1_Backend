@@ -114,6 +114,9 @@ Rails.application.routes.draw do
     get '/reminders/:date_from/:date_to' => 'reminders#by_date'
     get '/overdue_reminders' => 'reminders#overdue'
     post '/reminders' => 'reminders#create'
+    get '/assignee_specialist' => 'reminders#assignee_specialist'
+    get '/assignee_team_member' => 'reminders#assignee_team_member'
+    get '/linkto_resources' => 'reminders#linkto_resources'
 
     resources :local_projects, only: %i[index create show update destroy]
     put 'local_projects/:id/complete' => 'local_projects#complete'

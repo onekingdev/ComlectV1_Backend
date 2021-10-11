@@ -6,6 +6,7 @@ class Api::RemindersController < ApiController
 
   before_action :require_someone!
   before_action :set_reminder, only: %i[show destroy update]
+  before_action :set_business, only: %i[linkto_resources assignee_specialist assignee_team_member]
   # before_action :authorize_action
 
   skip_before_action :verify_authenticity_token # TODO: proper authentication
@@ -59,12 +60,51 @@ class Api::RemindersController < ApiController
     end
   end
 
+  def linkto_resources
+    
+    # binding.pry
+    
+    case params[:type]
+    when 'local_projects'
+      local_projects = @business.local_projects.select(:id, :title, :business_id)
+      render json: local_projects.to_json
+    when 'reviews'
+      reviews = @business.annual_reports.select(:id, :name)
+      render json: reviews.to_json
+    when 'compliance_policies'
+      compliance_policies = @business.compliance_policies.root.select(:id, :name)
+      render json: compliance_policies.to_json
+    when 'exams'
+      exams = @business.exams.select(:id, :name)
+      render json: exams.to_json
+    else
+      render json: []
+    end
+  end
+  
+  def assignee_specialist
+    specialists = @business.hired_specialists
+    respond_with specialists, each_serializer: ::Business::SpecialistSerializer
+  end
+
+  def assignee_team_member
+    # specialists = @current_someone.team.team_members.active
+    # active_specialist_ids = Specialist::Invitation.where(team: @current_someone.te)
+    # Specialist.joins(:specialist_invitations).where(team_id: )
+    specialists = Specialist.joins(specialist_invitations: :team_member).where(team_members: {active: true}, specialist_invitations: {team_id: @business.team.id})
+    respond_with specialists, each_serializer: ::Business::SpecialistSerializer
+  end
+
   private
 
   def set_reminder
     reminder = Reminder.find(params[:id])
     @reminder = reminder and return if reminder.linkable_type == 'LocalProject'
     @reminder = Reminder.where(assignee: @current_someone, id: params[:id]).or(Reminder.where(remindable: @current_someone, id: params[:id])).first
+  end
+
+  def set_business
+    @business = params[:business_id] ? Business.find(params[:business_id]) : @current_someone
   end
 
   def reminder_params
