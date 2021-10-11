@@ -4269,8 +4269,7 @@ CREATE TABLE public.reminders (
     linkable_id integer,
     linkable_type character varying,
     assignee_type character varying,
-    assignee_id integer,
-    business_id integer
+    assignee_id integer
 );
 
 
@@ -7540,14 +7539,14 @@ CREATE UNIQUE INDEX jurisdictions_specialists_unique ON public.jurisdictions_spe
 -- Name: projects calculate_budget; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION public.projects_calculate_budget();
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.projects_calculate_budget();
 
 
 --
 -- Name: projects tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --
@@ -8075,7 +8074,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210930184629'),
 ('20211002151215'),
 ('20211003173909'),
-('20211005200100'),
-('20211011131645');
+('20211005200100');
 
 

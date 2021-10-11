@@ -19,11 +19,7 @@ module RemindersFetcher
   end
 
   def tasks_calendar_grid2(remindable, first_day, last_day)
-    @grid_tasks = Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(assignee: remindable).where(repeats: nil)
-                          .or(Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil, remindable: remindable))
-    if remindable.class.to_s == 'Business'
-      @grid_tasks = @grid_tasks.or(Reminder.where(business_id: remindable.id))
-    end
+    @grid_tasks = Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(assignee: remindable).where(repeats: nil).or(Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil, remindable: remindable))
     @recurring_tasks = Reminder.where('remind_at < ?', last_day).where(assignee: remindable).where.not(repeats: nil).or(Reminder.where('remind_at < ?', last_day).where(remindable: remindable).where.not(repeats: nil))
     @active_projects = remindable.local_projects.where.not(id: remindable.user.hidden_local_projects)
     calendar_grid = populate_recurring_tasks2(@recurring_tasks, first_day, last_day)

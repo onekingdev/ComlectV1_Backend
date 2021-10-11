@@ -8,7 +8,8 @@ class LocalProject < ApplicationRecord
 
   has_many :projects
   has_one :visible_project, -> { order(id: :desc).where(specialist_id: nil).limit(1) }, class_name: 'Project'
-  has_many :collaborators, source: :specialist, through: :projects, class_name: 'Specialist'
+  has_many :local_projects_specialists
+  has_many :collaborators, source: :specialist, through: :local_projects_specialists, class_name: 'Specialist'
   has_many :reminders, as: :linkable
   has_many :messages, as: :thread
   has_many :documents, as: :uploadable
