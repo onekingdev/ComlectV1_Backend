@@ -19,8 +19,8 @@ module RemindersFetcher
   end
 
   def tasks_calendar_grid2(remindable, first_day, last_day)
-    @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
-    @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
+    @grid_tasks = Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(assignee: remindable).where(repeats: nil).or(Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil, remindable: remindable))
+    @recurring_tasks = Reminder.where('remind_at < ?', last_day).where(assignee: remindable).where.not(repeats: nil).or(Reminder.where('remind_at < ?', last_day).where(remindable: remindable).where.not(repeats: nil))
     @active_projects = remindable.local_projects.where.not(id: remindable.user.hidden_local_projects)
     calendar_grid = populate_recurring_tasks2(@recurring_tasks, first_day, last_day)
     [(calendar_grid + @grid_tasks).sort_by(&:end_date), @active_projects]
@@ -30,8 +30,8 @@ module RemindersFetcher
     end_of_month = beginning + 40.days
     first_day = beginning - beginning.wday.days
     last_day = end_of_month + (6 - end_of_month.wday).days
-    @grid_tasks = remindable.reminders.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil)
-    @recurring_tasks = remindable.reminders.where('remind_at < ?', last_day).where.not(repeats: nil)
+    @grid_tasks = Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil, remindable: remindable).or(Reminder.where('end_date >= ? AND remind_at < ?', first_day, last_day).where(repeats: nil, assignee: remindable))
+    @recurring_tasks = Reminder.where('remind_at < ?', last_day).where(remindable: remindable).where.not(repeats: nil).or(Reminder.where('remind_at < ?', last_day).where(assignee: remindable).where.not(repeats: nil))
     @active_projects = remindable.projects
     calendar_grid = {}
     (first_day..last_day).each do |cell|
@@ -129,7 +129,7 @@ module RemindersFetcher
 
   def reminders_past(remindable)
     recurring_past_dues = []
-    remindable.reminders.where.not(repeats: nil).each do |task|
+    Reminder.where(remindable: remindable).where.not(repeats: nil).or(Reminder.where(assignee: remindable).where.not(repeats: nil)).each do |task|
       task.detect_past_dues.each do |d|
         recurring_past_dues.push(RecurringReminder.new(task, "#{task.id}_#{d[1]}", d[0]))
       end

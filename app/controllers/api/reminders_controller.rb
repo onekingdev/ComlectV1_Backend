@@ -64,7 +64,7 @@ class Api::RemindersController < ApiController
   def set_reminder
     reminder = Reminder.find(params[:id])
     @reminder = reminder and return if reminder.linkable_type == 'LocalProject'
-    @reminder = @current_someone.reminders.find(params[:id])
+    @reminder = Reminder.where(assignee: @current_someone, id: params[:id]).or(Reminder.where(remindable: @current_someone, id: params[:id])).first
   end
 
   def reminder_params
