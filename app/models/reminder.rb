@@ -134,8 +134,8 @@ class Reminder < ActiveRecord::Base
 
   def self.get_all_reminders(remindable, tgt_from_date, tgt_to_date, skip_projects)
     data_recurring = []
-    reminders = Reminder.where('remind_at > ? AND remind_at < ?', tgt_from_date, tgt_to_date).where(repeats: nil, remindable: remindable).or(Reminder.where('remind_at > ? AND remind_at < ?', tgt_from_date, tgt_to_date).where(repeats: nil, assignee: remindable)) || []
-    recurring_tasks = Reminder.where('remind_at < ?', tgt_to_date).where(remindable: remindable).where.not(repeats: nil).or(Reminder.where('remind_at < ?', tgt_to_date).where(assignee: remindable).where.not(repeats: nil)) || []
+    reminders = remindable.reminders.where('remind_at > ? AND remind_at < ?', tgt_from_date, tgt_to_date).where(repeats: nil) || []
+    recurring_tasks = remindable.reminders.where('remind_at < ?', tgt_to_date).where.not(repeats: nil)
     recurring_tasks.each do |task|
       end_by_date = tgt_to_date
       unless task.end_by.nil?

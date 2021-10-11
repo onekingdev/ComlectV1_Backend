@@ -10,7 +10,7 @@ class Api::ReminderMessagesController < ApiController
   end
 
   def create
-    message = Message::Create.call(@reminder, message_params.merge(sender: @current_someone, recipient: nil), @current_someone, nil)
+    message = Message::Create.call(@reminder, message_params.merge(sender: @current_someone, recipient: nil), nil)
     if message.persisted?
       respond_with message, serializer: MessageSerializer
     else
@@ -30,7 +30,9 @@ class Api::ReminderMessagesController < ApiController
   private
 
   def find_reminder
-    @reminder = Reminder.find(params[:id])
+    reminder = Reminder.find(params[:id])
+    @reminder = reminder and return if reminder.linkable_type == 'LocalProject'
+    @reminder = @current_someone.reminders.find(params[:id])
   end
 
   def message_params

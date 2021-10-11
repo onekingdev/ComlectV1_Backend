@@ -24,15 +24,10 @@ class ReminderSerializer < ApplicationSerializer
              :note,
              :assignee_id,
              :assignee_type,
-             :assignee_name,
-             :business_id
+             :assignee_name
 
   def linkable_name
     object.linkable.name if object.linkable.present?
-  end
-
-  def business_id
-    object.linkable&.business_id
   end
 
   def assignee_name
