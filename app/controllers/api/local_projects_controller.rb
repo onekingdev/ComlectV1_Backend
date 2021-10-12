@@ -71,6 +71,7 @@ class Api::LocalProjectsController < ApiController
   def add_specialist
     lps = LocalProjectsSpecialist.new(local_project_id: @local_project.id, specialist_id: params[:id])
     if lps.save
+      Notification::Deliver.got_assigned_for_team_member!(@local_project, lps.specialist)
       respond_with lps
     else
       respond_with errors: { local_projects_specialist: lps.errors.messages }
@@ -78,8 +79,9 @@ class Api::LocalProjectsController < ApiController
   end
 
   def remove_specialist
-    lps = LocalProjectsSpecialists.where(local_project_id: @local_project.id, specialist_id: params[:specialist_id])
-    if lps.present? && lps.first.destroy
+    lps = LocalProjectsSpecialist.find_by(local_project_id: @local_project.id, specialist_id: params[:specialist_id])
+    if lps.present? && lps.destroy
+      Notification::Deliver.remove_assigned_for_team_member!(@local_project, lps.specialist)
       respond_with status: :ok
     else
       respond_with errors: { local_projects_specialist: 'Unable to remove collaborator' }

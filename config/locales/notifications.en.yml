@@ -57,6 +57,11 @@ en:
       message: "You have been added as a collaborator on %{project_title} project"
       message_mail: "You are now a collaborator on the %{project_title} project. Check out the project details to get started."
       action_label: View Project
+    remove_assigned_project:
+      subject: You have been removed as a collaborator on a project
+      message: "You have been removed as a collaborator on %{project_title} project"
+      message_mail: "You are now no longer collaborator on the %{project_title} project. Check out the project board."
+      action_label: View Project
     not_hired_project:
       subject: Your proposal was declined
       message: "%{company_name} has declined the terms of your proposal. It's their loss! Continue browsing more job opportunities on our Job Board."

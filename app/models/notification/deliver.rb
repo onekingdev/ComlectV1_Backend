@@ -116,6 +116,38 @@ class Notification::Deliver < Draper::Decorator
       dispatcher.deliver_mail(action_path)
     end
 
+    def got_assigned_for_team_member!(local_project, specialist)
+      action_path = "/business/projects/#{local_project.id}"
+      key = :got_assigned_project
+      dispatcher = Dispatcher.new(
+        user: specialist.user,
+        key: key,
+        action_path: action_path,
+        associated: local_project,
+        initiator: local_project.business,
+        t: { project_title: local_project.title }
+      )
+
+      dispatcher.deliver_notification!
+      dispatcher.deliver_mail(action_path)
+    end
+
+    def remove_assigned_for_team_member!(local_project, specialist)
+      action_path = '/business/projects'
+      key = :remove_assigned_project
+      dispatcher = Dispatcher.new(
+        user: specialist.user,
+        key: key,
+        action_path: action_path,
+        associated: local_project,
+        initiator: local_project.business,
+        t: { project_title: local_project.title }
+      )
+
+      dispatcher.deliver_notification!
+      dispatcher.deliver_mail(action_path)
+    end
+
     def not_hired!(application)
       project = application.project
       action_path = '/specialist/job_board'
