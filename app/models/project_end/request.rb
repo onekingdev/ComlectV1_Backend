@@ -19,7 +19,12 @@ class ProjectEnd::Request < Draper::Decorator
     hired_specialist.update(status: 'inactive') if hired_specialist.present?
 
     obj.tap do |request|
-      Notification::Deliver.end_project! request
+      if someone.class.name.include?('Business')
+        request.confirm!
+        Notification::Deliver.end_project_accepted! request
+      else
+        Notification::Deliver.end_project! request
+      end
     end
   end
 
@@ -34,7 +39,5 @@ class ProjectEnd::Request < Draper::Decorator
       end_request.deny!
       Notification::Deliver.end_project_denied! end_request
     end
-
-    end_request
   end
 end

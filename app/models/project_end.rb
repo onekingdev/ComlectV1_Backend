@@ -31,9 +31,13 @@ class ProjectEnd < ApplicationRecord
 
   def trigger_project_end
     project.update_attribute(:ends_on, Time.zone.now.in_time_zone(project.business.tz))
-    project.complete!
-    reset_upcoming_charges
-    project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
+
+    if project.internal?
+      project.complete!
+    else
+      reset_upcoming_charges
+      project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
+    end
   end
 
   def trigger_fixed_project_end

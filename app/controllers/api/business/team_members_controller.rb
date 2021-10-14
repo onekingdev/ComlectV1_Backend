@@ -76,6 +76,11 @@ class Api::Business::TeamMembersController < ApiController
     respond_with specialists, each_serializer: Business::SpecialistBusinessRoleSerializer
   end
 
+  def businesses
+    businesses = current_specialist.specialists_business_roles.includes(:business)
+    respond_with businesses, each_serializer: Specialist::SpecialistBusinessRoleSerializer
+  end
+
   private
 
   def member_params
