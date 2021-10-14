@@ -178,6 +178,7 @@ Rails.application.routes.draw do
       resources :team_members, only: %i[index create update destroy] do
         collection do
           get :specialists
+          get :businesses
         end
 
         member do
