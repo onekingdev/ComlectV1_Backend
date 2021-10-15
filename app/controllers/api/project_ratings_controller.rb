@@ -11,10 +11,13 @@ class Api::ProjectRatingsController < ApiController
   end
 
   def create
-    project = Project.find(params[:project_id])
-    rate = Rating.find_by(project_id: params[:project_id], rater_type: @current_someone.class.to_s)
-    rate&.assign_attributes(rating_params)
-    rating = rate || project.ratings.new(rating_params.merge(rater: @current_someone))
+    project = if @current_someone.class.name.include?('Specialist')
+      @current_someone.projects.pending_specialist_rating.find(params[:project_id])
+    elsif @current_someone.class.name.include?('Business')
+      @current_someone.projects.pending_business_rating.find(params[:project_id])
+    end
+
+    rating = project.ratings.new(rating_params.merge(rater: @current_someone))
     if rating.save
       Notification::Deliver.got_rated! rating
       respond_with rating, serializer: RatingSerializer

@@ -5,19 +5,18 @@ module BusinessServices
     attr_accessor :subscriptions
 
     attr_reader \
-      :business, :payment_source, :params, :error,
-      :plan_seat_count, :plan, :coupon_id, :free_subscription
+      :business, :payment_source,
+      :turnkey_params, :plan_seat_count, :error, :new_plan, :coupon_id
 
-    def initialize(business, payment_source, params)
+    def initialize(business, payment_source, turnkey_params)
       @business = business
       @payment_source = payment_source
-      @params = params
+      @turnkey_params = turnkey_params
 
       @success = true
       @subscriptions = []
-      @plan = params[:plan]
-      @coupon_id = params[:coupon_id]
-
+      @new_plan = turnkey_params[:plan]
+      @coupon_id = turnkey_params[:coupon_id]
       set_plan_seat_count
     end
 
@@ -28,10 +27,8 @@ module BusinessServices
     private
 
     def set_plan_seat_count
-      @plan_seat_count = Seat::FREE_SEAT_COUNT and return if free_plan?
-
-      @plan_seat_count = params[:seats_count].to_i
-      @plan_seat_count = free_seat_count if plan_seat_count.zero? && plan.present?
+      @plan_seat_count = turnkey_params[:seats_count].to_i
+      @plan_seat_count = free_seat_count if plan_seat_count.zero? && new_plan.present?
     end
 
     def handle_stripe_error(error_msg)
@@ -39,8 +36,8 @@ module BusinessServices
       @error = error_msg
     end
 
-    def plan_name_wrong?
-      plan_exist = Subscription.plans.key?(params[:plan]&.parameterize)
+    def plan_name_invalid?
+      plan_exist = Subscription.plans.key?(turnkey_params[:plan]&.parameterize)
       plan_exist ? false : assign_error('Wrong plan name')
     end
 
@@ -51,27 +48,27 @@ module BusinessServices
     end
 
     def free_plan?
-      plan == 'free'
+      new_plan == 'free'
     end
 
     def subscribe_free_plan
-      cancel_active_subscriptions if active_subscriptions.present?
+      cancel_subscriptions if active_subscriptions.present?
       create_free_subscription
       onboarding_passed!
     end
 
     def create_free_subscription
       subscription = Subscription.create(
-        plan: plan,
+        quantity: 1,
         local: true,
         kind_of: :ccc,
+        plan: new_plan,
         auto_renew: true,
         business_id: business.id,
-        quantity: plan_seat_count,
-        title: Subscription::PLAN_NAMES[plan]
+        title: Subscription::PLAN_NAMES[new_plan]
       )
 
-      create_seats(subscription, plan_seat_count)
+      create_seats(subscription, 1)
       @subscriptions.push(subscription)
     end
 
@@ -79,35 +76,34 @@ module BusinessServices
       @active_subscriptions = business.subscriptions.active
     end
 
-    def paid_subscriptions_blank?
-      subs = active_subscriptions
-      subs.blank? || (subs.count == 1 && subs.last.free? && @free_subscription = subs.last)
-    end
-
-    def cancel_active_subscriptions
+    def cancel_subscriptions
       active_subscriptions.each do |subscription|
-        seats = subscription.seats
+        seats = Seat.where(subscription_id: subscription.id)
+
         destroy_seats(seats)
-        subscription.cancel!
+        cancel(subscription)
       end
     end
 
     def destroy_seats(seats)
       seats.each do |seat|
-        if seat.team_member_id.present?
-          invitation = Specialist::Invitation.find_by(team_member_id: seat.team_member_id)
-        end
+        invitation = Specialist::Invitation.find_by(email: seat&.team_member&.email)
 
-        Seat.transaction do
-          seat.unassign if seat.assigned_at.present?
-
-          if invitation.present? && invitation.specialist.present?
-            invitation.specialist.update(dashboard_unlocked: false)
+        begin
+          Seat.transaction do
+            seat&.unassign
+            invitation&.specialist&.update!(dashboard_unlocked: false)
           end
+          seat.destroy
+        rescue => e
+          Rails.logger.error(e.message)
         end
-
-        seat.destroy
       end
+    end
+
+    def cancel(subscription)
+      Stripe::CancelSubscription.call(subscription.stripe_subscription_id)
+      subscription.update(status: Subscription.statuses['canceled'])
     end
 
     def payment_source_missing?
@@ -115,8 +111,6 @@ module BusinessServices
     end
 
     def create_new_subscriptions
-      cancel_active_subscriptions if free_subscription.present?
-
       create_primary_subscription
       create_seat_subscription if plan_has_additional_seats?
       commit_subscriptions
@@ -130,19 +124,19 @@ module BusinessServices
 
     def assign_seat_to_owner
       free_seat = business.available_seat
-      owner = business.team_member
+      owner = business.team_members.where(email: business.user.email).first
       free_seat.assign_to(owner.id)
     end
 
     def create_primary_subscription(with_commit: false, with_seats: false)
       @primary_subscription = Subscription.create(
-        plan: plan,
         quantity: 1,
         kind_of: :ccc,
+        plan: new_plan,
         auto_renew: true,
         business_id: business.id,
         payment_source: payment_source,
-        title: Subscription::PLAN_NAMES[plan]
+        title: Subscription::PLAN_NAMES[new_plan]
       )
 
       subscriptions.push(@primary_subscription)
@@ -155,16 +149,15 @@ module BusinessServices
 
     def create_seat_subscription(with_commit: false, quantity: nil, with_seats: true)
       quantity ||= plan_seat_count - free_seat_count
-      plan_name = annual_plan? ? 'seats_annual' : 'seats_monthly'
 
       @seat_subscription = Subscription.create(
         kind_of: :seats,
-        plan: plan_name,
         auto_renew: true,
         quantity: quantity,
         business_id: business.id,
+        title: 'Seats subscription',
         payment_source: payment_source,
-        title: Subscription::PLAN_NAMES[plan_name]
+        plan: annual_plan? ? 'seats_annual' : 'seats_monthly'
       )
 
       subscriptions.push(@seat_subscription)
@@ -172,14 +165,14 @@ module BusinessServices
     end
 
     def annual_plan?
-      plan.include?('annual')
+      new_plan.include?('annual')
     end
 
     def commit_subscriptions(add_seats: true)
       subscriptions.each do |subscription|
         stripe_subscription = Subscription.subscribe(
           subscription.plan,
-          stripe_customer_id,
+          stripe_customer,
           coupon: coupon_id,
           cancel_at_period_end: false,
           quantity: subscription.quantity
@@ -208,12 +201,12 @@ module BusinessServices
       end
     end
 
-    def stripe_customer_id
-      @stripe_customer_id ||= business.payment_profile.stripe_customer_id
+    def stripe_customer
+      @stripe_customer ||= business.payment_profile.stripe_customer
     end
 
     def free_seat_count
-      if plan.include?('business_tier_')
+      if new_plan.include?('business_tier_')
         Seat::FREE_BUSINESS_SEAT_COUNT
       else
         Seat::FREE_TEAM_SEAT_COUNT
@@ -236,7 +229,7 @@ module BusinessServices
 
     def upgrade_account?
       plans = Subscription::BUSINESS_PLANS
-      plans.key(plan) > plans.key(primary_subscription.plan)
+      plans.key(new_plan) > plans.key(primary_subscription.plan)
     end
 
     def primary_subscription
@@ -248,7 +241,7 @@ module BusinessServices
     end
 
     def upgrade_to_new_plan
-      cancel_active_subscriptions
+      cancel_subscriptions
       create_new_subscriptions
     end
 
@@ -270,11 +263,7 @@ module BusinessServices
     end
 
     def recalculate_seats
-      if plan_seat_count > db_seat_count
-        upgrade_seat_count(with_cancelation: true)
-      else
-        downgrade_seat_count
-      end
+      plan_seat_count > db_seat_count ? upgrade_seat_count(with_cancelation: true) : downgrade_seat_count
     end
 
     def retrieve_stripe_subscription
@@ -283,19 +272,19 @@ module BusinessServices
     end
 
     def new_price_id
-      Subscription.get_plan_id(plan)
+      Subscription.get_plan_id(new_plan)
     end
 
     def update_db_primary_subscription
       primary_subscription.update(
-        plan: plan,
+        plan: new_plan,
         auto_renew: true,
-        title: Subscription::PLAN_NAMES[plan]
+        title: new_plan.titleize
       )
     end
 
     def downgrade_subscription
-      cancel_active_subscriptions
+      cancel_subscriptions
       create_new_subscriptions
     end
 
@@ -306,7 +295,7 @@ module BusinessServices
 
     def downgrade_to_new_plan_with_refund
       refund_charges
-      cancel_active_subscriptions
+      cancel_subscriptions
       create_new_subscriptions
     end
 
@@ -322,7 +311,7 @@ module BusinessServices
       proration_date = Time.now.utc.to_i
 
       invoice = Stripe::Invoice.upcoming(
-        customer: stripe_customer_id,
+        customer: stripe_customer,
         subscription_items: items,
         subscription: @stripe_subscription,
         subscription_proration_date: proration_date
@@ -336,11 +325,10 @@ module BusinessServices
         end
       end
 
-      return unless prorated_amount.positive?
-
       latest_invoice = Stripe::Invoice.retrieve(@stripe_subscription.latest_invoice)
       latest_charge_id = latest_invoice.charge
 
+      return unless prorated_amount.positive?
       Stripe::Refund.create(
         charge: latest_charge_id,
         amount:  prorated_amount
@@ -348,7 +336,7 @@ module BusinessServices
     end
 
     def primary_plan_change?
-      primary_subscription.plan != params[:plan]
+      primary_subscription.plan != turnkey_params[:plan]
     end
 
     def db_seat_count
@@ -359,13 +347,8 @@ module BusinessServices
       db_seat_count != plan_seat_count
     end
 
-    def plan_already_subscribed?
-      return false if active_subscriptions.blank?
-
-      if !primary_plan_change? && !seat_count_change?
-        msg = "You have already subscribed to '#{primary_subscription.title}'"
-        assign_error(msg)
-      end
+    def nothing_to_change?
+      !primary_plan_change? && !seat_count_change?
     end
 
     def only_seat_count_change?
@@ -414,32 +397,30 @@ module BusinessServices
     end
 
     def delete_all_paid_seats
-      seats = seat_subscription.seats
+      seats = Seat.where(subscription_id: seat_subscription.id)
+      cancel(seat_subscription)
       destroy_seats(seats)
-      seat_subscription.cancel!
     end
 
     def reduce_paid_seats(count)
-      seats = seat_subscription.seats.order(created_at: :desc).limit(count)
+      seats = Seat.order(created_at: :desc).where(subscription_id: seat_subscription.id).limit(count)
       downgrade_seat_subscription(count)
       destroy_seats(seats)
     end
 
     def downgrade_seat_subscription(count)
-      quantity = seat_subscription.quantity - count
-
       Stripe::Subscription.update(
         retrieve_stripe_seat_subscription.id,
         proration_behavior: :none,
         items: [
           {
-            quantity: quantity,
+            quantity: seat_subscription.quantity - count,
             id: @stripe_seat_subscription.items.data[0].id
           }
         ]
       )
 
-      seat_subscription.update(quantity: quantity)
+      seat_subscription.update(quantity: seat_subscription.quantity - count)
     end
 
     def seat_subscription

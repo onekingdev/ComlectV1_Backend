@@ -12,8 +12,19 @@ class ProjectEnd::Request < Draper::Decorator
     expires_at = BufferDate.for(project.business.tz.now, time_zone: project.business.tz)
     obj = new(create!(project: project, expires_at: expires_at, requester: someone.class.name))
 
+    hired_specialist = SpecialistsBusinessRole.find_by(
+      business_id: project.business.id,
+      specialist_id: project.specialist_id
+    )
+    hired_specialist.update(status: 'inactive') if hired_specialist.present?
+
     obj.tap do |request|
-      Notification::Deliver.end_project! request
+      if someone.class.name.include?('Business')
+        request.confirm!
+        Notification::Deliver.end_project_accepted! request
+      else
+        Notification::Deliver.end_project! request
+      end
     end
   end
 
@@ -28,7 +39,5 @@ class ProjectEnd::Request < Draper::Decorator
       end_request.deny!
       Notification::Deliver.end_project_denied! end_request
     end
-
-    end_request
   end
 end

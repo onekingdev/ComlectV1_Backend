@@ -13,8 +13,6 @@ class Subscription < ActiveRecord::Base
 
   PLAN_NAMES = {
     'free' => 'Free Plan',
-    'seats_annual' => 'Seats Plan',
-    'seats_monthly' => 'Seats Plan',
     'team_tier_annual' => 'Team Plan',
     'team_tier_monthly' => 'Team Plan',
     'business_tier_annual' => 'Business Plan',
@@ -117,7 +115,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def cancel!
-    Stripe::CancelSubscription.call(stripe_subscription_id) unless free?
+    Stripe::CancelSubscription.call(stripe_subscription_id)
     update(status: 'canceled')
   rescue Stripe::StripeError => e
     # check if subscription was canceled before

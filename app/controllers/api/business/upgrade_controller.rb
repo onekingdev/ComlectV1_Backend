@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
-class Api::Business::UpgradesController < ApiController
+class Api::Business::UpgradeController < ApiController
   before_action :require_business!
 
-  def create
+  def subscribe
     service = BusinessServices::StripeSubscriptionService.call(
       current_business, payment_source, upgrade_params
     )
 
     if service.success?
-      plan_name = service.subscriptions.first.title
-
       render json: {
-        message: t('.notice', plan_name: plan_name),
+        message: 'subscribed',
         processed: serialize_subs(service.subscriptions)
       }, status: :created
     else
-      render json: { error: service.error }, status: :unprocessable_entity
+      render json: {
+        error: service.error,
+        processed: serialize_subs(service.subscriptions)
+      }, status: :unprocessable_entity
     end
   end
 

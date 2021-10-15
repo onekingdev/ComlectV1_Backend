@@ -31,10 +31,13 @@ class ProjectEnd < ApplicationRecord
 
   def trigger_project_end
     project.update_attribute(:ends_on, Time.zone.now.in_time_zone(project.business.tz))
-    project.complete!
-    remove_permission
-    reset_upcoming_charges
-    project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
+
+    if project.internal?
+      project.complete!
+    else
+      reset_upcoming_charges
+      project.fixed_pricing? ? trigger_fixed_project_end : trigger_hourly_project_end
+    end
   end
 
   def trigger_fixed_project_end
@@ -51,13 +54,5 @@ class ProjectEnd < ApplicationRecord
     end
 
     project.charges.upcoming.delete_all
-  end
-
-  def remove_permission
-    active_project_ids = project.specialist.active_projects.where(business_id: project.business.id).ids
-    if active_project_ids.empty?
-      role = SpecialistsBusinessRole.find_by(business_id: project.business_id, specialist_id: project.specialist_id)
-      role&.update(status: :inactive)
-    end
   end
 end

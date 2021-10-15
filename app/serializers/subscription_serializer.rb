@@ -6,6 +6,7 @@ class SubscriptionSerializer < ApplicationSerializer
     :plan,
     :title,
     :status,
+    :kind_of,
     :interval,
     :currency,
     :trial_end,

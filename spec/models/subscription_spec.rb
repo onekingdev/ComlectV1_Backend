@@ -50,8 +50,6 @@ RSpec.describe Subscription, type: :model do
     let(:plan_names) do
       {
         'free' => 'Free Plan',
-        'seats_annual' => 'Seats Plan',
-        'seats_monthly' => 'Seats Plan',
         'team_tier_annual' => 'Team Plan',
         'team_tier_monthly' => 'Team Plan',
         'business_tier_annual' => 'Business Plan',

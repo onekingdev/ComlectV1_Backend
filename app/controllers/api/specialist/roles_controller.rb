@@ -8,7 +8,7 @@ class Api::Specialist::RolesController < ApiController
     if current_specialist.seat?
       render json: [{ role: current_specialist.seat_role, business_name: current_specialist.manager.name, business_id: current_specialist.manager.id, plan: current_specialist.manager.plan }].to_json
     else
-      roles = current_specialist.specialists_business_roles.active
+      roles = current_specialist.specialists_business_roles
       respond_with roles, each_serializer: Specialist::RoleSerializer
     end
   end
