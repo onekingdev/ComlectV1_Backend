@@ -17,7 +17,7 @@ class Api::Business::HiresController < ApiController
         role&.delete
       else
         role = SpecialistsBusinessRole.find_or_create_by(business_id: current_business.id, specialist_id: specialist.id)
-        role.update(role: SpecialistsBusinessRole.roles[params[:role]])
+        role.update(role: SpecialistsBusinessRole.roles[params[:role]], status: :active)
       end
       LocalProjectsSpecialist.create(local_project_id: @project.local_project.id, specialist_id: specialist.id)
     end
