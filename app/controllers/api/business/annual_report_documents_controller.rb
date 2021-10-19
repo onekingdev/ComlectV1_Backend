@@ -11,7 +11,7 @@ class Api::Business::AnnualReportDocumentsController < ApiController
   end
 
   def create
-    document = @annual_report.documents.create(document_params.merge(owner: current_business, uploadable: @annual_report))
+    document = @annual_report.documents.create(document_params.merge(owner: (current_user.specialist || current_business), uploadable: @annual_report))
     respond_with document, serializer: DocumentSerializer
   end
 
