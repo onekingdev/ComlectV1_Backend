@@ -24,4 +24,8 @@ class Roles::AnnualReportsPolicy < ApplicationPolicy
   def clone?
     not_basic?
   end
+
+  def download?
+    not_basic?
+  end
 end

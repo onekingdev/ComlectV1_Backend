@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Seat < ActiveRecord::Base
+  FREE_SEAT_COUNT = 1
   FREE_TEAM_SEAT_COUNT = 3
   FREE_BUSINESS_SEAT_COUNT = 10
 

@@ -214,6 +214,9 @@ en:
       create:
         mistmusch: 'Able to create project only through business'
     business:
+      upgrades:
+        create:
+          notice: "Plan has been upgraded to '%{plan_name}'."
       exam_request_files:
         unable_to_delete: 'Document has not been deleted.'
       exams:

@@ -12,19 +12,20 @@ module BusinessServices
     def call
       begin
         ActiveRecord::Base.transaction do
-          return self if plan_name_invalid?
+          return self if plan_name_wrong?
+          return self if plan_already_subscribed?
           return self if free_plan? && subscribe_free_plan
           return self if payment_source_missing?
 
-          return self if active_subscriptions.blank? && create_new_subscriptions
-          return self if nothing_to_change?
+          return self if paid_subscriptions_blank? && create_new_subscriptions
           return self if only_seat_count_change? && update_seats
 
-          __send__("#{action_name}_#{current_plan}_to_#{new_plan}")
-          onboarding_passed!
+          __send__("#{action_name}_#{current_plan}_to_#{plan}")
         end
       rescue Stripe::StripeError => e
         handle_stripe_error(e.message)
+      rescue => e
+        assign_error(e.message)
       end
 
       self

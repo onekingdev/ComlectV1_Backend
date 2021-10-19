@@ -530,12 +530,20 @@ class Business < ApplicationRecord
     seats.available.first
   end
 
+  def available_seats
+    seats.available
+  end
+
   def specialist?
     false
   end
 
   def business?
     true
+  end
+
+  def team_member
+    team_members.find_by(email: user.email)
   end
 
   private
