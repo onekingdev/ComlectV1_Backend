@@ -30,6 +30,21 @@ module RemindersFetcher
     [(calendar_grid + @grid_tasks).sort_by(&:end_date), @active_projects]
   end
 
+  def upcoming_tab(remindable, first_day, last_day)
+    @grid_tasks = Reminder.where('remind_at BETWEEN ? AND ?', first_day, last_day).where(assignee: remindable).where(repeats: nil)
+                          .or(Reminder.where('remind_at BETWEEN ? AND ?', first_day, last_day).where(repeats: nil, remindable: remindable))
+    if remindable.class.to_s == 'Business'
+      @grid_tasks = @grid_tasks.or(Reminder.where('remind_at BETWEEN ? AND ?', first_day, last_day).where(business_id: remindable.id))
+    end
+
+    @active_projects = if remindable.class.to_s != 'Business'
+      remindable.projects.where('starts_on BETWEEN ? AND ?', first_day, last_day)
+    else
+      remindable.local_projects.where('starts_on BETWEEN ? AND ?', first_day, last_day).where.not(id: remindable.user.hidden_local_projects)
+    end
+    [@grid_tasks.sort_by(&:end_date), @active_projects]
+  end
+
   def tasks_calendar_grid(remindable, beginning)
     end_of_month = beginning + 40.days
     first_day = beginning - beginning.wday.days

@@ -12,7 +12,11 @@ class Api::RemindersController < ApiController
   skip_before_action :verify_authenticity_token # TODO: proper authentication
 
   def by_date
-    tasks, projects = tasks_calendar_grid2(@current_someone, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
+    if params[:upcoming_tab]
+      tasks, projects = upcoming_tab(@current_someone, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
+    else
+      tasks, projects = tasks_calendar_grid2(@current_someone, Date.parse(params[:date_from]), Date.parse(params[:date_to]))
+    end
     render json: { tasks: ActiveModel::Serializer::CollectionSerializer.new(tasks), projects: projects }
   end
 

@@ -66,7 +66,6 @@ module SpecialistServices
         specialist.first_name = params[:first_name] if params[:first_name]
         specialist.last_name = params[:last_name] if params[:last_name]
         specialist.visibility = params[:visibility] if params[:visibility]
-        specialist.min_hourly_rate = params[:min_hourly_rate] if params[:min_hourly_rate]
       end
 
       if params[:photo].present?
