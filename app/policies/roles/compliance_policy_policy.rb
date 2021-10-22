@@ -13,6 +13,10 @@ class Roles::CompliancePolicyPolicy < ApplicationPolicy
     not_basic?
   end
 
+  def destroy?
+    true
+  end
+
   def update?
     not_basic?
   end
