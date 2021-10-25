@@ -176,6 +176,7 @@ Rails.application.routes.draw do
       patch '/financials/annual_budget' => 'financials#set_annual_budget'
 
       resources :upgrades, only: %i[create]
+      post '/new_seats' => 'upgrades#create_new_seat_subscription'
 
       resources :team_members, only: %i[index create update destroy] do
         collection do

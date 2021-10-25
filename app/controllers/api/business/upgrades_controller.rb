@@ -20,6 +20,11 @@ class Api::Business::UpgradesController < ApiController
     end
   end
 
+  def create_new_seat_subscription
+    result = BusinessServices::SeatPlanService.new.create_new_seat_subscription(current_business, new_seat_params)
+    render json: result
+  end
+
   private
 
   def payment_source
@@ -28,6 +33,10 @@ class Api::Business::UpgradesController < ApiController
 
   def upgrade_params
     params.require(:upgrade).permit(:plan, :seats_count, :payment_source_id, :coupon_id)
+  end
+
+  def new_seat_params
+    params.permit(:plan, :quantity, :payment_source_id)
   end
 
   def serialize_subs(subs)
