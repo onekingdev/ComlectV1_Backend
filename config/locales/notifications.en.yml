@@ -27,6 +27,10 @@ en:
       subject: You received a message
       message: "%{user_firstname} posted a comment to %{project_title} discussion board."
       action_label: View Project
+    got_dm:
+      subject: You’ve received a message
+      message: "%{sender_name} has sent you a message. Check your message notifications to respond."
+      action_label: View Message
     forum_comment:
       subject: "Read %{user_firstname}'s comment on the Q&A Forum"
       message: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum"
