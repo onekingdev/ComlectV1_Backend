@@ -246,21 +246,6 @@ class Notification::Deliver < Draper::Decorator
       # return unless Notification.enabled?(rcv, :got_message)
     end
 
-    def got_dm(usr, sender)
-      action_path = '/specialist/notification-center'
-      action_path = '/business/notification-center' if usr.business
-
-      dispatcher = Dispatcher.new(
-        user: usr,
-        key: :got_dm,
-        action_path: action_path,
-        t: { sender_name: sender }
-      )
-
-      # dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_path)
-    end
-
     def project_ended!(project)
       business_project_ended! project
       specialist_project_ended! project
