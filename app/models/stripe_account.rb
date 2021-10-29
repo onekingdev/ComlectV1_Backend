@@ -187,10 +187,10 @@ class StripeAccount < ApplicationRecord
     'individual.last_name' => :last_name,
     'individual.ssn_last_4' => :ssn_last_4,
     'individual.first_name' => :first_name,
-    'individual.dob.day' => -> { dob&.day },
+    'individual.dob.day' => -> { dob.day },
     'individual.address.line1' => :address1,
-    'individual.dob.year' => -> { dob&.year },
-    'individual.dob.month' => -> { dob&.month },
+    'individual.dob.year' => -> { dob.year },
+    'individual.dob.month' => -> { dob.month },
     'individual.address.postal_code' => :zipcode,
     'individual.id_number' => :personal_id_number
   }.freeze
