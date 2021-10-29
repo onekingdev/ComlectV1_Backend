@@ -38,13 +38,13 @@ RSpec.describe Invoice, type: :model do
   # enums
   # =====
 
-  describe 'enums' do
-    it 'invoice_type' do
-      should define_enum_for(:invoice_type)
-        .with_values(plan: 'plan')
-        .backed_by_column_of_type(:string)
-    end
-  end
+  # describe 'enums' do
+  #   it 'invoice_type' do
+  #     should define_enum_for(:invoice_type)
+  #       .with_values(plan: 'plan')
+  #       .backed_by_column_of_type(:string)
+  #   end
+  # end
 
   # validates
   # =========
@@ -54,7 +54,6 @@ RSpec.describe Invoice, type: :model do
     it { should validate_presence_of(:date) }
     it { should validate_presence_of(:price) }
     it { should validate_presence_of(:invoice_pdf) }
-    it { should validate_presence_of(:stripe_invoice_id) }
     it { should validate_presence_of(:stripe_customer_id) }
   end
 end
