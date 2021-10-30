@@ -33,5 +33,13 @@ class MessageMailerJob < ApplicationJob
       end
       local_project.update_column('has_unread_messages', false)
     end
+
+    User.where('dms_mailed_at < ?', Time.zone.now - 1.minute).each do |usr|
+      senders = Message.where(recipient: usr.business_or_specialist, thread_id: nil, thread_type: nil, read_by_recipient: false).where('created_at > ?', usr.dms_mailed_at).collect(&:sender).collect(&:name).uniq
+      usr.update_column('dms_mailed_at', Time.zone.now)
+      senders.each do |sender|
+        Notification::Deliver.got_dm(usr, sender) unless senders.empty?
+      end
+    end
   end
 end

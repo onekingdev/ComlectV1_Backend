@@ -5,6 +5,7 @@ class Invoice < ApplicationRecord
   belongs_to :specialist, optional: true
 
   enum invoice_type: { plan: 'plan', project: 'project' }
+  enum stripe_event_type: { charge: 'charge', refund: 'refund', payout: 'payout', refund_reversed: 'refund_reversed' }
 
   validates \
     :stripe_customer_id, :name,

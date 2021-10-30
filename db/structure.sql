@@ -1896,7 +1896,9 @@ CREATE TABLE public.invoices (
     business_id bigint,
     specialist_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    stripe_event_type character varying DEFAULT 'charge'::character varying,
+    stripe_transfer_id character varying
 );
 
 
@@ -2234,7 +2236,8 @@ CREATE TABLE public.users (
     otp_secret character varying,
     otp_counter integer,
     hidden_local_projects jsonb DEFAULT '[]'::jsonb,
-    jwt_hash character varying
+    jwt_hash character varying,
+    dms_mailed_at timestamp without time zone
 );
 
 
@@ -8076,6 +8079,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211002151215'),
 ('20211003173909'),
 ('20211005200100'),
-('20211011131645');
+('20211011131645'),
+('20211026215341'),
+('20211030061641');
 
 
