@@ -10,8 +10,7 @@ class InvoiceSerializer < ApplicationSerializer
     :invoice_pdf,
     :invoice_type,
     :price_in_cents,
-    :hosted_invoice_url,
-    :stripe_event_type
+    :hosted_invoice_url
 
   def date
     object.date.strftime('%m/%d/%Y')
