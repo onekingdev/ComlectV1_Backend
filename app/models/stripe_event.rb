@@ -11,10 +11,12 @@ class StripeEvent
     'invoice.payment_succeeded' => StripeEvent::InvoiceSucceeded,
     'customer.subscription.created' => StripeEvent::SubscriptionCreated,
     'account.updated' => StripeEvent::AccountUpdated,
+    'charge.refunded' => StripeEvent::ChargeRefunded,
     'charge.succeeded' => StripeEvent::ChargeSucceeded,
     'charge.failed' => StripeEvent::ChargeFailed,
     'payout.failed' => StripeEvent::PayoutFailed,
-    'transfer.failed' => StripeEvent::TransferFailed
+    'transfer.failed' => StripeEvent::TransferFailed,
+    'transfer.reversed' => StripeEvent::TransferReversed
   }.freeze
 
   def self.handle(event_id, account_id, connect: true)

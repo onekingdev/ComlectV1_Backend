@@ -1896,7 +1896,9 @@ CREATE TABLE public.invoices (
     business_id bigint,
     specialist_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    stripe_event_type character varying DEFAULT 'charge'::character varying,
+    stripe_transfer_id character varying
 );
 
 
@@ -4459,6 +4461,7 @@ CREATE TABLE public.settings (
 --
 
 CREATE SEQUENCE public.settings_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -7540,14 +7543,14 @@ CREATE UNIQUE INDEX jurisdictions_specialists_unique ON public.jurisdictions_spe
 -- Name: projects calculate_budget; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.projects_calculate_budget();
+CREATE TRIGGER calculate_budget BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION public.projects_calculate_budget();
 
 
 --
 -- Name: projects tsvectorupdate; Type: TRIGGER; Schema: public; Owner: -
 --
 
-CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
+CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE ON public.projects FOR EACH ROW EXECUTE FUNCTION tsvector_update_trigger('tsv', 'pg_catalog.english', 'title', 'description');
 
 
 --
@@ -8077,6 +8080,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211003173909'),
 ('20211005200100'),
 ('20211011131645'),
-('20211026215341');
+('20211026215341'),
+('20211030061641');
 
 
