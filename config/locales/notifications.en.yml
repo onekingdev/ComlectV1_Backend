@@ -36,12 +36,8 @@ en:
       message: "%{user_firstname} has posted a comment in response to your answer in the Q&A Forum"
       message_mail: "%{user_firstname} posted a comment in response to your answer in the Q&A Forum."
       action_label: View Response
-    got_assign_task:
-      subject: "You have been assigned in new task."
-      message: "You have been assigned in new task: %{task_name}."
-      message_mail: "You have been assigned in new task: %{task_name}. Please complete before deadline."
-      action_label: View List Task
-      # sent to specialist
+
+    # sent to specialist
     industry_forum_question:
       subject: "New question has been posted in the Q&A Forum"
       message: "New question has been posted in the Q&A Forum"

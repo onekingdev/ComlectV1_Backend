@@ -33,7 +33,6 @@ class Api::RemindersController < ApiController
     @reminder.done_occurencies = {}
     # skip_occurence(@current_someone) if params[:src_id]
     if @reminder.save
-      Notification::Deliver.got_assign_task!(@reminder)
       render json: @reminder, status: :created
     else
       render json: { errors: @reminder.errors }, status: :unprocessable_entity
@@ -54,15 +53,11 @@ class Api::RemindersController < ApiController
 
   def update
     change_reminder_state if params[:done].present?
-    old_assignee = @reminder.assignee
     @reminder.update(reminder_params)
     @reminder.update(repeats: nil) if @reminder.repeats.blank?
     skip_occurence(@reminder) if params[:oid]
 
     if @reminder.save
-      if old_assignee != @reminder.assignee
-        Notification::Deliver.got_assign_task!(@reminder)
-      end
       render json: @reminder, status: :ok
     else
       render json: @reminder.errors, status: :unprocessable_entity
