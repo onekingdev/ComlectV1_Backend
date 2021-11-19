@@ -2,7 +2,7 @@
 
 class TimesheetPolicy < ApplicationPolicy
   def process?
-    (business_owner? || admin?) && record.submitted?
+    business_owner? && record.submitted?
   end
 
   def create?
@@ -16,10 +16,6 @@ class TimesheetPolicy < ApplicationPolicy
 
   def destroy?
     (super || owner?) && (record.pending? || record.submitted? || record.disputed?)
-  end
-
-  def admin?
-    user.specialist.seat_role == 'admin'
   end
 
   def business_owner?
