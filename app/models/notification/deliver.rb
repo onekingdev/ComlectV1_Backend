@@ -66,24 +66,6 @@ class Notification::Deliver < Draper::Decorator
     #   dispatcher.deliver_mail(action_path)
     # end
 
-    def got_assign_task!(reminder)
-      return unless reminder.assignee
-      assignee = reminder.assignee
-      path = assignee.team || assignee.class.to_s == 'Business' ? 'business' : 'specialist'
-      action_path = "/#{path}/reminders"
-
-      dispatcher = Dispatcher.new(
-        user: reminder.assignee.user,
-        key: :got_assign_task,
-        action_path: action_path,
-        t: {
-          task_name: reminder.body
-        }
-      )
-
-      dispatcher.deliver_mail(action_path)
-    end
-
     def got_seat_assigned!(invitation)
       action_path = "/employee/new?invite_token=#{invitation.token}"
 

@@ -15,7 +15,7 @@ class PdfAnnualReportWorker
     pdf = ApplicationController.new.render_to_string pdf: 'annual_report.pdf',
                                                      template: 'business/annual_reports/annual_report.pdf.erb', encoding: 'UTF-8',
                                                      locals: { annual_report: areport, business: areport.business },
-                                                     margin: { top: 0, bottom: 0, left: 0, right: 0 },
+                                                     margin: { top: 12, bottom: 30, left: 0, right: 0 },
                                                      page_width: '8.5in', page_height: '11in'
     uploader = PdfUploader.new(:store)
     file = Tempfile.new(["annual_report_#{areport.id}", '.pdf'])

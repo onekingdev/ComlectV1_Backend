@@ -12,7 +12,6 @@
         src: url('<%= Rails.root.join('public', 'fonts', 'PublicSans-Regular.ttf') %>') format('truetype')
       }
       .page {
-        page-break-before:always;
         width: 273mm;
         position: relative;
         clear: both;
@@ -961,11 +960,15 @@
       .m-b-2 {
         margin-bottom: 2rem;
       }
+
+      .break-page {
+        page-break-after: always;
+      }
     </style>
     <meta charset="UTF-8">
   </head>
   <body>
-    <div class="container page">
+    <div class="container break-page">
       <center style="padding-top: 500px;">
         <h1 style="padding-bottom: 0px; margin-bottom: 0px;"><big><%= @annual_report.business.name %></big></h1>
         <h2 style="padding-top: 0px; margin-top: 30px;"><%= @annual_report.name %></h2>
@@ -974,8 +977,8 @@
         <% end %>
       </center>
     </div>
-    <div class="container page">
-      <div class="card-body white-card-body reviews__card" style="border: 0px;">
+    <div class="container page break-page">
+      <div class="card-body white-card-body reviews__card pt-0" style="border: 0px;">
         <div class="reviews__card--internal pt-0">
           <h3>General</h3>
         </div>
@@ -1049,14 +1052,10 @@
             </div>
           </div>
           <div class="row mb-3 clear-both">
-            <% @annual_report.regulatory_changes.each do |regchange| %>
-              <div class="col-5 float-left">
-                <label class="form-label">Change</label>
-                <textarea placeholder="Describe the change" class="form-control"><%= regchange.change %></textarea>
-              </div>
-              <div class="col-5 float-left">
-                <label class="form-label">Response</label>
-                <textarea placeholder="Describe the response" class="form-control"><%= regchange.response %></textarea>
+            <% @annual_report.regulatory_changes.each_with_index do |regchange, index| %>
+              <div class="col-md-12 mb-1">
+                <label class="form-label" style="font-weight: bold;"><%= index % 2 == 0 ? 'Change' : 'Response' %></label>
+                <div placeholder="Describe the change" class="form-control"><%= regchange.change %></div>
               </div>
             <% end %>
           </div>
