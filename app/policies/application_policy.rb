@@ -55,7 +55,7 @@ class ApplicationPolicy
   end
 
   def annual_report_available?
-    report = user.business.annual_reports.last
+    report = user&.business&.annual_reports&.last
     if report
       report.created_at >= Time.zone.now.next_year(1)
     else
