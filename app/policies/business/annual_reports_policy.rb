@@ -27,6 +27,6 @@ class Business::AnnualReportsPolicy < ApplicationPolicy
   end
 
   def clone?
-    (annual_report_available? && team?) || business?
+    true
   end
 end
