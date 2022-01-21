@@ -335,17 +335,19 @@ class Notification::Deliver < Draper::Decorator
       project = timesheet.project
       action_path = "/business/projects/#{project.local_project.id}/timesheets"
 
-      dispatcher = Dispatcher.new(
-        user: timesheet.business.user,
-        key: :timesheet_submitted,
-        action_path: action_path,
-        associated: project,
-        initiator: project.specialist,
-        t: { project_title: project.title }
-      )
+      (timesheet.project.local_project.collaborators.collect(&:user) + [timesheet.business.user]).each do |usr|
+        dispatcher = Dispatcher.new(
+          user: usr,
+          key: :timesheet_submitted,
+          action_path: action_path,
+          associated: project,
+          initiator: project.specialist,
+          t: { project_title: project.title }
+        )
 
-      dispatcher.deliver_notification!
-      dispatcher.deliver_mail(action_path)
+        dispatcher.deliver_notification!
+        dispatcher.deliver_mail(action_path)
+      end
     end
 
     def extend_project!(request)
